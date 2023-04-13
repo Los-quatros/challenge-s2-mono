@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-front-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: challenge-front
+  template:
+    metadata:
+      labels:
+        app: challenge-front
+    spec:
+      containers:
+        - name: challenge-front-container
+          image: gcr.io/challenge-383612/challenge-front:latest
+          ports:
+            - containerPort: 8080

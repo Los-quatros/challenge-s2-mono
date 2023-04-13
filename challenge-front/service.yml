@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-front
+spec:
+  selector:
+    app: challenge-front
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

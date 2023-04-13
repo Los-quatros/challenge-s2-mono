@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-payments-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: challenge-payments
+  template:
+    metadata:
+      labels:
+        app: challenge-payments
+    spec:
+      containers:
+        - name: challenge-payments-container
+          image: gcr.io/challenge-383612/challenge-payments:latest
+          ports:
+            - containerPort: 8080

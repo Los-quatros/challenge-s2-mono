@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-payments
+spec:
+  selector:
+    app: challenge-payments
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
