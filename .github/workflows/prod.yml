@@ -19,7 +19,7 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-          service_account: 'moncefsaiki@gmail.com'
+          service_account: '740146592006@cloudservices.gserviceaccount.com	'
           export_default_credentials: true
       
       - name: Configure kubectl
