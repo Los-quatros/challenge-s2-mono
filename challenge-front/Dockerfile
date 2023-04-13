@@ -21,3 +21,4 @@ EXPOSE 3000
 
 # Définir la commande pour lancer l'application
 CMD [ "npm", "start" ]
+
