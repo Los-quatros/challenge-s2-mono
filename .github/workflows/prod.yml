@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Authenticate with Google Cloud
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@feat/test-gcp
         with:
           project_id: challenge-383612
           service_account_email: moncefsaiki@gmail.com
