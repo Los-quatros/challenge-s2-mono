@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-users-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: challenge-users
+  template:
+    metadata:
+      labels:
+        app: challenge-users
+    spec:
+      containers:
+        - name: challenge-users-container
+          image: gcr.io/challenge-383612/challenge-users:latest
+          ports:
+            - containerPort: 8080

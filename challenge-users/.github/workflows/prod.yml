@@ -1,0 +1,40 @@
+name: Build, Push, and Deploy
+
+on:
+  push:
+    branches:
+      - feat/test-gcpp
+
+env:
+  PROJECT_ID: challenge-383612
+  IMAGE_NAME: challenge-users
+  IMAGE_TAG: latest
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Authenticate with Google Cloud
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          project_id: challenge-383612
+          service_account_email: moncefsaiki@gmail.com
+          service_account_key: 3346feea28c9b0ff4a5a05dddb9c46abd60767ee
+          export_default_credentials: true
+
+      - name: Build Docker image
+        run: |
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+
+      - name: Push Docker image to Google Cloud Registry
+        run: |
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f deployment.yml
+          kubectl apply -f service.yml
