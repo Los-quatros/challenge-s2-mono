@@ -28,7 +28,7 @@ jobs:
       
       - uses: actions/checkout@v3
       - name: Build Docker image
-        run: gcloud auth activate-service-account 740146592006-compute@developer.gserviceaccount.com --key-file=3346feea28c9b0ff4a5a05dddb9c46abd60767ee && gcloud auth configure-docker && docker build ./challenge-users/ --file challenge-users/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} && docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        run: gcloud auth activate-service-account 740146592006-compute@developer.gserviceaccount.com && gcloud auth configure-docker && docker build ./challenge-users/ --file challenge-users/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} && docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       
       - name: Deploy to Kubernetes
         run: |
