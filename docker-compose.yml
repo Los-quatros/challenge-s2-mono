@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  challenge-front: 
+    build: ./challenge-front
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/challenge-front
+
+  challenge-users:
+    build: ./challenge-users
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/challenge-users
