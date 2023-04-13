@@ -2,8 +2,7 @@ name: Build, Push, and Deploy
 
 on:
   push:
-    branches:
-      - feat/test-gcp
+    branches: [ "feat/test-gcp" ]
 
 env:
   PROJECT_ID: challenge-383612
