@@ -20,11 +20,10 @@ jobs:
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          project_id: challenge-383612
-          service_account_email: moncefsaiki@gmail.com
-          service_account_key: 3346feea28c9b0ff4a5a05dddb9c46abd60767ee
-          export_default_credentials: true
-
+          # project_id: challenge-383612
+          # service_account_email: moncefsaiki@gmail.com
+          # service_account_key: 3346feea28c9b0ff4a5a05dddb9c46abd60767ee
+          service_account: 'moncefsaiki@gmail.com'
       - name: Build Docker image
         run: |
           cd ./challenge-users/Dockerfile
