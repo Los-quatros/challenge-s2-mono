@@ -27,6 +27,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          cd ./challenge-front/Dockerfile
           docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
 
       - name: Push Docker image to Google Cloud Registry
@@ -35,5 +36,5 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f deployment.yml
-          kubectl apply -f service.yml
+          kubectl apply -f challenge-users/deployment.yml
+          kubectl apply -f challenge-users/service.yml
