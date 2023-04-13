@@ -10,6 +10,11 @@ env:
   IMAGE_TAG: latest
 
 jobs:
+  job_id:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
   build-and-deploy:
     runs-on: ubuntu-latest
 
@@ -18,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Authenticate with Google Cloud
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@feat/test-gcp
+        uses: google-github-actions/auth@v1
         with:
           project_id: challenge-383612
           service_account_email: moncefsaiki@gmail.com
@@ -38,3 +43,4 @@ jobs:
         run: |
           kubectl apply -f challenge-users/deployment.yml
           kubectl apply -f challenge-users/service.yml
+
