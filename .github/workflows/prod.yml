@@ -24,7 +24,7 @@ jobs:
           service_account: 'moncefsaiki@gmail.com'
       - name: Build Docker image
         run: |
-          docker build  ./challenge-users/ --file challenge-users/Dockerfile  -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+          docker build ./challenge-users/ --file challenge-users/Dockerfile  -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
 
       - name: Push Docker image to Google Cloud Registry
         run: |
