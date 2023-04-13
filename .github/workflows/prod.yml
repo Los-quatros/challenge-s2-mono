@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd ./challenge-front/Dockerfile
+          cd ./challenge-users/Dockerfile
           docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
 
       - name: Push Docker image to Google Cloud Registry
