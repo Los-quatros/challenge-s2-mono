@@ -22,12 +22,17 @@ jobs:
           service_account: 'moncefsaiki@gmail.com'
           export_default_credentials: true
       
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project challenge-383612
+
+      
       - uses: actions/checkout@v3
       - name: Build Docker image
         run: docker build ./challenge-users/ --file challenge-users/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} && docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     kubectl apply -f challenge-users/deployment.yml
-      #     kubectl apply -f challenge-users/service.yml
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f challenge-users/deployment.yml
+          kubectl apply -f challenge-users/service.yml
 
