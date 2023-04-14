@@ -26,7 +26,7 @@ jobs:
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
       with:
-        credentials: b410065efc87bfb11596cdb182a943bd7131ebb5
+        credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
         service_account: '740146592006-compute@developer.gserviceaccount.com'
         project_id: challenge-383612
 
@@ -40,7 +40,7 @@ jobs:
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
-        credentials: b410065efc87bfb11596cdb182a943bd7131ebb5
+        credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
 
     # Build the Docker image
     - name: Build
