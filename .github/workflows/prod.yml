@@ -1,65 +1,27 @@
-
-name: Build and Deploy to GKE
+name: Build, Push, and Deploy
 
 on:
   push:
-    branches:
-      - feat/test-gcp
+    branches: [ "feat/test-gcp" ]
 
 env:
   PROJECT_ID: challenge-383612
-  GKE_CLUSTER: autopilot-cluster-1
-  GKE_ZONE: us-central1   # Add your cluster zone here.
-  DEPLOYMENT_NAME: challenge-users-deployment
-  IMAGE: gcr.io/challenge-383612/challenge-users:latest
+  IMAGE_NAME: challenge-users
+  IMAGE_TAG: latest
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
-      with:
-        credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-        service_account: '740146592006-compute@developer.gserviceaccount.com'
-        project_id: challenge-383612
-
-    # Configure Docker to use the gcloud command-line tool as a credential
-    # helper for authentication
-    - run: |-
-        gcloud --quiet auth configure-docker
-
-    # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
-      with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-    # Build the Docker image
-    - name: Build
-      run:  docker build ./challenge-users/ --file challenge-users/Dockerfile --tag gcr.io/challenge-383612/challenge-users:latest
-
-    # Push the Docker image to Google Container Registry
-    - name: Publish
-      run: docker push gcr.io/challenge-383612/challenge-users:latest
-
-    # Set up kustomize
-    - name: Set up Kustomize
-      run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
-
-    # Deploy the Docker image to the GKE cluster
-    - name: Deploy
-      run: |-
-        ./kustomize edit set image gcr.io/challenge-383612/gcr.io/challenge-383612/challenge-users:latest=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
-        ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl get services -o wide
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+          service_account: '740146592006-compute@developer.gserviceaccount.com'
+      - name: Push image to Google Container Registry
+        run: |
+          docker build ./challenge-users/ --file challenge-users/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} && docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
