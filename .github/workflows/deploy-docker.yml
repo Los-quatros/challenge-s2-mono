@@ -11,9 +11,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Build and test
+      - name: Build and test challenge-front
         run: |
           cd challenge-front
+          npm install
+          npm run build
+      - name: Build and test challenge-users
+        run: |
+          cd challenge-users
           npm install
           npm run build
 
