@@ -1,0 +1,51 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "k8s-front"
+  namespace: "default"
+  labels:
+    app: "k8s-front"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "k8s-front"
+  template:
+    metadata:
+      labels:
+        app: "k8s-front"
+    spec:
+      containers:
+        - name: "k8s-hello-front"
+          image: "yacinesoussi/challenges2-yacine"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3001
+
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "k8s-front-hpa"
+  namespace: "default"
+  labels:
+    app: "k8s-front"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "k8s-front"
+    apiVersion: "apps/v1beta1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80
