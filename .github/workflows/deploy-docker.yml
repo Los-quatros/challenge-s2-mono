@@ -11,19 +11,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Get changed directories
-        id: get_changeset
-        uses: docker/get-changed-files@v1
-        with:
-          format: paths
+
+      - name: Check for changes
+        run: |
+          changed_files=$(git diff --name-only HEAD~1)
+          echo "::set-output name=changed_files::$changed_files"
+
       - name: Build and test challenge-front
-        if: "contains(fromJson(steps.get_changeset.outputs.json).paths, 'challenge-front/')"
+        if: ${{ contains(fromJSON(steps.check_for_changes.outputs.changed_files), 'challenge-front/') }}
         run: |
           cd challenge-front
           npm install
           npm run build
+
       - name: Build and test challenge-users
-        if: "contains(fromJson(steps.get_changeset.outputs.json).paths, 'challenge-users/')"
+        if: ${{ contains(fromJSON(steps.check_for_changes.outputs.changed_files), 'challenge-users/') }}
         run: |
           cd challenge-users
           npm install
@@ -50,7 +52,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and push challenge-front
-        if: "contains(fromJson(needs.build-test.outputs.get_changeset.outputs.json).paths, 'challenge-front/')"
+        if: ${{ contains(fromJSON(needs.build-test.outputs.check_for_changes), 'challenge-front/') }}
         uses: docker/build-push-action@v2
         with:
           context: ./challenge-front
@@ -59,7 +61,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
       
       - name: Build and push challenge-users
-        if: "contains(fromJson(needs.build-test.outputs.get_changeset.outputs.json).paths, 'challenge-users/')"
+        if: ${{ contains(fromJSON(needs.build-test.outputs.check_for_changes), 'challenge-users/') }}
         uses: docker/build-push-action@v2
         with:
           context: ./challenge-users
