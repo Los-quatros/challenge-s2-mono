@@ -46,7 +46,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and push challenge-front
-        if: ${{ github.event_name == 'push' && github.event.head_commit.modified.some(path => path.startsWith('challenge-front/')) }}
+        if: ${{ github.event_name == 'push' && github.event.head_commit.modified.indexOf('challenge-front/') >= 0 }}
         uses: docker/build-push-action@v2
         with:
           context: ./challenge-front
