@@ -52,7 +52,7 @@ jobs:
           context: ./challenge-front
           file: ./challenge-front/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-test:latest
       
       - name: Build and push challenge-users
         if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-users/') }}
