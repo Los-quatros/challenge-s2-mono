@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Marketplace.com - Challenge 
+          Marketplace.com - Challenge Frontend
         </a>
       </header>
     </div>
