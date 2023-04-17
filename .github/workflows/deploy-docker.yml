@@ -62,3 +62,4 @@ jobs:
           file: ./challenge-users/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-users:latest
+
