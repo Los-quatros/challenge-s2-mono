@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - test-kub
-    paths:
-      - 'challenge-front/**'
-      - 'challenge-users/**'
+    # paths:
+    #   - 'challenge-front/**'
+    #   - 'challenge-users/**'
 
 jobs:
   build-test:
