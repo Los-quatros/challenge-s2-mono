@@ -46,7 +46,8 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and push challenge-front
-        if: ${{ github.event_name == 'push' && github.event.head_commit.modified.some(function(path){return path.startsWith('challenge-front/');}) }}
+        if: ${{ github.event_name == 'push' && github.event.head_commit.modified.includes('challenge-front/') }}
+
         uses: docker/build-push-action@v2
         with:
           context: ./challenge-front
@@ -62,3 +63,4 @@ jobs:
           file: ./challenge-users/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-users:latest
+
