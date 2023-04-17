@@ -10,4 +10,8 @@ export class AppService {
     return 'Hello World! 2';
   }
 
+  getHello3(): string {
+    return 'Hello World! 3';
+  }
+
 }

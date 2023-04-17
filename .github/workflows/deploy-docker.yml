@@ -61,5 +61,5 @@ jobs:
           context: ./challenge-users
           file: ./challenge-users/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-users:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-users-test:latest
 
