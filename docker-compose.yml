@@ -29,22 +29,25 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
 
-  challenge-orders:
-    build: ./challenge-orders
+  app-orders:
+    build:
+      context: ./OrderApp
+      dockerfile: ./OrderApp/Dockerfile
     ports:
       - "3002:3002"
-    volumes:
-      - .:/challenge-orders
+    depends_on:
+      - app-orders-db
     environment:
       - DB_HOST=challenge-orders-db
       - DB_NAME=challenge_orders
       - DB_USER=user
       - DB_PASSWORD=password
-
-  challenge-orders-db:
+    command: dotnet run  
+    
+  app-orders-db:
     image: postgres:13-alpine
     volumes:
-      - challenge-orders-db-data:/var/lib/postgresql/data
+      - app-orders-db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=challenge_orders
       - POSTGRES_USER=user
@@ -52,4 +55,4 @@ services:
 
 volumes:
   challenge-users-db-data:
-  challenge-orders-db-data:
+  app-orders-db-data:

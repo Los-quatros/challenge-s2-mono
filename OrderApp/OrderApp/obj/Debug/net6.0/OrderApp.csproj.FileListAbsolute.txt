@@ -1,0 +1,15 @@
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Debug\net6.0\OrderApp.exe
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Debug\net6.0\OrderApp.deps.json
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Debug\net6.0\OrderApp.runtimeconfig.json
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Debug\net6.0\OrderApp.dll
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Debug\net6.0\OrderApp.pdb
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.csproj.AssemblyReference.cache
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.AssemblyInfoInputs.cache
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.AssemblyInfo.cs
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.csproj.CoreCompileInputs.cache
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.dll
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\refint\OrderApp.dll
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.pdb
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\OrderApp.genruntimeconfig.cache
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\obj\Debug\net6.0\ref\OrderApp.dll

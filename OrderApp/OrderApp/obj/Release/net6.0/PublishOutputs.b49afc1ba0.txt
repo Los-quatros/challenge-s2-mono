@@ -1,0 +1,5 @@
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Release\net6.0\publish\OrderApp.exe
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Release\net6.0\publish\OrderApp.dll
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Release\net6.0\publish\OrderApp.deps.json
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Release\net6.0\publish\OrderApp.runtimeconfig.json
+C:\Users\AliRaid\source\reposESGI\challenge-s2-mono\OrderApp\OrderApp\bin\Release\net6.0\publish\OrderApp.pdb

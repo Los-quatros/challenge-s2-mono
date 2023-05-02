@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "R2WvglkSUvwfgFBKXqb/mCMQGKEVn5VbalblcoygTWiYvv3VcKhyuktgnudcg6gCswneGg5FhiXOHyJnP6mJ3A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\AliRaid\\source\\reposESGI\\challenge-s2-mono\\OrderApp\\OrderApp\\OrderApp.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://nuget.preprod.mangopay.com/nuget'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    }
+  ]
+}
