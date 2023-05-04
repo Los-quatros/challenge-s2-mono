@@ -19,6 +19,8 @@ services:
       - DB_NAME=challenge_users
       - DB_USER=user
       - DB_PASSWORD=password
+    links:
+      - challenge-users-db
 
   challenge-users-db:
     image: postgres:13-alpine
