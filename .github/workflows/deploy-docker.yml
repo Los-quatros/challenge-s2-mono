@@ -2,10 +2,8 @@ name: Publish Docker image
 
 on:
   push:
-    
-    # paths:
-    #   - 'challenge-front/**'
-    #   - 'challenge-users/**'
+    branches:
+      - main
 
 jobs:
   build-test:
