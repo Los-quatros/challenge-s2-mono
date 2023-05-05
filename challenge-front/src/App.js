@@ -16,7 +16,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Marketplace.com 
+          Marketplace.fr 
         </a>
       </header>
     </div>
