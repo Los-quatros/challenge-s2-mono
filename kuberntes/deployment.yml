@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: "k8s-hello-front"
-          image: "yacinesoussi/challenges2-yacine"
+          image: "yacinesoussi/challenges2-yacine:latest"
           resources:
             requests:
               memory: "64Mi"
