@@ -21,16 +21,15 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
             - name: POSTGRES_DB
-              value: challenge_users
+              value: challenge-users-db
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: postgres-storage
+            - name: postgres-persistent-storage
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: postgres-pvc
+        - name: postgres-persistent-storage
+          emptyDir: {}
 
 ---
 
@@ -39,10 +38,11 @@ kind: Service
 metadata:
   name: challenge-users-db
 spec:
+  type: ClusterIP
   selector:
     app: challenge-users-db
   ports:
     - name: postgres
       port: 5432
       targetPort: 5432
-  clusterIP: None
+  

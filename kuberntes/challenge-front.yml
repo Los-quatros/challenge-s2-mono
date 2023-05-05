@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-front
+  template:
+    metadata:
+      labels:
+        app: challenge-front
+    spec:
+      containers:
+        - name: challenge-front
+          image: yacinesoussi/challenges2-yacine:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_API_URL
+              value: http://challenge-users:3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-front-internal
+  labels:
+    app: challenge-front
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: challenge-front
+  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-front-external
+  labels:
+    app: challenge-front
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: challenge-front
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: challenge-front-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: challenge-front
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        target:
+          type: "Utilization"
+          averageUtilization: 80
