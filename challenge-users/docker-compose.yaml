@@ -12,10 +12,7 @@ services:
     volumes:
       - ./database:/var/lib/postgresql/data
   server:
-    image: node:19.0.0-alpine
-    tty: true
-    stdin_open: true
-    working_dir: /home/node
+    build: .
     ports:
       - 3001:3001
     environment:
@@ -24,5 +21,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
-    volumes:
-      - .:/home/node
+    # volumes:
+    #   - ./server:/app
+    depends_on:
+      - database
+

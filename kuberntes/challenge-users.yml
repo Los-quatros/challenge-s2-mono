@@ -22,8 +22,6 @@ spec:
           env:
             - name: POSTGRES_DB
               value: challenge-users-db
-            - name: POSTGRES_DB
-              value: challenge_users
             - name: POSTGRES_USER
               value: user
             - name: POSTGRES_PASSWORD
