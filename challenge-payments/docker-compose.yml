@@ -1,18 +1,28 @@
-version: '3'
+version: "3"
+
 services:
-  db:
-    image: postgres
+  database:
+    image: postgres:12.1-alpine
     environment:
-      POSTGRES_USER: payments_db
-      POSTGRES_PASSWORD: payments_db
-      POSTGRES_DB: payments_db
-  app:
-    build: .
-    command: npm run start:dev
-    restart: always
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     ports:
-      - "3000:3000"
+      - 5434:5432
+    volumes:
+      - ./database:/var/lib/postgresql/data
+  server:
+    build: .
+    ports:
+      - 3002:3000
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    # volumes:
+    #   - ./server:/app
     depends_on:
-      - db
-volumes:
-  db_data:
+      - database
+
