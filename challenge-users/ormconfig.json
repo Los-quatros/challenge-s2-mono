@@ -5,7 +5,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "postgres",
-    "entities": ["dist/**/*.entity{.ts,.js}"],
+    "entities": ["dist/**/entity/*.entity{.ts,.js}"],
     "synchronize": true
   }
   
