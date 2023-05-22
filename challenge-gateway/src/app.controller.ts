@@ -5,8 +5,14 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('/sellers')
+  public async someEndpoint(): Promise<any> {
+    const microservice1Response = await this.appService.makeServiceCall('microservice1', '/sellers');
+
+    // Traitez les réponses des microservices
+
+    return {
+      microservice1Response,
+    };
   }
 }
