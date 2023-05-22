@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  gateway-db:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gateway-db
+    ports:
+      - 5445:5432
+    volumes:
+      - ./database:/var/lib/postgresql/data
+  gateway-server:
+    build: .
+    command: npm run start:dev
+    restart: always
+    ports:
+      - 4000:4000
+    environment:
+      POSTGRES_HOST: gateway-db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gateway-db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - gateway-db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8092:8080
