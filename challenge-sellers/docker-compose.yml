@@ -1,33 +1,33 @@
 version: "3"
 
 services:
-  database:
+  sellers-db:
     image: postgres:12.1-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: sellers-db
     ports:
       - 5438:5432
     volumes:
       - ./database:/var/lib/postgresql/data
-  server:
+  sellers-server:
     build: .
     command: npm run start:dev
     restart: always
     ports:
       - 3006:3000
     environment:
-      POSTGRES_HOST: database
+      POSTGRES_HOST: sellers-db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: sellers-db
     volumes:
       - .:/app
       - /app/node_modules
     depends_on:
-      - database
+      - sellers-db
   adminer:
     image: adminer
     restart: always

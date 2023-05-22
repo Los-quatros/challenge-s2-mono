@@ -1,33 +1,33 @@
 version: "3"
 
 services:
-  database:
+  stocks-db:
     image: postgres:12.1-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: stocks-db
     ports:
       - 5439:5432
     volumes:
       - ./database:/var/lib/postgresql/data
-  server:
+  stocks-server:
     build: .
     command: npm run start:dev
     restart: always
     ports:
       - 3007:3000
     environment:
-      POSTGRES_HOST: database
+      POSTGRES_HOST: stocks-db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: stocks-db
     volumes:
       - .:/app
       - /app/node_modules
     depends_on:
-      - database
+      - stocks-db
   adminer:
     image: adminer
     restart: always

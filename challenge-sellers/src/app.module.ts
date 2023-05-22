@@ -9,11 +9,11 @@ import { SellerModule } from './sellers/seller.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'database',
+      host: 'sellers-db',
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'postgres',
+      database: 'sellers-db',
       entities: [], 
       synchronize: true,
     }),
