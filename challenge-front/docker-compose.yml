@@ -21,8 +21,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: front-db
+    networks:
+      - challenge-network
     # volumes:
     #   - ./server:/app
     depends_on:
       - front-db
-
+networks:
+  challenge-network:
+    external: true

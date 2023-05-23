@@ -31,4 +31,10 @@ services:
     restart: always
     ports:
       - 8086:8080
+  networks:
+    - challenge-network  
+
+networks:
+  challenge-network:
+    external: true
 

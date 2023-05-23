@@ -28,10 +28,15 @@ services:
       - /app/node_modules
     depends_on:
       - publication-db
+    networks:
+      - challenge-network
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8081:8080
+networks:
+  challenge-network:
+    external: true
 

@@ -28,8 +28,13 @@ services:
       - /app/node_modules
     depends_on:
       - payments-db
+    networks:
+      - challenge-network
   adminer:
     image: adminer
     restart: always
     ports:
       - 8083:8080
+networks:
+  challenge-network:
+    external: true

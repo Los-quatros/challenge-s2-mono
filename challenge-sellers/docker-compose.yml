@@ -28,9 +28,14 @@ services:
       - /app/node_modules
     depends_on:
       - sellers-db
+    networks:
+      - challenge-network
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+networks:
+  challenge-network:
+    external: true
 

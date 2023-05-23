@@ -9,7 +9,6 @@ export class AppController {
   public async someEndpoint(): Promise<any> {
     const microservice1Response = await this.appService.makeServiceCall('microservice1', '/sellers');
 
-    // Traitez les réponses des microservices
 
     return {
       microservice1Response,

@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SellerModule } from './sellers/seller.module';
+import { DataSource } from 'typeorm';
+
 
 
 @Module({
@@ -14,7 +16,6 @@ import { SellerModule } from './sellers/seller.module';
       username: 'postgres',
       password: 'postgres',
       database: 'sellers-db',
-      entities: [], 
       synchronize: true,
     }),
     SellerModule,
@@ -22,4 +23,6 @@ import { SellerModule } from './sellers/seller.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+    constructor(private dataSource: DataSource) {}
+}

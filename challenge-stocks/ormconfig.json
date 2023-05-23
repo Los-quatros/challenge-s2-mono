@@ -1,10 +1,10 @@
 {
     "type": "postgres",
-    "host": "sellers-db",
+    "host": "stocks-db",
     "port": 5432,
     "username": "postgres",
     "password": "postgres",
-    "database": "sellers-db",
+    "database": "stocks-db",
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "synchronize": true
   }
