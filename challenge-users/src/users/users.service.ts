@@ -22,16 +22,44 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.softDelete(id);
+  async remove(id: string): Promise<any> {
+
+    try {
+      await this.usersRepository.delete(id);
+      return "User deleted successfully";
+
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: 'Error deleting user',
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
   }
 
-  createUser(user: CreateUserDto): Promise<any> {
-    return this.usersRepository.insert(user);
+  async createUser(user: CreateUserDto): Promise<any> {
+   try {
+      return "User created successfully";
+   } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: 'Error creating user',
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+   }
   }
 
-  updateUser(id: string, updatedUser: UpdateUserDto): Promise<any> {
-    return this.usersRepository.update(id, updatedUser);
+  async updateUser(id: string, updatedUser: UpdateUserDto): Promise<any> {
+    try {
+      await this.usersRepository.update(id, updatedUser);
+
+      return "User updated successfully";
+
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: 'Error updating user',
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 }
