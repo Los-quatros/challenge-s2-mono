@@ -12,12 +12,7 @@ export class UsersController {
 
   @EventPattern("getUsers")
   async getUsers() {
-    return [
-      {
-        id: 1,
-        name: "John",
-      }
-    ]
+    return this.usersService.findAll();
   }
   
   @UseInterceptors(PasswordInterceptorInterceptor)
