@@ -39,6 +39,7 @@ export class UsersService {
 
   async createUser(user: CreateUserDto): Promise<any> {
    try {
+      await this.usersRepository.save(user);
       return "User created successfully";
    } catch (error) {
       throw new HttpException({
