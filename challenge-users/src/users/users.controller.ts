@@ -4,7 +4,7 @@ import { PasswordInterceptorUsersInterceptor } from "./interceptors/password-int
 import { PasswordInterceptorInterceptor } from './interceptors/password-interceptor.interceptor';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @Controller("/users")
 export class UsersController {
@@ -15,39 +15,24 @@ export class UsersController {
     return this.usersService.findAll();
   }
   
-  @UseInterceptors(PasswordInterceptorInterceptor)
-  @Get(":user")
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
-  getUser(@Param("user") user: string) {
-    const foundUser = this.usersService.findOne(user)
-
-    if (foundUser) {
-      return foundUser
-    }
-
-    throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
+  @EventPattern("getUser")
+  async getUser(@Payload() id: string) {
+    return this.usersService.findOne(id);
   }
 
-  @Post()
-  @HttpCode(201)
-  @Header("X-School", "ESGI")
-  createUser(@Body(new ValidationPipe()) user: CreateUserDto) {
-   const response = this.usersService.createUser(user);
-    return response;
+  @EventPattern("createUser")
+  async createUser(@Payload() user: CreateUserDto) {
+    return this.usersService.createUser(user);
   }
 
-  @Patch(":user")
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
-  updateUser(@Body(new ValidationPipe()) user: UpdateUserDto, @Param("user") id: string) {
-    this.usersService.updateUser(id, user);
+  @EventPattern('updateUser')
+  async updateUser(@Payload() { id, user }: { id: string, user: UpdateUserDto }) {
+    return this.usersService.updateUser(id, user);
   }
+  
 
-  @Delete(":user")
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
-  deleteUser(@Param("user") user: string) {
-    this.usersService.remove(user);
+  @EventPattern("deleteUser")
+  async deleteUser(@Payload() id: string) {
+    return this.usersService.remove(id);
   }
 }

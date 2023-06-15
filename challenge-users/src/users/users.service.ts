@@ -8,11 +8,11 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  
+
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
@@ -27,15 +27,11 @@ export class UsersService {
   }
 
   createUser(user: CreateUserDto): Promise<any> {
-
     return this.usersRepository.insert(user);
-
   }
-  
 
-  updateUser(id: string, updatedUser: UpdateUserDto): Promise<any> {  
-
-   return this.usersRepository.update(id, updatedUser);
+  updateUser(id: string, updatedUser: UpdateUserDto): Promise<any> {
+    return this.usersRepository.update(id, updatedUser);
   }
 
 }
