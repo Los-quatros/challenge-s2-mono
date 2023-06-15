@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
-import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [UsersModule,
@@ -16,7 +15,6 @@ import { PostsModule } from './posts/posts.module';
     autoLoadEntities: true,
     synchronize: true,
   }),
-  PostsModule
   ],
   controllers: [],
   providers: [],

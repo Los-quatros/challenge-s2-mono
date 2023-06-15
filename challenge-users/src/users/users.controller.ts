@@ -4,19 +4,21 @@ import { PasswordInterceptorUsersInterceptor } from "./interceptors/password-int
 import { PasswordInterceptorInterceptor } from './interceptors/password-interceptor.interceptor';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
+import { EventPattern } from '@nestjs/microservices';
 
 @Controller("/users")
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @UseInterceptors(PasswordInterceptorUsersInterceptor)
-  @Get()
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
+  @EventPattern("getUsers")
   async getUsers() {
-    return this.usersService.findAll()
+    return [
+      {
+        id: 1,
+        name: "John",
+      }
+    ]
   }
-
   
   @UseInterceptors(PasswordInterceptorInterceptor)
   @Get(":user")
