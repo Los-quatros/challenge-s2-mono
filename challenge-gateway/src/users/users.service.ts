@@ -1,5 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
+import { response } from 'express';
 
 
 @Injectable()
@@ -15,7 +16,17 @@ async getUser(id: string) {
 }
 
 async createUser(user: any) {
-    return this.usersProxy.send('createUser', user);
+    try {
+        const result = await this.usersProxy.send('createUser', user).toPromise();
+        if(!result.error) {
+            return result;
+        }
+        throw new BadRequestException(result.error);
+        
+    } catch (error) {
+        throw error;
+    }
+
 }
 
 async updateUser(id, user: any) {

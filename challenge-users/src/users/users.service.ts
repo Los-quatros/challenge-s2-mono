@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { randomUUID } from "crypto"
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { User } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -23,10 +23,8 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<any> {
-
     try {
       await this.usersRepository.delete(id);
-      return "User deleted successfully";
 
     } catch (error) {
       throw new HttpException({
@@ -38,13 +36,30 @@ export class UsersService {
   }
 
   async createUser(user: CreateUserDto): Promise<any> {
+
+    const existingUser = await this.usersRepository.findOneBy({ email: user.email });
+    if (existingUser) {
+      return {
+        status: HttpStatus.CONFLICT,
+        error: 'Un utilisateur avec cet email existe déjà',
+      }
+    }
+    
    try {
-      await this.usersRepository.save(user);
-      return "User created successfully";
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+
+
+    await this.usersRepository.save(user);
+
+    return user;
+
    } catch (error) {
+
       throw new HttpException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        error: 'Error creating user',
+        error: 'Erreur lors de la création de l\'utilisateur',
       }, HttpStatus.INTERNAL_SERVER_ERROR);
    }
   }
@@ -53,7 +68,7 @@ export class UsersService {
     try {
       await this.usersRepository.update(id, updatedUser);
 
-      return "User updated successfully";
+      return "Utilisateur mis à jour avec succès";
 
     } catch (error) {
       throw new HttpException({

@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, ValidationPipe, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, Patch, HttpCode, ParseUUIDPipe } from '@nestjs/common';
+import { UsersPipe } from './users.pipe';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 
@@ -8,26 +9,31 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
+    @HttpCode(200)
     getUsers() {
         return this.usersService.getUsers();
     }
 
-    @Get(':id')
-    getUser(@Param('id') id: string) {
-        return this.usersService.getUser(id);
+    @Get(':uuid')
+    @HttpCode(200)
+    getUser(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
+        return this.usersService.getUser(uuid);
     }
 
     @Post()
-    createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+    @HttpCode(201)
+    createUser(@Body(new UsersPipe()) createUserDto: CreateUserDto) {
         return this.usersService.createUser(createUserDto);
     }
 
     @Patch(':id')
-    updateUser(@Param('id') id: string, @Body(new ValidationPipe()) UpdateUserDto: UpdateUserDto) {
+    @HttpCode(200)
+    updateUser(@Param('id') id: string, @Body(new UsersPipe()) UpdateUserDto: UpdateUserDto) {
         return this.usersService.updateUser(id, UpdateUserDto);
     }
 
     @Delete(':id')
+    @HttpCode(204)
     deleteUser(@Param('id') id: string) {
         return this.usersService.deleteUser(id);
     }

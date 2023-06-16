@@ -3,7 +3,7 @@ import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
-export class ValidationPipe implements PipeTransform<any> {
+export class UsersPipe implements PipeTransform<any> {
   async transform(value: any, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
@@ -13,6 +13,10 @@ export class ValidationPipe implements PipeTransform<any> {
 
     if (errors.length > 0) {
       throw new BadRequestException(errors[0].constraints);
+    }
+    
+    if (object.roles) {
+      throw new BadRequestException("Roles cannot be set");
     }
     return object;
 

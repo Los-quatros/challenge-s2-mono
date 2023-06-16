@@ -35,4 +35,6 @@ export class UsersController {
   async deleteUser(@Payload() id: string) {
     return this.usersService.remove(id);
   }
+
+
 }

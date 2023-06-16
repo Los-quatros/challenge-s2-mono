@@ -14,6 +14,9 @@ export class ValidationPipe implements PipeTransform<any> {
     if (errors.length > 0) {
       throw new BadRequestException(errors[0].constraints);
     }
+    if (object.roles) {
+      throw new BadRequestException("Roles cannot be set");
+    }
     return object;
 
   }
