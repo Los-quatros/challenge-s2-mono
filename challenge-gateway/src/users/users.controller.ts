@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Put, Patch, HttpCode, Parse
 import { UsersPipe } from './users.pipe';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
+import { LoginRequest } from './authentication.request';
 
 @Controller('users')
 export class UsersController {
@@ -36,6 +37,12 @@ export class UsersController {
     @HttpCode(204)
     deleteUser(@Param('id') id: string) {
         return this.usersService.deleteUser(id);
+    }
+
+    @Post('login')
+    @HttpCode(200)
+    login(@Body(new UsersPipe()) body: LoginRequest) {
+        return this.usersService.login(body);
     }
 
 }

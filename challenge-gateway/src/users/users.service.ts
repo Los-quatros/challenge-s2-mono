@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
 import { response } from 'express';
+import { LoginRequest } from './authentication.request';
 
 
 @Injectable()
@@ -36,5 +37,19 @@ async updateUser(id, user: any) {
 async deleteUser(id: string) {
     return this.usersProxy.send('deleteUser', id);
 }
+
+async login(body: LoginRequest) {
+    try {
+        const result = await this.usersProxy.send('login', body).toPromise();
+        if(!result.error) {
+            return result;
+        }
+        throw new BadRequestException(result.error);
+        
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 }

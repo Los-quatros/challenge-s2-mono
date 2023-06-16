@@ -78,4 +78,35 @@ export class UsersService {
     }
   }
 
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ email });
+    if (!user) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Utilisateur non trouvé',
+      }
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Mot de passe incorrect',
+      }
+    }
+
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ email });
+
+    return user;
+  }
+
+  async getUserById(id: string): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    return user;
+  }
 }
