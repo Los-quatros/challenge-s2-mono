@@ -15,13 +15,13 @@
 Clone the project
 
 ```bash
-  git clone https://github.com/Roulioo/marketplace-school-s1.git
+  git clone https://github.com/Los-quatros/challenge-s2-mono.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd marketplace-school-s1
+  cd challenge-s2-mono
 ```
 
 ## Installation
