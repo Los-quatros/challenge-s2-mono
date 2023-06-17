@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, ValidationPipe } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { CreateProductDto } from '../models/CreateProductDto';
-import { UpdateProductsQuantityDto } from '../models/UpdateProductsQuantityDto';
+import { CreateProductDto } from './models/CreateProductDto';
+import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantityDto';
 import { ProductsService } from './products.service';
 
 @Controller('products')
