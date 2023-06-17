@@ -19,24 +19,30 @@ export class UsersController {
         return this.usersService.getUsers();
     }
 
+    @AuthenticationRequired()
     @Get(':uuid')
     @HttpCode(200)
     getUser(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
         return this.usersService.getUser(uuid);
     }
 
+    @AuthenticationRequired()
+    @HasRole(Role.ADMINISTRATOR)
     @Post()
     @HttpCode(201)
     createUser(@Body(new UsersPipe()) createUserDto: CreateUserDto) {
         return this.usersService.createUser(createUserDto);
     }
 
+    @AuthenticationRequired()
     @Patch(':id')
     @HttpCode(200)
     updateUser(@Param('id') id: string, @Body(new UsersPipe()) UpdateUserDto: UpdateUserDto) {
         return this.usersService.updateUser(id, UpdateUserDto);
     }
 
+    @AuthenticationRequired()
+    @HasRole(Role.ADMINISTRATOR)
     @Delete(':id')
     @HttpCode(204)
     deleteUser(@Param('id') id: string) {
@@ -49,18 +55,14 @@ export class UsersController {
         return this.usersService.login(body);
     }
 
-    @Post('validate-user')
-    @HttpCode(200)
-    validateUser(@Body('jwtToken') jwtToken: string) {
-        return this.usersService.validateUser(jwtToken);
-    }
-
+    @AuthenticationRequired()
     @Post(':id/reset-password')
     @HttpCode(200)
     requestPasswordReset(@Param('id') id: string) {
         return this.usersService.requestPasswordReset(id);
     }
 
+    @AuthenticationRequired()
     @Patch(':id/reset-password/:token')
     resetPassword(
         @Param('id') id: string, 
