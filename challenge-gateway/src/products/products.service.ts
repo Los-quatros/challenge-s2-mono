@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { CreateProductDto } from '../models/CreateProductDto';
-import { UpdateProductsQuantityDto } from '../models/UpdateProductsQuantityDto';
+import { CreateProductDto } from './models/CreateProductDto';
+import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantityDto';
 
 @Injectable()
 export class ProductsService {
