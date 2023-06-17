@@ -1,7 +1,4 @@
-import { ValidationPipe } from './users.pipe';
 import { Controller, Get, HttpCode, Header, Param, Post, Body, Patch, Delete, HttpStatus, HttpException, UsePipes, UseInterceptors } from '@nestjs/common';
-import { PasswordInterceptorUsersInterceptor } from "./interceptors/password-interceptor-users.interceptor"
-import { PasswordInterceptorInterceptor } from './interceptors/password-interceptor.interceptor';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { EventPattern, Payload } from '@nestjs/microservices';
@@ -36,5 +33,16 @@ export class UsersController {
     return this.usersService.remove(id);
   }
 
+  @EventPattern("requestResetPassword")
+  async requestResetPassword(@Payload() id: string) {
+    return this.usersService.requestPasswordReset(id);
+  }
+
+  @EventPattern("resetPassword")
+  async resetPassword(
+    @Payload() { id, password, token }: { id: string, password: string, token: string },
+  ) {
+    return this.usersService.resetPassword(id, token, password);
+  }
 
 }

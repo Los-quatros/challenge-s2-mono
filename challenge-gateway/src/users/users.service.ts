@@ -56,5 +56,12 @@ async validateUser(jwtToken: string) {
     return this.usersProxy.send('validate-user', jwtToken);
 }
 
+async requestPasswordReset(id: string) {
+    return this.usersProxy.send('requestResetPassword', id);
+}
+
+async resetPassword(id: string, password: string, token: string) {
+    return this.usersProxy.send('resetPassword', { id, password, token });
+}
 
 }

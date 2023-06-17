@@ -17,9 +17,22 @@ export class User {
   @Column()
   age: number;
 
-  @Column({nullable: true})
+  @Column()
   password: string;
 
-  @Column({nullable: true})
+  @Column()
   roles: string;
+
+  @Column({nullable: true})
+  activation_token: string;
+
+  @Column({ nullable: true, type: 'varchar', length: 255 })
+  resetPasswordToken: string | null;
+
+  @Column({nullable: true})
+  avatar: number;
+
+  @Column({nullable: true})
+  sellerId: number;
+
 }

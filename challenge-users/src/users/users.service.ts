@@ -5,7 +5,7 @@ import { User } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { JwtService } from '@nestjs/jwt';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
@@ -50,9 +50,8 @@ export class UsersService {
 
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
-
-
-    await this.usersRepository.save(user);
+    
+    await this.usersRepository.save({...user, roles: "user"});
 
     return user;
 
@@ -89,5 +88,53 @@ export class UsersService {
     const user = await this.usersRepository.findOneBy({ id });
 
     return user;
+  }
+
+  async requestPasswordReset(userId: string): Promise<any> {
+
+    const resetPasswordToken = uuidv4();
+    await this.usersRepository.update(userId, { resetPasswordToken });
+
+    const user = await this.usersRepository.findOneBy({ id: userId });
+
+    if(!user){
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: 'Utilisateur non trouvé',
+      }
+    }
+    const resetLink = `https://localhost:3000/reset-password?token=${resetPasswordToken}`;
+    const emailContent = `Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ${resetLink}`;
+    // this.mailService.sendEmail(user.email, 'Réinitialisation de mot de passe', emailContent);
+    return "Un email de réinitialisation de mot de passe a été envoyé à l'adresse email associée à votre compte";
+  }
+
+  async resetPassword(userId: string, resetToken: string, newPassword: string): Promise<any> {
+    // Vérifier si le token de réinitialisation de mot de passe est valide pour l'utilisateur
+    const isTokenValid = await this.isResetTokenValid(userId, resetToken);
+
+    if (!isTokenValid) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Token invalide',
+      }
+    }
+
+    await this.usersRepository.update(userId, {
+      password: await bcrypt.hash(newPassword, 10),
+      resetPasswordToken: null,
+    });
+
+    return "Mot de passe réinitialisé avec succès";
+
+  }
+
+  async isResetTokenValid(id: string, token: string): Promise<boolean> {
+    const user = await this.usersRepository.findOneBy({id});
+    if (!user || user.resetPasswordToken !== token) {
+      return false;
+    }
+    
+    return true;
   }
 }

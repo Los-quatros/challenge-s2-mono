@@ -55,6 +55,20 @@ export class UsersController {
         return this.usersService.validateUser(jwtToken);
     }
 
+    @Post(':id/reset-password')
+    @HttpCode(200)
+    requestPasswordReset(@Param('id') id: string) {
+        return this.usersService.requestPasswordReset(id);
+    }
+
+    @Patch(':id/reset-password/:token')
+    resetPassword(
+        @Param('id') id: string, 
+        @Param('token') token: string,
+        @Body() {password} : {password: string}) {
+        return this.usersService.resetPassword(id, password, token);
+    }
+
     
 
 }
