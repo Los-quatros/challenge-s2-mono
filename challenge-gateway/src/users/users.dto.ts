@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsEmpty, IsEmail, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, Length, IsEmail, IsNumber } from 'class-validator';
 
 
 export class CreateUserDto {
@@ -9,18 +9,27 @@ export class CreateUserDto {
     
         @IsString()
         @IsNotEmpty()
+        @Length(6, 20)
         password: string;
     
         @IsString()
         @IsNotEmpty()
+        @Length(3, 20)
         firstName: string;
     
         @IsString()
         @IsNotEmpty()
+        @Length(3, 20)
         lastName: string;
-
-        @IsNumber()
-        age: number;
 }
 
 export class UpdateUserDto implements Partial<CreateUserDto>{}
+
+export class resetPasswordDto {
+    
+        @IsString()
+        @IsNotEmpty()
+        @Length(6, 20)
+        password: string;
+
+}

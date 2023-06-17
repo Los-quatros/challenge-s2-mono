@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, Patch, HttpCode, ParseUUIDPipe } from '@nestjs/common';
 import { UsersPipe } from './users.pipe';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from './users.dto';
+import { CreateUserDto, UpdateUserDto, resetPasswordDto } from './users.dto';
 import { LoginRequest } from './authentication.request';
 import { AuthenticationRequired, HasRole } from 'src/authentication/authentication.decorator';
 import { Role } from 'src/authentication/authentication.enum';
@@ -65,7 +65,9 @@ export class UsersController {
     resetPassword(
         @Param('id') id: string, 
         @Param('token') token: string,
-        @Body() {password} : {password: string}) {
+        @Body(new UsersPipe()) updateUserDto: resetPasswordDto,
+    ) {
+        const { password } = updateUserDto;
         return this.usersService.resetPassword(id, password, token);
     }
 
