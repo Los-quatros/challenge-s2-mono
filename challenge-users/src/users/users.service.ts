@@ -5,6 +5,7 @@ import { User } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
@@ -76,26 +77,6 @@ export class UsersService {
         error: 'Error updating user',
       }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersRepository.findOneBy({ email });
-    if (!user) {
-      return {
-        status: HttpStatus.BAD_REQUEST,
-        error: 'Utilisateur non trouvé',
-      }
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return {
-        status: HttpStatus.BAD_REQUEST,
-        error: 'Mot de passe incorrect',
-      }
-    }
-
-    return user;
   }
 
   async getUserByEmail(email: string): Promise<any> {

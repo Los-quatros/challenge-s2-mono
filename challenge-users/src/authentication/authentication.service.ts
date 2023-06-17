@@ -38,4 +38,20 @@ export class AuthenticationService {
 
     return token;
   }
+
+  public async validateUser(jwtToken: string) {
+    const { id } = this.jwtService.verify(jwtToken);
+
+    const user = await this.usersService.getUserById(id);
+
+    if (!user) {
+      return {
+        error: "Invalid user",
+        status: 400
+      }
+    }
+
+    return user;
+  }
+
 }

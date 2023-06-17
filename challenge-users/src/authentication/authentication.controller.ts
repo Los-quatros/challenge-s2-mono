@@ -11,4 +11,10 @@ export class AuthenticationController {
   public login(@Body(ValidationPipe) loginRequest: LoginRequest) {
     return this.authenticationService.login(loginRequest);
   }
+
+  @EventPattern("validate-user")
+  public validateUser(@Body(ValidationPipe) jwtToken: string) {
+    return this.authenticationService.validateUser(jwtToken);
+  }
+  
 }

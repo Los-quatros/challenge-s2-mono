@@ -1,3 +1,4 @@
+import { validate } from 'class-validator';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
 import { response } from 'express';
@@ -49,6 +50,10 @@ async login(body: LoginRequest) {
     } catch (error) {
         throw error;
     }
+}
+
+async validateUser(jwtToken: string) {
+    return this.usersProxy.send('validate-user', jwtToken);
 }
 
 

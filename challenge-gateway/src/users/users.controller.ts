@@ -3,12 +3,16 @@ import { UsersPipe } from './users.pipe';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { LoginRequest } from './authentication.request';
+import { AuthenticationRequired, HasRole } from 'src/authentication/authentication.decorator';
+import { Role } from 'src/authentication/authentication.enum';
 
 @Controller('users')
 export class UsersController {
 
     constructor(private readonly usersService: UsersService) {}
 
+    @AuthenticationRequired()
+    @HasRole(Role.ADMINISTRATOR)
     @Get()
     @HttpCode(200)
     getUsers() {
@@ -44,5 +48,13 @@ export class UsersController {
     login(@Body(new UsersPipe()) body: LoginRequest) {
         return this.usersService.login(body);
     }
+
+    @Post('validate-user')
+    @HttpCode(200)
+    validateUser(@Body('jwtToken') jwtToken: string) {
+        return this.usersService.validateUser(jwtToken);
+    }
+
+    
 
 }
