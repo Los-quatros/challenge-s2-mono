@@ -137,4 +137,35 @@ export class UsersService {
     
     return true;
   }
+
+  async seed() {
+    const userPassword = await bcrypt.hash('password', 10);
+
+    await this.usersRepository.delete({});
+
+    await this.usersRepository.insert({
+      email: "administrator@domain.com",
+      firstName: "Administrator",
+      lastName: "Administrator",
+      password: userPassword,
+      roles: "admin"
+  });
+
+    await this.usersRepository.insert({
+      email: "user@domain.com",
+      firstName: "John",
+      lastName: "Doe",
+      password: userPassword,
+      roles: "user"
+  });
+
+    await this.usersRepository.insert({
+      email: "seller@domain.com",
+      firstName: "Seller",
+      lastName: "Seller",
+      password: userPassword,
+      roles: "seller"
+  });
+  
+}
 }

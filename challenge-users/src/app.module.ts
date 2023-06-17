@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { SeedService } from './users/seed/seed.service';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
   }),
   ],
   controllers: [],
-  providers: [],
+  providers: [SeedService],
+  exports: [SeedService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
