@@ -26,6 +26,7 @@ async function bootstrap() {
     },
   }]);
 
+  //app.useGlobalPipes(new ValidationPipe());
   await app.listen();
 }
 bootstrap();

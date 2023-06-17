@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, ValidationPipe } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { CreateProductDto } from '../models/CreateProductDto';
 import { UpdateProductsQuantityDto } from '../models/UpdateProductsQuantityDto';
@@ -9,11 +9,11 @@ export class ProductsController {
     constructor(private productsService: ProductsService) {}
 
     @Post()
-    async Post(product : CreateProductDto){
+    async Post(@Body(new ValidationPipe()) product : CreateProductDto){
         return this.productsService.CreateProduct(product);
     }
     @Post("/update")
-    async UpdateProductQuantity(updateProductsQuantityDto : UpdateProductsQuantityDto){
+    async UpdateProductQuantity(@Body(new ValidationPipe()) updateProductsQuantityDto : UpdateProductsQuantityDto){
         return this.productsService.UpdateProductsQuantity(updateProductsQuantityDto);
     }
 
