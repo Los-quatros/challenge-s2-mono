@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
 import { Product } from './product.entity';
 
 @Entity()
@@ -8,5 +8,7 @@ export class Category {
 
     @Column()
     name: string;
+
+    @OneToMany(() => Product, product => product.category)
     products : Array<Product>
 }
