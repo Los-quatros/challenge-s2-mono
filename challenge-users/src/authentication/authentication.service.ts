@@ -3,12 +3,14 @@ import { UsersService } from "../users/users.service";
 import { LoginRequest } from "./authentication.request";
 import { compare } from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
+import { SellersService } from "src/sellers/sellers.service";
 
 @Injectable()
 export class AuthenticationService {
   public constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly sellersService: SellersService
   ) { }
 
   public async login(loginRequest: LoginRequest) {
@@ -30,6 +32,18 @@ export class AuthenticationService {
       }
     }
 
+    if(user.roles === 'seller') {
+
+      const isSellerAvailable = await this.sellersService.checkIfSellerIsAvailable(user.id);
+      if (!isSellerAvailable) {
+        return {
+          error: "Votre compte vendeur n'est pas encore activé",
+          status: 403
+        }
+      }
+    }
+
+    
     const payload = {
       id: user.id
     };

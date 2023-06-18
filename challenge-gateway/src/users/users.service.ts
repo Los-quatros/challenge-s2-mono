@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy} from "@nestjs/microservices";
 import { LoginRequest } from './authentication.request';
 import { lastValueFrom } from 'rxjs';
+import { AccountSellerDto } from './dto/accountSeller.dto';
 
 
 @Injectable()
@@ -61,6 +62,15 @@ async requestPasswordReset(id: string) {
 
 async resetPassword(id: string, password: string, token: string) {
     return this.usersProxy.send('resetPassword', { id, password, token });
+}
+
+async createSellerAccount(user: AccountSellerDto) {
+    const result = await lastValueFrom(this.usersProxy.send('createSellerAccount', user));
+
+    if(!result.error) {
+        return result;
+    }
+    throw new BadRequestException(result.error);
 }
 
 }

@@ -30,6 +30,6 @@ export class User {
   avatar: number;
 
   @Column({nullable: true})
-  sellerId: number;
+  sellerId: string;
 
 }

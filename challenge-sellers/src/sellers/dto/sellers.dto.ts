@@ -1,6 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsNotEmpty, IsBoolean } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class CreateSellerDto   {
 

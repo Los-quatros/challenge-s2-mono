@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsEmpty, IsEmail, IsNumber } from 'class-validator';
-import { UserInterface } from './users.interface';
+import { UserInterface } from '../users.interface';
 
 
 export class CreateUserDto implements Omit<UserInterface, "id">{

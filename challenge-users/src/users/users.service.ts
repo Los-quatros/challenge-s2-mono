@@ -1,11 +1,13 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './users.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 import { User } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
+import { SellersService } from 'src/sellers/sellers.service';
+import { AccountSellerDto } from './dto/account.seller.dto';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +15,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private sellersService: SellersService,
+
   ) { }
 
   findAll(): Promise<User[]> {
@@ -168,4 +172,47 @@ export class UsersService {
   });
   
 }
+
+async createSellerAccount(user: AccountSellerDto): Promise<any> {
+  try {
+    const existingUser = await this.usersRepository.findOneBy({ email: user.email });
+
+    if (existingUser) {
+      return {
+        status: HttpStatus.CONFLICT,
+        error: 'Un utilisateur avec cet email existe déjà',
+      };
+    }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+
+    const dataUser = {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      password: user.password,
+      roles: "seller"
+    }
+    const newUser = await this.usersRepository.save(dataUser);
+
+    const dataSeller = {
+      name: user.name,
+      isActive : false,
+      description: user.description,
+      userId: newUser.id
+    }
+    const seller = await this.sellersService.createSellerAccount(dataSeller);
+    const updateUser = { ...newUser, sellerId: seller.id };
+    await this.usersRepository.update(newUser.id, updateUser);
+
+    return user;
+  } catch (error) {
+    throw new HttpException({
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      error: 'Erreur lors de la création de l\'utilisateur',
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
 }

@@ -1,41 +1,52 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, ValidationPipe } from '@nestjs/common';
 import { SellerService } from './seller.service';
-import { Sellers } from './entities/seller.entity';
+import { Seller } from '../schema/sellers.model';
 import { CreateSellerDto, UpdateSellerDto } from './dto/sellers.dto';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
+import { AccountSellerDto } from './dto/account.seller.dto';
 
 @Controller('sellers')
 export class SellerController {
   constructor(private readonly sellerService: SellerService) {}
 
-  @EventPattern('find-sellers')
+  @EventPattern('getSellers')
   @Get()
-  async findAll(): Promise<Sellers[]> {
+  async findAll(): Promise<Seller[]> {
     return await this.sellerService.findAll();
   }
 
   @EventPattern('find-seller')
-  async findOne(@Param('id') id: string): Promise<Sellers> {
+  async findOne(@Payload('id') id: string): Promise<Seller> {
     return await this.sellerService.findOne(id);
   }
 
   @EventPattern('create-seller')
-  async create(@Body() createSellerDto: CreateSellerDto): Promise<CreateSellerDto> {
+  async create(@Payload() createSellerDto: CreateSellerDto): Promise<CreateSellerDto> {
     return await this.sellerService.create(createSellerDto);
   }
 
   @EventPattern('update-seller')
   async update(
-    @Param('id') id: string,
-    @Body() updateSellerDto: UpdateSellerDto,
-  ): Promise<Sellers> {
+    @Payload() { id, updateSellerDto }: { id: string, updateSellerDto: UpdateSellerDto }, 
+  ): Promise<Seller> {
     return await this.sellerService.update(id, updateSellerDto);
   }
 
   @EventPattern('delete-seller')
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(@Payload() id: string): Promise<void> {
     await this.sellerService.remove(id);
   }
+
+  @EventPattern('checkIfSellerIsActif')
+  async checkIfSellerIsActif(@Payload() id: string): Promise<boolean> {
+    return await this.sellerService.checkIfSellerIsActif(id);
+  }
+
+  @EventPattern('createSellerAccount')
+  async createSellerAccount(@Payload() accountSellerDto: AccountSellerDto): Promise<CreateSellerDto> {
+    return await this.sellerService.createSellerAccount(accountSellerDto);
+  }
+  
 
   
 }

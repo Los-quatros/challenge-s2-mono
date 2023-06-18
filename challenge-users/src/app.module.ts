@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { SeedService } from './users/seed/seed.service';
+import { SellersModule } from './sellers/sellers.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SeedService } from './users/seed/seed.service';
     autoLoadEntities: true,
     synchronize: true,
   }),
+    SellersModule,
   ],
   controllers: [],
   providers: [SeedService],

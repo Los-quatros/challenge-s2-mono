@@ -1,47 +1,60 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { validate } from 'class-validator';
+import { Inject, Injectable, ValidationPipe } from '@nestjs/common';
 import { CreateSellerDto, UpdateSellerDto } from './dto/sellers.dto'
-import { InjectRepository } from '@nestjs/typeorm';
-import { Sellers } from './entities/seller.entity';
+import { Model } from 'mongoose';
+import { SellerDocument, Seller } from 'src/schema/sellers.model';
+import { AccountSellerDto } from './dto/account.seller.dto';
 
 @Injectable()
 export class SellerService {
 
-  constructor(@InjectRepository(Sellers) private readonly sellersRepository) {}
+  constructor(
+    @Inject('SELLER_MODEL') private sellerModel: Model<SellerDocument>
+  ) {}
 
   async create(createSellerDto: CreateSellerDto) {
-    const seller = this.sellersRepository.create(createSellerDto);
-    await this.sellersRepository.save(seller);
-    return seller;
+  const createdSeller = new this.sellerModel(createSellerDto);
+  return createdSeller.save();
   }
 
-  async findAll(): Promise<Sellers[]> {
-    return await this.sellersRepository.find();
+  async findAll(): Promise<Seller[]> {
+    return await this.sellerModel.find().exec();
+  }
+  
+  async findOne(id: string): Promise<Seller> {
+    return await this.sellerModel.findOne({ id: id });
   }
 
-  async findOne(id: string): Promise<Sellers> {
-    return await this.sellersRepository.findOne(id); 
+  async update(id: string, updateSellerDto: UpdateSellerDto): Promise<Seller> {
+
+    const existingSeller = await this.sellerModel.findOne({ id: id });
+    this.sellerModel.updateOne({ id: id }, updateSellerDto);
+    return existingSeller.save();
   }
 
-  async update(id: string, updateSellerDto: UpdateSellerDto): Promise<Sellers> {
-    const seller = await this.sellersRepository.findOne(id);
-    if (!seller) {
-      return null;
-    }
-    const updatedSeller = {
-      ...seller,
-      ...updateSellerDto,
-    };
-    await this.sellersRepository.save(updatedSeller);
-    return updatedSeller;
+  async remove(id: string): Promise<void> {
+    await this.sellerModel.deleteOne({ id: id });
   }
-
-  async remove(id: string) {
-    await this.sellersRepository.delete(id); 
-  }
-
+  
   async addProductToSeller(sellerId: string, productId: string): Promise<void> {
-    const seller = await this.sellersRepository.findOne(sellerId);
+    const seller = await this.sellerModel.findOne({ id: sellerId });
     seller.products.push(productId);
-    await this.sellersRepository.save(seller);
+    seller.save();
+  }
+
+  async checkIfSellerIsActif(id: string): Promise<boolean> {
+    const seller = await this.sellerModel.findOne({ id: id });
+  
+    if (seller && seller.isActive) {
+      return true;
+    }
+  
+    return false;
+  }
+
+  async createSellerAccount(accountSellerDto: AccountSellerDto): Promise<CreateSellerDto> {
+   
+    const createdSeller = new this.sellerModel(accountSellerDto).save();
+    return createdSeller;
   }
 }

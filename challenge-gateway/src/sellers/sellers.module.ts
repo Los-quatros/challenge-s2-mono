@@ -1,0 +1,24 @@
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { SellersController } from './sellers.controller';
+import { SellersService } from './sellers.service';
+
+@Module({
+    imports: [ClientsModule.register([
+        {
+            name: 'SELLERS_SERVICE',
+            transport: Transport.RMQ,
+            options: {
+                urls: [`amqp://rmq-service:5672`],
+                queue: 'sellers_queue',
+                queueOptions: {
+                    durable: false
+                }
+            }
+        }
+    ])],
+    controllers: [SellersController],
+    providers: [SellersService],
+    exports: [SellersService]
+})
+export class SellersModule {}

@@ -1,7 +1,8 @@
 import { Controller, Get, HttpCode, Header, Param, Post, Body, Patch, Delete, HttpStatus, HttpException, UsePipes, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from './users.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 import { EventPattern, Payload } from '@nestjs/microservices';
+import { AccountSellerDto } from './dto/account.seller.dto';
 
 @Controller("/users")
 export class UsersController {
@@ -43,6 +44,11 @@ export class UsersController {
     @Payload() { id, password, token }: { id: string, password: string, token: string },
   ) {
     return this.usersService.resetPassword(id, token, password);
+  }
+
+  @EventPattern("createSellerAccount")
+  async createSellerAccount(@Payload() user: AccountSellerDto) {
+    return this.usersService.createSellerAccount(user);
   }
 
 }
