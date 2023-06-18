@@ -9,11 +9,11 @@ export class ProductsController {
     constructor(private productsService: ProductsService) {}
 
     @Post()
-    async Post(@Body(new ValidationPipe()) product : CreateProductDto){
+    async Post(@Body(new ValidationPipe( {transform: true} )) product : CreateProductDto){
         return this.productsService.CreateProduct(product);
     }
     @Post("/update")
-    async UpdateProductQuantity(@Body(new ValidationPipe()) updateProductsQuantityDto : UpdateProductsQuantityDto){
+    async UpdateProductQuantity(@Body(new ValidationPipe( {transform: true} )) updateProductsQuantityDto : UpdateProductsQuantityDto){
         return this.productsService.UpdateProductsQuantity(updateProductsQuantityDto);
     }
 

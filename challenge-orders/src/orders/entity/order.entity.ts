@@ -12,18 +12,22 @@ export class Order {
     @Column()
     is_delivered: boolean;
 
-    @Column()
-    description: string;
-
-    @Column()
-    price: number;
-
-    @Column()
-    quantity: number;
-
     @OneToMany(() => OrderProduct, orderProduct => orderProduct.order)
     orderProducts: Array<OrderProduct>;
-    
+
     @Column()
-    sellerId: string;
+    address: string
+
+    @Column()
+    carriers: Array<string>
+
+    @Column()
+    is_paid: boolean
+
+    @Column()
+    userId: string;
+
+    getOrderProductIds(): string[] {
+        return this.orderProducts.map(orderProduct => orderProduct.id);
+    }
 }
