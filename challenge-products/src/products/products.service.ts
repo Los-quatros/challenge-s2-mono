@@ -13,10 +13,9 @@ export class ProductsService {
     ) { }
 
     // si c'est un seller il faudra contacter alors penser a envoyer un event pour que le service seller ajoute l'id du produit au tabeau de produits du seller, si c'est un admin plus rien a faire
-    async createProduct(product: CreateProductDto ): Promise<any> {
+    async createProduct(product: CreateProductDto ): Promise<Product> {
         try {
-           await this.productsRepository.save(product);
-           return "User created successfully";
+           return await this.productsRepository.save(product);
         } catch (error) {
            throw new HttpException({
              status: HttpStatus.INTERNAL_SERVER_ERROR,

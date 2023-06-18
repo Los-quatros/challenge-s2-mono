@@ -10,7 +10,7 @@ export class ProductsController {
     constructor(private productService: ProductsService) {}
 
     @EventPattern("createProduct")
-    async createProduct(@Payload() product : CreateProductDto) {
+    async createProduct(@Payload() product : CreateProductDto) : Promise<Product> {
         return this.productService.createProduct(product);
     }
 
