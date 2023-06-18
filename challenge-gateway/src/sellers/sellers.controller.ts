@@ -27,7 +27,6 @@ export class SellersController {
         return await this.sellersService.updateSeller(id, updateSellerDto);
     }
 
-
     @Post('/createProduct')
     async createProduct(
         @Body() createProductDto: any
