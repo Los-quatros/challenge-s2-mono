@@ -10,6 +10,15 @@ export class SellersService {
     async getSellers() {
         return await lastValueFrom(this.sellersProxy.send('getSellers', {}));
     }
+
+    async getSeller(id: string) {
+        return await lastValueFrom(this.sellersProxy.send('getSeller', {id}));
+    }
+
+    async updateSeller(id: string, updateSellerDto: any) {
+        return await lastValueFrom(this.sellersProxy.send('updateSeller', {id, updateSellerDto}));
+    }
+    
     
     async createProduct(createProductDto: any) {
         return await lastValueFrom(this.sellersProxy.send('createProduct', createProductDto));

@@ -20,7 +20,7 @@ export class Seller {
     description: string;
 
     @Prop()
-    user_id: string;
+    userId: string;
 
     @Prop()
     products?: Array<string>;

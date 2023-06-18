@@ -27,8 +27,8 @@ export class SellerService {
 
   async update(id: string, updateSellerDto: UpdateSellerDto): Promise<Seller> {
 
-    const existingSeller = await this.sellerModel.findOne({ id: id });
-    this.sellerModel.updateOne({ id: id }, updateSellerDto);
+    const existingSeller = await this.sellerModel.findOneAndUpdate({ id: id }, updateSellerDto, { new: true });
+    
     return existingSeller.save();
   }
 
@@ -43,8 +43,8 @@ export class SellerService {
   }
 
   async checkIfSellerIsActif(id: string): Promise<boolean> {
-    const seller = await this.sellerModel.findOne({ id: id });
-  
+    const seller = await this.sellerModel.findOne({ userId: id });
+    console.log(seller, id);
     if (seller && seller.isActive) {
       return true;
     }
@@ -53,7 +53,6 @@ export class SellerService {
   }
 
   async createSellerAccount(accountSellerDto: AccountSellerDto): Promise<CreateSellerDto> {
-   
     const createdSeller = new this.sellerModel(accountSellerDto).save();
     return createdSeller;
   }

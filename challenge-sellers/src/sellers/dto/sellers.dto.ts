@@ -13,7 +13,7 @@ export class CreateSellerDto   {
     isActive: boolean;
 
     @IsNotEmpty()
-    user_id: string;
+    userId: string;
     
     }
 

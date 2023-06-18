@@ -15,21 +15,21 @@ export class SellerController {
     return await this.sellerService.findAll();
   }
 
-  @EventPattern('find-seller')
+  @EventPattern('getSeller')
   async findOne(@Payload('id') id: string): Promise<Seller> {
     return await this.sellerService.findOne(id);
+  }
+
+  @EventPattern('updateSeller')
+  async update(
+    @Payload() { id, updateSellerDto }: { id: string, updateSellerDto: UpdateSellerDto }, 
+  ): Promise<Seller> {
+    return await this.sellerService.update(id, updateSellerDto);
   }
 
   @EventPattern('create-seller')
   async create(@Payload() createSellerDto: CreateSellerDto): Promise<CreateSellerDto> {
     return await this.sellerService.create(createSellerDto);
-  }
-
-  @EventPattern('update-seller')
-  async update(
-    @Payload() { id, updateSellerDto }: { id: string, updateSellerDto: UpdateSellerDto }, 
-  ): Promise<Seller> {
-    return await this.sellerService.update(id, updateSellerDto);
   }
 
   @EventPattern('delete-seller')

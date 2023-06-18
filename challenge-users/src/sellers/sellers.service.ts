@@ -1,6 +1,7 @@
 import { lastValueFrom } from 'rxjs';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { SellersDto } from 'src/users/dto/sellers.dto';
 
 @Injectable()
 export class SellersService {
@@ -10,8 +11,8 @@ export class SellersService {
         return await lastValueFrom(this.sellersProxy.send('checkIfSellerIsActif', id));
     }
 
-    async createSellerAccount({user, userId}: any) {
-        return await lastValueFrom(this.sellersProxy.send('createSellerAccount', {user, userId}));
+    async createSellerAccount(sellerDto: SellersDto) {
+        return await lastValueFrom(this.sellersProxy.send('createSellerAccount', sellerDto));
     }
 
 }
