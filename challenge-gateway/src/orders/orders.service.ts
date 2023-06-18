@@ -26,7 +26,7 @@ export class OrdersService {
                 this.addressesProxy.send('GetAddressById', {idAddress}).subscribe((address : Address) => {
                     order.address = address
                 })
-                // retreive the address and the carriers 
+                // retreive and the carriers 
                 // create the services in the gateway 
             });
         });

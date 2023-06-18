@@ -11,4 +11,9 @@ export class AddressesController {
     async GetAddressById(@Payload() addressId : string) : Promise<Address>{
         return this.addressesService.GetAddressById(addressId);
     }
+
+    @EventPattern("GetUserAddresses")
+    async GetUserAddresses(@Payload() idUser : string) : Promise<Array<Address>> {
+        return this.addressesService.GetUserAddresses(idUser);
+    }
 }

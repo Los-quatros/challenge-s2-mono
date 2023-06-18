@@ -13,5 +13,9 @@ export class AddressesService {
     async GetAddressById(id : string) : Promise<Address> {
         return await this.addressesRepository.findOneBy({id : id})
     }
+
+    async GetUserAddresses(id : string) : Promise<Array<Address>> {
+        return await this.addressesRepository.findBy({user_id : id})
+    }
     
 }
