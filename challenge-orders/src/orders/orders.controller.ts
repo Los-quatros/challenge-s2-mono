@@ -1,4 +1,16 @@
 import { Controller } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
+import { OrdersService } from './orders.service';
 
-@Controller('orders')
-export class OrdersController {}
+@Controller('products')
+export class OrdersController {
+    constructor(private ordersService: OrdersService) {}
+
+    @EventPattern("GetUserOrders")
+    async createProduct(@Payload() userId : string) {
+        return this.ordersService.GetUserOrders(userId);
+    }
+
+}
+
+
