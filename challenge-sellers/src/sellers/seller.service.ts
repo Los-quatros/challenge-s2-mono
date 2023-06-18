@@ -44,7 +44,6 @@ export class SellerService {
 
   async checkIfSellerIsActif(id: string): Promise<boolean> {
     const seller = await this.sellerModel.findOne({ userId: id });
-    console.log(seller, id);
     if (seller && seller.isActive) {
       return true;
     }
