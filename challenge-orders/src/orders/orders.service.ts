@@ -3,7 +3,7 @@ import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservice
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order } from './entity/order.entity';
-import { orderResponseDto, Product } from './models/OrdersResponseDto';
+import { Carrier, orderResponseDto, Product } from './models/OrdersResponseDto';
 
 @Injectable()
 export class OrdersService {
@@ -33,12 +33,16 @@ export class OrdersService {
            orders?.forEach(order => {
             const orderProductIds = order?.getOrderProductIds();
             this.productsProxy.send('getProducts', orderProductIds).subscribe((products : Array<Product>) => {
+                    const carriers : Array<Carrier> = [];
+                    order.carriers.forEach(idCarrier => {
+                        carriers.push(new Carrier(idCarrier));
+                    });
                     const orderWithProducts: orderResponseDto = {
                         id: order.id,
                         total: order.total,
                         is_delivered: order.is_delivered,
                         address: order.address,
-                        carriers: order.carriers,
+                        carriers: carriers,
                         is_paid: order.is_paid,
                         products: products
                     }
