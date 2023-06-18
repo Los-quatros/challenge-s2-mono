@@ -26,8 +26,6 @@ export class UsersController {
         return this.usersService.getUser(uuid);
     }
 
-    @AuthenticationRequired()
-    @HasRole(Role.ADMINISTRATOR)
     @Post()
     @HttpCode(201)
     createUser(@Body(new UsersPipe()) createUserDto: CreateUserDto) {

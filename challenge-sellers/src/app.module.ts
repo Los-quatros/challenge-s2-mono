@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SellerModule } from './sellers/seller.module';
 import { DataSource } from 'typeorm';
+import { ProductsModule } from './products/products.module';
 
 
 
@@ -19,6 +20,7 @@ import { DataSource } from 'typeorm';
       synchronize: true,
     }),
     SellerModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,19 +8,16 @@ export class Sellers {
   @Column()
   name: string;
 
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
   @Column({ default: false })
   isActive: boolean;
 
-  @Column({ default: false })
-  isEnabled: boolean;
+  @Column()
+  description: string;
 
   @Column()
-  sellerCode: string;
+  user_id: string;
+
+  @Column({nullable: true})
+  products?: Array<string>;
 
 }

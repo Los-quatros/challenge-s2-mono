@@ -1,5 +1,4 @@
 import { BadRequestException, CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import { UsersService } from "../users/users.service";
 import { Reflector } from "@nestjs/core";

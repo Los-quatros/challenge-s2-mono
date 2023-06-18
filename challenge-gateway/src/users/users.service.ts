@@ -1,8 +1,7 @@
-import { validate } from 'class-validator';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
-import { response } from 'express';
+import { ClientProxy} from "@nestjs/microservices";
 import { LoginRequest } from './authentication.request';
+import { lastValueFrom } from 'rxjs';
 
 
 @Injectable()
@@ -19,7 +18,7 @@ async getUser(id: string) {
 
 async createUser(user: any) {
     try {
-        const result = await this.usersProxy.send('createUser', user).toPromise();
+        const result = await lastValueFrom(this.usersProxy.send('createUser', user));
         if(!result.error) {
             return result;
         }

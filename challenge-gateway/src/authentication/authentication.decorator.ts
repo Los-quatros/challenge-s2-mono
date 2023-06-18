@@ -1,4 +1,4 @@
-import { SetMetadata, UseGuards } from "@nestjs/common";
+import { SetMetadata, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthenticationGuard } from "./authentication.guard";
 import { Role } from "./authentication.enum";
 

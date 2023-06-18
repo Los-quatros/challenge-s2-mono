@@ -11,9 +11,11 @@ services:
       - 5438:5432
     volumes:
       - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network
   sellers-server:
     build: .
-    command: npm run start:dev
+    command: sh -c "npm install && npm run start:dev"
     restart: always
     ports:
       - 3006:3000
@@ -23,9 +25,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: sellers-db
+    working_dir: /home/node
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/home/node
     depends_on:
       - sellers-db
     networks:

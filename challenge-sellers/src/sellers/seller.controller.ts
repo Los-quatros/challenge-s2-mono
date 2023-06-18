@@ -1,28 +1,30 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { SellerService } from './seller.service';
 import { Sellers } from './entities/seller.entity';
-import { NewSellerDto, UpdateSellerDto } from './dto';
+import { CreateSellerDto, UpdateSellerDto } from './dto/sellers.dto';
+import { EventPattern } from '@nestjs/microservices';
 
 @Controller('sellers')
 export class SellerController {
   constructor(private readonly sellerService: SellerService) {}
 
+  @EventPattern('find-sellers')
   @Get()
   async findAll(): Promise<Sellers[]> {
     return await this.sellerService.findAll();
   }
 
-  @Get(':id')
+  @EventPattern('find-seller')
   async findOne(@Param('id') id: string): Promise<Sellers> {
     return await this.sellerService.findOne(id);
   }
 
-  @Post()
-  async create(@Body() newSellerDto: NewSellerDto): Promise<Sellers> {
-    return await this.sellerService.create(newSellerDto);
+  @EventPattern('create-seller')
+  async create(@Body() createSellerDto: CreateSellerDto): Promise<CreateSellerDto> {
+    return await this.sellerService.create(createSellerDto);
   }
 
-  @Put(':id')
+  @EventPattern('update-seller')
   async update(
     @Param('id') id: string,
     @Body() updateSellerDto: UpdateSellerDto,
@@ -30,8 +32,10 @@ export class SellerController {
     return await this.sellerService.update(id, updateSellerDto);
   }
 
-  @Delete(':id')
+  @EventPattern('delete-seller')
   async delete(@Param('id') id: string): Promise<void> {
     await this.sellerService.remove(id);
   }
+
+  
 }

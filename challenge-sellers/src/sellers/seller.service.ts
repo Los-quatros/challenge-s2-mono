@@ -1,47 +1,47 @@
-import { Injectable } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
-import { NewSellerDto } from './dto/newSeller.dto';
-import { UpdateSellerDto } from './dto/updateSeller.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { CreateSellerDto, UpdateSellerDto } from './dto/sellers.dto'
+import { InjectRepository } from '@nestjs/typeorm';
+import { Sellers } from './entities/seller.entity';
 
 @Injectable()
 export class SellerService {
-  private readonly sellers: any[] = [];
 
-  create(newSellerDto: NewSellerDto) {
-    const seller = {
-      id: uuid(),
-      ...newSellerDto,
-    };
-    this.sellers.push(seller);
+  constructor(@InjectRepository(Sellers) private readonly sellersRepository) {}
+
+  async create(createSellerDto: CreateSellerDto) {
+    const seller = this.sellersRepository.create(createSellerDto);
+    await this.sellersRepository.save(seller);
     return seller;
   }
 
-  findAll() {
-    return this.sellers;
+  async findAll(): Promise<Sellers[]> {
+    return await this.sellersRepository.find();
   }
 
-  findOne(id: string) {
-    return this.sellers.find((seller) => seller.id === id);
+  async findOne(id: string): Promise<Sellers> {
+    return await this.sellersRepository.findOne(id); 
   }
 
-  update(id: string, updateSellerDto: UpdateSellerDto) {
-    const sellerIndex = this.sellers.findIndex((seller) => seller.id === id);
-    if (sellerIndex === -1) {
+  async update(id: string, updateSellerDto: UpdateSellerDto): Promise<Sellers> {
+    const seller = await this.sellersRepository.findOne(id);
+    if (!seller) {
       return null;
     }
-    this.sellers[sellerIndex] = {
-      ...this.sellers[sellerIndex],
+    const updatedSeller = {
+      ...seller,
       ...updateSellerDto,
     };
-    return this.sellers[sellerIndex];
+    await this.sellersRepository.save(updatedSeller);
+    return updatedSeller;
   }
 
-  remove(id: string) {
-    const sellerIndex = this.sellers.findIndex((seller) => seller.id === id);
-    if (sellerIndex === -1) {
-      return null;
-    }
-    const [seller] = this.sellers.splice(sellerIndex, 1);
-    return seller;
+  async remove(id: string) {
+    await this.sellersRepository.delete(id); 
+  }
+
+  async addProductToSeller(sellerId: string, productId: string): Promise<void> {
+    const seller = await this.sellersRepository.findOne(sellerId);
+    seller.products.push(productId);
+    await this.sellersRepository.save(seller);
   }
 }
