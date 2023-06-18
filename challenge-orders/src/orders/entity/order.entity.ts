@@ -19,7 +19,7 @@ export class Order {
     address: string
 
     @Column()
-    carriers: Array<string>
+    carrier: string
 
     @Column()
     is_paid: boolean

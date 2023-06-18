@@ -33,16 +33,13 @@ export class OrdersService {
            orders?.forEach(order => {
             const orderProductIds = order?.getOrderProductIds();
             this.productsProxy.send('getProducts', orderProductIds).subscribe((products : Array<Product>) => {
-                    const carriers : Array<Carrier> = [];
-                    order.carriers.forEach(idCarrier => {
-                        carriers.push(new Carrier(idCarrier));
-                    });
+                    const carrier : Carrier = new Carrier(order.carrier);
                     const orderWithProducts: orderResponseDto = {
                         id: order.id,
                         total: order.total,
                         is_delivered: order.is_delivered,
                         address: order.address,
-                        carriers: carriers,
+                        carrier: carrier,
                         is_paid: order.is_paid,
                         products: products
                     }
