@@ -107,5 +107,31 @@ export class MailService {
         message: 'Email sent successfully',
         };
     }
+
+    async sendMailOrder(data: any): Promise<Object> {
+        const templateName = 'confirm.order';
+        const subject = 'Votre commande';
+
+        const templateContent = this.loadTemplate(templateName);
+        const template = handlebars.compile(templateContent);
+
+        const { email, order } = data;
+
+        const htmlContent = template({
+            items: order.products,
+            total: order.total,
+        });
+
+        await this.mailerService.sendMail({
+        from: process.env.EMAIL_SERVER,
+        to: email,
+        subject: subject,
+        html: htmlContent,
+        });
+
+        return {
+        message: 'Email sent successfully',
+        };
+    }
         
 }

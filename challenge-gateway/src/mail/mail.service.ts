@@ -22,4 +22,8 @@ export class MailService {
         return (await lastValueFrom(this.mailProxy.send('registerMail', email)));
     }
 
+    async sendMailOrder(data: Object): Promise<Object> {
+        return (await lastValueFrom(this.mailProxy.send('orderMail', data)));
+    }
+
 }

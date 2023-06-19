@@ -25,5 +25,11 @@ export class MailController {
     async sendMailRegister(@Payload() email: string) {
         return await this.mailService.sendMailRegister(email);
     }
-    
+
+    @EventPattern('orderMail')
+    async sendMailOrder(@Payload() data: Object) {
+        return await this.mailService.sendMailOrder(data);
+    }
+
+
 }
