@@ -1,28 +1,34 @@
 version: "3"
 
 services:
-  front-db:
-    image: postgres:12.1-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: front-db
+  server:
+    image: node:19.0.0-alpine
+    working_dir: /home/node
     ports:
-      - 5432:5432
+      - ${SERVER_PORT}:${SERVER_PORT}
+    tty: true
+    stdin_open: true
+    command: sh -c "npm install && npm run start"
     volumes:
-      - ./database:/var/lib/postgresql/data
-  front-server:
-    build: .
-    ports:
-      - 3000:3000
-    environment:
-      POSTGRES_HOST: front-db
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: front-db
-    # volumes:
-    #   - ./server:/app
+      - .:/home/node
     depends_on:
-      - front-db
+      - postgres
 
+  postgres:
+    image: postgres:13.3-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${DATABASE_URL}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:${ADMINER_PORT}
