@@ -38,7 +38,7 @@ const Menu = () => {
 						</li>
 						<li className="page_menu_item has-children menu_mm">
 							<a href="/">
-								Categories<i className="fa fa-angle-down"></i>
+								Catégories<i className="fa fa-angle-down"></i>
 							</a>
 							<ul className="page_menu_selection menu_mm">
 								<li className="page_menu_item menu_mm">
