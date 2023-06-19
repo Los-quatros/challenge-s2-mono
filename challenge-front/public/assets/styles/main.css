@@ -705,35 +705,6 @@ section {
 	border-bottom: none;
 }
 
-.menu_social {
-	position: absolute;
-	right: 30px;
-	bottom: 15px;
-}
-
-.menu_social ul li {
-	display: inline-block;
-}
-
-.menu_social ul li:not(:last-child) {
-	margin-right: 18px;
-}
-
-.menu_social ul li a i {
-	font-size: 16px;
-	color: #b5b5b5;
-	padding: 5px;
-	-webkit-transition: all 200ms ease;
-	-moz-transition: all 200ms ease;
-	-ms-transition: all 200ms ease;
-	-o-transition: all 200ms ease;
-	transition: all 200ms ease;
-}
-
-.menu_social ul li a i:hover {
-	color: #1b1b1b;
-}
-
 .menu_close {
 	position: absolute;
 	top: 25px;
