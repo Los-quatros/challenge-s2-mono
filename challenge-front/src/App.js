@@ -1,6 +1,16 @@
+import {
+	Route,
+	BrowserRouter as Router,
+	Routes,
+	useLocation,
+} from "react-router-dom";
+
 import $ from "jquery";
 import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import Menu from "./components/Menu";
+import RegisterPage from "./pages/RegisterPage";
 import gsap from "gsap";
 
 $(function () {
@@ -112,13 +122,30 @@ $(function () {
 	}
 });
 
-function App() {
+const App = () => {
+	return (
+		<Router>
+			<AppContent />
+		</Router>
+	);
+};
+
+const AppContent = () => {
+	const location = useLocation();
+	const displayHeader =
+		location.pathname !== "/login" && location.pathname !== "/register";
+
 	return (
 		<>
-			<Header />
-			<Menu />
+			{displayHeader && <Header />}
+			{displayHeader && <Menu />}
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/login" element={<LoginPage />} />
+				<Route path="/register" element={<RegisterPage />} />
+			</Routes>
 		</>
 	);
-}
+};
 
 export default App;
