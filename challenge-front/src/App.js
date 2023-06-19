@@ -1,6 +1,7 @@
 import $ from "jquery";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
+import gsap from "gsap";
 
 $(function () {
 	const header = $(".header");
@@ -78,8 +79,11 @@ $(function () {
 						const subItem = item.find("> ul");
 						if (subItem.hasClass("active")) {
 							subItem.toggleClass("active");
+							gsap.to(subItem, { duration: 0, height: 0 });
 						} else {
 							subItem.toggleClass("active");
+							gsap.to(subItem, { height: "auto" });
+							gsap.to(subItem, { duration: 0, height: 0 });
 						}
 					} else {
 						evt.stopPropagation();
