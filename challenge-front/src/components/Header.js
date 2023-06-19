@@ -7,24 +7,24 @@ const Header = () => {
 						<div className="col">
 							<div className="header_content d-flex flex-row align-items-center justify-content-start">
 								<div className="logo">
-									<a href="/">ElectroMarket</a>
+									<a href="/">ElectroMarket.</a>
 								</div>
 								<nav className="main_nav">
-									<ul>
+									<ul className="mb-0">
 										<li className="hassubs active">
-											<a href="/">Home</a>
+											<a href="/">Page d'accueil</a>
 											<ul>
 												<li>
-													<a href="/">Categories</a>
+													<a href="/">Catégories</a>
 												</li>
 												<li>
-													<a href="/">Product</a>
+													<a href="/">Produits</a>
 												</li>
 												<li>
-													<a href="/">Cart</a>
+													<a href="/">Panier</a>
 												</li>
 												<li>
-													<a href="/">Check out</a>
+													<a href="/">Paiement</a>
 												</li>
 												<li>
 													<a href="/">Contact</a>
@@ -32,30 +32,27 @@ const Header = () => {
 											</ul>
 										</li>
 										<li className="hassubs">
-											<a href="/">Categories</a>
+											<a href="/">Catégories</a>
 											<ul>
 												<li>
-													<a href="/">Category</a>
+													<a href="/">Souris</a>
 												</li>
 												<li>
-													<a href="/">Category</a>
+													<a href="/">Tablette</a>
 												</li>
 												<li>
-													<a href="/">Category</a>
+													<a href="/">Téléphone</a>
 												</li>
 												<li>
-													<a href="/">Category</a>
-												</li>
-												<li>
-													<a href="/">Category</a>
+													<a href="/">Cable</a>
 												</li>
 											</ul>
 										</li>
 										<li>
-											<a href="/">Accessories</a>
+											<a href="/">Accessoires</a>
 										</li>
 										<li>
-											<a href="/">Offers</a>
+											<a href="/">Offres</a>
 										</li>
 										<li>
 											<a href="/">Contact</a>
@@ -86,7 +83,7 @@ const Header = () => {
 												</g>
 											</svg>
 											<div>
-												Cart <span>(0)</span>
+												Panier <span>(0)</span>
 											</div>
 										</a>
 									</div>
@@ -94,25 +91,6 @@ const Header = () => {
 										<i className="fa fa-bars" aria-hidden="true"></i>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div className="search_panel trans_300">
-				<div className="container">
-					<div className="row">
-						<div className="col">
-							<div className="search_panel_content d-flex flex-row align-items-center justify-content-end">
-								<form action="#">
-									<input
-										type="text"
-										className="search_input"
-										placeholder="Search"
-										required="required"
-									/>
-								</form>
 							</div>
 						</div>
 					</div>

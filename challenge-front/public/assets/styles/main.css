@@ -517,23 +517,6 @@ section {
 	color: #1b1b1b;
 }
 
-.search_panel {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	background: #e4e4e4;
-	z-index: -1;
-}
-
-.search_panel.active {
-	bottom: -80px;
-}
-
-.search_panel_content {
-	height: 80px;
-}
-
 .search_input {
 	width: 300px;
 	height: 40px;
