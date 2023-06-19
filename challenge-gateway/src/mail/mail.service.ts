@@ -26,4 +26,9 @@ export class MailService {
         return (await lastValueFrom(this.mailProxy.send('orderMail', data)));
     }
 
+    async sendMailBecomeSellerAdvert(email: string): Promise<Object> {
+        return (await lastValueFrom(this.mailProxy.send('becomeSellerAdvertMail', email)));
+    }
+    
+
 }

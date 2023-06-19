@@ -46,6 +46,28 @@ export class MailService {
         };
       }
       
+      async sendMailBecomeSellerAdvert(email: string): Promise<Object> {
+        const templateName = 'advert.admin.seller.demand';
+        const subject = 'Une nouvelle demande de vendeur est en attente';
+
+        const templateContent = this.loadTemplate(templateName);
+        const template = handlebars.compile(templateContent);
+        const htmlContent = template({});
+
+        await this.mailerService.sendMail({
+            from: process.env.EMAIL_SERVER,
+            to: email,
+            subject: subject,
+            html: htmlContent,
+        });
+
+        return {
+            message: 'Email sent successfully',
+        };
+        }
+
+
+
 
       async sendMailBecomeSellerAccepted(email: string): Promise<Object> {
         const templateName = 'become.seller.accepted'; 
