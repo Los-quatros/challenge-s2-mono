@@ -62,5 +62,26 @@ export class MailService {
         };
       }
 
+        async sendMailBecomeSellerRefused(email: string): Promise<Object> {
+        const templateName = 'become.seller.refused';
+        const subject = 'Votre demande de devenir vendeur a été refusée';
+
+        const templateContent = this.loadTemplate(templateName);
+        const template = handlebars.compile(templateContent);
+        const htmlContent = template({});
+
+        await this.mailerService.sendMail({
+        from: process.env.EMAIL_SERVER,
+        to: email,
+        subject: subject,
+        html: htmlContent,
+        });
+
+        return {
+        message: 'Email sent successfully',
+        };
+
+    }
+
         
 }

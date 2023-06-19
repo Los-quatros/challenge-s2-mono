@@ -14,4 +14,8 @@ export class MailService {
         return (await lastValueFrom(this.mailProxy.send('becomeSellerAcceptedMail', email)));
     }
 
+    async sendMailBecomeSellerRefused(email: string): Promise<Object> {
+        return (await lastValueFrom(this.mailProxy.send('becomeSellerRefusedMail', email)));
+    }
+
 }
