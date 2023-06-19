@@ -25,7 +25,11 @@
 1. 1600px
 ************/
 
-@media only screen and (max-width: 1600px) {}
+@media only screen and (max-width: 1600px) {
+	.header_social {
+		display: none;
+	}
+}
 
 /************
 2. 1440px
@@ -63,6 +67,10 @@
 		margin-left: 50px;
 	}
 
+	.search {
+		margin-left: 25px;
+	}
+
 	.main_nav>ul>li:not(:last-child) {
 		margin-right: 40px;
 	}
@@ -90,7 +98,12 @@
 		padding-right: 15px;
 	}
 
-	.main_nav {
+	.main_nav,
+	.header_social {
+		display: none;
+	}
+
+	.search {
 		display: none;
 	}
 

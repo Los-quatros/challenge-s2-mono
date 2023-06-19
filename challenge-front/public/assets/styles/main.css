@@ -499,6 +499,34 @@ section {
 	margin-left: 4px;
 }
 
+.search {
+	display: inline-block;
+	margin-left: 51px;
+	cursor: pointer;
+	vertical-align: sub;
+	-webkit-transform: translateY(-1px);
+	-moz-transform: translateY(-1px);
+	-ms-transform: translateY(-1px);
+	-o-transform: translateY(-1px);
+	transform: translateY(-1px);
+}
+
+.search_icon {
+	width: 13px;
+	height: 13px;
+}
+
+.search_icon svg {
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.search_icon:hover svg {
+	fill: #e95a5a;
+}
 
 .hamburger {
 	display: none;
@@ -515,6 +543,23 @@ section {
 .hamburger i {
 	font-size: 18px;
 	color: #1b1b1b;
+}
+
+.search_panel {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: #e4e4e4;
+	z-index: -1;
+}
+
+.search_panel.active {
+	bottom: -80px;
+}
+
+.search_panel_content {
+	height: 80px;
 }
 
 .search_input {
@@ -559,6 +604,42 @@ section {
 	font-weight: 400 !important;
 	font-style: italic;
 	color: #767676 !important;
+}
+
+.header_social {
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+	right: 60px;
+	z-index: 1;
+	margin-right: -5px;
+}
+
+.header_social ul li {
+	display: inline-block;
+}
+
+.header_social ul li:not(:last-child) {
+	margin-right: 18px;
+}
+
+.header_social ul li a i {
+	font-size: 16px;
+	color: #b5b5b5;
+	padding: 5px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.header_social ul li a i:hover {
+	color: #1b1b1b;
 }
 
 /*********************************
@@ -686,6 +767,35 @@ section {
 
 .page_menu_selection li:last-child a {
 	border-bottom: none;
+}
+
+.menu_social {
+	position: absolute;
+	right: 30px;
+	bottom: 15px;
+}
+
+.menu_social ul li {
+	display: inline-block;
+}
+
+.menu_social ul li:not(:last-child) {
+	margin-right: 18px;
+}
+
+.menu_social ul li a i {
+	font-size: 16px;
+	color: #b5b5b5;
+	padding: 5px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.menu_social ul li a i:hover {
+	color: #1b1b1b;
 }
 
 .menu_close {

@@ -5,7 +5,6 @@
   "dependencies": {
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^4.0.0",
     "font-awesome": "^4.7.0",
     "gsap": "^3.12.1",
     "jquery": "^3.2.1",
