@@ -18,4 +18,8 @@ export class MailService {
         return (await lastValueFrom(this.mailProxy.send('becomeSellerRefusedMail', email)));
     }
 
+    async sendMailRegister(email: string): Promise<Object> {
+        return (await lastValueFrom(this.mailProxy.send('registerMail', email)));
+    }
+
 }

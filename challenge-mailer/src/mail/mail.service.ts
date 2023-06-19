@@ -8,6 +8,11 @@ import * as path from 'path';
 export class MailService {
     constructor(private readonly mailerService: NestMailerService) {}
 
+    /**
+     * Charge le template en fonction du nom du template
+     * @param templateName 
+     * @returns 
+     */
     private loadTemplate(templateName: string): string {
         const path = require('path');
         const templatePath = path.join(process.cwd(), 'src/mail/templates', `${templateName}.hbs`);
@@ -62,7 +67,7 @@ export class MailService {
         };
       }
 
-        async sendMailBecomeSellerRefused(email: string): Promise<Object> {
+      async sendMailBecomeSellerRefused(email: string): Promise<Object> {
         const templateName = 'become.seller.refused';
         const subject = 'Votre demande de devenir vendeur a été refusée';
 
@@ -81,7 +86,26 @@ export class MailService {
         message: 'Email sent successfully',
         };
 
-    }
+     }
 
+    async sendMailRegister(email: string): Promise<Object> {
+        const templateName = 'confirm.register';
+        const subject = 'Bienvenue sur notre site';
+
+        const templateContent = this.loadTemplate(templateName);
+        const template = handlebars.compile(templateContent);
+        const htmlContent = template({});
+
+        await this.mailerService.sendMail({
+        from: process.env.EMAIL_SERVER,
+        to: email,
+        subject: subject,
+        html: htmlContent,
+        });
+
+        return {
+        message: 'Email sent successfully',
+        };
+    }
         
 }

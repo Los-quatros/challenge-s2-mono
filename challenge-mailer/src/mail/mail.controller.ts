@@ -20,5 +20,10 @@ export class MailController {
     async sendMailBecameSellerRefused(@Payload() email: string) {
         return await this.mailService.sendMailBecomeSellerRefused(email);
     }
-
+    
+    @EventPattern('registerMail')
+    async sendMailRegister(@Payload() email: string) {
+        return await this.mailService.sendMailRegister(email);
+    }
+    
 }
