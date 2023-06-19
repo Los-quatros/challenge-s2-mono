@@ -7,7 +7,7 @@ const Header = () => {
 						<div className="col">
 							<div className="header_content d-flex flex-row align-items-center justify-content-start">
 								<div className="logo">
-									<a href="/">Sublime.</a>
+									<a href="/">ElectroMarket</a>
 								</div>
 								<nav className="main_nav">
 									<ul>
