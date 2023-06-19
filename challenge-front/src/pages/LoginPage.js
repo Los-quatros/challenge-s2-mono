@@ -1,6 +1,7 @@
 import "../styles/auth/auth.css";
 import "../styles/auth/util.css";
 
+import { Link } from "react-router-dom";
 import grocery from "../images/auth/grocery.png";
 import { useState } from "react";
 
@@ -9,6 +10,21 @@ function LoginPage() {
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
 	const handleClick = () => setIsVisible(!isVisible);
+
+	/**
+	 * Login the user if the email and the password are valid
+	 * @param { MouseEvent } e The event of the form
+	 */
+	const login = (e) => {
+		e.preventDefault();
+		const email = e.target.email.value;
+		const password = e.target.pass.value;
+		if (emailError === "" && passwordError === "") {
+			// TODO : call the API
+			// TODO : redirect to the home page if success
+			// TODO : toast message if error
+		}
+	};
 
 	/**
 	 * Check if the email is valid
@@ -48,7 +64,7 @@ function LoginPage() {
 			<div className="limiter">
 				<div className="container-login100">
 					<div className="wrap-login100">
-						<form className="login100-form validate-form">
+						<form className="login100-form validate-form" onSubmit={login}>
 							<span className="login100-form-title p-b-26">Bienvenue !</span>
 							<span className="login100-form-title p-b-48">
 								<img src={grocery} alt="logo" />
@@ -104,9 +120,9 @@ function LoginPage() {
 							</div>
 							<div className="text-center p-t-115">
 								<span className="txt1"> Pas encore inscrit ? </span>
-								<a className="txt2" href="/">
+								<Link className="txt2" to="/register">
 									S'enregistrer
-								</a>
+								</Link>
 							</div>
 						</form>
 					</div>
