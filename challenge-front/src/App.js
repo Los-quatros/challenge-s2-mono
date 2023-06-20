@@ -6,15 +6,16 @@ import {
 	useLocation,
 } from "react-router-dom";
 
-import $ from "jquery";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import Menu from "./components/Menu";
 import RegisterPage from "./pages/RegisterPage";
-import gsap from "gsap";
+import { gsap } from "gsap";
 
-$(function () {
+const $ = window.$;
+
+window.$(function () {
 	const header = $(".header");
 	let menuActive = false;
 

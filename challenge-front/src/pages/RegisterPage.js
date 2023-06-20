@@ -1,8 +1,8 @@
-import "../styles/auth/auth.css";
-import "../styles/auth/util.css";
+import "../assets/styles/auth/auth.css";
+import "../assets/styles/auth/util.css";
 
 import { Link } from "react-router-dom";
-import grocery from "../images/auth/grocery.png";
+import grocery from "../assets/images/auth/grocery.png";
 import { useState } from "react";
 
 function RegisterPage() {
@@ -108,7 +108,7 @@ function RegisterPage() {
 						<form className="login100-form validate-form" onSubmit={register}>
 							<span className="login100-form-title p-b-26">Bienvenue !</span>
 							<span className="login100-form-title p-b-48">
-								<img src={grocery} alt="logo" />
+								<img src={grocery} alt="Grocery logo" />
 							</span>
 							<div className="wrap-input100 validate-input">
 								<input
