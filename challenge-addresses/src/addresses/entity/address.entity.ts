@@ -21,6 +21,9 @@ export class Address {
     city: string
 
     @Column()
+    street: string
+
+    @Column()
     orders: string[]
 
 }
