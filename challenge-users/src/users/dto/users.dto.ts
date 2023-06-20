@@ -19,9 +19,7 @@ export class CreateUserDto implements Omit<UserInterface, "id">{
         @IsString()
         @IsNotEmpty()
         lastName: string;
-
-        @IsNumber()
-        age: number;
 }
 
 export class UpdateUserDto implements Partial<CreateUserDto>{}
+

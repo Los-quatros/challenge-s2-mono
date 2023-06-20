@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, Patch, HttpCode, ParseUUIDPipe } from '@nestjs/common';
 import { UsersPipe } from './users.pipe';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto, resetPasswordDto } from './dto/users.dto';
+import { CreateUserDto, UpdateUserDto, resetPasswordDto } from '../dto/users.dto';
 import { LoginRequest } from './authentication.request';
 import { AuthenticationRequired, HasRole } from 'src/authentication/authentication.decorator';
 import { Role } from 'src/authentication/authentication.enum';
-import { AccountSellerDto } from './dto/accountSeller.dto';
+import { AccountSellerDto } from '../dto/accountSeller.dto';
 
 @Controller('users')
 export class UsersController {

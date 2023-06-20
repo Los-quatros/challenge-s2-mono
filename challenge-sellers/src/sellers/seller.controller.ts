@@ -46,6 +46,17 @@ export class SellerController {
   async createSellerAccount(@Payload() accountSellerDto: AccountSellerDto): Promise<CreateSellerDto> {
     return await this.sellerService.createSellerAccount(accountSellerDto);
   }
+
+  @EventPattern('activeSeller')
+  async activeSeller(@Payload() id: string): Promise<Seller> {
+   return await this.sellerService.activeSeller(id);
+  }
+
+  @EventPattern('refuseSeller')
+  async refuseSeller(@Payload() id: string): Promise<Seller> {
+    console.log(id, "refuseController");
+    return await this.sellerService.refuseSeller(id);
+  }
   
 
   

@@ -33,3 +33,17 @@ export class resetPasswordDto {
         password: string;
 
 }
+
+export class UserDto {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: string;
+    sellerId?: string;
+    password: string;
+    roles: string;
+    activation_token?: string;
+    resetPasswordToken?: string;
+    avatar?: string;
+}

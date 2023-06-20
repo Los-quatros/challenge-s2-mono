@@ -4,5 +4,9 @@ export interface UserInterface {
   password: string
   firstName: string
   lastName: string
-  age: number
+  roles?: string
+  activation_token?: string
+  resetPasswordToken?: string
+  avatar?: string
+  sellerId?: string
 }
