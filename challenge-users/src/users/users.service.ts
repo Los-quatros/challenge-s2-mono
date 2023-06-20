@@ -108,7 +108,6 @@ export class UsersService {
       }
     }
     const resetLink = `https://localhost:3000/reset-password?token=${resetPasswordToken}`;
-    const emailContent = `Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ${resetLink}`;
     // this.mailService.sendEmail(user.email, 'Réinitialisation de mot de passe', emailContent);
     return "Un email de réinitialisation de mot de passe a été envoyé à l'adresse email associée à votre compte";
   }
