@@ -10,7 +10,7 @@ export class AddressesController {
     
     @Post('/:id')
     async CreateAddress(@Param() createAddressDto : CreateAddressDto) {
-        return this.addressesService
+        return this.addressesService.CreateAddress(createAddressDto);
     }
     @Get('/users/:id')
     async GetUserAddresses(@Param() id : string) {

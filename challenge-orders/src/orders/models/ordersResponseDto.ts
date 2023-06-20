@@ -16,7 +16,7 @@ export class Carrier {
 }
 
 
-export class orderResponseDto {
+export class OrderResponseDto {
     id : string;
     total : number;
     is_delivered : boolean;

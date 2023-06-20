@@ -1,24 +1,25 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ChangeAddressDto } from './models/ChangeAddressDto';
+import { CreateAddressDto } from './models/CreateAddressDto';
 
 @Injectable()
 export class AddressesService {
     constructor(@Inject('ADDRESSES_SERVICE') private readonly addressesProxy: ClientProxy) {}
 
-    async CreateAddress(id : string) {
-       return this.addressesProxy.send('CreateAddress', {id})
+    async CreateAddress(data : CreateAddressDto) {
+       return await this.addressesProxy.send('CreateAddress', {data})
     }
 
     async GetUserAddresses(id : string) {
-        return this.addressesProxy.send('GetUserAddresses', {id});
+        return await this.addressesProxy.send('GetUserAddresses', {id});
     }
 
     async DeleteAddress(id : string) {
-        return this.addressesProxy.send('DeleteAddress', {id});
+        return await this.addressesProxy.send('DeleteAddress', {id});
     }
 
     async ChangeAddress(data : ChangeAddressDto) {
-        return this.addressesProxy.send('ChangeAddress', {data});
+        return await this.addressesProxy.send('ChangeAddress', {data});
     }
 }

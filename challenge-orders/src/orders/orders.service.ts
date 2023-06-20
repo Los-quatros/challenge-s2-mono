@@ -3,7 +3,7 @@ import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservice
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order } from './entity/order.entity';
-import { Carrier, orderResponseDto, Product } from './models/OrdersResponseDto';
+import { Carrier, OrderResponseDto, Product } from './models/OrdersResponseDto';
 
 @Injectable()
 export class OrdersService {
@@ -26,15 +26,15 @@ export class OrdersService {
      }
 
     // si c'est un seller il faudra contacter alors penser a envoyer un event pour que le service seller ajoute l'id du produit au tabeau de produits du seller, si c'est un admin plus rien a faire
-    async GetUserOrders( userId : string ): Promise<Array<orderResponseDto>> {
+    async GetUserOrders( userId : string ): Promise<Array<OrderResponseDto>> {
         try {
            const orders =  await this.ordersRepository.findBy({ userId : userId });
-           const ordersWithProducts : orderResponseDto[] = []
+           const ordersWithProducts : OrderResponseDto[] = []
            orders?.forEach(order => {
             const orderProductIds = order?.getOrderProductIds();
             this.productsProxy.send('getProducts', orderProductIds).subscribe((products : Array<Product>) => {
                     const carrier : Carrier = new Carrier(order.carrier);
-                    const orderWithProducts: orderResponseDto = {
+                    const orderWithProducts: OrderResponseDto = {
                         id: order.id,
                         total: order.total,
                         is_delivered: order.is_delivered,
