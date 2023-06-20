@@ -4,21 +4,23 @@ import { MailService } from './mail.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
-  imports: [ClientsModule.register([
-    {
-      name: 'MAIL_SERVICE',
-      transport: Transport.RMQ,
-      options: {
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'MAIL_SERVICE',
+        transport: Transport.RMQ,
+        options: {
           urls: [`amqp://rmq-service:5672`],
           queue: 'mailer_queue',
           queueOptions: {
-              durable: false
-          }
-      }
-  }
-  ])
+            durable: false,
+          },
+        },
+      },
+    ]),
   ],
   controllers: [MailController],
-  providers: [MailService]
+  providers: [MailService],
+  exports: [MailService],
 })
 export class MailModule {}
