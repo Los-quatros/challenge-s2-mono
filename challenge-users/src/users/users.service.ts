@@ -42,6 +42,7 @@ export class UsersService {
 
   async createUser(user: CreateUserDto): Promise<any> {
 
+    user.email = user.email.toLowerCase();
     const existingUser = await this.usersRepository.findOneBy({ email: user.email });
     if (existingUser) {
       return {
@@ -83,6 +84,7 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string): Promise<any> {
+    email = email.toLowerCase();
     const user = await this.usersRepository.findOneBy({ email });
 
     return user;
