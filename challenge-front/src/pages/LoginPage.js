@@ -12,7 +12,7 @@ function LoginPage() {
 	const handleClick = () => setIsVisible(!isVisible);
 
 	/**
-	 * Login the user if the email and the password are valid
+	 * Login the user if their information are valid
 	 * @param { MouseEvent } e The event of the form
 	 */
 	const login = (e) => {
@@ -71,6 +71,7 @@ function LoginPage() {
 							</span>
 							<div className="wrap-input100 validate-input">
 								<input
+									required
 									className="input100"
 									type="text"
 									name="email"
@@ -96,6 +97,7 @@ function LoginPage() {
 									)}
 								</span>
 								<input
+									required
 									className="input100"
 									type={isVisible ? "text" : "password"}
 									name="pass"
@@ -119,8 +121,8 @@ function LoginPage() {
 								</div>
 							</div>
 							<div className="text-center p-t-115">
-								<span className="txt1"> Pas encore inscrit ? </span>
-								<Link className="txt2" to="/register">
+								<span className="txt1">Pas encore inscrit ?</span>
+								<Link className="txt2 ml-1" to="/register">
 									S'enregistrer
 								</Link>
 							</div>
