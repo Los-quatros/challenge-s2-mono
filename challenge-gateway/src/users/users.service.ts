@@ -1,14 +1,18 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy} from "@nestjs/microservices";
 import { LoginRequest } from './authentication.request';
-import { lastValueFrom } from 'rxjs';
+import { last, lastValueFrom } from 'rxjs';
 import { AccountSellerDto } from '../dto/accountSeller.dto';
 import { UserDto } from 'src/dto/users.dto';
+import { MailService } from 'src/mail/mail.service';
 
 
 @Injectable()
 export class UsersService {
-constructor(@Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy) {}
+constructor(
+    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy,
+    private readonly mailService: MailService
+) {}
 
 async getUsers() {
     return this.usersProxy.send('getUsers', {});
@@ -22,7 +26,9 @@ async createUser(user: any) {
     try {
         const result = await lastValueFrom(this.usersProxy.send('createUser', user));
         if(!result.error) {
-            return result;
+        
+        await this.mailService.sendMailRegister(user.email);
+        return result;
         }
         throw new BadRequestException(result.error);
         
