@@ -42,6 +42,7 @@ export class UsersService {
 
   async createUser(user: CreateUserDto): Promise<any> {
 
+    user.email = user.email.toLowerCase();
     const existingUser = await this.usersRepository.findOneBy({ email: user.email });
     if (existingUser) {
       return {
@@ -83,6 +84,7 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string): Promise<any> {
+    email = email.toLowerCase();
     const user = await this.usersRepository.findOneBy({ email });
 
     return user;
@@ -173,46 +175,59 @@ export class UsersService {
   
 }
 
-async createSellerAccount(user: AccountSellerDto): Promise<any> {
-  try {
-    const existingUser = await this.usersRepository.findOneBy({ email: user.email });
+  async createSellerAccount(user: AccountSellerDto): Promise<any> {
+    try {
+      const existingUser = await this.usersRepository.findOneBy({ email: user.email });
 
-    if (existingUser) {
-      return {
-        status: HttpStatus.CONFLICT,
-        error: 'Un utilisateur avec cet email existe déjà',
-      };
+      if (existingUser) {
+        return {
+          status: HttpStatus.CONFLICT,
+          error: 'Un utilisateur avec cet email existe déjà',
+        };
+      }
+
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      user.password = hashedPassword;
+
+      const dataUser = {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        password: user.password,
+        roles: "seller"
+      }
+      const newUser = await this.usersRepository.save(dataUser);
+
+      const dataSeller = {
+        name: user.name,
+        isActive : false,
+        description: user.description,
+        userId: newUser.id
+      }
+      const seller = await this.sellersService.createSellerAccount(dataSeller);
+      const updateUser = { ...newUser, sellerId: seller.id };
+      await this.usersRepository.update(newUser.id, updateUser);
+
+      return user;
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: 'Erreur lors de la création de l\'utilisateur',
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    user.password = hashedPassword;
-
-    const dataUser = {
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      password: user.password,
-      roles: "seller"
-    }
-    const newUser = await this.usersRepository.save(dataUser);
-
-    const dataSeller = {
-      name: user.name,
-      isActive : false,
-      description: user.description,
-      userId: newUser.id
-    }
-    const seller = await this.sellersService.createSellerAccount(dataSeller);
-    const updateUser = { ...newUser, sellerId: seller.id };
-    await this.usersRepository.update(newUser.id, updateUser);
-
-    return user;
-  } catch (error) {
-    throw new HttpException({
-      status: HttpStatus.INTERNAL_SERVER_ERROR,
-      error: 'Erreur lors de la création de l\'utilisateur',
-    }, HttpStatus.INTERNAL_SERVER_ERROR);
   }
-}
+
+  async getUserBySellerId(sellerId: string): Promise<any> {
+
+    const user = await this.usersRepository.findOneBy({ sellerId });
+    
+    if (!user) {
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: 'Utilisateur non trouvé',
+      }
+    }
+    return user;
+  }
 
 }

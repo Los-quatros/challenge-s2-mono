@@ -27,12 +27,29 @@ export class SellersController {
         return await this.sellersService.updateSeller(id, updateSellerDto);
     }
 
+    @AuthenticationRequired()
+    @HasRole(Role.ADMINISTRATOR)
+    @Patch(':id/activate')
+    async activateSeller(@Param('id') id: string) {
+        return await this.sellersService.activateSeller(id);
+    }
+
+    @AuthenticationRequired()
+    @HasRole(Role.ADMINISTRATOR)
+    @Patch(':id/deactivate')
+    async deactivateSeller(@Param('id') id: string) {
+        return await this.sellersService.deactivateSeller(id);
+    }
+
+    @AuthenticationRequired()
+    @HasRole(Role.SELLER)
     @Post('/createProduct')
     async createProduct(
         @Body() createProductDto: any
     ) {
         return await this.sellersService.createProduct(createProductDto);
     }
+    
 
 
 }

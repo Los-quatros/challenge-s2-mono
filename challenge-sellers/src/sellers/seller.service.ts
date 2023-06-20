@@ -55,4 +55,20 @@ export class SellerService {
     const createdSeller = new this.sellerModel(accountSellerDto).save();
     return createdSeller;
   }
+
+  async activeSeller(id: string): Promise<Seller> {
+    const seller = await this.sellerModel.findOne({ id: id });
+    seller.isActive = true;
+    seller.save();
+    
+    return seller;
+  }
+
+  async refuseSeller(id: string): Promise<Seller> {
+    const seller = await this.sellerModel.findOne({ id: id });
+    seller.isActive = false;
+    seller.save();
+
+    return seller;
+  }
 }

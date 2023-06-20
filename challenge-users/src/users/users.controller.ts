@@ -51,4 +51,9 @@ export class UsersController {
     return this.usersService.createSellerAccount(user);
   }
 
+  @EventPattern("getUserBySellerId")
+  async getUserBySellerId(@Payload() id: string) {
+    return this.usersService.getUserBySellerId(id);
+  }
+
 }
