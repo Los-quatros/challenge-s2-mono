@@ -8,9 +8,9 @@ import {
 
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./components/Login";
 import Menu from "./components/Menu";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./components/Register";
 import { gsap } from "gsap";
 
 const $ = window.$;
