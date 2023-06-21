@@ -101,115 +101,113 @@ function Register() {
 	};
 
 	return (
-		<>
-			<div className="limiter">
-				<div className="container-login100">
-					<div className="wrap-login100">
-						<form className="login100-form validate-form" onSubmit={register}>
-							<span className="login100-form-title p-b-26">Bienvenue !</span>
-							<span className="login100-form-title p-b-48">
-								<img src={grocery} alt="Logo d'un marché" />
+		<div className="limiter">
+			<div className="container-login100">
+				<div className="wrap-login100">
+					<form className="login100-form validate-form" onSubmit={register}>
+						<span className="login100-form-title p-b-26">Bienvenue !</span>
+						<span className="login100-form-title p-b-48">
+							<img src={grocery} alt="Logo d'un marché" />
+						</span>
+						<div className="wrap-input100 validate-input">
+							<input
+								required
+								className="input100"
+								type="text"
+								name="lastName"
+								placeholder="Nom"
+								onInput={(e) => isValidLastName(e.target.value)}
+							/>
+							<span className="focus-input100"></span>
+						</div>
+						{lastNameError !== "" && (
+							<div
+								className="text-danger"
+								style={{ marginTop: "-20px", marginBottom: "20px" }}
+							>
+								{lastNameError}
+							</div>
+						)}
+						<div className="wrap-input100 validate-input">
+							<input
+								required
+								className="input100"
+								type="text"
+								name="firstName"
+								placeholder="Prénom"
+								onInput={(e) => isValidFirstName(e.target.value)}
+							/>
+							<span className="focus-input100"></span>
+						</div>
+						{firstNameError !== "" && (
+							<div
+								className="text-danger"
+								style={{ marginTop: "-20px", marginBottom: "20px" }}
+							>
+								{firstNameError}
+							</div>
+						)}
+						<div className="wrap-input100 validate-input">
+							<input
+								required
+								className="input100"
+								type="text"
+								name="email"
+								placeholder="Adresse mail"
+								onInput={(e) => isValidEmail(e.target.value)}
+							/>
+							<span className="focus-input100"></span>
+						</div>
+						{emailError !== "" && (
+							<div
+								className="text-danger"
+								style={{ marginTop: "-20px", marginBottom: "20px" }}
+							>
+								{emailError}
+							</div>
+						)}
+						<div className="wrap-input100 validate-input">
+							<span className="btn-show-pass" onClick={handleClick}>
+								{isVisible ? (
+									<i className="fa fa-eye"></i>
+								) : (
+									<i className="fa fa-eye-slash"></i>
+								)}
 							</span>
-							<div className="wrap-input100 validate-input">
-								<input
-									required
-									className="input100"
-									type="text"
-									name="lastName"
-									placeholder="Nom"
-									onInput={(e) => isValidLastName(e.target.value)}
-								/>
-								<span className="focus-input100"></span>
+							<input
+								required
+								className="input100"
+								type={isVisible ? "text" : "password"}
+								name="pass"
+								placeholder="Mot de passe"
+								onInput={(e) => isValidPassword(e.target.value)}
+							/>
+							<span className="focus-input100"></span>
+						</div>
+						{passwordError !== "" && (
+							<div
+								className="text-danger"
+								style={{ marginTop: "-20px", marginBottom: "20px" }}
+							>
+								{passwordError}
 							</div>
-							{lastNameError !== "" && (
-								<div
-									className="text-danger"
-									style={{ marginTop: "-20px", marginBottom: "20px" }}
-								>
-									{lastNameError}
-								</div>
-							)}
-							<div className="wrap-input100 validate-input">
-								<input
-									required
-									className="input100"
-									type="text"
-									name="firstName"
-									placeholder="Prénom"
-									onInput={(e) => isValidFirstName(e.target.value)}
-								/>
-								<span className="focus-input100"></span>
+						)}
+						<div className="container-login100-form-btn">
+							<div className="wrap-login100-form-btn">
+								<div className="login100-form-bgbtn"></div>
+								<button className="login100-form-btn">S'enregistrer</button>
 							</div>
-							{firstNameError !== "" && (
-								<div
-									className="text-danger"
-									style={{ marginTop: "-20px", marginBottom: "20px" }}
-								>
-									{firstNameError}
-								</div>
-							)}
-							<div className="wrap-input100 validate-input">
-								<input
-									required
-									className="input100"
-									type="text"
-									name="email"
-									placeholder="Adresse mail"
-									onInput={(e) => isValidEmail(e.target.value)}
-								/>
-								<span className="focus-input100"></span>
-							</div>
-							{emailError !== "" && (
-								<div
-									className="text-danger"
-									style={{ marginTop: "-20px", marginBottom: "20px" }}
-								>
-									{emailError}
-								</div>
-							)}
-							<div className="wrap-input100 validate-input">
-								<span className="btn-show-pass" onClick={handleClick}>
-									{isVisible ? (
-										<i className="fa fa-eye"></i>
-									) : (
-										<i className="fa fa-eye-slash"></i>
-									)}
-								</span>
-								<input
-									required
-									className="input100"
-									type={isVisible ? "text" : "password"}
-									name="pass"
-									placeholder="Mot de passe"
-									onInput={(e) => isValidPassword(e.target.value)}
-								/>
-								<span className="focus-input100"></span>
-							</div>
-							{passwordError !== "" && (
-								<div
-									className="text-danger"
-									style={{ marginTop: "-20px", marginBottom: "20px" }}
-								>
-									{passwordError}
-								</div>
-							)}
-							<div className="container-login100-form-btn">
-								<div className="wrap-login100-form-btn">
-									<div className="login100-form-bgbtn"></div>
-									<button className="login100-form-btn">S'enregistrer</button>
-								</div>
-							</div>
-							<div className="text-center p-t-115">
-								<span className="txt1">Déjà un compte ?</span>
-								<Link className="txt2 ml-1" to="/login">
-									Se connecter
-								</Link>
-							</div>
-						</form>
-					</div>
+						</div>
+						<div className="text-center p-t-115">
+							<span className="txt1">Déjà un compte ?</span>
+							<Link className="txt2 ml-1" to="/login">
+								Se connecter
+							</Link>
+						</div>
+					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

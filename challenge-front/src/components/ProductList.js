@@ -53,21 +53,19 @@ function ProductList(props) {
 	}, [products]);
 
 	return (
-		<>
-			<div className="products">
-				<div className="container">
-					<div className="row">
-						<div className="col">
-							<div className="product_grid">
-								{products.map((product, index) => (
-									<Product key={index} product={product} />
-								))}
-							</div>
+		<div className="products">
+			<div className="container">
+				<div className="row">
+					<div className="col">
+						<div className="product_grid">
+							{products.map((product, index) => (
+								<Product key={index} product={product} />
+							))}
 						</div>
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
