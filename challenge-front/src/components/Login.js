@@ -14,15 +14,15 @@ function Login() {
 	/**
 	 * Login the user if their information are valid
 	 * @param { MouseEvent } e The event of the form
+	 * TODO : call the API
+	 * TODO : redirect to the home page if success
+	 * TODO : toast message if error
 	 */
 	const login = (e) => {
 		e.preventDefault();
 		const email = e.target.email.value;
 		const password = e.target.pass.value;
 		if (emailError === "" && passwordError === "") {
-			// TODO : call the API
-			// TODO : redirect to the home page if success
-			// TODO : toast message if error
 		}
 	};
 

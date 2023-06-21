@@ -16,6 +16,9 @@ function Register() {
 	/**
 	 * Register the user if their information are valid
 	 * @param { MouseEvent } e The event of the form
+	 * TODO : call the API
+	 * TODO : redirect to the login page if success
+	 * TODO : toast message if error
 	 */
 	const register = (e) => {
 		e.preventDefault();
@@ -29,9 +32,6 @@ function Register() {
 			emailError === "" &&
 			passwordError === ""
 		) {
-			// TODO : call the API
-			// TODO : redirect to the login page if success
-			// TODO : toast message if error
 		}
 	};
 
