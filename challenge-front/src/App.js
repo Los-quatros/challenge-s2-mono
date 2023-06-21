@@ -8,10 +8,12 @@ import {
 
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
-import Login from "./components/Login";
 import Menu from "./components/Menu";
-import Register from "./components/Register";
 import { gsap } from "gsap";
+import { lazy } from "react";
+
+const Login = lazy(() => import("./components/Login"));
+const Register = lazy(() => import("./components/Register"));
 
 const $ = window.$;
 
@@ -136,6 +138,8 @@ const AppContent = () => {
 	const location = useLocation();
 	const displayHeader =
 		location.pathname !== "/login" && location.pathname !== "/register";
+	const isAuth =
+		location.pathname === "/login" || location.pathname === "/register";
 
 	return (
 		<>
@@ -143,8 +147,8 @@ const AppContent = () => {
 			{displayHeader && <Menu />}
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
+				{isAuth && <Route path="/login" element={<Login />} />}
+				{isAuth && <Route path="/register" element={<Register />} />}
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 		</>
