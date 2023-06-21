@@ -1,6 +1,3 @@
-import "../assets/styles/home/main.css";
-import "../assets/styles/home/responsive.css";
-
 import { useEffect, useState } from "react";
 
 import Product from "./Product";
