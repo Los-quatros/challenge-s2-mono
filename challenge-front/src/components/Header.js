@@ -7,29 +7,12 @@ const Header = () => {
 						<div className="col">
 							<div className="header_content d-flex flex-row align-items-center justify-content-start">
 								<div className="logo">
-									<a href="/">ElectroMarket.</a>
+									<a href="/">ElecShop.</a>
 								</div>
 								<nav className="main_nav">
 									<ul className="mb-0">
-										<li className="hassubs active">
-											<a href="/">Page d'accueil</a>
-											<ul>
-												<li>
-													<a href="/">Catégories</a>
-												</li>
-												<li>
-													<a href="/">Produits</a>
-												</li>
-												<li>
-													<a href="/">Panier</a>
-												</li>
-												<li>
-													<a href="/">Paiement</a>
-												</li>
-												<li>
-													<a href="/">Contact</a>
-												</li>
-											</ul>
+										<li className="active">
+											<a href="/">Accueil</a>
 										</li>
 										<li className="hassubs">
 											<a href="/">Catégories</a>
