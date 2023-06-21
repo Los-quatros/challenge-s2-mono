@@ -108,7 +108,7 @@ function RegisterPage() {
 						<form className="login100-form validate-form" onSubmit={register}>
 							<span className="login100-form-title p-b-26">Bienvenue !</span>
 							<span className="login100-form-title p-b-48">
-								<img src={grocery} alt="Grocery logo" />
+								<img src={grocery} alt="Logo d'un marché" />
 							</span>
 							<div className="wrap-input100 validate-input">
 								<input
