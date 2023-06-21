@@ -55,8 +55,9 @@ export class PaymentsController {
   }
 
   @Post('/success')
-  handlePaymentSuccess(@Res() res: Response) {
+  async handlePaymentSuccess(@Body() data: any) {
     
+    await this.rabbitMQService.publishPaidEvent({ isPaid: true });
     return 'payment successed';
   }
 
