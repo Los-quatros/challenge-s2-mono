@@ -3,7 +3,7 @@ import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservice
 import { AddressesService } from 'src/addresses/addresses.service';
 import { CarriersService } from 'src/carriers/carriers/carriers.service';
 import { CreateOrderDto } from './models/CreateOrderDto';
-import { Address, orderResponseDto } from './models/ordersResponseDto';
+import { Address, Carrier, orderResponseDto } from './models/ordersResponseDto';
 
 @Injectable()
 export class OrdersService {
@@ -14,13 +14,13 @@ export class OrdersService {
 
     async GetOrdersByUser(userId : string) : Promise<Array<orderResponseDto>>{
         const ordersResponse : Array<orderResponseDto> = [];
-        const toto = this.ordersProxy.send('GetUserOrders', {userId}).subscribe((orders : Array<orderResponseDto>) => {
+        this.ordersProxy.send('GetUserOrders', {userId}).subscribe((orders : Array<orderResponseDto>) => {
             orders?.forEach(async (order : orderResponseDto) => {
-                const idAddress = order.address.id;
-                const address = await this.addressesService.GetAddressById(idAddress);
+                const tmp = new Carrier();
+                const address = await this.addressesService.GetAddressById(order.address.id);
+                const carrier = await this.carriersService.GetCarrierById(order.carrier.id);
                 order.address = address;
-                // retreive and the carriers 
-                // create the services in the gateway 
+                order.carrier = carrier;
             });
         });
         return ordersResponse;

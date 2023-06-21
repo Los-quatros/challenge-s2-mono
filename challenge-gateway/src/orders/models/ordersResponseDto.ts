@@ -26,7 +26,7 @@ export class orderResponseDto {
     total : number;
     is_delivered : boolean;
     address : Address;
-    carriers : Array<Carrier>;
+    carrier : Carrier;
     is_paid : boolean;
     products : Array<Product>;
 }

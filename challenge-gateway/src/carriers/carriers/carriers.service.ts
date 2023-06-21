@@ -4,4 +4,8 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class CarriersService {
     constructor(@Inject('CARRIERS_SERVICE') private readonly carriersProxy: ClientProxy) {}
+
+    async GetCarrierById(id : string) : Promise<any> {
+        return this.carriersProxy.send('GetCarrier', {id});
+    }
 }

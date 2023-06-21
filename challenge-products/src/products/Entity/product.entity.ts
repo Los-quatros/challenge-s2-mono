@@ -19,4 +19,6 @@ export class Product {
     category: Category
     @Column()
     sellerId: string;
+    @Column()
+    isActivated : boolean;
 }
