@@ -13,6 +13,7 @@ services:
       - ./database:/var/lib/postgresql/data
   orders-server:
     build: .
+    command: npm run start:dev
     ports:
       - 3001:3000
     environment:
@@ -26,6 +27,7 @@ services:
       - /app/node_modules
     depends_on:
       - orders-db
+      - rabbitmq
   adminer:
     image: adminer
     restart: always
