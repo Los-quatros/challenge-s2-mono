@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import Product from "./Product";
+import Product from "./products/ProductPage";
 
-function ProductList(props) {
+function Products(props) {
 	const [products, setProducts] = useState([]);
 
 	useEffect(() => {
@@ -26,4 +26,4 @@ function ProductList(props) {
 	);
 }
 
-export default ProductList;
+export default Products;

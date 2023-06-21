@@ -8,7 +8,7 @@ import AdvertisementProductsPage from "./home/AdvertisementProductsPage";
 import BoxesPage from "./home/BoxesPage";
 import Footer from "../components/Footer";
 import HomeSliderPage from "./home/HomeSliderPage";
-import ProductList from "../components/ProductList";
+import Products from "./Products";
 import image1 from "../assets/images/home/products/product_1.png";
 import image2 from "../assets/images/home/products/product_2.png";
 import image3 from "../assets/images/home/products/product_3.png";
@@ -57,7 +57,7 @@ function HomePage() {
 		<>
 			<HomeSliderPage />
 			<AdvertisementProductsPage />
-			<ProductList products={products} />
+			<Products products={products} />
 			<BoxesPage />
 			<AdvertisementProductPage />
 			<Footer />
