@@ -1027,7 +1027,7 @@ section {
 	display: inline-block;
 	font-size: 14px;
 	font-weight: 400;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 
 .avds_link a::after {
