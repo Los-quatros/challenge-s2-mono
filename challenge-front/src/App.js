@@ -8,9 +8,9 @@ import {
 
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./components/Login";
+import Login from "./components/Login";
 import Menu from "./components/Menu";
-import RegisterPage from "./components/Register";
+import Register from "./components/Register";
 import { gsap } from "gsap";
 
 const $ = window.$;
@@ -143,8 +143,8 @@ const AppContent = () => {
 			{displayHeader && <Menu />}
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/register" element={<RegisterPage />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 		</>

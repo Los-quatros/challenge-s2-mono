@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import grocery from "../assets/images/auth/grocery.png";
 import { useState } from "react";
 
-function RegisterPage() {
+function Register() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [emailError, setEmailError] = useState("");
 	const [firstNameError, setFirstNameError] = useState("");
@@ -213,4 +213,4 @@ function RegisterPage() {
 	);
 }
 
-export default RegisterPage;
+export default Register;

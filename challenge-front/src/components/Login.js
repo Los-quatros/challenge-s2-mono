@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import grocery from "../assets/images/auth/grocery.png";
 import { useState } from "react";
 
-function LoginPage() {
+function Login() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
@@ -134,4 +134,4 @@ function LoginPage() {
 	);
 }
 
-export default LoginPage;
+export default Login;
