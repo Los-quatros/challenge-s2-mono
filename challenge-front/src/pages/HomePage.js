@@ -3,6 +3,7 @@ import "../assets/styles/home/responsive.css";
 
 import { useEffect, useState } from "react";
 
+import AdvertisementProductPage from "./home/AdvertisementProductPage";
 import AdvertisementProductsPage from "./home/AdvertisementProductsPage";
 import BoxesPage from "./home/BoxesPage";
 import HomeSliderPage from "./home/HomeSliderPage";
@@ -38,8 +39,8 @@ function HomePage() {
 			},
 			{
 				id: 3,
-				name: "Souris Logitech",
-				price: 29.99,
+				name: "Casque Sony",
+				price: 299.99,
 				image: image3,
 			},
 			{
@@ -57,6 +58,7 @@ function HomePage() {
 			<AdvertisementProductsPage />
 			<ProductList products={products} />
 			<BoxesPage />
+			<AdvertisementProductPage />
 		</>
 	);
 }

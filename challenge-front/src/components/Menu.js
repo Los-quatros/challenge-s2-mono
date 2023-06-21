@@ -14,7 +14,7 @@ const Menu = () => {
 							<ul className="page_menu_selection menu_mm">
 								<li className="page_menu_item menu_mm">
 									<a href="/">
-										Souris<i className="fa fa-angle-down"></i>
+										Casque<i className="fa fa-angle-down"></i>
 									</a>
 								</li>
 								<li className="page_menu_item menu_mm">
