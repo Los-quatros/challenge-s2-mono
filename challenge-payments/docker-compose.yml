@@ -28,8 +28,8 @@ services:
       - /app/node_modules
     depends_on:
       - payments-db
-    networks:
-      - challenge-network
+      - rabbitmq
+    
   adminer:
     image: adminer
     restart: always

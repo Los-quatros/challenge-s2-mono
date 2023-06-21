@@ -11,19 +11,21 @@ import {
     BadRequestException,
     Req
   } from '@nestjs/common';
-import { PaymentsService } from './payments.service';
 import Stripe from 'stripe';
 
 const stripe = new Stripe('sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yLX8R75ZOPVt08535LQFRTzW9hsNZDg9reWLhESeicdcTu00ak7gVZyY', {
-    apiVersion: '2022-11-15',
-  });
+  apiVersion: '2022-11-15',
+});
+
+import { RabbitMQService } from '../rabbitmq/rabbitmq.service';
+
 
   
 @Controller('/payments')
 
 
 export class PaymentsController {
-  constructor(private readonly paymentsService: PaymentsService) {}
+  constructor(private readonly rabbitMQService: RabbitMQService) {}
   @Post('/checkout')
   async createCheckoutSession(@Body() data: any) {
     const session = await stripe.checkout.sessions.create({
@@ -45,6 +47,8 @@ export class PaymentsController {
       success_url: 'https://example.com/success', //TODO replace with the good URL
       cancel_url: 'https://example.com/cancel', //TODO replace with the good URL
     });
+
+    await this.rabbitMQService.publishSessionIdEvent({ sessionId: session.id });
 
     return { sessionId: session.id };
   }
