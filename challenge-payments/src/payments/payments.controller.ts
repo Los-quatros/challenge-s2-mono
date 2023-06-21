@@ -9,7 +9,8 @@ import {
     UseGuards,
     UnauthorizedException,
     BadRequestException,
-    Req
+    Req,
+    Res
   } from '@nestjs/common';
 import Stripe from 'stripe';
 
@@ -44,12 +45,24 @@ export class PaymentsController {
         },
       ],
       mode: 'payment',
-      success_url: 'https://example.com/success', //TODO replace with the good URL
-      cancel_url: 'https://example.com/cancel', //TODO replace with the good URL
+      success_url: 'https://localhost:3000/payments/success',
+      cancel_url: 'https://localhost:3000/payments/cancel',
     });
 
     await this.rabbitMQService.publishSessionIdEvent({ sessionId: session.id });
 
     return { sessionId: session.id };
+  }
+
+  @Post('/success')
+  handlePaymentSuccess(@Res() res: Response) {
+    
+    return 'payment successed';
+  }
+
+  @Post('/cancel')
+  handlePaymentCancel(@Res() res: Response) {
+  
+    return 'payment failed please retry';
   }
 }
