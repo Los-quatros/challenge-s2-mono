@@ -42,4 +42,10 @@ export class MailController {
   ) {
     return await this.mailService.sendMailRequestPassword(email, token);
   }
+
+  @EventPattern("resetPassword")
+  async sendMailResetPassword(@Payload() email: string) {
+    console.log("sendMailResetPassword");
+    return await this.mailService.sendMailResetPassword(email);
+  }
 }

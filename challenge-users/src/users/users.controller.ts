@@ -1,8 +1,22 @@
-import { Controller, Get, HttpCode, Header, Param, Post, Body, Patch, Delete, HttpStatus, HttpException, UsePipes, UseInterceptors } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
-import { EventPattern, Payload } from '@nestjs/microservices';
-import { AccountSellerDto } from './dto/account.seller.dto';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Header,
+  Param,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  HttpStatus,
+  HttpException,
+  UsePipes,
+  UseInterceptors,
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto, UpdateUserDto } from "./dto/users.dto";
+import { EventPattern, Payload } from "@nestjs/microservices";
+import { AccountSellerDto } from "./dto/account.seller.dto";
 
 @Controller("/users")
 export class UsersController {
@@ -12,7 +26,7 @@ export class UsersController {
   async getUsers() {
     return this.usersService.findAll();
   }
-  
+
   @EventPattern("getUser")
   async getUser(@Payload() id: string) {
     return this.usersService.findOne(id);
@@ -23,11 +37,12 @@ export class UsersController {
     return this.usersService.createUser(user);
   }
 
-  @EventPattern('updateUser')
-  async updateUser(@Payload() { id, user }: { id: string, user: UpdateUserDto }) {
+  @EventPattern("updateUser")
+  async updateUser(
+    @Payload() { id, user }: { id: string; user: UpdateUserDto }
+  ) {
     return this.usersService.updateUser(id, user);
   }
-  
 
   @EventPattern("deleteUser")
   async deleteUser(@Payload() id: string) {
@@ -41,14 +56,14 @@ export class UsersController {
 
   @EventPattern("resetPassword")
   async resetPassword(
-    @Payload() { id, password, token }: { id: string, password: string, token: string },
+    @Payload()
+    { password, token }: { password: string; token: string }
   ) {
-    return this.usersService.resetPassword(id, token, password);
+    return this.usersService.resetPassword(token, password);
   }
 
   @EventPattern("createSellerAccount")
   async createSellerAccount(@Payload() user: AccountSellerDto) {
     return this.usersService.createSellerAccount(user);
   }
-
 }

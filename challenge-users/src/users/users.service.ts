@@ -121,16 +121,8 @@ export class UsersService {
     };
   }
 
-  async resetPassword(
-    userId: string,
-    resetToken: string,
-    newPassword: string
-  ): Promise<any> {
-    const isTokenValid: boolean = await this.isResetTokenValid(
-      userId,
-      resetToken
-    );
-
+  async resetPassword(resetToken: string, newPassword: string): Promise<any> {
+    const isTokenValid: boolean = await this.isResetTokenValid(resetToken);
     if (!isTokenValid) {
       return {
         status: HttpStatus.BAD_REQUEST,
@@ -138,17 +130,34 @@ export class UsersService {
       };
     }
 
-    await this.usersRepository.update(userId, {
-      password: await bcrypt.hash(newPassword, 10),
+    const user = await this.usersRepository.findOneBy({
+      resetPasswordToken: resetToken,
+    });
+
+    if (!user) {
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: "Utilisateur non trouvé",
+      };
+    }
+
+    const hashedPassword: string = await bcrypt.hash(newPassword, 10);
+    await this.usersRepository.update(user.id, {
+      password: hashedPassword,
       resetPasswordToken: null,
     });
 
-    return "Mot de passe réinitialisé avec succès";
+    return {
+      message: "Mot de passe réinitialisé avec succès",
+      email: user?.email,
+    };
   }
 
-  async isResetTokenValid(id: string, token: string): Promise<boolean> {
-    const user = await this.usersRepository.findOneBy({ id });
-    if (!user || user.resetPasswordToken !== token) {
+  async isResetTokenValid(token: string): Promise<boolean> {
+    const user = await this.usersRepository.findOneBy({
+      resetPasswordToken: token,
+    });
+    if (!user) {
       return false;
     }
 

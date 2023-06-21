@@ -70,8 +70,16 @@ export class UsersService {
     await this.mailService.sendMailRequestPassword(email, token);
   }
 
-  async resetPassword(id: string, password: string, token: string) {
-    return this.usersProxy.send('resetPassword', { id, password, token });
+  async resetPassword(password: string, token: string) {
+    const result = await lastValueFrom(
+      this.usersProxy.send('resetPassword', { password, token }),
+    );
+
+    if (result.error) {
+      throw new BadRequestException(result.error);
+    }
+
+    await this.mailService.sendMailResetPassword(result.email);
   }
 
   async createSellerAccount(user: AccountSellerDto) {
