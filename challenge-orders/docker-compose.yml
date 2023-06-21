@@ -31,10 +31,9 @@ services:
     restart: always
     ports:
       - 8086:8080
-  networks:
-    - challenge-network  
-
-networks:
-  challenge-network:
-    external: true
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5673:5672
+      - 15673:15672
 
