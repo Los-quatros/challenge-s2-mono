@@ -2,7 +2,7 @@ import "../../assets/styles/home/owl.carousel.css";
 import "../../assets/styles/home/owl.theme.default.css";
 import "../../assets/styles/home/animate.css";
 
-import homeSlider from "../../assets/images/home/home_slider.jpg";
+import homeSlider from "../../assets/images/home/home.png";
 
 const $ = window.$;
 

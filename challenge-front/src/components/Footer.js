@@ -1,4 +1,4 @@
-import footer from "../assets/images/footer/footer.jpg";
+import footer from "../assets/images/footer/footer.png";
 
 function Footer() {
 	return (

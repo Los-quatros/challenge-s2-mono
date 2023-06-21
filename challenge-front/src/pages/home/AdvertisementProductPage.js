@@ -1,4 +1,4 @@
-import headPhoneAdvertisement from "../../assets/images/home/advertisements/avds_xl.jpg";
+import headPhoneAdvertisement from "../../assets/images/home/advertisements/advertisement_3.png";
 
 function AdvertisementProductPage() {
 	return (

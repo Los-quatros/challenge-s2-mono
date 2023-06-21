@@ -1,6 +1,6 @@
-import icon1 from "../../assets/images/home/boxes/icon_1.svg";
-import icon2 from "../../assets/images/home/boxes/icon_2.svg";
-import icon3 from "../../assets/images/home/boxes/icon_3.svg";
+import icon1 from "../../assets/images/home/boxes/box_1.svg";
+import icon2 from "../../assets/images/home/boxes/box_2.svg";
+import icon3 from "../../assets/images/home/boxes/box_3.svg";
 
 function BoxesPage() {
 	return (

@@ -1,6 +1,6 @@
-import discount from "../../assets/images/home/advertisements/discount.png";
-import phoneAdvertisement from "../../assets/images/home/advertisements/avds_phone.jpg";
-import photoAdvertisement from "../../assets/images/home/advertisements/avds_photo.jpg";
+import discountAdvertisement from "../../assets/images/home/advertisements/advertisement_4.png";
+import phoneAdvertisement from "../../assets/images/home/advertisements/advertisement_1.png";
+import photoAdvertisement from "../../assets/images/home/advertisements/advertisement_2.png";
 
 function AdvertisementProductsPage() {
 	return (
@@ -13,7 +13,7 @@ function AdvertisementProductsPage() {
 					></div>
 					<div className="avds_small_inner">
 						<div className="avds_discount_container">
-							<img src={discount} alt="Remise fond" />
+							<img src={discountAdvertisement} alt="Remise fond" />
 							<div>
 								<div className="avds_discount">
 									<div>

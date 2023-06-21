@@ -2,7 +2,7 @@ import "../assets/styles/auth/auth.css";
 import "../assets/styles/auth/util.css";
 
 import { Link } from "react-router-dom";
-import grocery from "../assets/images/auth/grocery.png";
+import auth from "../assets/images/auth/auth.png";
 import { useState } from "react";
 
 function Login() {
@@ -66,7 +66,7 @@ function Login() {
 					<form className="login100-form validate-form" onSubmit={login}>
 						<span className="login100-form-title p-b-26">Bienvenue !</span>
 						<span className="login100-form-title p-b-48">
-							<img src={grocery} alt="Logo d'un marché" />
+							<img src={auth} alt="Logo d'un marché" />
 						</span>
 						<div className="wrap-input100 validate-input">
 							<input
