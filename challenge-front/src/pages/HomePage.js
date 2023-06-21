@@ -4,11 +4,17 @@ import "../assets/styles/home/owl.carousel.css";
 import "../assets/styles/home/owl.theme.default.css";
 import "../assets/styles/home/animate.css";
 
-import discount from "../assets/images/home/discount.png";
-import homeSlider from "../assets/images/home/home-slider.jpg";
-import phoneAdvertisement from "../assets/images/home/avds-phone.jpg";
-import photoAdvertisement from "../assets/images/home/avds-photo.jpg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import ProductList from "../components/ProductList";
+import discount from "../assets/images/home/advertisements/discount.png";
+import homeSlider from "../assets/images/home/home_slider.jpg";
+import image1 from "../assets/images/products/product_1.jpg";
+import image2 from "../assets/images/products/product_2.jpg";
+import image3 from "../assets/images/products/product_3.jpg";
+import image4 from "../assets/images/products/product_4.jpg";
+import phoneAdvertisement from "../assets/images/home/advertisements/avds_phone.jpg";
+import photoAdvertisement from "../assets/images/home/advertisements/avds_photo.jpg";
 
 const $ = window.$;
 
@@ -76,9 +82,49 @@ function initHomeSlider() {
 }
 
 function HomePage() {
+	const [products, setProducts] = useState([]);
+
+	initHomeSlider();
+
 	useEffect(() => {
-		initHomeSlider();
+		initProducts();
 	}, []);
+
+	/**
+	 * Init products
+	 * TODO : Get products from API
+	 * TODO : display toast if error
+	 * TODO : remove mock data
+	 * TODO : remove images in top of file
+	 */
+	function initProducts() {
+		setProducts([
+			{
+				id: 1,
+				name: "Iphone X 64 Go",
+				price: 1399.99,
+				image: image1,
+			},
+			{
+				id: 2,
+				name: "Caméra Dg HSM",
+				price: 799.99,
+				image: image2,
+			},
+			{
+				id: 3,
+				name: "Souris Logitech",
+				price: 29.99,
+				image: image3,
+			},
+			{
+				id: 4,
+				name: "Tablette Apple",
+				price: 499.99,
+				image: image4,
+			},
+		]);
+	}
 
 	return (
 		<>
@@ -249,6 +295,8 @@ function HomePage() {
 					</div>
 				</div>
 			</div>
+
+			<ProductList products={products} />
 		</>
 	);
 }
