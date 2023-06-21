@@ -4,31 +4,43 @@ import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class MailService {
-    constructor(@Inject('MAIL_SERVICE') private readonly mailProxy: ClientProxy) {}
+  constructor(
+    @Inject('MAIL_SERVICE') private readonly mailProxy: ClientProxy,
+  ) {}
 
-    async sendMailBecomeSeller(email: string): Promise<Object> {
-         return (await lastValueFrom(this.mailProxy.send('becomeSellerMail', email)));
-    }
+  async sendMailBecomeSeller(email: string): Promise<Object> {
+    return await lastValueFrom(this.mailProxy.send('becomeSellerMail', email));
+  }
 
-    async sendMailBecomeSellerAccepted(email: string): Promise<Object> {
-        return (await lastValueFrom(this.mailProxy.send('becomeSellerAcceptedMail', email)));
-    }
+  async sendMailBecomeSellerAccepted(email: string): Promise<Object> {
+    return await lastValueFrom(
+      this.mailProxy.send('becomeSellerAcceptedMail', email),
+    );
+  }
 
-    async sendMailBecomeSellerRefused(email: string): Promise<Object> {
-        return (await lastValueFrom(this.mailProxy.send('becomeSellerRefusedMail', email)));
-    }
+  async sendMailBecomeSellerRefused(email: string): Promise<Object> {
+    return await lastValueFrom(
+      this.mailProxy.send('becomeSellerRefusedMail', email),
+    );
+  }
 
-    async sendMailRegister(email: string): Promise<Object> {
-        return (await lastValueFrom(this.mailProxy.send('registerMail', email)));
-    }
+  async sendMailRegister(email: string): Promise<Object> {
+    return await lastValueFrom(this.mailProxy.send('registerMail', email));
+  }
 
-    async sendMailOrder(data: Object): Promise<Object> {
-        return (await lastValueFrom(this.mailProxy.send('orderMail', data)));
-    }
+  async sendMailOrder(data: Object): Promise<Object> {
+    return await lastValueFrom(this.mailProxy.send('orderMail', data));
+  }
 
-    async sendMailBecomeSellerAdvert(email: string): Promise<Object> {
-        return (await lastValueFrom(this.mailProxy.send('becomeSellerAdvertMail', email)));
-    }
-    
+  async sendMailBecomeSellerAdvert(email: string): Promise<Object> {
+    return await lastValueFrom(
+      this.mailProxy.send('becomeSellerAdvertMail', email),
+    );
+  }
 
+  async sendMailResetPassword(email: string, token: string): Promise<Object> {
+    return await lastValueFrom(
+      this.mailProxy.send('resetPasswordMail', { email, token }),
+    );
+  }
 }

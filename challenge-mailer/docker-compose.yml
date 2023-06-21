@@ -10,6 +10,7 @@ services:
     environment:
       EMAIL_SERVER: ${EMAIL_SERVER}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      FRONT_URL: ${FRONT_URL}
     working_dir: /home/node
     volumes:
       - .:/home/node
