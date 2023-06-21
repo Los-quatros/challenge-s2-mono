@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateProductDto } from './models/CreateProductDto';
+import { UpdateProductDto } from './models/UpdateProductDto';
 import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantityDto';
 
 @Injectable()
@@ -21,6 +22,14 @@ export class ProductsService {
     
     async GetProductsByIds(values : Array<string>){
         return this.productsProxy.send('getProducts', {values})
+    }
+
+    async UpdateProduct(productId : string ,data : UpdateProductDto){
+        return this.productsProxy.send('UpdateProduct', {productId,data});
+    }
+
+    async GetCategories() {
+        return this.productsProxy.send('GetAllCategories', {});
     }
 
 

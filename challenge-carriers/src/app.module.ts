@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { OrdersModule } from './orders/orders.module';
+import { CarriersModule } from './carriers/carriers.module';
 
 @Module({
-  imports: [OrdersModule, TypeOrmModule.forRoot({
+  imports: [CarriersModule, TypeOrmModule.forRoot({
     type: 'postgres',
     host: process.env.POSTGRES_HOST || 'localhost',
     port: 5432,
     username: process.env.POSTGRES_USER || 'postgres',
     password: process.env.POSTGRES_PASSWORD || 'postgres',
-    database: process.env.POSTGRES_DB || 'orders-db',
+    database: process.env.POSTGRES_DB || 'carriers-db',
     autoLoadEntities: true,
     synchronize: true,
   })],

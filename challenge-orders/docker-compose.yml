@@ -11,6 +11,8 @@ services:
       - 5433:5432
     volumes:
       - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network  
   orders-server:
     build: .
     ports:
@@ -26,8 +28,13 @@ services:
       - /app/node_modules
     depends_on:
       - orders-db
+    networks:
+      - challenge-network  
   adminer:
     image: adminer
     restart: always
     ports:
       - 8086:8080
+networks:
+  challenge-network:
+    external: true

@@ -4,6 +4,8 @@ import { ProductsService } from './products.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantity';
 import { Product } from './Entity/product.entity';
+import { UpdateProductDto } from './models/UpdateProductDto';
+import { Category } from './Entity/category.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -27,6 +29,15 @@ export class ProductsController {
     @EventPattern("getProducts")
     async getProductsByIds(@Payload() productIds : Array<string>) : Promise<Array<Product>>{
         return this.productService.getProductsByIds(productIds);
+    }
+
+    @EventPattern('UpdateProduct')
+    async updateProduct(@Payload() productId : string, @Payload() data : UpdateProductDto) {
+        return this.productService.updateProduct(productId, data);
+    }
+    @EventPattern('GetAllCategories')
+    async getCategories() : Promise<Array<Category>> {
+        return this.productService.getCategories();
     }
 }
 

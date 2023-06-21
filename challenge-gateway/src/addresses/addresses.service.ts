@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { AddressResponseDto } from './models/AddressResponseDto';
 import { ChangeAddressDto } from './models/ChangeAddressDto';
 import { CreateAddressDto } from './models/CreateAddressDto';
 
@@ -22,4 +23,9 @@ export class AddressesService {
     async ChangeAddress(data : ChangeAddressDto) {
         return await this.addressesProxy.send('ChangeAddress', {data});
     }
+
+    async GetAddressById(idAddress : string) : Promise<any> {
+        return this.addressesProxy.send('GetAddressById', { idAddress });
+    }
+
 }

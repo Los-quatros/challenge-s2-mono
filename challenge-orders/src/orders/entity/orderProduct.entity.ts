@@ -11,7 +11,7 @@ export class OrderProduct {
 
     @Column()
     quantity: number;
-    
+
     @OneToOne(() => Order)
     @JoinColumn()
     order: Order;

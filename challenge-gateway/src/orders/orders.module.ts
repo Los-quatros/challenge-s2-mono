@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AddressesModule } from 'src/addresses/addresses.module';
+import { CarriersModule } from 'src/carriers/carriers/carriers.module';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 
 @Module({
-  imports: [ClientsModule.register([
+  imports: [CarriersModule,AddressesModule,ClientsModule.register([
     {
         name: 'ORDERS_SERVICE',
         transport: Transport.RMQ,
@@ -20,4 +22,4 @@ import { OrdersService } from './orders.service';
   controllers: [OrdersController],
   providers: [OrdersService]
 })
-export class ProductsModule {}
+export class OrdersModule {}

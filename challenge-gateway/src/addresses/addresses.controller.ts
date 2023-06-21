@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Delete, Patch, Post, Body } from '@nestjs/common';
 import { Address } from 'src/orders/models/ordersResponseDto';
 import { AddressesService } from './addresses.service';
+import { AddressResponseDto } from './models/AddressResponseDto';
 import { ChangeAddressDto } from './models/ChangeAddressDto';
 import { CreateAddressDto } from './models/CreateAddressDto';
 
@@ -24,6 +25,11 @@ export class AddressesController {
     @Post()
     async ChangeAddress(@Body() changeAddressDto : ChangeAddressDto) {
         return this.addressesService.ChangeAddress(changeAddressDto);
+    }
+
+    @Get('/:id')
+    async GetAddressByid(@Param() idAddress : string) : Promise<AddressResponseDto> {
+        return this.addressesService.GetAddressById(idAddress);
     }
 
 }

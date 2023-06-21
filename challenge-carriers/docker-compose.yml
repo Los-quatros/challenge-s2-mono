@@ -1,45 +1,42 @@
 version: "3"
 
 services:
-  products-db:
+  carrier-db:
     image: postgres:12.1-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: products-db
+      POSTGRES_DB: carrier-db
     ports:
-      - 5435:5432
+      - 5413:5432
     volumes:
       - ./database:/var/lib/postgresql/data
     networks:
-      - challenge-network  
-  products-server:
+      - challenge-network      
+  carrier-server:
     build: .
     command: npm run start:dev
     restart: always
     ports:
-      - 3003:3000
+      - 3013:3000
     environment:
-      POSTGRES_HOST: products-db
+      POSTGRES_HOST: carrier-db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: products-db
+      POSTGRES_DB: carrier-db
     volumes:
       - .:/app
       - /app/node_modules
-
     depends_on:
-      - products-db
+      - carrier-db
     networks:
-      - challenge-network
-
+      - challenge-network    
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8082:8080
+      - 8087:8080
 networks:
   challenge-network:
-    external: true
-
+    external: true    

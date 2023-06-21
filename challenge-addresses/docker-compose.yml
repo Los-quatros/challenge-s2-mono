@@ -11,6 +11,8 @@ services:
       - 5412:5432
     volumes:
       - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network    
   address-server:
     build: .
     command: npm run start:dev
@@ -18,7 +20,7 @@ services:
     ports:
       - 3012:3000
     environment:
-      POSTGRES_HOST: users-db
+      POSTGRES_HOST: address-db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -26,6 +28,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    networks:
+      - challenge-network    
     depends_on:
       - address-db
   adminer:
@@ -33,3 +37,6 @@ services:
     restart: always
     ports:
       - 8087:8080
+networks:
+  challenge-network:
+    external: true         
