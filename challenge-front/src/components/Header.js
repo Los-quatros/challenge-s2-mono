@@ -27,7 +27,7 @@ const Header = () => {
 													<a href="/">Téléphone</a>
 												</li>
 												<li>
-													<a href="/">Cable</a>
+													<a href="/">Caméra</a>
 												</li>
 											</ul>
 										</li>

@@ -58,7 +58,7 @@ const Menu = () => {
 								</li>
 								<li className="page_menu_item menu_mm">
 									<a href="/">
-										Cable<i className="fa fa-angle-down"></i>
+										Caméra<i className="fa fa-angle-down"></i>
 									</a>
 								</li>
 							</ul>
