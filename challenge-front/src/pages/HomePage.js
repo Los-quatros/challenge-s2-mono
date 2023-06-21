@@ -4,6 +4,7 @@ import "../assets/styles/home/responsive.css";
 import { useEffect, useState } from "react";
 
 import AdvertisementPage from "./home/AdvertisementPage";
+import BoxesPage from "./home/BoxesPage";
 import HomeSliderPage from "./home/HomeSliderPage";
 import ProductList from "../components/ProductList";
 import image1 from "../assets/images/home/products/product_1.jpg";
@@ -55,6 +56,7 @@ function HomePage() {
 			<HomeSliderPage />
 			<AdvertisementPage />
 			<ProductList products={products} />
+			<BoxesPage />
 		</>
 	);
 }
