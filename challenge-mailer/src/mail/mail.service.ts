@@ -157,7 +157,7 @@ export class MailService {
     };
   }
 
-  async sendMailResetPassword(email: string, token: string): Promise<Object> {
+  async sendMailRequestPassword(email: string, token: string): Promise<Object> {
     const templateName = "request.password";
     const subject = "Réinitialisation de votre mot de passe";
 
@@ -176,6 +176,26 @@ export class MailService {
       html: htmlContent,
     });
 
+    return {
+      message: "Email sent successfully",
+    };
+  }
+
+  async sendMailResetPassword(email: string): Promise<Object> {
+    const templateName = "reset.password";
+    const subject = "Votre mot de passe a été modifié";
+
+    const templateContent = this.loadTemplate(templateName);
+    const template = handlebars.compile(templateContent);
+
+    const htmlContent = template({});
+
+    await this.mailerService.sendMail({
+      from: process.env.EMAIL_SERVER,
+      to: email,
+      subject: subject,
+      html: htmlContent,
+    });
     return {
       message: "Email sent successfully",
     };
