@@ -3,7 +3,7 @@ import "../assets/styles/home/responsive.css";
 
 import { useEffect, useState } from "react";
 
-import AdvertisementPage from "./home/AdvertisementPage";
+import AdvertisementProductsPage from "./home/AdvertisementProductsPage";
 import BoxesPage from "./home/BoxesPage";
 import HomeSliderPage from "./home/HomeSliderPage";
 import ProductList from "../components/ProductList";
@@ -54,7 +54,7 @@ function HomePage() {
 	return (
 		<>
 			<HomeSliderPage />
-			<AdvertisementPage />
+			<AdvertisementProductsPage />
 			<ProductList products={products} />
 			<BoxesPage />
 		</>

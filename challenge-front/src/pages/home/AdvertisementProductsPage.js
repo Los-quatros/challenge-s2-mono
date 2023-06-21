@@ -2,7 +2,7 @@ import discount from "../../assets/images/home/advertisements/discount.png";
 import phoneAdvertisement from "../../assets/images/home/advertisements/avds_phone.jpg";
 import photoAdvertisement from "../../assets/images/home/advertisements/avds_photo.jpg";
 
-function AdvertisementPage() {
+function AdvertisementProductsPage() {
 	return (
 		<div className="avds">
 			<div className="avds_container d-flex flex-lg-row flex-column align-items-start justify-content-between">
@@ -56,4 +56,4 @@ function AdvertisementPage() {
 	);
 }
 
-export default AdvertisementPage;
+export default AdvertisementProductsPage;
