@@ -38,9 +38,9 @@ export class MailService {
     );
   }
 
-  async sendMailResetPassword(email: string, token: string): Promise<Object> {
+  async sendMailRequestPassword(email: string, token: string): Promise<Object> {
     return await lastValueFrom(
-      this.mailProxy.send('resetPasswordMail', { email, token }),
+      this.mailProxy.send('requestResetPassword', { email, token }),
     );
   }
 }

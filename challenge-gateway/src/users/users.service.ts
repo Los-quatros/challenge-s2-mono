@@ -67,7 +67,7 @@ export class UsersService {
       throw new BadRequestException('User not found');
     }
 
-    await this.mailService.sendMailResetPassword(email, token);
+    await this.mailService.sendMailRequestPassword(email, token);
   }
 
   async resetPassword(id: string, password: string, token: string) {

@@ -157,7 +157,7 @@ export class MailService {
     };
   }
 
-  async sendMailResetPassword(email: string, token: string): Promise<Object> {
+  async sendMailRequestPassword(email: string, token: string): Promise<Object> {
     const templateName = "request.password";
     const subject = "Réinitialisation de votre mot de passe";
 
