@@ -6,7 +6,7 @@ const Menu = () => {
 					<ul className="page_menu_nav menu_mm">
 						<li className="page_menu_item has-children menu_mm">
 							<a href="/">
-								Page d'accueil<i className="fa fa-angle-down"></i>
+								Accueil<i className="fa fa-angle-down"></i>
 							</a>
 							<ul className="page_menu_selection menu_mm">
 								<li className="page_menu_item menu_mm">
