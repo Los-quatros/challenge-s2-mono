@@ -1217,14 +1217,20 @@ section {
 9. Icon Boxes
 *********************************/
 
+.no-hover {
+	color: initial;
+}
+
+.no-hover:hover {
+	opacity: 0.5;
+}
+
 .icon_boxes {
 	width: 100%;
 	padding-bottom: 99px;
 	background: #FFFFFF;
 	z-index: 2;
 }
-
-.icon_box_row {}
 
 .icon_box {
 	width: 100%;
