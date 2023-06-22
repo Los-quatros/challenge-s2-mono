@@ -11,6 +11,8 @@ services:
       - 5433:5432
     volumes:
       - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network
   orders-server:
     build: .
     command: npm run start:dev
@@ -27,15 +29,14 @@ services:
       - /app/node_modules
     depends_on:
       - orders-db
-      - rabbitmq
+    networks:
+      - challenge-network
   adminer:
     image: adminer
     restart: always
     ports:
       - 8086:8080
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - 5673:5672
-      - 15673:15672
 
+networks:
+  challenge-network:
+    external: true
