@@ -6,6 +6,7 @@ import {
 	useLocation,
 } from "react-router-dom";
 
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import { gsap } from "gsap";
@@ -153,6 +154,7 @@ const AppContent = () => {
 				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
+			<Footer />
 		</>
 	);
 };

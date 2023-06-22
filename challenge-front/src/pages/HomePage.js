@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import AdvertisementProductPage from "./home/AdvertisementProductPage";
 import AdvertisementProductsPage from "./home/AdvertisementProductsPage";
 import BoxesPage from "./home/BoxesPage";
-import Footer from "../components/Footer";
 import HomeSliderPage from "./home/HomeSliderPage";
 import Products from "./Products";
 import image1 from "../assets/images/home/products/product_1.png";
@@ -60,7 +59,6 @@ function HomePage() {
 			<Products products={products} />
 			<BoxesPage />
 			<AdvertisementProductPage />
-			<Footer />
 		</>
 	);
 }
