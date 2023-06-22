@@ -1,6 +1,3 @@
-import "../assets/styles/home/home.css";
-import "../assets/styles/home/responsive.css";
-
 import { useEffect, useState } from "react";
 
 import AdvertisementProductPage from "./home/AdvertisementProductPage";

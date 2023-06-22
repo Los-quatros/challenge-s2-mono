@@ -1,6 +1,3 @@
-import "../assets/styles/auth/auth.css";
-import "../assets/styles/auth/util.css";
-
 import { Link } from "react-router-dom";
 import auth from "../assets/images/auth/auth.png";
 import { useState } from "react";
