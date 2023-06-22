@@ -7,13 +7,14 @@ import {
 } from "react-router-dom";
 
 import Header from "./components/Header";
-import HomePage from "./pages/HomePage";
 import Menu from "./components/Menu";
 import { gsap } from "gsap";
 import { lazy } from "react";
 
 const Login = lazy(() => import("./components/Login"));
 const Register = lazy(() => import("./components/Register"));
+const Home = lazy(() => import("./pages/HomePage.js"));
+const Categories = lazy(() => import("./pages/Categories"));
 
 const $ = window.$;
 
@@ -146,9 +147,10 @@ const AppContent = () => {
 			{displayHeader && <Header />}
 			{displayHeader && <Menu />}
 			<Routes>
-				<Route path="/" element={<HomePage />} />
+				<Route path="/" element={<Home />} />
 				{isAuth && <Route path="/login" element={<Login />} />}
 				{isAuth && <Route path="/register" element={<Register />} />}
+				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 		</>
