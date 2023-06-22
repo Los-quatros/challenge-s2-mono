@@ -160,7 +160,7 @@ function HeadPhonePage() {
 								<div className="col">
 									<div className="home_content">
 										<div className="home_title ">
-											Catégories<span>.</span>
+											Nos casques<span>.</span>
 										</div>
 										<div className="home_text">
 											<p>
