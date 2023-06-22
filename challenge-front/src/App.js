@@ -185,7 +185,7 @@ const AppContent = () => {
 	}, [location.pathname]);
 
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<span>...</span>}>
 			{displayHeader && <Header />}
 			{displayHeader && <Menu />}
 			<Routes>
