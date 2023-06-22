@@ -2,7 +2,7 @@ import { Navigate, useParams } from "react-router-dom";
 
 import CameraPage from "./categories/CameraPage";
 import HeadPhonePage from "./categories/HeadPhonePage";
-import PhonePage from "./categories/TabletPage";
+import PhonePage from "./categories/PhonePage";
 import TabletPage from "./categories/TabletPage";
 
 function Categories() {
