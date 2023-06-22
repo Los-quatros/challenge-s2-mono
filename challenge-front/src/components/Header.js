@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Header = () => {
 	return (
 		<header className="header">
@@ -7,38 +9,32 @@ const Header = () => {
 						<div className="col">
 							<div className="header_content d-flex flex-row align-items-center justify-content-start">
 								<div className="logo">
-									<a href="/">ElecShop.</a>
+									<Link to="/">ElecShop.</Link>
 								</div>
 								<nav className="main_nav">
 									<ul className="mb-0">
 										<li className="active">
-											<a href="/">Accueil</a>
+											<Link to="/">Accueil</Link>
 										</li>
 										<li className="hassubs">
 											<a href="/">Catégories</a>
 											<ul>
 												<li>
-													<a href="/">Casque</a>
+													<Link to="/categories/headphones">Casque</Link>
 												</li>
 												<li>
-													<a href="/">Tablette</a>
+													<Link to="/categories/tablets">Tablette</Link>
 												</li>
 												<li>
-													<a href="/">Téléphone</a>
+													<Link to="/categories/phones">Téléphone</Link>
 												</li>
 												<li>
-													<a href="/">Caméra</a>
+													<Link to="/categories/cameras">Caméra</Link>
 												</li>
 											</ul>
 										</li>
 										<li>
-											<a href="/">Accessoires</a>
-										</li>
-										<li>
-											<a href="/">Offres</a>
-										</li>
-										<li>
-											<a href="/">Contact</a>
+											<Link to="/contact">Contact</Link>
 										</li>
 									</ul>
 								</nav>

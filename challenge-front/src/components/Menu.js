@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Menu = () => {
 	return (
 		<div className="menu menu_mm trans_300">
@@ -5,7 +7,7 @@ const Menu = () => {
 				<div className="page_menu_content">
 					<ul className="page_menu_nav menu_mm">
 						<li className="page_menu_item menu_mm">
-							<a href="/">Accueil</a>
+							<Link to="/">Accueil</Link>
 						</li>
 						<li className="page_menu_item has-children menu_mm">
 							<a href="/">
@@ -13,35 +15,21 @@ const Menu = () => {
 							</a>
 							<ul className="page_menu_selection menu_mm">
 								<li className="page_menu_item menu_mm">
-									<a href="/">
-										Casque<i className="fa fa-angle-down"></i>
-									</a>
+									<Link to="/categories/headphones">Casque</Link>
 								</li>
 								<li className="page_menu_item menu_mm">
-									<a href="/">
-										Tablette<i className="fa fa-angle-down"></i>
-									</a>
+									<Link to="/categories/tablets">Tablette</Link>
 								</li>
 								<li className="page_menu_item menu_mm">
-									<a href="/">
-										Téléphone<i className="fa fa-angle-down"></i>
-									</a>
+									<Link to="/categories/phones">Téléphone</Link>
 								</li>
 								<li className="page_menu_item menu_mm">
-									<a href="/">
-										Caméra<i className="fa fa-angle-down"></i>
-									</a>
+									<Link to="/categories/cameras">Caméra</Link>
 								</li>
 							</ul>
 						</li>
 						<li className="page_menu_item menu_mm">
-							<a href="/">Accessoires</a>
-						</li>
-						<li className="page_menu_item menu_mm">
-							<a href="/">Offres</a>
-						</li>
-						<li className="page_menu_item menu_mm">
-							<a href="/">Contact</a>
+							<Link to="/contact">Contact</Link>
 						</li>
 					</ul>
 				</div>
