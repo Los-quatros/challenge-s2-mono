@@ -5,18 +5,17 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
 
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import { gsap } from "gsap";
-import { lazy } from "react";
 
 const Login = lazy(() => import("./components/Login"));
 const Register = lazy(() => import("./components/Register"));
 const Home = lazy(() => import("./pages/HomePage.js"));
 const Categories = lazy(() => import("./pages/Categories"));
-
 const $ = window.$;
 
 window.$(function () {
@@ -136,6 +135,25 @@ const App = () => {
 	);
 };
 
+/**
+ * Load CSS file and remove it if it already exists
+ * @param { string } path Css file path
+ */
+const loadCSS = (path) => {
+	const creationLink = document.createElement("link");
+	creationLink.rel = "stylesheet";
+	creationLink.href = path;
+	document.head.appendChild(creationLink);
+};
+
+/**
+ * Clear all css files
+ */
+const clearLinks = () => {
+	const links = document.head.querySelectorAll('link[rel="stylesheet"]');
+	links.forEach((link) => document.head.removeChild(link));
+};
+
 const AppContent = () => {
 	const location = useLocation();
 	const displayHeader =
@@ -143,8 +161,31 @@ const AppContent = () => {
 	const isAuth =
 		location.pathname === "/login" || location.pathname === "/register";
 
+	useEffect(() => {
+		clearLinks();
+		if (location.pathname === "/") {
+			loadCSS("./assets/styles/bootstrap.min.css");
+			loadCSS("./assets/styles/home/home.css");
+			loadCSS("./assets/styles/home/responsive.css");
+			loadCSS("./assets/styles/home/animate.css");
+			loadCSS("./assets/styles/home/owl.carousel.css");
+			loadCSS("./assets/styles/home/owl.theme.default.css");
+		} else if (location.pathname.startsWith("/categories")) {
+			loadCSS("../assets/styles/bootstrap.min.css");
+			loadCSS("../assets/styles/categories/categories.css");
+			loadCSS("../assets/styles/categories/responsive.css");
+		} else if (
+			location.pathname === "/login" ||
+			location.pathname === "/register"
+		) {
+			loadCSS("./assets/styles/bootstrap.min.css");
+			loadCSS("./assets/styles/auth/auth.css");
+			loadCSS("./assets/styles/auth/util.css");
+		}
+	}, [location.pathname]);
+
 	return (
-		<>
+		<Suspense fallback={<div>Loading...</div>}>
 			{displayHeader && <Header />}
 			{displayHeader && <Menu />}
 			<Routes>
@@ -154,8 +195,8 @@ const AppContent = () => {
 				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
-			<Footer />
-		</>
+			{!isAuth && <Footer />}
+		</Suspense>
 	);
 };
 
