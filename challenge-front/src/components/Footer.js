@@ -23,7 +23,7 @@ function Footer() {
 										target="_blank"
 										rel="noreferrer"
 									>
-										<span className="ml-1">Los quatros</span>
+										<span className="ml-1 no-hover">Los quatros</span>
 									</a>
 								</div>
 								<div className="footer_social ml-lg-auto">
