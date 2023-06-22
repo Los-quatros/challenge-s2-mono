@@ -1,6 +1,9 @@
 import { Navigate, useParams } from "react-router-dom";
 
+import CameraPage from "./categories/CameraPage";
 import HeadPhonePage from "./categories/HeadPhonePage";
+import PhonePage from "./categories/TabletPage";
+import TabletPage from "./categories/TabletPage";
 
 function Categories() {
 	const { category } = useParams();
@@ -13,9 +16,9 @@ function Categories() {
 	return (
 		<>
 			{category === "headphones" && <HeadPhonePage />}
-			{category === "tablets" && <HeadPhonePage />}
-			{category === "phones" && <HeadPhonePage />}
-			{category === "cameras" && <HeadPhonePage />}
+			{category === "tablets" && <TabletPage />}
+			{category === "phones" && <PhonePage />}
+			{category === "cameras" && <CameraPage />}
 		</>
 	);
 }
