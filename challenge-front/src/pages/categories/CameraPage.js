@@ -39,7 +39,7 @@ function CameraPage() {
 				name: "Canon EOS 5D Mark IV",
 				price: 2499.99,
 				image: camera_2,
-				category: "camera",
+				category: "cameras",
 				description: `Le Canon EOS 5D Mark IV est un appareil photo reflex numérique haut de gamme qui offre des
 					performances exceptionnelles. Doté d'un capteur plein format de 30,4 mégapixels, il capture des images
 					détaillées avec une grande précision des couleurs. Son système de mise au point avancé et
@@ -51,7 +51,7 @@ function CameraPage() {
 				name: "Nikon D850",
 				price: 2999.99,
 				image: camera_3,
-				category: "camera",
+				category: "cameras",
 				description: `Le Nikon D850 est un appareil photo reflex numérique professionnel conçu pour les photographes
 					exigeants. Avec son capteur plein format de 45,7 mégapixels, il capture des images d'une netteté et d'une
 					richesse de détails exceptionnelles. Sa plage dynamique étendue et sa sensibilité ISO élevée garantissent
@@ -64,7 +64,7 @@ function CameraPage() {
 				name: "Sony Alpha A7 III",
 				price: 1999.99,
 				image: camera_4,
-				category: "camera",
+				category: "cameras",
 				description: `Le Sony Alpha A7 III est un appareil photo sans miroir plein format polyvalent offrant une
 					qualité d'image exceptionnelle et des performances avancées. Son capteur rétroéclairé de 24,2 mégapixels
 					capture des images détaillées avec une plage dynamique étendue et une excellente sensibilité en basse lumière.
@@ -76,7 +76,7 @@ function CameraPage() {
 				name: "Fujifilm X-T4",
 				price: 1699.99,
 				image: camera_5,
-				category: "camera",
+				category: "cameras",
 				description: `Le Fujifilm X-T4 est un appareil photo hybride haut de gamme qui allie performance et style.
 					Avec son capteur X-Trans CMOS 4 de 26,1 mégapixels et son processeur d'image X-Processor 4, il offre des
 					images de qualité exceptionnelle avec une reproduction des couleurs précise. Son système de mise au point
@@ -89,7 +89,7 @@ function CameraPage() {
 				name: "Panasonic Lumix GH5",
 				price: 1799.99,
 				image: camera_6,
-				category: "camera",
+				category: "cameras",
 				description: `Le Panasonic Lumix GH5 est un appareil photo hybride professionnel conçu pour les vidéastes et les photographes
 					exigeants. Doté d'un capteur Digital Live MOS de 20,3 mégapixels sans filtre passe-bas, il offre des images
 					détaillées avec une reproduction précise des couleurs. Sa fonction d'enregistrement vidéo 4K à haute résolution
@@ -101,7 +101,7 @@ function CameraPage() {
 				name: "Olympus OM-D E-M1 Mark III",
 				price: 1799.99,
 				image: camera_7,
-				category: "camera",
+				category: "cameras",
 				description: `L'Olympus OM-D E-M1 Mark III est un appareil photo sans miroir professionnel offrant des performances
 					exceptionnelles dans un boîtier compact. Avec son capteur Live MOS de 20,4 mégapixels et son processeur d'image TruePic IX,
 					il capture des images nettes avec une plage dynamique étendue. Son système de mise au point automatique à détection de phase
@@ -113,7 +113,7 @@ function CameraPage() {
 				name: "Canon EOS R6",
 				price: 2499.99,
 				image: camera_8,
-				category: "camera",
+				category: "cameras",
 				description: `Le Canon EOS R6 est un appareil photo hybride plein format qui offre des performances exceptionnelles dans un
 					boîtier compact. Avec son capteur CMOS de 20,1 mégapixels et son processeur d'image DIGIC X, il capture des images détaillées
 					avec une plage dynamique étendue et une faible sensibilité au bruit. Son système de mise au point automatique à double pixel
@@ -125,7 +125,7 @@ function CameraPage() {
 				name: "Nikon Z6 II",
 				price: 2299.99,
 				image: camera_9,
-				category: "camera",
+				category: "cameras",
 				description: `Le Nikon Z6 II est un appareil photo hybride plein format conçu pour les photographes professionnels.
 					Doté d'un capteur CMOS rétroéclairé de 24,5 mégapixels et du puissant processeur d'image EXPEED 6,
 					il offre des performances exceptionnelles avec une reproduction des couleurs précise et une sensibilité élevée
@@ -137,7 +137,7 @@ function CameraPage() {
 				name: "Sony Cyber-shot RX100 VII",
 				price: 1299.99,
 				image: camera_10,
-				category: "camera",
+				category: "cameras",
 				description: `Le Sony Cyber-shot RX100 VII est un appareil photo compact haut de gamme offrant des performances
 					exceptionnelles dans un format de poche. Avec son capteur CMOS Exmor RS de 20,1 mégapixels et son processeur
 					d'image BIONZ X, il capture des images détaillées avec une grande précision des couleurs. Son objectif zoom
@@ -148,7 +148,7 @@ function CameraPage() {
 				name: "Fujifilm X100V",
 				price: 1399.99,
 				image: camera_11,
-				category: "camera",
+				category: "cameras",
 				description: `Le Fujifilm X100V est un appareil photo compact haut de gamme offrant des performances exceptionnelles
 					dans un boîtier rétro et élégant. Doté d'un capteur X-Trans CMOS 4 de 26,1 mégapixels et d'un objectif fixe de haute
 					qualité, il capture des images nettes avec une reproduction précise des couleurs. Son viseur hybride avancé, son système
@@ -160,7 +160,7 @@ function CameraPage() {
 				name: "Panasonic Lumix S5",
 				price: 1999.99,
 				image: camera_12,
-				category: "camera",
+				category: "cameras",
 				description: `Le Panasonic Lumix S5 est un appareil photo hybride plein format polyvalent qui allie performances élevées
 					et compacité. Avec son capteur CMOS de 24,2 mégapixels et son processeur d'image Venus Engine, il capture des images
 					détaillées avec une reproduction des couleurs précise. Son système de mise au point automatique à détection de contraste
@@ -172,7 +172,7 @@ function CameraPage() {
 				name: "Olympus PEN-F",
 				price: 1199.99,
 				image: camera_13,
-				category: "camera",
+				category: "cameras",
 				description: `L'Olympus PEN-F est un appareil photo hybride haut de gamme qui allie style rétro et performances modernes.
 					Avec son capteur Live MOS de 20,3 mégapixels et son processeur d'image TruePic VII, il offre des images de haute qualité
 					avec une large plage dynamique. Son système de mise au point automatique à détection de contraste rapide et précis vous
