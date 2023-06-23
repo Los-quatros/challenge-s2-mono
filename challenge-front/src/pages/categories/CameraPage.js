@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import HomeContainer from "../HomeContainer";
 import Products from "../../pages/Products";
 import ProductsFilter from "../../components/ProductsFilter";
 import cameraBackground from "../../assets/images/categories/cameras/camera_1.png";
@@ -146,39 +147,20 @@ function CameraPage() {
 		}
 	}
 
+	const title = "Nos caméras";
+	const content = `Découvrez la puissance de la capture avec nos caméras de pointe.
+		Offrant une qualité  d'image exceptionnelle et des fonctionnalités avancées,
+		elles sont conçues pour répondre aux besoins des photographes et des vidéastes les plus exigeants.
+		Faites un pas vers l'excellence photographique avec nos caméras de haute précision.`;
+
 	return (
 		<>
 			<div className="home">
-				<div className="home_container">
-					<div
-						className="home_background"
-						style={{ backgroundImage: `url(${cameraBackground})` }}
-					></div>
-					<div className="home_content_container">
-						<div className="container">
-							<div className="row">
-								<div className="col">
-									<div className="home_content">
-										<div className="home_title ">
-											Nos caméras<span>.</span>
-										</div>
-										<div className="home_text">
-											<p>
-												Découvrez la puissance de la capture avec nos caméras de
-												pointe. Offrant une qualité d'image exceptionnelle et
-												des fonctionnalités avancées, elles sont conçues pour
-												répondre aux besoins des amateurs passionnés et des
-												professionnels exigeants. Faites un pas vers
-												l'excellence photographique avec nos caméras de haute
-												précision.
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<HomeContainer
+					image={cameraBackground}
+					title={title}
+					content={content}
+				/>
 			</div>
 			{products.length && (
 				<ProductsFilter

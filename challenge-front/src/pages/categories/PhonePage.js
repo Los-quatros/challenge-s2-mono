@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import HomeContainer from "../HomeContainer";
 import Products from "../../pages/Products";
 import ProductsFilter from "../../components/ProductsFilter";
 import phoneBackground from "../../assets/images/categories/phones/phone_1.png";
@@ -146,39 +147,20 @@ function PhonePage() {
 		}
 	}
 
+	const title = "Nos téléphones";
+	const content = `Découvrez notre téléphone révolutionnaire, alliant style
+		et fonctionnalités avancées ! Son design élégant et ergonomique captivera votre regard dès le premier
+		instant. Plongez dans une expérience immersive grâce à son écran haute résolution, offrant des couleurs vives
+		et un contraste saisissant. Vous ne pourrez plus détacher vos yeux de ce spectacle visuel captivant.`;
+
 	return (
 		<>
 			<div className="home">
-				<div className="home_container">
-					<div
-						className="home_background"
-						style={{ backgroundImage: `url(${phoneBackground})` }}
-					></div>
-					<div className="home_content_container">
-						<div className="container">
-							<div className="row">
-								<div className="col">
-									<div className="home_content">
-										<div className="home_title ">
-											Nos téléphones<span>.</span>
-										</div>
-										<div className="home_text">
-											<p>
-												Découvrez notre téléphone révolutionnaire, alliant style
-												et fonctionnalités avancées ! Son design élégant et
-												ergonomique captivera votre regard dès le premier
-												instant. Plongez dans une expérience immersive grâce à
-												son écran haute résolution, offrant des couleurs vives
-												et un contraste saisissant. Vous ne pourrez plus
-												détacher vos yeux de ce spectacle visuel captivant.
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<HomeContainer
+					image={phoneBackground}
+					title={title}
+					content={content}
+				/>
 			</div>
 			{products.length && (
 				<ProductsFilter

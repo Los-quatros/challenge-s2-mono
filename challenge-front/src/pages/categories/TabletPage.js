@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import HomeContainer from "../HomeContainer";
 import Products from "../../pages/Products";
 import ProductsFilter from "../../components/ProductsFilter";
 import tabletBackground from "../../assets/images/categories/tablets/tablet_1.png";
@@ -146,38 +147,20 @@ function TabletPage() {
 		}
 	}
 
+	const title = "Nos caméras";
+	const content = `Découvrez notre sélection de tablettes haut de gamme qui
+		vous offriront une expérience technologique exceptionnelle. Que vous soyez un amateur de
+		divertissement, un étudiant ou un professionnel en déplacement, nos tablettes sont conçues pour répondre à
+		tous vos besoins.`;
+
 	return (
 		<>
 			<div className="home">
-				<div className="home_container">
-					<div
-						className="home_background"
-						style={{ backgroundImage: `url(${tabletBackground})` }}
-					></div>
-					<div className="home_content_container">
-						<div className="container">
-							<div className="row">
-								<div className="col">
-									<div className="home_content">
-										<div className="home_title ">
-											Nos tablettes<span>.</span>
-										</div>
-										<div className="home_text">
-											<p>
-												Découvrez notre sélection de tablettes haut de gamme qui
-												vous offriront une expérience technologique
-												exceptionnelle. Que vous soyez un amateur de
-												divertissement, un étudiant ou un professionnel en
-												déplacement, nos tablettes sont conçues pour répondre à
-												tous vos besoins.
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<HomeContainer
+					image={tabletBackground}
+					title={title}
+					content={content}
+				/>
 			</div>
 			{products.length && (
 				<ProductsFilter
