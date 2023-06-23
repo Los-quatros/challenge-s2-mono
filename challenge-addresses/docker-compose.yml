@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  address-db:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: address-db
+    ports:
+      - 5412:5432
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network    
+  address-server:
+    build: .
+    command: npm run start:dev
+    restart: always
+    ports:
+      - 3012:3000
+    environment:
+      POSTGRES_HOST: address-db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: address-db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - challenge-network    
+    depends_on:
+      - address-db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8088:8080
+    networks:
+      - challenge-network      
+networks:
+  challenge-network:
+    external: true         
