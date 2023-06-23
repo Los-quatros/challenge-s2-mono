@@ -20,8 +20,8 @@ export class ProductsService {
         return this.productsProxy.send('getAllProducts', {})
     }
     
-    async GetProductsByIds(values : Array<string>){
-        return this.productsProxy.send('getProducts', {values})
+    async GetProductById(value : string) : Promise<any>{
+        return this.productsProxy.send('getProduct', {value})
     }
 
     async UpdateProduct(productId : string ,data : UpdateProductDto){
@@ -30,6 +30,10 @@ export class ProductsService {
 
     async GetCategories() {
         return this.productsProxy.send('GetAllCategories', {});
+    }
+
+    async GetSellerProducts(id : string) {
+        return this.productsProxy.send('GetSellerProducts', {id});
     }
 
 

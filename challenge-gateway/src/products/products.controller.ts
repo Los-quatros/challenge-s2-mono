@@ -24,9 +24,9 @@ export class ProductsController {
         return this.productsService.GetAllProducts();
     }
 
-    @Get("/many")
-    async GetProductByIds(@Query('productIds') productIds: Array<string>){
-        return this.productsService.GetProductsByIds(productIds);
+    @Get("/:id")
+    async GetProductById(@Param() productId: string){
+        return this.productsService.GetProductById(productId);
     }
 
     @Patch("/:id")
@@ -34,9 +34,13 @@ export class ProductsController {
         return this.productsService.UpdateProduct(productId, body);
     }   
 
-    @Get('/categories')
+    @Get('/categories/all')
     async GetCategories() {
         return this.productsService.GetCategories();
+    }
+    @Get('/sellers/:id')
+    async GetSellerProducts(@Param() idSeller : string) {
+        return this.productsService.GetSellerProducts(idSeller['id']);
     }
 
 

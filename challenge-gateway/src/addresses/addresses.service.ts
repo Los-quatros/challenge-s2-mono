@@ -20,8 +20,8 @@ export class AddressesService {
         return await this.addressesProxy.send('DeleteAddress', {id});
     }
 
-    async ChangeAddress(data : ChangeAddressDto) {
-        return await this.addressesProxy.send('ChangeAddress', {data});
+    async ChangeAddress(idAddress : string, data : ChangeAddressDto) {
+        return await this.addressesProxy.send('ChangeAddress', {data, idAddress});
     }
 
     async GetAddressById(idAddress : string) : Promise<any> {

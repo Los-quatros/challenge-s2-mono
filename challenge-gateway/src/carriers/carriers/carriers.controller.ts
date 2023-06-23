@@ -8,4 +8,8 @@ export class CarriersController {
     async GetCarrierById(@Param() id : string) {
         return this.carriersService.GetCarrierById(id);
     }
+    @Get()
+    async GetAllCarriers() {
+        return this.carriersService.GetAllCarriers();
+    }
 }

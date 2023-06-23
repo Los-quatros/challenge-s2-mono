@@ -9,22 +9,22 @@ import { CreateAddressDto } from './models/CreateAddressDto';
 export class AddressesController {
     constructor(private addressesService: AddressesService) {}
     
-    @Post('/:id')
-    async CreateAddress(@Param() createAddressDto : CreateAddressDto) {
+    @Post()
+    async CreateAddress(@Body() createAddressDto : CreateAddressDto) {
         return this.addressesService.CreateAddress(createAddressDto);
     }
     @Get('/users/:id')
     async GetUserAddresses(@Param() id : string) {
         return this.addressesService.GetUserAddresses(id);
     }
-    @Delete('/:id')
+    @Patch('/:id')
     async DeleteAddress(@Param() id: string) {
         return this.addressesService.DeleteAddress(id);
     }
 
-    @Post()
-    async ChangeAddress(@Body() changeAddressDto : ChangeAddressDto) {
-        return this.addressesService.ChangeAddress(changeAddressDto);
+    @Patch('/update/:id')
+    async ChangeAddress(@Body() changeAddressDto : ChangeAddressDto, @Param() idAddress) {
+        return this.addressesService.ChangeAddress(idAddress,changeAddressDto);
     }
 
     @Get('/:id')

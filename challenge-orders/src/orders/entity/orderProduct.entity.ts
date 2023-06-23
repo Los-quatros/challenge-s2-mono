@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { Order } from './order.entity';
 
 @Entity()
@@ -12,9 +13,8 @@ export class OrderProduct {
     @Column()
     quantity: number;
 
-    @OneToOne(() => Order)
-    @JoinColumn()
-    order: Order;
+    @Column({default : null})
+    orderId: string;
     
     @Column()
     is_returned: boolean;

@@ -13,12 +13,12 @@ export class ProductsController {
 
     @EventPattern("createProduct")
     async createProduct(@Payload() product : CreateProductDto) : Promise<Product> {
-        return this.productService.createProduct(product);
+        return this.productService.createProduct(product['product']);
     }
 
     @EventPattern("updateProductsQuantity")
     async updateProductQuantity(@Payload() updateProductQuantity : UpdateProductsQuantityDto){
-        return this.productService.updateProductsQuantity(updateProductQuantity);
+        return this.productService.updateProductsQuantity(updateProductQuantity['updateProductsQuantityDto']);
     }
 
     @EventPattern("getAllProducts")
@@ -26,18 +26,24 @@ export class ProductsController {
         return this.productService.getAllProducts();
     }
 
-    @EventPattern("getProducts")
-    async getProductsByIds(@Payload() productIds : Array<string>) : Promise<Array<Product>>{
-        return this.productService.getProductsByIds(productIds);
+    @EventPattern("getProduct")
+    async getProductById(@Payload() productId : string) : Promise<Product>{
+        return this.productService.getProductById(productId['value']);
     }
 
     @EventPattern('UpdateProduct')
     async updateProduct(@Payload() productId : string, @Payload() data : UpdateProductDto) {
-        return this.productService.updateProduct(productId, data);
+        return this.productService.updateProduct(productId['productId']['id'], data['data']);
     }
     @EventPattern('GetAllCategories')
     async getCategories() : Promise<Array<Category>> {
         return this.productService.getCategories();
+    }
+
+    @EventPattern('GetSellerProducts')
+    async getSellerProducts(@Payload() idSeller : string){
+        console.log(idSeller)
+        return this.productService.getSellerProducts(idSeller['id']);
     }
 }
 

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { Category } from './category.entity';
 
 @Entity()
@@ -14,11 +14,11 @@ export class Product {
     price: number;
     @Column()
     quantity: number;
-    @OneToOne(() => Category)
+    @ManyToOne(() => Category)
     @JoinColumn()
-    category: Category
-    @Column()
-    sellerId: string;
-    @Column()
+    category?: Category
+    @Column({nullable : true})
+    sellerId?: string;
+    @Column({ default : true})
     isActivated : boolean;
 }

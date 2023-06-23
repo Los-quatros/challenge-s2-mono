@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Param, ValidationPipe, Body } from '@nestjs/common';
 import { CreateOrderDto } from './models/CreateOrderDto';
-import { orderResponseDto } from './models/ordersResponseDto';
+import { OrderResponseDto } from './models/ordersResponseDto';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -14,7 +14,7 @@ export class OrdersController {
 
     // for a client
     @Get("/users/:id")
-    async Get(@Param() userId : string) : Promise<Array<orderResponseDto>> {
+    async Get(@Param() userId : string) : Promise<Array<OrderResponseDto>> {
         return this.ordersService.GetOrdersByUser(userId);
     }
 
@@ -27,6 +27,6 @@ export class OrdersController {
     // for seller
     @Get("/seller/:sellerId/sales")
     async GetSellerSales(@Param() sellerId : string){
-
+        return this.ordersService.GetSellerSales(sellerId);
     }
 }

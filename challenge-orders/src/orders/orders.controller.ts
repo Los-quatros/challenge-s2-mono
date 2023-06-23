@@ -8,13 +8,13 @@ export class OrdersController {
     constructor(private ordersService: OrdersService) {}
 
     @EventPattern("GetUserOrders")
-    async createProduct(@Payload() userId : string) {
-        return this.ordersService.GetUserOrders(userId);
+    async getUserOrders(@Payload() userId : string) {
+        return this.ordersService.GetUserOrders(userId['userId']);
     }
 
     @EventPattern("CreateOrder")
     async createOrder(@Payload() createOrderDto : CreateOrderDto){
-        return this.ordersService.CreateOrder(createOrderDto);
+        return this.ordersService.CreateOrder(createOrderDto['data']);
     }
 
     @EventPattern("GetAllOrders")
@@ -22,7 +22,10 @@ export class OrdersController {
         return this.ordersService.GetOrders();
     }
 
+    @EventPattern('GetSellerSales')
+    async getSellerSales() {
 
+    }
 
 }
 

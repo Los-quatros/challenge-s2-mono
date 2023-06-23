@@ -3,5 +3,6 @@ export class CreateProductDto {
     description : string;
     price : number;
     quantity : number;
+    category : string;
     idSeller? : string;
 }

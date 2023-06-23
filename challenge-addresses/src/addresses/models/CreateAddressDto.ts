@@ -4,5 +4,5 @@ export class CreateAddressDto {
     user_id : string;
     street : string;
     city : string;
-    state : null;
+    state : boolean;
 }

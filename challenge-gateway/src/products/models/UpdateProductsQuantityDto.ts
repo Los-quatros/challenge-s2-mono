@@ -6,7 +6,7 @@ export type ProductUpdate = {
   };
   
   export class UpdateProductsQuantityDto {
-    @MinLength(1)
+  
     productsToUpdate: Array<ProductUpdate>;
   }
   

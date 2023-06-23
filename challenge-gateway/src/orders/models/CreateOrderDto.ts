@@ -11,8 +11,7 @@ export class CreateOrderProductDto {
 export class CreateOrderDto {
 
     @IsDefined()
-    @MinLength(1)
-    orderProducts : Array<CreateOrderDto>;
+    orderProducts : Array<CreateOrderProductDto>;
 
     @IsDefined()
     total : number;

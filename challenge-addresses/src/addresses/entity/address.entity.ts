@@ -6,7 +6,7 @@ export class Address {
     id: string;
 
     @Column()
-    state: string;
+    state: boolean;
 
     @Column()
     zip: number
@@ -23,7 +23,7 @@ export class Address {
     @Column()
     street: string
 
-    @Column()
-    orders: string[]
+    @Column({default : ""})
+    orders: string
 
 }
