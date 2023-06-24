@@ -117,10 +117,6 @@ p a:hover::after {
   opacity: 0.2;
 }
 
-::selection {}
-
-p::selection {}
-
 h1 {
   font-size: 48px;
 }
@@ -152,13 +148,6 @@ h6 {
   -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
   text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
 }
-
-h1::selection,
-h2::selection,
-h3::selection,
-h4::selection,
-h5::selection,
-h6::selection {}
 
 .form-control {
   color: #db5246;
@@ -463,8 +452,6 @@ section {
   color: #1b1b1b;
 }
 
-.header_extra {}
-
 .shopping_cart {
   display: inline-block;
 }
@@ -690,7 +677,6 @@ section {
   margin-bottom: 30px;
 }
 
-.page_menu_nav {}
 
 .page_menu_search_input {
   width: 100%;
@@ -704,7 +690,6 @@ section {
 .page_menu_item {
   display: block;
   position: relative;
-  vertical-align: middle;
 }
 
 .page_menu_nav>li {
