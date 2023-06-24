@@ -1,6 +1,13 @@
+import { Link } from "react-router-dom";
 import footer from "../assets/images/footer/footer.png";
 
 function Footer() {
+	/**
+	 * Handle link click to prevent page reload
+	 * @param { Event } event Click event
+	 */
+	const handleLinkClick = (event) => event.preventDefault();
+
 	return (
 		<>
 			<div className="footer_overlay"></div>
@@ -29,24 +36,24 @@ function Footer() {
 								<div className="footer_social ml-lg-auto">
 									<ul>
 										<li>
-											<a href="/">
+											<Link onClick={handleLinkClick}>
 												<i className="fa fa-pinterest" aria-hidden="true"></i>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a href="/">
+											<Link onClick={handleLinkClick}>
 												<i className="fa fa-instagram" aria-hidden="true"></i>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a href="/">
+											<Link onClick={handleLinkClick}>
 												<i className="fa fa-facebook" aria-hidden="true"></i>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a href="/">
+											<Link onClick={handleLinkClick}>
 												<i className="fa fa-twitter" aria-hidden="true"></i>
-											</a>
+											</Link>
 										</li>
 									</ul>
 								</div>

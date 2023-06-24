@@ -54,6 +54,12 @@ const Header = () => {
 		setMenuActive(true);
 	};
 
+	/**
+	 * Handle link click to prevent page reload
+	 * @param { Event } event Click event
+	 */
+	const handleLinkClick = (event) => event.preventDefault();
+
 	return (
 		<>
 			<header className="header">
@@ -71,7 +77,7 @@ const Header = () => {
 												<Link to="/">Accueil</Link>
 											</li>
 											<li className="hassubs">
-												<Link to="#">Catégories</Link>
+												<Link onClick={handleLinkClick}>Catégories</Link>
 												<ul>
 													<li>
 														<Link to="/categories/headphones">Casque</Link>
@@ -144,7 +150,7 @@ const Header = () => {
 								className="page_menu_item has-children menu_mm"
 								onClick={expandSubmenusFromMenu}
 							>
-								<Link to="#">
+								<Link onClick={handleLinkClick}>
 									Catégories<i className="fa fa-angle-down"></i>
 								</Link>
 								<ul className="page_menu_selection menu_mm">

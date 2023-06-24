@@ -14,6 +14,9 @@ const Login = lazy(() => import("./components/Login"));
 const Register = lazy(() => import("./components/Register"));
 const Home = lazy(() => import("./pages/HomePage.js"));
 const Categories = lazy(() => import("./pages/Categories"));
+const ProductDetails = lazy(() =>
+	import("./pages/products/ProductDetailsPage")
+);
 
 const $ = window.$;
 
@@ -94,6 +97,10 @@ const AppContent = () => {
 			loadCSS("./assets/styles/bootstrap.min.css");
 			loadCSS("./assets/styles/auth/auth.css");
 			loadCSS("./assets/styles/auth/util.css");
+		} else if (location.pathname.startsWith("/products")) {
+			loadCSS("../../assets/styles/bootstrap.min.css");
+			loadCSS("../../assets/styles/products/product.css");
+			loadCSS("../../assets/styles/products/responsive.css");
 		}
 	}, [location.pathname]);
 
@@ -105,6 +112,10 @@ const AppContent = () => {
 				{isAuth && <Route path="/login" element={<Login />} />}
 				{isAuth && <Route path="/register" element={<Register />} />}
 				<Route path="/categories/:category" element={<Categories />} />
+				<Route
+					path="/products/:category/:productId"
+					element={<ProductDetails />}
+				/>
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 			{!isAuth && <Footer />}
