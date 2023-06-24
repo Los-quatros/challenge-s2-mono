@@ -17,6 +17,7 @@ const Categories = lazy(() => import("./pages/CategoriesPage"));
 const ProductDetails = lazy(() =>
 	import("./pages/products/ProductDetailsPage")
 );
+const Contact = lazy(() => import("./pages/ContactPage"));
 
 const $ = window.$;
 
@@ -101,6 +102,10 @@ const AppContent = () => {
 			loadCSS("../../assets/styles/bootstrap.min.css");
 			loadCSS("../../assets/styles/products/product.css");
 			loadCSS("../../assets/styles/products/responsive.css");
+		} else if (location.pathname === "/contact") {
+			loadCSS("./assets/styles/bootstrap.min.css");
+			loadCSS("./assets/styles/contact/contact.css");
+			loadCSS("./assets/styles/contact/responsive.css");
 		}
 	}, [location.pathname]);
 
@@ -112,6 +117,7 @@ const AppContent = () => {
 				{isAuth && <Route path="/login" element={<Login />} />}
 				{isAuth && <Route path="/register" element={<Register />} />}
 				<Route path="/categories/:category" element={<Categories />} />
+				<Route path="/contact" element={<Contact />} />
 				<Route
 					path="/products/:category/:productId"
 					element={<ProductDetails />}
