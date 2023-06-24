@@ -100,7 +100,7 @@ const Header = () => {
 									</nav>
 									<div className="header_extra ml-auto">
 										<div className="shopping_cart">
-											<a href="/">
+											<Link to="/">
 												<svg
 													version="1.1"
 													xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ const Header = () => {
 												<div>
 													Panier <span>(0)</span>
 												</div>
-											</a>
+											</Link>
 										</div>
 										<div
 											className="hamburger"

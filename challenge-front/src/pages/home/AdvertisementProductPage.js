@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import headPhoneAdvertisement from "../../assets/images/home/advertisements/advertisement_3.png";
 
 function AdvertisementProductPage() {
@@ -18,7 +19,7 @@ function AdvertisementProductPage() {
 									de musique haut de gamme.
 								</div>
 								<div className="avds_link avds_xl_link">
-									<a href="/">Explorer</a>
+									<Link to="/categories/headphones">Explorer</Link>
 								</div>
 							</div>
 						</div>

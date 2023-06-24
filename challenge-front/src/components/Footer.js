@@ -21,7 +21,7 @@ function Footer() {
 						<div className="col">
 							<div className="footer_content d-flex flex-lg-row flex-column align-items-center justify-content-lg-start justify-content-center">
 								<div className="footer_logo">
-									<a href="/">ElecShop.</a>
+									<Link to="/">ElecShop.</Link>
 								</div>
 								<div className="copyright ml-auto mr-auto">
 									Copyright &copy; Tous droits réservés par

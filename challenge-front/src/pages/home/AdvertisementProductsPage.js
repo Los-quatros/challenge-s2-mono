@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import discountAdvertisement from "../../assets/images/home/advertisements/advertisement_4.png";
 import phoneAdvertisement from "../../assets/images/home/advertisements/advertisement_1.png";
 import photoAdvertisement from "../../assets/images/home/advertisements/advertisement_2.png";
@@ -26,7 +27,7 @@ function AdvertisementProductsPage() {
 						<div className="avds_small_content">
 							<div className="avds_title">Téléphones</div>
 							<div className="avds_link">
-								<a href="/">Explorer</a>
+								<Link to="/categories/phones">Explorer</Link>
 							</div>
 						</div>
 					</div>
@@ -46,7 +47,7 @@ function AdvertisementProductsPage() {
 								netteté époustouflante.
 							</div>
 							<div className="avds_link avds_link_large">
-								<a href="/">Explorer</a>
+								<Link to="/categories/cameras">Explorer</Link>
 							</div>
 						</div>
 					</div>

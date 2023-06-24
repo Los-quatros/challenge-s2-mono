@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import homeSlider from "../../assets/images/home/home.png";
 
 const $ = window.$;
@@ -95,7 +96,7 @@ function HomeSliderPage() {
 												!
 											</div>
 											<div className="button button_light home_button">
-												<a href="/">Explorer</a>
+												<Link to="/categories/tablets">Explorer</Link>
 											</div>
 										</div>
 									</div>
@@ -126,7 +127,7 @@ function HomeSliderPage() {
 												!
 											</div>
 											<div className="button button_light home_button">
-												<a href="/">Explorer</a>
+												<Link to="/categories/tablets">Explorer</Link>
 											</div>
 										</div>
 									</div>
@@ -157,7 +158,7 @@ function HomeSliderPage() {
 												!
 											</div>
 											<div className="button button_light home_button">
-												<a href="/">Explorer</a>
+												<Link to="/categories/tablets">Explorer</Link>
 											</div>
 										</div>
 									</div>
