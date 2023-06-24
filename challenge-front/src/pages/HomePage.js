@@ -4,7 +4,7 @@ import AdvertisementProductPage from "./home/AdvertisementProductPage";
 import AdvertisementProductsPage from "./home/AdvertisementProductsPage";
 import BoxesPage from "./home/BoxesPage";
 import HomeSliderPage from "./home/HomeSliderPage";
-import Products from "./Products";
+import Products from "./ProductsPage";
 import image1 from "../assets/images/home/products/product_1.png";
 import image2 from "../assets/images/home/products/product_2.png";
 import image3 from "../assets/images/home/products/product_3.png";

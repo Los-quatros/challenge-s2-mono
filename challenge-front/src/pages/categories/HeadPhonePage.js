@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import HomeContainer from "../HomeContainer";
-import Products from "../../pages/Products";
+import HomeContainer from "../HomeContainerPage";
+import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import headphoneBackground from "../../assets/images/categories/headphones/headphone_1.png";
 import headphone_10 from "../../assets/images/categories/headphones/headphone_10.png";

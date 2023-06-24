@@ -1,7 +1,7 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import HomeContainer from "../HomeContainer";
+import HomeContainer from "../HomeContainerPage";
 import imageCamerasBackground from "../../assets/images/categories/cameras/camera_1.png";
 import imageHeadphonesBackground from "../../assets/images/categories/headphones/headphone_1.png";
 import imagePhonesBackground from "../../assets/images/categories/phones/phone_1.png";

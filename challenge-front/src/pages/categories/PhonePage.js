@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import HomeContainer from "../HomeContainer";
-import Products from "../../pages/Products";
+import HomeContainer from "../HomeContainerPage";
+import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import phoneBackground from "../../assets/images/categories/phones/phone_1.png";
 import phone_10 from "../../assets/images/categories/phones/phone_10.png";

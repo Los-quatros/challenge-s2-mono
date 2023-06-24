@@ -13,7 +13,7 @@ import Header from "./components/Header";
 const Login = lazy(() => import("./components/Login"));
 const Register = lazy(() => import("./components/Register"));
 const Home = lazy(() => import("./pages/HomePage.js"));
-const Categories = lazy(() => import("./pages/Categories"));
+const Categories = lazy(() => import("./pages/CategoriesPage"));
 const ProductDetails = lazy(() =>
 	import("./pages/products/ProductDetailsPage")
 );

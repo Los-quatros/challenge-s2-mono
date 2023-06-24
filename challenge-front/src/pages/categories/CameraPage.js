@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import HomeContainer from "../HomeContainer";
-import Products from "../../pages/Products";
+import HomeContainer from "../HomeContainerPage";
+import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import cameraBackground from "../../assets/images/categories/cameras/camera_1.png";
 import camera_10 from "../../assets/images/categories/cameras/camera_10.png";
