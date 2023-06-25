@@ -23,13 +23,6 @@ const setToast = (message, type) => {
 	});
 };
 
-// TODO MANAGE CART EMPTY
-// TODO MANAGE CART EMPTY
-// TODO MANAGE CART EMPTY
-// TODO MANAGE CART EMPTY
-// TODO MANAGE CART EMPTY
-// TODO MANAGE CART EMPTY
-
 function CartPage() {
 	const [products, setProducts] = useState([]);
 	const [deliveryMode, setDeliveryMode] = useState("free");
@@ -118,6 +111,9 @@ function CartPage() {
 		e.preventDefault();
 		localStorage.removeItem("cart");
 		setProducts([]);
+		setSubtotal(0);
+		setTotal(0);
+		setDeliveryMode("free");
 		setToast("Le panier a été vidé", "success");
 	};
 
@@ -209,185 +205,243 @@ function CartPage() {
 					</div>
 				</div>
 			</div>
-			<div className="cart_info">
+
+			<div
+				style={
+					products.length === 0
+						? { paddingTop: "50px", paddingBottom: "50px" }
+						: {}
+				}
+			>
 				<div className="container">
-					<div className="row">
-						<div className="col">
-							<div className="cart_info_columns clearfix">
-								<div className="cart_info_col cart_info_col_product">
-									Produit(s)
+					{products.length > 0 && (
+						<>
+							<div className="row">
+								<div className="col">
+									<div className="cart_info_columns clearfix">
+										<div className="cart_info_col cart_info_col_product">
+											Produit(s)
+										</div>
+										<div className="cart_info_col cart_info_col_price">
+											Prix
+										</div>
+										<div className="cart_info_col cart_info_col_quantity">
+											Quantité
+										</div>
+										<div className="cart_info_col cart_info_col_total">
+											Totale
+										</div>
+									</div>
 								</div>
-								<div className="cart_info_col cart_info_col_price">Prix</div>
-								<div className="cart_info_col cart_info_col_quantity">
-									Quantité
-								</div>
-								<div className="cart_info_col cart_info_col_total">Totale</div>
 							</div>
-						</div>
-					</div>
-					<div className="row cart_items_row">
-						<div className="col">
-							{products.map((product) => (
-								<div className="col" key={product.id}>
-									<div className="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
-										<div className="cart_item_product d-flex flex-row align-items-center justify-content-start">
-											<div className="cart_item_image">
-												<img src={product.image} alt={product.name} />
-											</div>
-											<div className="cart_item_name_container">
-												<div className="cart_item_name">
-													<Link
-														onClick={(e) =>
-															redirectToProductDetails(e, product)
-														}
-													>
-														{product.name}
-													</Link>
-												</div>
-											</div>
-										</div>
-										<div className="cart_item_price">
-											{product.price.toFixed(2)}€
-										</div>
-										<div className="cart_item_quantity">
-											<div className="product_quantity_container">
-												<div className="product_quantity clearfix">
-													<input
-														id={`quantity_input_${product.id}`}
-														type="text"
-														value={product.quantity}
-														onInput={(event) =>
-															onQuantityChange(event, product)
-														}
-													/>
-													<div className="quantity_buttons">
-														<div
-															id={`quantity_inc_button_${product.id}`}
-															className="quantity_inc quantity_control"
-															onClick={() => increaseQuantity(product)}
-														>
-															<i
-																className="fa fa-chevron-up"
-																aria-hidden="true"
-															></i>
-														</div>
-														<div
-															id={`quantity_dec_button_${product.id}`}
-															className="quantity_dec quantity_control"
-															onClick={() => decreaseQuantity(product)}
-														>
-															<i
-																className="fa fa-chevron-down"
-																aria-hidden="true"
-															></i>
+							<div className="row cart_items_row">
+								<div className="col">
+									{products.map((product) => (
+										<div className="col" key={product.id}>
+											<div className="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
+												<div className="cart_item_product d-flex flex-row align-items-center justify-content-start">
+													<div className="cart_item_image">
+														<img src={product.image} alt={product.name} />
+													</div>
+													<div className="cart_item_name_container">
+														<div className="cart_item_name">
+															<Link
+																onClick={(e) =>
+																	redirectToProductDetails(e, product)
+																}
+															>
+																{product.name}
+															</Link>
 														</div>
 													</div>
 												</div>
+												<div className="cart_item_price">
+													{product.price.toFixed(2)}€
+												</div>
+												<div className="cart_item_quantity">
+													<div className="product_quantity_container">
+														<div className="product_quantity clearfix">
+															<input
+																id={`quantity_input_${product.id}`}
+																type="text"
+																value={product.quantity}
+																onInput={(event) =>
+																	onQuantityChange(event, product)
+																}
+															/>
+															<div className="quantity_buttons">
+																<div
+																	id={`quantity_inc_button_${product.id}`}
+																	className="quantity_inc quantity_control"
+																	onClick={() => increaseQuantity(product)}
+																>
+																	<i
+																		className="fa fa-chevron-up"
+																		aria-hidden="true"
+																	></i>
+																</div>
+																<div
+																	id={`quantity_dec_button_${product.id}`}
+																	className="quantity_dec quantity_control"
+																	onClick={() => decreaseQuantity(product)}
+																>
+																	<i
+																		className="fa fa-chevron-down"
+																		aria-hidden="true"
+																	></i>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div className="cart_item_total">
+													{(product.price * product.quantity).toFixed(2)}€
+												</div>
 											</div>
 										</div>
-										<div className="cart_item_total">
-											{(product.price * product.quantity).toFixed(2)}€
+									))}
+								</div>
+							</div>
+							<div className="row row_cart_buttons">
+								<div className="col">
+									<div className="cart_buttons d-flex flex-lg-row flex-column align-items-start justify-content-start">
+										<div className="cart_buttons_right">
+											<div
+												className="button clear_cart_button"
+												onClick={clearCart}
+											>
+												<Link>Vider</Link>
+											</div>
+											<div
+												className="button update_cart_button"
+												onClick={updateCart}
+											>
+												<Link>Mettre à jour</Link>
+											</div>
 										</div>
 									</div>
 								</div>
-							))}
-						</div>
-					</div>
-					<div className="row row_cart_buttons">
-						<div className="col">
-							<div className="cart_buttons d-flex flex-lg-row flex-column align-items-start justify-content-start">
-								<div className="cart_buttons_right">
-									<div className="button clear_cart_button" onClick={clearCart}>
-										<Link>Vider</Link>
+							</div>
+							<div className="row row_extra">
+								<div className="col-lg-4">
+									<div className="delivery">
+										<div className="section_title">Mode de livraison</div>
+										<div className="section_subtitle">
+											Livraison et frais supplémentaires
+										</div>
+										<div className="delivery_options">
+											<label className="delivery_option clearfix">
+												Rapide (1 jour ouvré)
+												<input
+													type="radio"
+													name="radio"
+													checked={deliveryMode === "express"}
+													onChange={() => onDeliveryModeChange("express")}
+												/>
+												<span className="checkmark"></span>
+												<span className="delivery_price">4.99€</span>
+											</label>
+											<label className="delivery_option clearfix">
+												Standard (2 jours ouvrés)
+												<input
+													type="radio"
+													name="radio"
+													checked={deliveryMode === "standard"}
+													onChange={() => onDeliveryModeChange("standard")}
+												/>
+												<span className="checkmark"></span>
+												<span className="delivery_price">1.99€</span>
+											</label>
+											<label className="delivery_option clearfix">
+												Gratuit (5 jours ouvrés)
+												<input
+													type="radio"
+													name="radio"
+													checked={deliveryMode === "free"}
+													onChange={() => onDeliveryModeChange("free")}
+												/>
+												<span className="checkmark"></span>
+												<span className="delivery_price">Gratuit</span>
+											</label>
+										</div>
 									</div>
-									<div
-										className="button update_cart_button"
-										onClick={updateCart}
-									>
-										<Link>Mettre à jour</Link>
+								</div>
+								<div className="col-lg-6 offset-lg-2">
+									<div className="cart_total">
+										<div className="section_title">Panier totale</div>
+										<div className="section_subtitle">
+											Résumé de la commande
+										</div>
+										<div className="cart_total_container">
+											<ul>
+												<li className="d-flex flex-row align-items-center justify-content-start">
+													<div className="cart_total_title">Sous-total</div>
+													<div className="cart_total_value ml-auto">
+														{subtotal}€
+													</div>
+												</li>
+												<li className="d-flex flex-row align-items-center justify-content-start">
+													<div className="cart_total_title">Livraison</div>
+													<div className="cart_total_value ml-auto">
+														{deliveryMode === "express"
+															? "Rapide"
+															: deliveryMode === "standard"
+															? "Standard"
+															: "Gratuit"}
+													</div>
+												</li>
+												<li className="d-flex flex-row align-items-center justify-content-start">
+													<div className="cart_total_title">Total</div>
+													<div className="cart_total_value ml-auto">
+														{total}€
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div className="button checkout_button">
+											<Link to="/">Paiement</Link>
+										</div>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
+					{products.length === 0 && (
+						<div className="row">
+							<div className="col">
+								<div
+									className="cart_container"
+									style={{
+										textAlign: "center",
+										color: "black",
+										fontSize: "18px",
+									}}
+								>
+									<div className="cart_title">Votre panier est vide.</div>
+									<div className="cart_text mb-2">
+										Faites un tour dans nos catégories et ajoutez des articles à
+										votre panier.
+									</div>
+									<div className="d-flex justify-content-center align-items-center">
+										<div className="button" style={{ margin: "5px" }}>
+											<Link to="/categories/headphones">Nos casques</Link>
+										</div>
+										<div className="button" style={{ margin: "5px" }}>
+											<Link to="/categories/tablets">Nos tablettes</Link>
+										</div>
+									</div>
+									<div className="d-flex justify-content-center align-items-center">
+										<div className="button" style={{ margin: "5px" }}>
+											<Link to="/categories/phones">Nos téléphones</Link>
+										</div>
+										<div className="button" style={{ margin: "5px" }}>
+											<Link to="/categories/cameras">Nos caméras</Link>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div className="row row_extra">
-						<div className="col-lg-4">
-							<div className="delivery">
-								<div className="section_title">Mode de livraison</div>
-								<div className="section_subtitle">
-									Livraison et frais supplémentaires
-								</div>
-								<div className="delivery_options">
-									<label className="delivery_option clearfix">
-										Rapide (1 jour ouvré)
-										<input
-											type="radio"
-											name="radio"
-											checked={deliveryMode === "express"}
-											onChange={() => onDeliveryModeChange("express")}
-										/>
-										<span className="checkmark"></span>
-										<span className="delivery_price">4.99€</span>
-									</label>
-									<label className="delivery_option clearfix">
-										Standard (2 jours ouvrés)
-										<input
-											type="radio"
-											name="radio"
-											checked={deliveryMode === "standard"}
-											onChange={() => onDeliveryModeChange("standard")}
-										/>
-										<span className="checkmark"></span>
-										<span className="delivery_price">1.99€</span>
-									</label>
-									<label className="delivery_option clearfix">
-										Gratuit (5 jours ouvrés)
-										<input
-											type="radio"
-											name="radio"
-											checked={deliveryMode === "free"}
-											onChange={() => onDeliveryModeChange("free")}
-										/>
-										<span className="checkmark"></span>
-										<span className="delivery_price">Gratuit</span>
-									</label>
-								</div>
-							</div>
-						</div>
-						<div className="col-lg-6 offset-lg-2">
-							<div className="cart_total">
-								<div className="section_title">Panier totale</div>
-								<div className="section_subtitle">Résumé de la commande</div>
-								<div className="cart_total_container">
-									<ul>
-										<li className="d-flex flex-row align-items-center justify-content-start">
-											<div className="cart_total_title">Sous-total</div>
-											<div className="cart_total_value ml-auto">
-												{subtotal}€
-											</div>
-										</li>
-										<li className="d-flex flex-row align-items-center justify-content-start">
-											<div className="cart_total_title">Livraison</div>
-											<div className="cart_total_value ml-auto">
-												{deliveryMode === "express"
-													? "Rapide"
-													: deliveryMode === "standard"
-													? "Standard"
-													: "Gratuit"}
-											</div>
-										</li>
-										<li className="d-flex flex-row align-items-center justify-content-start">
-											<div className="cart_total_title">Total</div>
-											<div className="cart_total_value ml-auto">{total}€</div>
-										</li>
-									</ul>
-								</div>
-								<div className="button checkout_button">
-									<Link to="/">Paiement</Link>
-								</div>
-							</div>
-						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		</>
