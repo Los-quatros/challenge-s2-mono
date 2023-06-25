@@ -1,4 +1,5 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import HomeContainer from "../HomeContainerPage";
@@ -81,7 +82,7 @@ function ProductDetailsPage() {
 		} else if (value > 100000000) {
 			setQuantity(100000000);
 		} else {
-			setQuantity(value);
+			setQuantity(Number(value));
 		}
 	};
 
@@ -108,13 +109,63 @@ function ProductDetailsPage() {
 	};
 
 	/**
+	 * Display toast message
+	 * @param { String } message Toast message
+	 * @param { String } type Toast type
+	 */
+	const setToast = (message, type) => {
+		toast[type](message, {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		});
+	};
+
+	/**
 	 * Add the product to the cart
 	 * @param { Event } event Click event
 	 * @param { Object } product Product to add to the cart
-	 * TODO : Add the product to the cart
 	 */
 	const addProductToCart = (event, product) => {
 		event.preventDefault();
+		const cart = JSON.parse(localStorage.getItem("cart"));
+		const productToCart = {
+			id: "",
+			name: "",
+			category: "",
+			price: "",
+			quantity: "",
+		};
+		if (cart) {
+			const existingProduct = cart.find(
+				(item) => item.id === product.id && item.category === product.category
+			);
+			if (existingProduct) {
+				existingProduct.quantity += quantity;
+			} else {
+				productToCart.id = product.id;
+				productToCart.name = product.name;
+				productToCart.category = product.category;
+				productToCart.price = product.price;
+				productToCart.quantity = quantity;
+				cart.push(productToCart);
+			}
+			localStorage.setItem("cart", JSON.stringify(cart));
+		} else {
+			productToCart.id = product.id;
+			productToCart.name = product.name;
+			productToCart.category = product.category;
+			productToCart.price = product.price;
+			productToCart.quantity = quantity;
+			localStorage.setItem("cart", JSON.stringify([productToCart]));
+		}
+		setToast("Produit ajouté au panier", "success");
+		setQuantity(1);
 	};
 
 	if (!categories.includes(product.category)) {
@@ -123,6 +174,7 @@ function ProductDetailsPage() {
 
 	return (
 		<>
+			<ToastContainer />
 			<div className="home">
 				<HomeContainer image={image} title={title} content={content} />
 			</div>
