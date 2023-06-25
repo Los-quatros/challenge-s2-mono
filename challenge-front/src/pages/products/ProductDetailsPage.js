@@ -16,7 +16,7 @@ import imageTabletsBackground from "../../assets/images/categories/tablets/table
 const setToast = (message, type) => {
 	toast[type](message, {
 		position: "top-right",
-		autoClose: 5000,
+		autoClose: 2000,
 		hideProgressBar: false,
 		closeOnClick: true,
 		pauseOnHover: false,
@@ -32,7 +32,7 @@ const setToast = (message, type) => {
  */
 const handleLinkClick = (event) => event.preventDefault();
 
-function ProductDetailsPage() {
+function ProductDetailsPage({ handleCartChange }) {
 	const location = useLocation();
 	const { product } = location.state;
 	const [title, setTitle] = useState("");
@@ -127,6 +127,12 @@ function ProductDetailsPage() {
 	};
 
 	/**
+	 * Handle the add to cart button click
+	 * - Emit event to update the cart
+	 */
+	const handleAddToCart = () => handleCartChange();
+
+	/**
 	 * Add the product to the cart
 	 * @param { Event } event Click event
 	 * @param { Object } product Product to add to the cart
@@ -134,13 +140,8 @@ function ProductDetailsPage() {
 	const addProductToCart = (event, product) => {
 		event.preventDefault();
 		const cart = JSON.parse(localStorage.getItem("cart"));
-		const productToCart = {
-			id: "",
-			name: "",
-			category: "",
-			price: "",
-			quantity: "",
-		};
+		const cartProduct = { ...product };
+		delete cartProduct.description;
 		if (cart) {
 			const existingProduct = cart.find(
 				(item) => item.id === product.id && item.category === product.category
@@ -148,24 +149,15 @@ function ProductDetailsPage() {
 			if (existingProduct) {
 				existingProduct.quantity += quantity;
 			} else {
-				productToCart.id = product.id;
-				productToCart.name = product.name;
-				productToCart.category = product.category;
-				productToCart.price = product.price;
-				productToCart.quantity = quantity;
-				cart.push(productToCart);
+				cart.push({ ...product, quantity });
 			}
 			localStorage.setItem("cart", JSON.stringify(cart));
 		} else {
-			productToCart.id = product.id;
-			productToCart.name = product.name;
-			productToCart.category = product.category;
-			productToCart.price = product.price;
-			productToCart.quantity = quantity;
-			localStorage.setItem("cart", JSON.stringify([productToCart]));
+			localStorage.setItem("cart", JSON.stringify([{ ...product, quantity }]));
 		}
 		setToast("Produit ajouté au panier", "success");
 		setQuantity(1);
+		handleAddToCart();
 	};
 
 	if (!categories.includes(product.category)) {
@@ -205,7 +197,7 @@ function ProductDetailsPage() {
 						<div className="col-lg-6">
 							<div className="details_content">
 								<div className="details_name">{product.name}</div>
-								<div className="details_price">{product.price} €</div>
+								<div className="details_price">{product.price}€</div>
 								<div className="details_text">
 									<p>{product.description}</p>
 								</div>

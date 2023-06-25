@@ -5,7 +5,7 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -18,6 +18,7 @@ const ProductDetails = lazy(() =>
 	import("./pages/products/ProductDetailsPage")
 );
 const Contact = lazy(() => import("./pages/ContactPage"));
+const Cart = lazy(() => import("./pages/CartPage"));
 
 const $ = window.$;
 
@@ -77,6 +78,7 @@ const AppContent = () => {
 		location.pathname !== "/login" && location.pathname !== "/register";
 	const isAuth =
 		location.pathname === "/login" || location.pathname === "/register";
+	const [cartQuantity, setCartQuantity] = useState(0);
 
 	useEffect(() => {
 		clearLinks();
@@ -101,21 +103,44 @@ const AppContent = () => {
 		} else if (location.pathname === "/contact") {
 			loadCSS("./assets/styles/contact/contact.css");
 			loadCSS("./assets/styles/contact/responsive.css");
+		} else if (location.pathname === "/cart") {
+			loadCSS("./assets/styles/cart/cart.css");
+			loadCSS("./assets/styles/cart/responsive.css");
 		}
 	}, [location.pathname]);
 
+	useEffect(() => {
+		const cart = localStorage.getItem("cart");
+		if (cart) {
+			const cartItems = JSON.parse(cart);
+			setCartQuantity(cartItems.length);
+		}
+	}, []);
+
+	/**
+	 * Handle cart change
+	 */
+	const handleCartChange = () => {
+		const cart = localStorage.getItem("cart");
+		if (cart) {
+			const cartItems = JSON.parse(cart);
+			setCartQuantity(cartItems.length);
+		}
+	};
+
 	return (
 		<Suspense fallback={<span>...</span>}>
-			{displayHeader && <Header />}
+			{displayHeader && <Header quantity={cartQuantity} />}
 			<Routes>
 				<Route path="/" element={<Home />} />
 				{isAuth && <Route path="/login" element={<Login />} />}
 				{isAuth && <Route path="/register" element={<Register />} />}
 				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="/contact" element={<Contact />} />
+				<Route path="/cart" element={<Cart />} />
 				<Route
 					path="/products/:category/:productId"
-					element={<ProductDetails />}
+					element={<ProductDetails handleCartChange={handleCartChange} />}
 				/>
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>

@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
-import contactFormBackground from "../assets/images/contact/contact.png";
+import contactPageBackground from "../assets/images/contact/contact.png";
 
 function ContactPage() {
 	const [lastName, setLastName] = useState("");
@@ -58,7 +58,7 @@ function ContactPage() {
 	const setToast = (message, type) => {
 		toast[type](message, {
 			position: "top-right",
-			autoClose: 5000,
+			autoClose: 4000,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: false,
@@ -68,7 +68,7 @@ function ContactPage() {
 			onClose: () => {
 				setTimeout(() => {
 					setIsToastActive(false);
-				}, 5000);
+				}, 4000);
 			},
 		});
 	};
@@ -111,7 +111,7 @@ function ContactPage() {
 				<div className="home_container">
 					<div
 						className="home_background"
-						style={{ backgroundImage: `url(${contactFormBackground})` }}
+						style={{ backgroundImage: `url(${contactPageBackground})` }}
 					></div>
 					<div className="home_content_container">
 						<div className="container">
@@ -125,9 +125,7 @@ function ContactPage() {
 														Accueil
 													</Link>
 												</li>
-												<li className="text-dark active font-weight-bold">
-													Contact
-												</li>
+												<li className="active font-weight-bold">Contact</li>
 											</ul>
 										</div>
 									</div>

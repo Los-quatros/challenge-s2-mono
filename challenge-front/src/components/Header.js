@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
-import { useState } from "react";
 
 const $ = window.$;
 
@@ -28,8 +29,13 @@ const expandSubmenusFromMenu = (event) => {
 	}
 };
 
-const Header = () => {
+const Header = ({ quantity }) => {
 	const [menuActive, setMenuActive] = useState(false);
+	const [cartQuantity, setCartQuantity] = useState(0);
+
+	useEffect(() => {
+		setCartQuantity(quantity);
+	}, [quantity]);
 
 	/**
 	 * Handle hamburger click
@@ -122,7 +128,7 @@ const Header = () => {
 													</g>
 												</svg>
 												<div>
-													Panier <span>(0)</span>
+													Panier <span>({cartQuantity})</span>
 												</div>
 											</Link>
 										</div>
