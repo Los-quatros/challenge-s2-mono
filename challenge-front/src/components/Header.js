@@ -4,6 +4,30 @@ import { useState } from "react";
 
 const $ = window.$;
 
+/**
+ * Handle link click to prevent page reload
+ * @param { Event } event Click event
+ */
+const handleLinkClick = (event) => event.preventDefault();
+
+/**
+ * Expand submenus of menu in mobile device
+ * @param { Event } event Click event
+ */
+const expandSubmenusFromMenu = (event) => {
+	event.preventDefault();
+	event.stopPropagation();
+	const subItem = $(event.currentTarget).find("> ul");
+	if (subItem.hasClass("active")) {
+		subItem.toggleClass("active");
+		gsap.to(subItem, { duration: 0, height: 0 });
+	} else {
+		subItem.toggleClass("active");
+		gsap.to(subItem, { height: "auto" });
+		gsap.to(subItem, { duration: 0, height: 0 });
+	}
+};
+
 const Header = () => {
 	const [menuActive, setMenuActive] = useState(false);
 
@@ -17,24 +41,6 @@ const Header = () => {
 			openMenu();
 		} else {
 			closeMenu();
-		}
-	};
-
-	/**
-	 * Expand submenus of menu in mobile device
-	 * @param { Event } event Click event
-	 */
-	const expandSubmenusFromMenu = (event) => {
-		event.preventDefault();
-		event.stopPropagation();
-		const subItem = $(event.currentTarget).find("> ul");
-		if (subItem.hasClass("active")) {
-			subItem.toggleClass("active");
-			gsap.to(subItem, { duration: 0, height: 0 });
-		} else {
-			subItem.toggleClass("active");
-			gsap.to(subItem, { height: "auto" });
-			gsap.to(subItem, { duration: 0, height: 0 });
 		}
 	};
 
@@ -53,12 +59,6 @@ const Header = () => {
 		$(".menu").addClass("active");
 		setMenuActive(true);
 	};
-
-	/**
-	 * Handle link click to prevent page reload
-	 * @param { Event } event Click event
-	 */
-	const handleLinkClick = (event) => event.preventDefault();
 
 	return (
 		<>
@@ -100,7 +100,7 @@ const Header = () => {
 									</nav>
 									<div className="header_extra ml-auto">
 										<div className="shopping_cart">
-											<Link to="/">
+											<Link to="/cart">
 												<svg
 													version="1.1"
 													xmlns="http://www.w3.org/2000/svg"

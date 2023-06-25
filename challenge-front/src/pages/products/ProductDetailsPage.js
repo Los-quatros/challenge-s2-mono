@@ -8,6 +8,30 @@ import imageHeadphonesBackground from "../../assets/images/categories/headphones
 import imagePhonesBackground from "../../assets/images/categories/phones/phone_1.png";
 import imageTabletsBackground from "../../assets/images/categories/tablets/tablet_1.png";
 
+/**
+ * Display toast message
+ * @param { String } message Toast message
+ * @param { String } type Toast type
+ */
+const setToast = (message, type) => {
+	toast[type](message, {
+		position: "top-right",
+		autoClose: 5000,
+		hideProgressBar: false,
+		closeOnClick: true,
+		pauseOnHover: false,
+		draggable: true,
+		progress: undefined,
+		theme: "light",
+	});
+};
+
+/**
+ * Handle link click to prevent page reload
+ * @param { Event } event Click event
+ */
+const handleLinkClick = (event) => event.preventDefault();
+
 function ProductDetailsPage() {
 	const location = useLocation();
 	const { product } = location.state;
@@ -66,12 +90,6 @@ function ProductDetailsPage() {
 	}, [product.category]);
 
 	/**
-	 * Handle link click to prevent page reload
-	 * @param { Event } event Click event
-	 */
-	const handleLinkClick = (event) => event.preventDefault();
-
-	/**
 	 * Triggered when the quantity input value changes
 	 * @param { Event } event Input event
 	 */
@@ -106,24 +124,6 @@ function ProductDetailsPage() {
 		} else {
 			setQuantity(1);
 		}
-	};
-
-	/**
-	 * Display toast message
-	 * @param { String } message Toast message
-	 * @param { String } type Toast type
-	 */
-	const setToast = (message, type) => {
-		toast[type](message, {
-			position: "top-right",
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: false,
-			draggable: true,
-			progress: undefined,
-			theme: "light",
-		});
 	};
 
 	/**

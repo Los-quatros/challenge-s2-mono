@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import footer from "../assets/images/footer/footer.png";
 
-function Footer() {
-	/**
-	 * Handle link click to prevent page reload
-	 * @param { Event } event Click event
-	 */
-	const handleLinkClick = (event) => event.preventDefault();
+/**
+ * Handle link click to prevent page reload
+ * @param { Event } event Click event
+ */
+const handleLinkClick = (event) => event.preventDefault();
 
+function Footer() {
 	return (
 		<>
 			<div className="footer_overlay"></div>

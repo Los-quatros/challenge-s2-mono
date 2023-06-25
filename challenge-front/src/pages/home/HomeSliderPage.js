@@ -68,7 +68,6 @@ function initHomeSlider() {
 
 function HomeSliderPage() {
 	initHomeSlider();
-
 	return (
 		<div className="home">
 			<div className="home_slider_container">
