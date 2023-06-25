@@ -17,6 +17,12 @@ import phone_7 from "../../assets/images/categories/phones/phone_7.png";
 import phone_8 from "../../assets/images/categories/phones/phone_8.png";
 import phone_9 from "../../assets/images/categories/phones/phone_9.png";
 
+const title = "Nos téléphones";
+const content = `Découvrez notre téléphone révolutionnaire, alliant style
+	et fonctionnalités avancées ! Son design élégant et ergonomique captivera votre regard dès le premier
+	instant. Plongez dans une expérience immersive grâce à son écran haute résolution, offrant des couleurs vives
+	et un contraste saisissant. Vous ne pourrez plus détacher vos yeux de ce spectacle visuel captivant.`;
+
 function PhonePage() {
 	const [products, setProducts] = useState([]);
 	const [sortBy, setSortBy] = useState("");
@@ -206,12 +212,6 @@ function PhonePage() {
 			initProducts();
 		}
 	}
-
-	const title = "Nos téléphones";
-	const content = `Découvrez notre téléphone révolutionnaire, alliant style
-		et fonctionnalités avancées ! Son design élégant et ergonomique captivera votre regard dès le premier
-		instant. Plongez dans une expérience immersive grâce à son écran haute résolution, offrant des couleurs vives
-		et un contraste saisissant. Vous ne pourrez plus détacher vos yeux de ce spectacle visuel captivant.`;
 
 	return (
 		<>

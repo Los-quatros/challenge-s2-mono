@@ -17,6 +17,12 @@ import headphone_7 from "../../assets/images/categories/headphones/headphone_7.p
 import headphone_8 from "../../assets/images/categories/headphones/headphone_8.png";
 import headphone_9 from "../../assets/images/categories/headphones/headphone_9.png";
 
+const title = "Nos casques";
+const content = `Plongez au cœur d'une expérience sonore immersive et
+exceptionnelle avec nos casques de musique haut de gamme. Que vous soyez un audiophile
+passionné ou que vous cherchiez simplement à profiter pleinement de votre
+musique préférée, nos casques vous offriront une qualité audio inégalée.`;
+
 function HeadPhonePage() {
 	const [products, setProducts] = useState([]);
 	const [sortBy, setSortBy] = useState("");
@@ -209,12 +215,6 @@ function HeadPhonePage() {
 			initProducts();
 		}
 	}
-
-	const title = "Nos casques";
-	const content = `Plongez au cœur d'une expérience sonore immersive et
-	exceptionnelle avec nos casques de musique haut de gamme. Que vous soyez un audiophile
-	passionné ou que vous cherchiez simplement à profiter pleinement de votre
-	musique préférée, nos casques vous offriront une qualité audio inégalée.`;
 
 	return (
 		<>

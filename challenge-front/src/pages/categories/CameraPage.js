@@ -17,6 +17,12 @@ import camera_7 from "../../assets/images/categories/cameras/camera_7.png";
 import camera_8 from "../../assets/images/categories/cameras/camera_8.png";
 import camera_9 from "../../assets/images/categories/cameras/camera_9.png";
 
+const title = "Nos caméras";
+const content = `Découvrez la puissance de la capture avec nos caméras de pointe.
+	Offrant une qualité  d'image exceptionnelle et des fonctionnalités avancées,
+	elles sont conçues pour répondre aux besoins des photographes et des vidéastes les plus exigeants.
+	Faites un pas vers l'excellence photographique avec nos caméras de haute précision.`;
+
 function CameraPage() {
 	const [products, setProducts] = useState([]);
 	const [sortBy, setSortBy] = useState("");
@@ -219,12 +225,6 @@ function CameraPage() {
 			initProducts();
 		}
 	}
-
-	const title = "Nos caméras";
-	const content = `Découvrez la puissance de la capture avec nos caméras de pointe.
-		Offrant une qualité  d'image exceptionnelle et des fonctionnalités avancées,
-		elles sont conçues pour répondre aux besoins des photographes et des vidéastes les plus exigeants.
-		Faites un pas vers l'excellence photographique avec nos caméras de haute précision.`;
 
 	return (
 		<>

@@ -17,6 +17,12 @@ import tablet_7 from "../../assets/images/categories/tablets/tablet_7.png";
 import tablet_8 from "../../assets/images/categories/tablets/tablet_8.png";
 import tablet_9 from "../../assets/images/categories/tablets/tablet_9.png";
 
+const title = "Nos caméras";
+const content = `Découvrez notre sélection de tablettes haut de gamme qui
+	vous offriront une expérience technologique exceptionnelle. Que vous soyez un amateur de
+	divertissement, un étudiant ou un professionnel en déplacement, nos tablettes sont conçues pour répondre à
+	tous vos besoins.`;
+
 function TabletPage() {
 	const [products, setProducts] = useState([]);
 	const [sortBy, setSortBy] = useState("");
@@ -205,12 +211,6 @@ function TabletPage() {
 			initProducts();
 		}
 	}
-
-	const title = "Nos caméras";
-	const content = `Découvrez notre sélection de tablettes haut de gamme qui
-		vous offriront une expérience technologique exceptionnelle. Que vous soyez un amateur de
-		divertissement, un étudiant ou un professionnel en déplacement, nos tablettes sont conçues pour répondre à
-		tous vos besoins.`;
 
 	return (
 		<>
