@@ -81,29 +81,24 @@ const AppContent = () => {
 	useEffect(() => {
 		clearLinks();
 		if (location.pathname === "/") {
-			loadCSS("./assets/styles/bootstrap.min.css");
 			loadCSS("./assets/styles/home/home.css");
 			loadCSS("./assets/styles/home/responsive.css");
 			loadCSS("./assets/styles/home/animate.css");
 			loadCSS("./assets/styles/home/owl.carousel.css");
 			loadCSS("./assets/styles/home/owl.theme.default.css");
 		} else if (location.pathname.startsWith("/categories")) {
-			loadCSS("../assets/styles/bootstrap.min.css");
 			loadCSS("../assets/styles/categories/categories.css");
 			loadCSS("../assets/styles/categories/responsive.css");
 		} else if (
 			location.pathname === "/login" ||
 			location.pathname === "/register"
 		) {
-			loadCSS("./assets/styles/bootstrap.min.css");
 			loadCSS("./assets/styles/auth/auth.css");
 			loadCSS("./assets/styles/auth/util.css");
 		} else if (location.pathname.startsWith("/products")) {
-			loadCSS("../../assets/styles/bootstrap.min.css");
 			loadCSS("../../assets/styles/products/product.css");
 			loadCSS("../../assets/styles/products/responsive.css");
 		} else if (location.pathname === "/contact") {
-			loadCSS("./assets/styles/bootstrap.min.css");
 			loadCSS("./assets/styles/contact/contact.css");
 			loadCSS("./assets/styles/contact/responsive.css");
 		}
