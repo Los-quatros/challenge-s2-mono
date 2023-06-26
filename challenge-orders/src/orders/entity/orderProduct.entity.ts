@@ -18,4 +18,7 @@ export class OrderProduct {
     
     @Column()
     is_returned: boolean;
+
+    @Column({default : 0})
+    nbProductReturned: number; 
 }
