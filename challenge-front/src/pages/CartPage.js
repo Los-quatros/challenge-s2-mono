@@ -41,13 +41,13 @@ function CartPage() {
     if (products.length > 0) {
       computeCardTotalPrice();
     }
-  }, [products]);
+  }, [products, computeCardTotalPrice]);
 
   useEffect(() => {
     if (products.length > 0) {
       computeCardTotalPrice();
     }
-  }, [deliveryMode]);
+  }, [deliveryMode, computeCardTotalPrice]);
 
   /**
    * Trigger on each quantity change
@@ -136,13 +136,15 @@ function CartPage() {
   /**
    * Compute the total price of the cart
    */
-  const computeCardTotalPrice = () => {
+  const computeCardTotalPrice = useCallback(() => {
     setSubtotal(0);
     setTotal(0);
     products.forEach((p) => {
-      setSubtotal(p.price * p.quantity);
+      setSubtotal((prevSubtotal) => prevSubtotal + p.price * p.quantity);
       setTotal(
-        p.price * p.quantity +
+        (prevTotal) =>
+          prevTotal +
+          p.price * p.quantity +
           (deliveryMode === "free"
             ? 0
             : deliveryMode === "express"
@@ -150,7 +152,7 @@ function CartPage() {
             : 1.99)
       );
     });
-  };
+  }, [products, deliveryMode]);
 
   /**
    * Redirect to product details page
