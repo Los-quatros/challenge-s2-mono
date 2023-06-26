@@ -47,21 +47,3 @@ spec:
     targetPort: 3001
   selector:
     app: challenge-users
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: challenge-users-external
-  labels:
-    app: challenge-users
-spec:
-  type: LoadBalancer
-  ports:
-  - name: http
-    port: 3001
-    targetPort: 3001
-  selector:
-    app: challenge-users
-

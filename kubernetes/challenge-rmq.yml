@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rmq-service
+spec:
+  selector:
+    app: rmq-service
+  ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: management
+      port: 15672
+      targetPort: 15672
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rmq-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rmq-log-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rmq-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rmq-service
+  template:
+    metadata:
+      labels:
+        app: rmq-service
+    spec:
+      containers:
+        - name: rmq-service
+          image: rabbitmq:3.9.11-alpine
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          volumeMounts:
+            - name: rmq-data
+              mountPath: /var/lib/rabbitmq
+            - name: rmq-log
+              mountPath: /var/log/rabbitmq
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: rmq-data
+          persistentVolumeClaim:
+            claimName: rmq-data-pvc
+        - name: rmq-log
+          persistentVolumeClaim:
+            claimName: rmq-log-pvc
+            
