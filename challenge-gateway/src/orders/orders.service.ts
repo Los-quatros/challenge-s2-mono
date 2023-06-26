@@ -29,7 +29,7 @@ export class OrdersService {
         return this.AsignProductsAddressAndCarrierToOrder(orders);
     }
 
-    async GetOrderProductsById(productIds : Array<string>) : Promise<Array<OrderResponseDto>> {
+    async GetOrderProductsByProductIds(productIds : Array<string>) : Promise<Array<OrderResponseDto>> {
         const ordersWithSellerProductsOnly : Array<OrderResponseDto> =  await lastValueFrom(this.ordersProxy.send('GetOrderProductsByProducts', {productIds}));
         const resultWithCarrierProductsAndAddress = await this.AsignProductsAddressAndCarrierToOrder(ordersWithSellerProductsOnly);    
         return resultWithCarrierProductsAndAddress;

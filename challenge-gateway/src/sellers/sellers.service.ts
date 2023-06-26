@@ -77,6 +77,6 @@ export class SellersService {
         const productIds : Array<string> = products.map((product : Product) => {
             return product.id;
         });
-        return this.ordersService.GetOrderProductsById(productIds);
+        return this.ordersService.GetOrderProductsByProductIds(productIds);
     }
 }
