@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import { Link } from "react-router-dom";
 import cartPageBackground from "../assets/images/cart/cart.png";
+import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -21,6 +22,40 @@ const setToast = (message, type) => {
     progress: undefined,
     theme: "light",
   });
+};
+
+/**
+ * Handle checkout button click for payment
+ * @param { Event } e Event button click
+ */
+const handlePayment = async (e) => {
+  e.preventDefault();
+
+  // const stripe = await loadStripe(
+  // 	process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  // );
+
+  // try {
+  // 	const response = await fetch("/api/create-checkout-session", {
+  // 		method: "POST",
+  // 		headers: {
+  // 			"Content-Type": "application/json",
+  // 		},
+  // 		body: JSON.stringify({
+  // 			amount: 1000,
+  // 			currency: "eur",
+  // 		}),
+  // 	});
+
+  // 	const { sessionId } = await response.json();
+  // 	const { error } = await stripe.redirectToCheckout({ sessionId: sessionId });
+
+  // 	if (error) {
+  // 		setToast("Erreur lors du paiement", "error");
+  // 	}
+  // } catch {
+  // 	setToast("Erreur lors du paiement", "error");
+  // }
 };
 
 function CartPage() {
@@ -207,7 +242,6 @@ function CartPage() {
           </div>
         </div>
       </div>
-
       <div
         className="cart_info"
         style={
@@ -402,7 +436,7 @@ function CartPage() {
                       </ul>
                     </div>
                     <div className="button checkout_button">
-                      <Link to="/checkout">Paiement</Link>
+                      <Link onClick={handlePayment}>Paiement</Link>
                     </div>
                   </div>
                 </div>
