@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import { Link } from "react-router-dom";
 import cartPageBackground from "../assets/images/cart/cart.png";
-import { loadStripe } from "@stripe/stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 
 /**
