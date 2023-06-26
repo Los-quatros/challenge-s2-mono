@@ -400,7 +400,7 @@ function CartPage() {
 											</ul>
 										</div>
 										<div className="button checkout_button">
-											<Link to="/">Paiement</Link>
+											<Link to="/checkout">Paiement</Link>
 										</div>
 									</div>
 								</div>
