@@ -90,9 +90,8 @@ function HomeSliderPage() {
 												Une nouvelle expérience de boutique en ligne.
 											</div>
 											<div className="home_slider_subtitle">
-												ÉlectroMarket : L'essentiel de la technologie à portée
-												de main. Explorez notre univers high-tech dès maintenant
-												!
+												ElecShop : L'essentiel de la technologie à portée de
+												main. Explorez notre univers high-tech dès maintenant !
 											</div>
 											<div className="button button_light home_button">
 												<Link to="/categories/tablets">Explorer</Link>
@@ -121,9 +120,8 @@ function HomeSliderPage() {
 												Une nouvelle expérience de boutique en ligne.
 											</div>
 											<div className="home_slider_subtitle">
-												ÉlectroMarket : L'essentiel de la technologie à portée
-												de main. Explorez notre univers high-tech dès maintenant
-												!
+												ElecShop : L'essentiel de la technologie à portée de
+												main. Explorez notre univers high-tech dès maintenant !
 											</div>
 											<div className="button button_light home_button">
 												<Link to="/categories/tablets">Explorer</Link>
@@ -152,9 +150,8 @@ function HomeSliderPage() {
 												Une nouvelle expérience de boutique en ligne.
 											</div>
 											<div className="home_slider_subtitle">
-												ÉlectroMarket : L'essentiel de la technologie à portée
-												de main. Explorez notre univers high-tech dès maintenant
-												!
+												ElecShop : L'essentiel de la technologie à portée de
+												main. Explorez notre univers high-tech dès maintenant !
 											</div>
 											<div className="button button_light home_button">
 												<Link to="/categories/tablets">Explorer</Link>
