@@ -30,6 +30,27 @@ function CartPage() {
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
+  /**
+   * Compute the total price of the cart
+   */
+  const computeCardTotalPrice = useCallback(() => {
+    setSubtotal(0);
+    setTotal(0);
+    products.forEach((p) => {
+      setSubtotal((prevSubtotal) => prevSubtotal + p.price * p.quantity);
+      setTotal(
+        (prevTotal) =>
+          prevTotal +
+          p.price * p.quantity +
+          (deliveryMode === "free"
+            ? 0
+            : deliveryMode === "express"
+            ? 4.99
+            : 1.99)
+      );
+    });
+  }, [products, deliveryMode]);
+
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     if (cart) {
@@ -47,7 +68,7 @@ function CartPage() {
     if (products.length > 0) {
       computeCardTotalPrice();
     }
-  }, [deliveryMode, computeCardTotalPrice]);
+  }, [deliveryMode, computeCardTotalPrice, products.length]);
 
   /**
    * Trigger on each quantity change
@@ -132,27 +153,6 @@ function CartPage() {
    * @param { String } mode Delivery mode
    */
   const onDeliveryModeChange = (mode) => setDeliveryMode(mode);
-
-  /**
-   * Compute the total price of the cart
-   */
-  const computeCardTotalPrice = useCallback(() => {
-    setSubtotal(0);
-    setTotal(0);
-    products.forEach((p) => {
-      setSubtotal((prevSubtotal) => prevSubtotal + p.price * p.quantity);
-      setTotal(
-        (prevTotal) =>
-          prevTotal +
-          p.price * p.quantity +
-          (deliveryMode === "free"
-            ? 0
-            : deliveryMode === "express"
-            ? 4.99
-            : 1.99)
-      );
-    });
-  }, [products, deliveryMode]);
 
   /**
    * Redirect to product details page
