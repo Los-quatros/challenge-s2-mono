@@ -1,48 +1,38 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
 metadata:
-  name: challenge-users-db
+  name: rmq-service
 spec:
-  selector:
-    matchLabels:
-      app: challenge-users-db
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: challenge-users-db
-    spec:
-      containers:
-        - name: postgres
-          image: postgres:latest
-          env:
-            - name: POSTGRES_USER
-              value: user
-            - name: POSTGRES_PASSWORD
-              value: password
-            - name: POSTGRES_DB
-              value: challenge-users-db
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: postgres-persistent-storage
-              mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: postgres-persistent-storage
-          emptyDir: {}
-
+  replicas: 3
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
+  rabbitmq:
+    additionalConfig: |
+      log.console.level = info
+      channel_max = 1700
+      default_user= guest 
+      default_pass = guest
+      default_user_tags.administrator = true
+  persistence:
+    volumeMounts:
+      - name: rabbitmq-data
+        mountPath: /var/lib/rabbitmq
+  service:
+    type: LoadBalancer
 ---
-
 apiVersion: v1
-kind: Service
+kind: PersistentVolumeClaim
 metadata:
-  name: challenge-users-db
+  name: rabbitmq-data
 spec:
-  type: ClusterIP
-  selector:
-    app: challenge-users-db
-  ports:
-    - name: postgres
-      port: 5432
-      targetPort: 5432
-  
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
