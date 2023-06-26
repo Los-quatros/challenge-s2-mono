@@ -207,6 +207,7 @@ function CartPage() {
 			</div>
 
 			<div
+				className="cart_info"
 				style={
 					products.length === 0
 						? { paddingTop: "50px", paddingBottom: "50px" }
@@ -418,11 +419,14 @@ function CartPage() {
 									}}
 								>
 									<div className="cart_title">Votre panier est vide.</div>
-									<div className="cart_text mb-2">
+									<div className="cart_text mb-2" style={{ marginTop: "50px" }}>
 										Faites un tour dans nos catégories et ajoutez des articles à
 										votre panier.
 									</div>
-									<div className="d-flex justify-content-center align-items-center">
+									<div
+										className="d-flex justify-content-center align-items-center"
+										style={{ marginTop: "50px" }}
+									>
 										<div className="button" style={{ margin: "5px" }}>
 											<Link to="/categories/headphones">Nos casques</Link>
 										</div>
