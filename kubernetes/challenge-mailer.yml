@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-mailer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-mailer
+  template:
+    metadata:
+      labels:
+        app: challenge-mailer
+    spec:
+      containers:
+        - name: challenge-mailer
+          image: yacinesoussi/challenges2-yacine-mailer:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: EMAIL_SERVER
+              value: "o-reply@moon-factory.fr"
+            - name: EMAIL_PASSWORD
+              value: "MoonFactory123$"
+            - name: FRONT_URL
+              value: "http://challenge-front-external"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-mailer
+  labels:
+    app: challenge-mailer
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3009
+    targetPort: 3000
+  selector:
+    app: challenge-mailer
+
