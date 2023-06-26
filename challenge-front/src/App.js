@@ -19,7 +19,6 @@ const ProductDetails = lazy(() =>
 );
 const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
-const Checkout = lazy(() => import("./pages/CheckoutFormPage"));
 
 const $ = window.$;
 
@@ -107,9 +106,6 @@ const AppContent = () => {
 		} else if (location.pathname === "/cart") {
 			loadCSS("./assets/styles/cart/cart.css");
 			loadCSS("./assets/styles/cart/responsive.css");
-		} else if (location.pathname === "/checkout") {
-			loadCSS("./assets/styles/checkout/checkout.css");
-			loadCSS("./assets/styles/checkout/responsive.css");
 		}
 	}, [location.pathname]);
 
@@ -142,7 +138,6 @@ const AppContent = () => {
 				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/cart" element={<Cart />} />
-				<Route path="/checkout" element={<Checkout />} />
 				<Route
 					path="/products/:category/:productId"
 					element={<ProductDetails handleCartChange={handleCartChange} />}
