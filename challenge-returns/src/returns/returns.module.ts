@@ -6,21 +6,7 @@ import { ReturnsController } from './returns.controller';
 import { ReturnsService } from './returns.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Returns]), 
-  ClientsModule.register([
-    {
-      name : "RETURNS_SERVICE",
-      transport: Transport.RMQ,
-      options: {
-        urls: ['amqp://rmq-service:5672'],
-        queue: 'returns_queue',
-        queueOptions: {
-          durable: false,
-        },
-      },
-  }
-  ])
-],
+  imports: [TypeOrmModule.forFeature([Returns])],
   controllers: [ReturnsController],
   providers: [ReturnsService]
 })

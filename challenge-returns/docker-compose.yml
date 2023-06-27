@@ -10,7 +10,7 @@ services:
     ports:
       - 5440:5432
     volumes:
-      - ./sellers-database:/var/lib/postgresql/data
+      - ./database:/var/lib/postgresql/data
     networks:
       - challenge-network
 
@@ -38,6 +38,8 @@ services:
     restart: always
     ports:
       - 8084:8080 
+    networks:
+      - challenge-network  
 networks:
   challenge-network:
     external: true
