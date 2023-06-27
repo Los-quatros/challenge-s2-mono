@@ -11,5 +11,4 @@ docker-compose -f challenge-products/docker-compose.yml up -d
 docker-compose -f challenge-publication/docker-compose.yml up -d
 docker-compose -f challenge-returns/docker-compose.yml up -d
 docker-compose -f challenge-sellers/docker-compose.yml up -d
-docker-compose -f challenge-stocks/docker-compose.yml up -d
 docker-compose -f challenge-users/docker-compose.yml up -d
