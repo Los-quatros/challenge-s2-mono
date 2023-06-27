@@ -10,4 +10,9 @@ export class ReturnsController {
     async CreateReturn(@Payload() createReturnModel : CreateReturnModel) {
         return this.returnsService.CretaeReturn(createReturnModel);
     }
+
+    @EventPattern('eventName')
+    async test(@Payload() data : string){
+        console.log(data);
+    }
 }

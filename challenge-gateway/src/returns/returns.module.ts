@@ -7,11 +7,11 @@ import { ReturnsService } from './returns.service';
 @Module({
   imports: [ClientsModule.register([
     {
-        name: 'PRODUCTS_SERVICE',
+        name: 'RETURNS_SERVICE',
         transport: Transport.RMQ,
         options: {
             urls: ["amqp://rmq-service:5672"],
-            queue: 'products_queue',
+            queue: 'returns_queue',
             queueOptions: {
                 durable: false
             },

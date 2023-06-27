@@ -4,7 +4,7 @@ import { CreateReturnDto } from './models/CreateReturnDto';
 
 @Injectable()
 export class ReturnsService {
-    constructor(@Inject('PRODUCTS_SERVICE') private readonly returnsProxy: ClientProxy) {}
+    constructor(@Inject('RETURNS_SERVICE') private readonly returnsProxy: ClientProxy) {}
 
     async test() {
         const hadja = "hadja mlah";
