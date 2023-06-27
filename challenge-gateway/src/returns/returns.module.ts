@@ -22,4 +22,4 @@ import { ReturnsService } from './returns.service';
   providers: [ReturnsService],
   exports: [ReturnsService]
 })
-export class ProductsModule {}
+export class ReturnsModule {}

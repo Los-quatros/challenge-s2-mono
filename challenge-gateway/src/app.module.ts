@@ -12,7 +12,7 @@ import { ReturnsModule } from './returns/returns.module';
 
 
 @Module({
-  imports: [UsersModule, AuthenticationModule, SellersModule, MailModule, ProductsModule, OrdersModule, CarriersModule, ReturnsModule],
+  imports: [ReturnsModule ,UsersModule, AuthenticationModule, SellersModule, MailModule, ProductsModule, OrdersModule, CarriersModule],
   controllers: [AppController, ReturnsController],
   providers: [],  
 })
