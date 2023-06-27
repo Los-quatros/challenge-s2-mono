@@ -43,9 +43,12 @@ function ContactPage() {
 	 * @param { String } value Captcha value
 	 */
 	const onCaptchaChange = (value) => {
+		console.log("Captcha value:", value);
 		if (!value) {
+			console.log("Captcha non vérifié");
 			setIsCaptchaVerified(false);
 		} else {
+			console.log("Captcha vérifié");
 			setIsCaptchaVerified(true);
 		}
 	};
@@ -94,7 +97,7 @@ function ContactPage() {
 				setToast("Veuillez remplir tous les champs", "info");
 			}
 		} else {
-			// setToast("Votre message a bien été envoyé", "success");
+			setToast("Votre message a bien été envoyé", "success");
 			setLastName("");
 			setFirstName("");
 			setSubject("");
