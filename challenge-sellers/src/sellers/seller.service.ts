@@ -1,47 +1,74 @@
-import { Injectable } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
-import { NewSellerDto } from './dto/newSeller.dto';
-import { UpdateSellerDto } from './dto/updateSeller.dto';
+import { validate } from 'class-validator';
+import { Inject, Injectable, ValidationPipe } from '@nestjs/common';
+import { CreateSellerDto, UpdateSellerDto } from './dto/sellers.dto'
+import { Model } from 'mongoose';
+import { SellerDocument, Seller } from 'src/schema/sellers.model';
+import { AccountSellerDto } from './dto/account.seller.dto';
 
 @Injectable()
 export class SellerService {
-  private readonly sellers: any[] = [];
 
-  create(newSellerDto: NewSellerDto) {
-    const seller = {
-      id: uuid(),
-      ...newSellerDto,
-    };
-    this.sellers.push(seller);
+  constructor(
+    @Inject('SELLER_MODEL') private sellerModel: Model<SellerDocument>
+  ) {}
+
+  async create(createSellerDto: CreateSellerDto) {
+  const createdSeller = new this.sellerModel(createSellerDto);
+  return createdSeller.save();
+  }
+
+  async findAll(): Promise<Seller[]> {
+    return await this.sellerModel.find().exec();
+  }
+  
+  async findOne(id: string): Promise<Seller> {
+    return await this.sellerModel.findOne({ id: id });
+  }
+
+  async update(id: string, updateSellerDto: UpdateSellerDto): Promise<Seller> {
+
+    const existingSeller = await this.sellerModel.findOneAndUpdate({ id: id }, updateSellerDto, { new: true });
+    
+    return existingSeller.save();
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.sellerModel.deleteOne({ id: id });
+  }
+  
+  async addProductToSeller(sellerId: string, productId: string): Promise<void> {
+    const seller = await this.sellerModel.findOne({ id: sellerId });
+    seller.products.push(productId);
+    seller.save();
+  }
+
+  async checkIfSellerIsActif(id: string): Promise<boolean> {
+    const seller = await this.sellerModel.findOne({ userId: id });
+    if (seller && seller.isActive) {
+      return true;
+    }
+  
+    return false;
+  }
+
+  async createSellerAccount(accountSellerDto: AccountSellerDto): Promise<CreateSellerDto> {
+    const createdSeller = new this.sellerModel(accountSellerDto).save();
+    return createdSeller;
+  }
+
+  async activeSeller(id: string): Promise<Seller> {
+    const seller = await this.sellerModel.findOne({ id: id });
+    seller.isActive = true;
+    seller.save();
+    
     return seller;
   }
 
-  findAll() {
-    return this.sellers;
-  }
+  async refuseSeller(id: string): Promise<Seller> {
+    const seller = await this.sellerModel.findOne({ id: id });
+    seller.isActive = false;
+    seller.save();
 
-  findOne(id: string) {
-    return this.sellers.find((seller) => seller.id === id);
-  }
-
-  update(id: string, updateSellerDto: UpdateSellerDto) {
-    const sellerIndex = this.sellers.findIndex((seller) => seller.id === id);
-    if (sellerIndex === -1) {
-      return null;
-    }
-    this.sellers[sellerIndex] = {
-      ...this.sellers[sellerIndex],
-      ...updateSellerDto,
-    };
-    return this.sellers[sellerIndex];
-  }
-
-  remove(id: string) {
-    const sellerIndex = this.sellers.findIndex((seller) => seller.id === id);
-    if (sellerIndex === -1) {
-      return null;
-    }
-    const [seller] = this.sellers.splice(sellerIndex, 1);
     return seller;
   }
 }

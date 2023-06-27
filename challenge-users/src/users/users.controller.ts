@@ -1,56 +1,74 @@
-import { ValidationPipe } from './users.pipe';
-import { Controller, Get, HttpCode, Header, Param, Post, Body, Patch, Delete, HttpStatus, HttpException, UsePipes, UseInterceptors } from '@nestjs/common';
-import { PasswordInterceptorUsersInterceptor } from "./interceptors/password-interceptor-users.interceptor"
-import { PasswordInterceptorInterceptor } from './interceptors/password-interceptor.interceptor';
-import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from './users.dto';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Header,
+  Param,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  HttpStatus,
+  HttpException,
+  UsePipes,
+  UseInterceptors,
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto, UpdateUserDto } from "./dto/users.dto";
+import { EventPattern, Payload } from "@nestjs/microservices";
+import { AccountSellerDto } from "./dto/account.seller.dto";
 
 @Controller("/users")
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @UseInterceptors(PasswordInterceptorUsersInterceptor)
-  @Get()
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
+  @EventPattern("getUsers")
   async getUsers() {
-    return this.usersService.findAll()
+    return this.usersService.findAll();
   }
 
-  
-  @UseInterceptors(PasswordInterceptorInterceptor)
-  @Get(":user")
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
-  getUser(@Param("user") user: string) {
-    const foundUser = this.usersService.findOne(user)
-
-    if (foundUser) {
-      return foundUser
-    }
-
-    throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
+  @EventPattern("getUser")
+  async getUser(@Payload() id: string) {
+    return this.usersService.findOne(id);
   }
 
-  @Post()
-  @HttpCode(201)
-  @Header("X-School", "ESGI")
-  createUser(@Body(new ValidationPipe()) user: CreateUserDto) {
-   const response = this.usersService.createUser(user);
-    return response;
+  @EventPattern("createUser")
+  async createUser(@Payload() user: CreateUserDto) {
+    return this.usersService.createUser(user);
   }
 
-  @Patch(":user")
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
-  updateUser(@Body(new ValidationPipe()) user: UpdateUserDto, @Param("user") id: string) {
-    this.usersService.updateUser(id, user);
+  @EventPattern("updateUser")
+  async updateUser(
+    @Payload() { id, user }: { id: string; user: UpdateUserDto }
+  ) {
+    return this.usersService.updateUser(id, user);
   }
 
-  @Delete(":user")
-  @HttpCode(200)
-  @Header("X-School", "ESGI")
-  deleteUser(@Param("user") user: string) {
-    this.usersService.remove(user);
+  @EventPattern("deleteUser")
+  async deleteUser(@Payload() id: string) {
+    return this.usersService.remove(id);
+  }
+
+  @EventPattern("requestResetPassword")
+  async requestResetPassword(@Payload() id: string) {
+    return this.usersService.requestPasswordReset(id);
+  }
+
+  @EventPattern("resetPassword")
+  async resetPassword(
+    @Payload()
+    { password, token }: { password: string; token: string }
+  ) {
+    return this.usersService.resetPassword(token, password);
+  }
+
+  @EventPattern("createSellerAccount")
+  async createSellerAccount(@Payload() user: AccountSellerDto) {
+    return this.usersService.createSellerAccount(user);
+  }
+
+  @EventPattern("getUserBySellerId")
+  async getUserBySellerId(@Payload() id: string) {
+    return this.usersService.getUserBySellerId(id);
   }
 }

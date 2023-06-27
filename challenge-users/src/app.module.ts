@@ -2,11 +2,15 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
-import { PostsModule } from './posts/posts.module';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { SeedService } from './users/seed/seed.service';
+import { SellersModule } from './sellers/sellers.module';
 
 @Module({
-  imports: [UsersModule,
-  TypeOrmModule.forRoot({
+  imports: [
+    UsersModule,
+    AuthenticationModule,
+    TypeOrmModule.forRoot({
     type: 'postgres',
     host: process.env.POSTGRES_HOST || 'localhost',
     port: 5432,
@@ -16,10 +20,11 @@ import { PostsModule } from './posts/posts.module';
     autoLoadEntities: true,
     synchronize: true,
   }),
-  PostsModule
+    SellersModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [SeedService],
+  exports: [SeedService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

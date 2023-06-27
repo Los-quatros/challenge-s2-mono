@@ -5,7 +5,7 @@ export class User {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({unique: true})
   email: string;
 
   @Column()
@@ -15,8 +15,21 @@ export class User {
   lastName: string;
 
   @Column()
-  age: number;
+  password: string;
+
+  @Column()
+  roles: string;
 
   @Column({nullable: true})
-  password: string;
+  activation_token: string;
+
+  @Column({ nullable: true, type: 'varchar', length: 255 })
+  resetPasswordToken: string | null;
+
+  @Column({nullable: true})
+  avatar: number;
+
+  @Column({nullable: true})
+  sellerId: string;
+
 }

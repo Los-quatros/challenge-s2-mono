@@ -11,6 +11,8 @@ services:
       - 5435:5432
     volumes:
       - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network  
   products-server:
     build: .
     command: npm run start:dev
@@ -29,10 +31,17 @@ services:
 
     depends_on:
       - products-db
+    networks:
+      - challenge-network
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8082:8080
+    networks:
+      - challenge-network    
+networks:
+  challenge-network:
+    external: true
 

@@ -1,0 +1,21 @@
+version: "3"
+
+services:      
+  mailer-server:
+    build: .
+    command: sh -c "npm install && npm run start:dev"
+    restart: always
+    ports:
+      - 3009:3000
+    environment:
+      EMAIL_SERVER: ${EMAIL_SERVER}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      FRONT_URL: ${FRONT_URL}
+    working_dir: /home/node
+    volumes:
+      - .:/home/node
+    networks:
+      - challenge-network  
+networks:
+  challenge-network:
+    external: true

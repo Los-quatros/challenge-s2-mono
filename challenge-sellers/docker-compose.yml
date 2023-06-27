@@ -2,35 +2,34 @@ version: "3"
 
 services:
   sellers-db:
-    image: postgres:12.1-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: sellers-db
+    image: mongo:latest
     ports:
-      - 5438:5432
+      - 27017:27017
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - ./db:/data/db
+    networks:
+      - challenge-network
   sellers-server:
     build: .
-    command: npm run start:dev
+    command: sh -c "npm install && npm run start:dev"
     restart: always
     ports:
       - 3006:3000
     environment:
+      MONGO_URL: mongodb://sellers-db:27017/sellers-db
       POSTGRES_HOST: sellers-db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: sellers-db
+    working_dir: /home/node
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/home/node
     depends_on:
       - sellers-db
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    networks:
+      - challenge-network
+networks:
+  challenge-network:
+    external: true
 

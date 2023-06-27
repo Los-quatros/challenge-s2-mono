@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-gateway
+  template:
+    metadata:
+      labels:
+        app: challenge-gateway
+    spec:
+      containers:
+        - name: challenge-gateway
+          image: yacinesoussi/challenges2-yacine-gateway:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_HOST
+              value: challenge-gateway-db
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: gateway-db
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-gateway-internal
+  labels:
+    app: challenge-gateway
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4000
+      targetPort: 4000
+  selector:
+    app: challenge-gateway
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-gateway-external
+  labels:
+    app: challenge-gateway
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 4000
+      targetPort: 4000
+  selector:
+    app: challenge-gateway
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: challenge-gateway-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: challenge-gateway
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        target:
+          type: "Utilization"
+          averageUtilization: 80
+

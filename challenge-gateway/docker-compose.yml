@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  gateway-db:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gateway-db
+    ports:
+      - 5445:5432
+    volumes:
+      - ./gateway-database:/var/lib/postgresql/data
+      
+  gateway-server:
+    build: .
+    command: sh -c "npm install && npm run start:dev"
+    restart: always
+    ports:
+      - 4000:4000
+    environment:
+      POSTGRES_HOST: gateway-db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gateway-db
+    working_dir: /home/node
+    volumes:
+      - .:/home/node
+    depends_on:
+      - gateway-db
+    networks:
+      - challenge-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8092:8080
+    
+  rmq-service:
+    image: rabbitmq:3.9.11-alpine
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+    networks:
+        - challenge-network
+    
+    
+networks:
+  challenge-network:
+    external: true
