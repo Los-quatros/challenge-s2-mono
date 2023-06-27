@@ -88,6 +88,12 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-mailer:latest
       
+  deploy-kubernetes:
+    runs-on: ubuntu-latest
+    needs: publish-docker
+    steps:
+      - uses : actions/checkout
+
       - name: Set up Kubernetes
         uses: google-github-actions/setup-gcloud@v0.3.0
         with:
@@ -96,9 +102,9 @@ jobs:
           cluster_name: marketplace
           zone: europe-west1	
           
-      - name: Configure kubectl
-        run: |
-          gcloud container clusters get-credentials marketplace --zone europe-west1 --project calcium-post-383607
+      # - name: Configure kubectl
+      #   run: |
+      #     gcloud container clusters get-credentials marketplace --zone europe-west1 --project calcium-post-383607
 
       - name: Deploy challenge-front
         run: |
