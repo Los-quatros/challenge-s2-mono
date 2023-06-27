@@ -1,5 +1,6 @@
 #!/bin/bash
 #if permission denied : chmod +x start_all.sh
+
 docker-compose -f challenge-addresses/docker-compose.yml up -d
 docker-compose -f challenge-carriers/docker-compose.yml up -d
 docker-compose -f challenge-front/docker-compose.yml up -d
