@@ -92,8 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish-docker
     steps:
-      - uses : actions/checkout
-
+    
       - name: Set up Kubernetes
         uses: google-github-actions/setup-gcloud@v0.3.0
         with:
