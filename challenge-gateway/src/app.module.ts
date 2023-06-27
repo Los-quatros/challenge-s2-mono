@@ -4,9 +4,10 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { SellersModule } from './sellers/sellers.module';
 import { MailModule } from './mail/mail.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
-  imports: [UsersModule, AuthenticationModule, SellersModule, MailModule],
+  imports: [UsersModule, AuthenticationModule, SellersModule, MailModule, PaymentModule],
   controllers: [AppController],
   providers: [],
 })
