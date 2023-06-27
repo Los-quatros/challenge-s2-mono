@@ -87,3 +87,31 @@ jobs:
           file: ./challenge-mailer/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-mailer:latest
+      
+      - name: Set up Kubernetes
+        uses: google-github-actions/setup-gcloud@v0.3.0
+        with:
+          project_id: calcium-post-383607
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          cluster_name: marketplace
+          zone: europe-west1	
+          
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials marketplace --zone europe-west1 --project calcium-post-383607
+
+      - name: Deploy challenge-front
+        run: |
+          kubectl patch deployment challenge-front -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      - name: Deploy challenge-users
+        run: |
+          kubectl patch deployment challenge-users -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      
+      - name: Deploy challenge-gateway
+        run: |
+          kubectl patch deployment challenge-gateway -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      
+      - name: Deploy challenge-mailer
+        run: |
+          kubectl patch deployment challenge-mailer -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+
