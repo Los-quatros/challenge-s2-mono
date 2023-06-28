@@ -100,10 +100,6 @@ function Register() {
 			emailError === "" &&
 			passwordError === ""
 		) {
-			const firstName = event.target.firstName.value;
-			const lastName = event.target.lastName.value;
-			const email = event.target.email.value;
-			const password = event.target.pass.value;
 			fetch("http://localhost:4000/users", {
 				method: "POST",
 				headers: {
@@ -117,6 +113,8 @@ function Register() {
 						setTimeout(() => {
 							setToast("Votre compte a bien été créé", "success");
 						}, 500);
+					} else {
+						setToast("Une erreur est survenue lors de l'inscription", "error");
 					}
 				})
 				.catch(() =>

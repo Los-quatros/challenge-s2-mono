@@ -67,8 +67,6 @@ function Login() {
 	const login = (event) => {
 		event.preventDefault();
 		if (emailError === "" && passwordError === "") {
-			const email = event.target.email.value;
-			const password = event.target.pass.value;
 			fetch("http://localhost:4000/users/login", {
 				method: "POST",
 				headers: {
@@ -82,6 +80,8 @@ function Login() {
 				.then((response) => {
 					if (response.status === 200) {
 						return response.text();
+					} else {
+						setToast("Mauvais identifiants", "error");
 					}
 				})
 				.then((data) => {
