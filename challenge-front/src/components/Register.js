@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 import auth from "../assets/images/auth/auth.png";
-import { useState } from "react";
 
 /**
  * Display toast message
@@ -23,15 +23,68 @@ const setToast = (message, type) => {
 };
 
 function Register() {
+	const navigate = useNavigate();
 	const [isVisible, setIsVisible] = useState(false);
+	const [email, setEmail] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState("");
 	const [firstNameError, setFirstNameError] = useState("");
 	const [lastNameError, setLastNameError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
-	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (email === "") {
+			setEmailError("");
+		} else {
+			const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			if (regex.test(email)) {
+				setEmailError("");
+			} else {
+				setEmailError("Entrer une adresse mail valide");
+			}
+		}
+	}, [email]);
+
+	useEffect(() => {
+		if (firstName === "") {
+			setFirstNameError("");
+		} else {
+			if (firstName.length >= 3) {
+				setFirstNameError("");
+			} else {
+				setFirstNameError("Le prénom doit contenir au moins 3 caractères");
+			}
+		}
+	}, [firstName]);
+
+	useEffect(() => {
+		if (lastName === "") {
+			setLastNameError("");
+		} else {
+			if (lastName.length >= 3) {
+				setLastNameError("");
+			} else {
+				setLastNameError("Le nom doit contenir au moins 2 caractères");
+			}
+		}
+	}, [lastName]);
+
+	useEffect(() => {
+		if (password === "") {
+			setPasswordError("");
+		} else {
+			if (password.length >= 6) {
+				setPasswordError("");
+			} else {
+				setPasswordError("Le mot de passe doit contenir au moins 6 caractères");
+			}
+		}
+	}, [password]);
 
 	/**
-	 * Change the visibility of the password
+	 * Change the visibility of the password input
 	 */
 	const handleClick = () => setIsVisible(!isVisible);
 
@@ -72,71 +125,6 @@ function Register() {
 		}
 	};
 
-	/**
-	 * Check if the email is valid
-	 * @param { string } value The email to check
-	 */
-	const isValidEmail = (value) => {
-		if (value === "") {
-			setEmailError("");
-		} else {
-			const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-			if (regex.test(value)) {
-				setEmailError("");
-			} else {
-				setEmailError("Entrer une adresse mail valide");
-			}
-		}
-	};
-
-	/**
-	 * Check if the first name is valid
-	 * @param { string } value The first name to check
-	 */
-	const isValidFirstName = (value) => {
-		if (value === "") {
-			setFirstNameError("");
-		} else {
-			if (value.length >= 3) {
-				setFirstNameError("");
-			} else {
-				setFirstNameError("Le prénom doit contenir au moins 3 caractères");
-			}
-		}
-	};
-
-	/**
-	 * Check if the last name is valid
-	 * @param { string } value The last name to check
-	 */
-	const isValidLastName = (value) => {
-		if (value === "") {
-			setLastNameError("");
-		} else {
-			if (value.length >= 3) {
-				setLastNameError("");
-			} else {
-				setLastNameError("Le nom doit contenir au moins 3 caractères");
-			}
-		}
-	};
-
-	/**
-	 * Check if the password is valid
-	 * @param { string } value The password to check
-	 */
-	const isValidPassword = (value) => {
-		if (value === "") {
-			setPasswordError("");
-		} else {
-			if (value.length >= 6) {
-				setPasswordError("");
-			} else {
-				setPasswordError("Le mot de passe doit contenir au moins 6 caractères");
-			}
-		}
-	};
-
 	return (
 		<>
 			<ToastContainer />
@@ -157,7 +145,7 @@ function Register() {
 									type="text"
 									name="lastName"
 									placeholder="Nom"
-									onInput={(event) => isValidLastName(event.target.value)}
+									onInput={(event) => setLastName(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
@@ -176,7 +164,7 @@ function Register() {
 									type="text"
 									name="firstName"
 									placeholder="Prénom"
-									onInput={(event) => isValidFirstName(event.target.value)}
+									onInput={(event) => setFirstName(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
@@ -195,7 +183,7 @@ function Register() {
 									type="text"
 									name="email"
 									placeholder="Adresse mail"
-									onInput={(event) => isValidEmail(event.target.value)}
+									onInput={(event) => setEmail(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
@@ -221,7 +209,7 @@ function Register() {
 									type={isVisible ? "text" : "password"}
 									name="pass"
 									placeholder="Mot de passe"
-									onInput={(event) => isValidPassword(event.target.value)}
+									onInput={(event) => setPassword(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
