@@ -48,7 +48,11 @@ function Login() {
 					password: password,
 				}),
 			})
-				.then((response) => response.text())
+				.then((response) => {
+					if (response.status === 200) {
+						return response.text();
+					}
+				})
 				.then((data) => {
 					if (data) {
 						localStorage.setItem("token", data);
