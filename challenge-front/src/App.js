@@ -12,6 +12,7 @@ import Header from "./components/Header";
 
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
+const NewPassword = lazy(() => import("./components/NewPassword"));
 const Register = lazy(() => import("./components/Register"));
 const Home = lazy(() => import("./pages/HomePage.js"));
 const Categories = lazy(() => import("./pages/CategoriesPage"));
@@ -151,7 +152,7 @@ const AppContent = () => {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				{isAuth && !isLogged && <Route path="/login" element={<Login />} />}
-				{isAuth && <Route path="/new-password" element={<ResetPassword />} />}
+				{isAuth && <Route path="/new-password" element={<NewPassword />} />}
 				{isAuth && <Route path="/reset-password" element={<ResetPassword />} />}
 				{isAuth && !isLogged && (
 					<Route path="/register" element={<Register />} />
