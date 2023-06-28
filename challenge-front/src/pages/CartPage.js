@@ -1,5 +1,5 @@
 import { ToastContainer, toast } from "react-toastify";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import cartPageBackground from "../assets/images/cart/cart.png";
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const setToast = (message, type) => {
   toast[type](message, {
     position: "top-right",
-    autoClose: 4000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
