@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 import auth from "../assets/images/auth/auth.png";
-import { useState } from "react";
 
 /**
  * Display toast message
@@ -23,11 +23,42 @@ const setToast = (message, type) => {
 };
 
 function Login() {
-	const [isVisible, setIsVisible] = useState(false);
-	const [emailError, setEmailError] = useState("");
 	const navigate = useNavigate();
+	const [isVisible, setIsVisible] = useState(false);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
+
+	/**
+	 * Change the visibility of the password input
+	 */
 	const handleClick = () => setIsVisible(!isVisible);
+
+	useEffect(() => {
+		if (email === "") {
+			setEmailError("");
+		} else {
+			const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			if (regex.test(email)) {
+				setEmailError("");
+			} else {
+				setEmailError("Entrer une adresse mail valide");
+			}
+		}
+	}, [email]);
+
+	useEffect(() => {
+		if (password === "") {
+			setPasswordError("");
+		} else {
+			if (password.length >= 6) {
+				setPasswordError("");
+			} else {
+				setPasswordError("Le mot de passe doit contenir au moins 6 caractères");
+			}
+		}
+	}, [password]);
 
 	/**
 	 * Login the user if their information are valid
@@ -68,39 +99,6 @@ function Login() {
 		}
 	};
 
-	/**
-	 * Check if the email is valid
-	 * @param { string } value The email to check
-	 */
-	const isValidEmail = (value) => {
-		if (value === "") {
-			setEmailError("");
-		} else {
-			const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-			if (regex.test(value)) {
-				setEmailError("");
-			} else {
-				setEmailError("Entrer une adresse mail valide");
-			}
-		}
-	};
-
-	/**
-	 * Check if the password is valid
-	 * @param { string } value The password to check
-	 */
-	const isValidPassword = (value) => {
-		if (value === "") {
-			setPasswordError("");
-		} else {
-			if (value.length >= 6) {
-				setPasswordError("");
-			} else {
-				setPasswordError("Le mot de passe doit contenir au moins 6 caractères");
-			}
-		}
-	};
-
 	return (
 		<>
 			<ToastContainer />
@@ -121,7 +119,7 @@ function Login() {
 									type="text"
 									name="email"
 									placeholder="Adresse mail"
-									onInput={(event) => isValidEmail(event.target.value)}
+									onInput={(event) => setEmail(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
@@ -147,7 +145,7 @@ function Login() {
 									type={isVisible ? "text" : "password"}
 									name="pass"
 									placeholder="Mot de passe"
-									onInput={(event) => isValidPassword(event.target.value)}
+									onInput={(event) => setPassword(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
@@ -166,6 +164,11 @@ function Login() {
 								</div>
 							</div>
 							<div className="text-center p-t-115">
+								<span className="txt1">Mot de passe oublié ?</span>
+								<Link className="txt2 ml-1" to="/reset-password">
+									Cliquez ici
+								</Link>
+								<br />
 								<span className="txt1">Pas encore inscrit ?</span>
 								<Link className="txt2 ml-1" to="/register">
 									S'enregistrer
