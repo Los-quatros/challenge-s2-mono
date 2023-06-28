@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import { gsap } from "gsap";
@@ -10,6 +11,24 @@ const $ = window.$;
  * @param { Event } event Click event
  */
 const handleLinkClick = (event) => event.preventDefault();
+
+/**
+ * Display toast message
+ * @param { String } message Toast message
+ * @param { String } type Toast type
+ */
+const setToast = (message, type) => {
+	toast[type](message, {
+		position: "top-right",
+		autoClose: 1500,
+		hideProgressBar: false,
+		closeOnClick: true,
+		pauseOnHover: false,
+		draggable: true,
+		progress: undefined,
+		theme: "light",
+	});
+};
 
 /**
  * Expand submenus of menu in mobile device
@@ -56,6 +75,9 @@ const Header = ({ quantity }) => {
 		closeMenu();
 		setIsLogged(false);
 		navigate("/");
+		setTimeout(() => {
+			setToast("Vous avez été déconnecté", "success");
+		}, 500);
 	};
 
 	/**
@@ -89,6 +111,7 @@ const Header = ({ quantity }) => {
 
 	return (
 		<>
+			<ToastContainer />
 			<header className="header">
 				<div className="header_container">
 					<div className="container">

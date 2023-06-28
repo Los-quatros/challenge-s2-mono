@@ -12,7 +12,7 @@ import { useState } from "react";
 const setToast = (message, type) => {
 	toast[type](message, {
 		position: "top-right",
-		autoClose: 4000,
+		autoClose: 1500,
 		hideProgressBar: false,
 		closeOnClick: true,
 		pauseOnHover: false,
@@ -57,6 +57,9 @@ function Login() {
 					if (data) {
 						localStorage.setItem("token", data);
 						navigate("/");
+						setTimeout(() => {
+							setToast("Vous êtes connecté", "success");
+						}, 500);
 					}
 				})
 				.catch(() =>
