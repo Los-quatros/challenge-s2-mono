@@ -166,7 +166,7 @@ function Login() {
 							<div className="text-center p-t-115">
 								<span className="txt1">Mot de passe oublié ?</span>
 								<Link className="txt2 ml-1" to="/reset-password">
-									Cliquez ici
+									Recevoir un mot de passe
 								</Link>
 								<br />
 								<span className="txt1">Pas encore inscrit ?</span>
