@@ -122,7 +122,7 @@ function ContactPage() {
                       <ul>
                         <li>
                           <Link to="/" className="text-dark">
-                            PATATE
+                            Accueil
                           </Link>
                         </li>
                         <li className="active font-weight-bold">Contact</li>
