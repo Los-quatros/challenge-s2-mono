@@ -119,5 +119,3 @@ jobs:
       - name: Deploy challenge-mailer
         run: |
           kubectl patch deployment challenge-mailer -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-
-
