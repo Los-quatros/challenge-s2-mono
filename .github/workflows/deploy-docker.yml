@@ -5,6 +5,10 @@ on:
     branches:
       - feature/deploy
 
+env:
+  GKE_CLUSTER: calcium-post-383607
+  GKE_ZONE: europe-west1-b
+
 jobs:
   build-test:
     runs-on: ubuntu-latest
