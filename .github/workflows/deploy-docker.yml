@@ -115,6 +115,14 @@ jobs:
         run: |
           gcloud container clusters get-credentials marketplace --zone europe-west1 --project calcium-post-383607
 
+      - name: install kubectl
+        run: |
+          sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
+          curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+          echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+          sudo apt-get update
+          sudo apt-get install -y kubectl
+          
       - name: Deploy challenge-front
         run: |
           kubectl patch deployment challenge-front -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
