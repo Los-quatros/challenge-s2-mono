@@ -12,7 +12,7 @@ const stripe = new Stripe('sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yL
 export class PaymentsService {
   constructor(@Inject("PAYMENTS_SERVICE") readonly paymentsProxy: ClientProxy) {}
 
-    async createCheckoutSession(data: any) {
+    async createCheckoutSession() {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
@@ -28,13 +28,13 @@ export class PaymentsService {
           },
         ],
         mode: 'payment',
-        success_url: 'https://localhost:3000/payments/success',
-        cancel_url: 'https://localhost:3000/payments/cancel',
+        success_url: 'https://localhost:4000/payments/success',
+        cancel_url: 'https://localhost:4000/payments/cancel',
       });
   
       await this.paymentsProxy.emit('payments_queue', { sessionId: session.id });
-  
       return { sessionId: session.id };
+    
   }
 
 }

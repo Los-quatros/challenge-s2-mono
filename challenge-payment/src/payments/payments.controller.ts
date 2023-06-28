@@ -5,7 +5,7 @@ import {
     Res,
     Inject
   } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { EventPattern } from '@nestjs/microservices';
 import { PaymentsService } from './payments.service';
 
   
@@ -14,21 +14,21 @@ import { PaymentsService } from './payments.service';
 export class PaymentsController {
   constructor(private paymentsService: PaymentsService) {}
 
-  @Post('/checkout')
-  async createCheckoutSession(@Body() data: any) {
+  @EventPattern('create-stripe-session')
+  async createCheckoutSession() {
     
-    const session = await this.paymentsService.createCheckoutSession(data);
+    const session = await this.paymentsService.createCheckoutSession();
     return { sessionId: session };
 
   }
 
-  @Post('/success')
+  @EventPattern('payment-success')
   async handlePaymentSuccess(@Body() data: any) {
     
     return 'payment successed';
   }
 
-  @Post('/cancel')
+  @EventPattern('payment-failed')
   handlePaymentCancel(@Res() res: Response) {
   
     return 'payment failed please retry';

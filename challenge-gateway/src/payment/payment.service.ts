@@ -7,6 +7,9 @@ export class PaymentService {
     constructor(
         @Inject('PAYMENTS_SERVICE') private readonly paymentProxy: ClientProxy,
         
-    ) {
+    ) {}
+
+    async createCheckoutSession() {
+        return await lastValueFrom(this.paymentProxy.send('create-stripe-session', {}));
     }
 }
