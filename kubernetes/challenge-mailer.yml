@@ -19,7 +19,7 @@ spec:
             - containerPort: 3000
           env:
             - name: EMAIL_SERVER
-              value: "o-reply@moon-factory.fr"
+              value: "no-reply@moon-factory.fr"
             - name: EMAIL_PASSWORD
               value: "MoonFactory123$"
             - name: FRONT_URL
