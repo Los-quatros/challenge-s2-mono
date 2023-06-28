@@ -1,6 +1,6 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 
 const $ = window.$;
@@ -32,10 +32,30 @@ const expandSubmenusFromMenu = (event) => {
 const Header = ({ quantity }) => {
 	const [menuActive, setMenuActive] = useState(false);
 	const [cartQuantity, setCartQuantity] = useState(0);
+	const [isLogged, setIsLogged] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setCartQuantity(quantity);
 	}, [quantity]);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			setIsLogged(true);
+		}
+	}, []);
+
+	/**
+	 * Logout the user
+	 * @param { Event } event Click event
+	 */
+	const logout = (event) => {
+		event.preventDefault();
+		localStorage.removeItem("token");
+		setIsLogged(false);
+		navigate("/");
+	};
 
 	/**
 	 * Handle hamburger click
@@ -102,6 +122,16 @@ const Header = ({ quantity }) => {
 											<li>
 												<Link to="/contact">Contact</Link>
 											</li>
+											{!isLogged && (
+												<li>
+													<Link to="/login">Se connecter</Link>
+												</li>
+											)}
+											{isLogged && (
+												<li>
+													<Link onClick={logout}>Se déconnecter</Link>
+												</li>
+											)}
 										</ul>
 									</nav>
 									<div className="header_extra ml-auto">
@@ -177,6 +207,16 @@ const Header = ({ quantity }) => {
 							<li className="page_menu_item menu_mm" onClick={closeMenu}>
 								<Link to="/contact">Contact</Link>
 							</li>
+							{!isLogged && (
+								<li className="page_menu_item menu_mm">
+									<Link to="/login">Se connecter</Link>
+								</li>
+							)}
+							{isLogged && (
+								<li className="page_menu_item menu_mm">
+									<Link onClick={logout}>Se déconnecter</Link>
+								</li>
+							)}
 						</ul>
 					</div>
 				</div>

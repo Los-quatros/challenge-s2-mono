@@ -112,7 +112,7 @@ function Login() {
 									type="text"
 									name="email"
 									placeholder="Adresse mail"
-									onInput={(e) => isValidEmail(e.target.value)}
+									onInput={(event) => isValidEmail(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>
@@ -138,7 +138,7 @@ function Login() {
 									type={isVisible ? "text" : "password"}
 									name="pass"
 									placeholder="Mot de passe"
-									onInput={(e) => isValidPassword(e.target.value)}
+									onInput={(event) => isValidPassword(event.target.value)}
 								/>
 								<span className="focus-input100"></span>
 							</div>

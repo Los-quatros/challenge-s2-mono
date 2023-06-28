@@ -79,6 +79,7 @@ const AppContent = () => {
 	const isAuth =
 		location.pathname === "/login" || location.pathname === "/register";
 	const [cartQuantity, setCartQuantity] = useState(0);
+	const [isLogged, setIsLogged] = useState(false);
 
 	useEffect(() => {
 		clearLinks();
@@ -117,6 +118,13 @@ const AppContent = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			setIsLogged(true);
+		}
+	}, []);
+
 	/**
 	 * Handle cart change
 	 */
@@ -133,8 +141,10 @@ const AppContent = () => {
 			{displayHeader && <Header quantity={cartQuantity} />}
 			<Routes>
 				<Route path="/" element={<Home />} />
-				{isAuth && <Route path="/login" element={<Login />} />}
-				{isAuth && <Route path="/register" element={<Register />} />}
+				{isAuth && !isLogged && <Route path="/login" element={<Login />} />}
+				{isAuth && !isLogged && (
+					<Route path="/register" element={<Register />} />
+				)}
 				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/cart" element={<Cart />} />
