@@ -16,39 +16,36 @@ function ContactPage() {
 
 	/**
 	 * Trigger on last name input change
-	 * @param { Event } e Input last name event
+	 * @param { Event } event Input last name event
 	 */
-	const onLastNameChange = (e) => setLastName(e.target.value);
+	const onLastNameChange = (event) => setLastName(event.target.value);
 
 	/**
 	 * Trigger on first name input change
-	 * @param { Event } e Input first name event
+	 * @param { Event } event Input first name event
 	 */
-	const onFirstNameChange = (e) => setFirstName(e.target.value);
+	const onFirstNameChange = (event) => setFirstName(event.target.value);
 
 	/**
 	 * Trigger on subject input change
-	 * @param { Event } e Input subject event
+	 * @param { Event } event Input subject event
 	 */
-	const onSubjectChange = (e) => setSubject(e.target.value);
+	const onSubjectChange = (event) => setSubject(event.target.value);
 
 	/**
 	 * Trigger on message input change
-	 * @param { Event } e Input message event
+	 * @param { Event } event Input message event
 	 */
-	const onMessageChange = (e) => setMessage(e.target.value);
+	const onMessageChange = (event) => setMessage(event.target.value);
 
 	/**
 	 * Trigger on captcha change
 	 * @param { String } value Captcha value
 	 */
 	const onCaptchaChange = (value) => {
-		console.log("Captcha value:", value);
 		if (!value) {
-			console.log("Captcha non vérifié");
 			setIsCaptchaVerified(false);
 		} else {
-			console.log("Captcha vérifié");
 			setIsCaptchaVerified(true);
 		}
 	};
@@ -78,13 +75,13 @@ function ContactPage() {
 
 	/**
 	 * Trigger on form submit to send message
-	 * @param { Event } e Form submit event
+	 * @param { Event } event Form submit event
 	 * TODO : Send message from API
 	 * TODO : Display toaster success message
 	 * TODO : Display toaster error message
 	 */
-	const sendMessage = (e) => {
-		e.preventDefault();
+	const sendMessage = (event) => {
+		event.preventDefault();
 		if (
 			lastName === "" ||
 			firstName === "" ||
