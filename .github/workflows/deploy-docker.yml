@@ -100,7 +100,13 @@ jobs:
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: ${{ secrets.GKE_SA_KEY }}
- 
+
+      - name: Install gke-gcloud-auth-plugin
+        run: |
+          curl -LO https://storage.googleapis.com/cloud-sdk-release/releases/latest/gke-gcloud-auth-plugin.tar.gz
+          tar -xvf gke-gcloud-auth-plugin.tar.gz
+          sudo mv gke-gcloud-auth-plugin /usr/local/bin/
+
       - name: Configure kubectl
         run: |
           gcloud container clusters get-credentials marketplace --zone europe-west1 --project calcium-post-383607
