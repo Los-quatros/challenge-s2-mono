@@ -102,9 +102,11 @@ function Login() {
 					<div className="wrap-login100">
 						<form className="login100-form validate-form" onSubmit={login}>
 							<span className="login100-form-title p-b-26">Bienvenue !</span>
-							<span className="login100-form-title p-b-48">
-								<img src={auth} alt="Logo d'un marché" />
-							</span>
+							<Link to="/">
+								<span className="login100-form-title p-b-48">
+									<img src={auth} alt="Logo d'un marché" />
+								</span>
+							</Link>
 							<div className="wrap-input100 validate-input">
 								<input
 									required
