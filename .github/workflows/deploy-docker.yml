@@ -6,8 +6,8 @@ on:
       - feature/deploy
 
 env:
-  GKE_CLUSTER: calcium-post-383607
-  GKE_ZONE: europe-west1-b
+  GKE_CLUSTER: marketplace
+  GKE_ZONE: europe-west1
 
 jobs:
   build-test:
