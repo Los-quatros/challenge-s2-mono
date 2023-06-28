@@ -48,7 +48,7 @@ function Login() {
 					password: password,
 				}),
 			})
-				.then((res) => res.text())
+				.then((response) => response.text())
 				.then((data) => {
 					if (data) {
 						localStorage.setItem("token", data);
