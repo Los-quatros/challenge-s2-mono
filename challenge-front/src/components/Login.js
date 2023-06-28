@@ -31,7 +31,7 @@ function Login() {
 
 	/**
 	 * Login the user if their information are valid
-	 * @param { MouseEvent } e The event of the form
+	 * @param { MouseEvent } event The event of the form
 	 */
 	const login = (event) => {
 		event.preventDefault();

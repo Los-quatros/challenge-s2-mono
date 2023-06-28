@@ -200,11 +200,11 @@ function CartPage() {
 
 	/**
 	 * Redirect to product details page
-	 * @param { Event } e Click event
+	 * @param { Event } event Click event
 	 * @param { string } id Product id
 	 */
-	const redirectToProductDetails = (e, product) => {
-		e.preventDefault();
+	const redirectToProductDetails = (event, product) => {
+		event.preventDefault();
 		navigate(`/products/${product.category}/${product.id}`, {
 			state: { product },
 		});
