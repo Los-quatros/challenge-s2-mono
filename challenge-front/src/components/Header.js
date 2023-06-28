@@ -53,6 +53,7 @@ const Header = ({ quantity }) => {
 	const logout = (event) => {
 		event.preventDefault();
 		localStorage.removeItem("token");
+		closeMenu();
 		setIsLogged(false);
 		navigate("/");
 	};
