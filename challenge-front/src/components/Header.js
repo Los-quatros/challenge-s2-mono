@@ -80,7 +80,7 @@ const Header = ({ quantity }) => {
                   <nav className="main_nav">
                     <ul className="mb-0">
                       <li className="active">
-                        <Link to="/">PATATE</Link>
+                        <Link to="/">Accueil</Link>
                       </li>
                       <li className="hassubs">
                         <Link onClick={handleLinkClick}>Catégories</Link>
