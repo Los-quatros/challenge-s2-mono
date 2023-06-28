@@ -78,11 +78,13 @@ const AppContent = () => {
 	const displayHeader =
 		location.pathname !== "/login" &&
 		location.pathname !== "/register" &&
-		location.pathname !== "/reset-password";
+		location.pathname !== "/reset-password" &&
+		location.pathname !== "/new-password";
 	const isAuth =
 		location.pathname === "/login" ||
 		location.pathname === "/register" ||
-		location.pathname === "/reset-password";
+		location.pathname === "/reset-password" ||
+		location.pathname === "/new-password";
 	const [cartQuantity, setCartQuantity] = useState(0);
 	const [isLogged, setIsLogged] = useState(false);
 
@@ -100,7 +102,8 @@ const AppContent = () => {
 		} else if (
 			location.pathname === "/login" ||
 			location.pathname === "/register" ||
-			location.pathname === "/reset-password"
+			location.pathname === "/reset-password" ||
+			location.pathname === "/new-password"
 		) {
 			loadCSS("./assets/styles/auth/auth.css");
 			loadCSS("./assets/styles/auth/util.css");
@@ -148,6 +151,7 @@ const AppContent = () => {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				{isAuth && !isLogged && <Route path="/login" element={<Login />} />}
+				{isAuth && <Route path="/new-password" element={<ResetPassword />} />}
 				{isAuth && <Route path="/reset-password" element={<ResetPassword />} />}
 				{isAuth && !isLogged && (
 					<Route path="/register" element={<Register />} />
