@@ -50,8 +50,8 @@ export class UsersController {
   }
 
   @EventPattern("requestResetPassword")
-  async requestResetPassword(@Payload() id: string) {
-    return this.usersService.requestPasswordReset(id);
+  async requestResetPassword(@Payload() email: string) {
+    return this.usersService.requestPasswordReset(email);
   }
 
   @EventPattern("resetPassword")

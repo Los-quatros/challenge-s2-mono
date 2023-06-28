@@ -103,11 +103,10 @@ export class UsersService {
     return user;
   }
 
-  async requestPasswordReset(userId: string): Promise<any> {
+  async requestPasswordReset(email: string): Promise<any> {
     const resetPasswordToken = uuidv4();
-    await this.usersRepository.update(userId, { resetPasswordToken });
-
-    const user = await this.usersRepository.findOneBy({ id: userId });
+    email = email.toLowerCase();
+    const user = await this.usersRepository.findOneBy({ email: email });
 
     if (!user) {
       return {
@@ -115,7 +114,9 @@ export class UsersService {
         error: "Utilisateur non trouvé",
       };
     }
-
+    await this.usersRepository.update(user.id, {
+      resetPasswordToken: resetPasswordToken,
+    });
     return {
       message:
         "Un email de réinitialisation de mot de passe a été envoyé à l'adresse email associée à votre compte",
