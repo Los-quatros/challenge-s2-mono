@@ -103,9 +103,10 @@ jobs:
 
       - name: Install gke-gcloud-auth-plugin
         run: |
-          curl -LO https://storage.googleapis.com/cloud-sdk-release/releases/latest/gke-gcloud-auth-plugin.tar.gz
+          wget https://storage.googleapis.com/cloud-sdk-release/releases/latest/gke-gcloud-auth-plugin.tar.gz
           tar -xvf gke-gcloud-auth-plugin.tar.gz
           sudo mv gke-gcloud-auth-plugin /usr/local/bin/
+              sudo mv gke-gcloud-auth-plugin /usr/local/bin/
 
       - name: Configure kubectl
         run: |
