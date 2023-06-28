@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Order } from './entity/order.entity';
 import { OrderProduct } from './entity/orderProduct.entity';
 import { CreateOrderDto, CreateOrderProductDto } from './models/CreateOrderDto';
@@ -87,6 +87,31 @@ export class OrdersService {
       }
     }
 
+    async GetOrderProductsByProductsIds(productIds : Array<string>) : Promise<Array<OrderResponseDto>>{
+      let orderProducts : Array<OrderProduct> = [];
+      try {
+        orderProducts = await this.orderProductRepository.find({where : {
+          product_id: In(productIds)
+        }});  
+      }catch(error) {
+        throw new HttpException({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Error while fetching orderProducts',
+        }, HttpStatus.INTERNAL_SERVER_ERROR);
+      };
+      
+      const result : Array<OrderResponseDto> = await Promise.all(orderProducts.map(async (elm) => {
+        const orderProduct : OrderProduct = elm;
+        const order : Order = await this.ordersRepository.findOneBy({id : orderProduct.orderId});
+        let orderProducts : Array<OrderProductDto> = [];
+        orderProducts.push(new OrderProductDto(orderProduct.id, new Product(orderProduct.product_id), orderProduct.quantity, orderProduct.is_returned, undefined, orderProduct.nbProductReturned));
+        return new OrderResponseDto(order.id, order.is_delivered, new Address(order.address), new Carrier(order.carrier), orderProducts);
+      }));
+      console.log(result);
+      return result;
+    }
+
+
     private async GetOrdersWithProducts(orders : Array<Order>) : Promise<Array<OrderResponseDto>> {
       try {
         const result : OrderResponseDto[] = []
@@ -97,11 +122,11 @@ export class OrdersService {
             const product = new Product(orderProduct.product_id);
             return new OrderProductDto(orderProduct.id, product, orderProduct.quantity, orderProduct.is_returned, orderProduct.orderId);
           }));
-          
+
           const carrier : Carrier = new Carrier(order.carrier);
           const address : Address = new Address(order.address);
           const ordersAggregated: OrderResponseDto = {
-              id: order.id,
+              orderId: order.id,
               total: order.total,
               is_delivered: order.is_delivered,
               address: address,
@@ -121,4 +146,7 @@ export class OrdersService {
         }, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     } 
+
+    
+
 }

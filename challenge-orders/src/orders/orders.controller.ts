@@ -22,9 +22,9 @@ export class OrdersController {
         return this.ordersService.GetOrders();
     }
 
-    @EventPattern('GetSellerSales')
-    async getSellerSales() {
-
+    @EventPattern('GetOrderProductsByProducts')
+    async getOrderProductsByProductsIds(@Payload() sellerProductsIds : Array<string>) {
+        return this.ordersService.GetOrderProductsByProductsIds(sellerProductsIds['productIds']);
     }
 
 }

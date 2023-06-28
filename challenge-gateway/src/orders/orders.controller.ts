@@ -24,9 +24,4 @@ export class OrdersController {
         return this.ordersService.GetOrders();
     }
 
-    // for seller
-    @Get("/seller/:sellerId/sales")
-    async GetSellerSales(@Param() sellerId : string){
-        return this.ordersService.GetSellerSales(sellerId);
-    }
 }

@@ -49,6 +49,11 @@ export class SellersController {
     ) {
         return await this.sellersService.createProduct(createProductDto);
     }
+
+    @Get(':idseller/sales')
+    async GetMySales(@Param() idSeller : string){
+        return await this.sellersService.getMySales(idSeller['idseller']);
+    }
     
 
 
