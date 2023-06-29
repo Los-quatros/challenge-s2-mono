@@ -28,8 +28,6 @@ const setToast = (message, type) => {
 	});
 };
 
-const handleLinkClick = (e) => e.preventDefault();
-
 function AccountPage() {
 	const navigate = useNavigate();
 	const { name } = useParams();
