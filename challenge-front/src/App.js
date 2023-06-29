@@ -11,6 +11,8 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 
 const Login = lazy(() => import("./components/Login"));
+const ResetPassword = lazy(() => import("./components/ResetPassword"));
+const NewPassword = lazy(() => import("./components/NewPassword"));
 const Register = lazy(() => import("./components/Register"));
 const Home = lazy(() => import("./pages/HomePage.js"));
 const Categories = lazy(() => import("./pages/CategoriesPage"));
@@ -75,10 +77,17 @@ const clearLinks = () => {
 const AppContent = () => {
 	const location = useLocation();
 	const displayHeader =
-		location.pathname !== "/login" && location.pathname !== "/register";
+		location.pathname !== "/login" &&
+		location.pathname !== "/register" &&
+		location.pathname !== "/reset-password" &&
+		location.pathname !== "/new-password";
 	const isAuth =
-		location.pathname === "/login" || location.pathname === "/register";
+		location.pathname === "/login" ||
+		location.pathname === "/register" ||
+		location.pathname === "/reset-password" ||
+		location.pathname === "/new-password";
 	const [cartQuantity, setCartQuantity] = useState(0);
+	const [isLogged, setIsLogged] = useState(false);
 
 	useEffect(() => {
 		clearLinks();
@@ -93,7 +102,9 @@ const AppContent = () => {
 			loadCSS("../assets/styles/categories/responsive.css");
 		} else if (
 			location.pathname === "/login" ||
-			location.pathname === "/register"
+			location.pathname === "/register" ||
+			location.pathname === "/reset-password" ||
+			location.pathname === "/new-password"
 		) {
 			loadCSS("./assets/styles/auth/auth.css");
 			loadCSS("./assets/styles/auth/util.css");
@@ -117,6 +128,13 @@ const AppContent = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			setIsLogged(true);
+		}
+	}, []);
+
 	/**
 	 * Handle cart change
 	 */
@@ -133,8 +151,12 @@ const AppContent = () => {
 			{displayHeader && <Header quantity={cartQuantity} />}
 			<Routes>
 				<Route path="/" element={<Home />} />
-				{isAuth && <Route path="/login" element={<Login />} />}
-				{isAuth && <Route path="/register" element={<Register />} />}
+				{isAuth && !isLogged && <Route path="/login" element={<Login />} />}
+				{isAuth && <Route path="/new-password" element={<NewPassword />} />}
+				{isAuth && <Route path="/reset-password" element={<ResetPassword />} />}
+				{isAuth && !isLogged && (
+					<Route path="/register" element={<Register />} />
+				)}
 				<Route path="/categories/:category" element={<Categories />} />
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/cart" element={<Cart />} />

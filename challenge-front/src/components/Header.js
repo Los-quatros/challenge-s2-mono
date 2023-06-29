@@ -1,6 +1,7 @@
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 
 const $ = window.$;
@@ -10,6 +11,24 @@ const $ = window.$;
  * @param { Event } event Click event
  */
 const handleLinkClick = (event) => event.preventDefault();
+
+/**
+ * Display toast message
+ * @param { String } message Toast message
+ * @param { String } type Toast type
+ */
+const setToast = (message, type) => {
+  toast[type](message, {
+    position: "top-right",
+    autoClose: 1500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+};
 
 /**
  * Expand submenus of menu in mobile device
@@ -32,10 +51,34 @@ const expandSubmenusFromMenu = (event) => {
 const Header = ({ quantity }) => {
   const [menuActive, setMenuActive] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
+  const [isLogged, setIsLogged] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCartQuantity(quantity);
   }, [quantity]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLogged(true);
+    }
+  }, []);
+
+  /**
+   * Logout the user
+   * @param { Event } event Click event
+   */
+  const logout = (event) => {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    closeMenu();
+    setIsLogged(false);
+    navigate("/");
+    setTimeout(() => {
+      setToast("Vous avez été déconnecté", "success");
+    }, 500);
+  };
 
   /**
    * Handle hamburger click
@@ -68,6 +111,7 @@ const Header = ({ quantity }) => {
 
   return (
     <>
+      <ToastContainer />
       <header className="header">
         <div className="header_container">
           <div className="container">
@@ -80,7 +124,7 @@ const Header = ({ quantity }) => {
                   <nav className="main_nav">
                     <ul className="mb-0">
                       <li className="active">
-                        <Link to="/">ROULIO</Link>
+                        <Link to="/">Accueil</Link>
                       </li>
                       <li className="hassubs">
                         <Link onClick={handleLinkClick}>Catégories</Link>
@@ -102,6 +146,21 @@ const Header = ({ quantity }) => {
                       <li>
                         <Link to="/contact">Contact</Link>
                       </li>
+                      {isLogged && (
+                        <li>
+                          <Link to="/account/profile">Compte</Link>
+                        </li>
+                      )}
+                      {!isLogged && (
+                        <li>
+                          <Link to="/login">Connexion</Link>
+                        </li>
+                      )}
+                      {isLogged && (
+                        <li>
+                          <Link onClick={logout}>Déconnexion</Link>
+                        </li>
+                      )}
                     </ul>
                   </nav>
                   <div className="header_extra ml-auto">
@@ -150,7 +209,7 @@ const Header = ({ quantity }) => {
           <div className="page_menu_content">
             <ul className="page_menu_nav menu_mm">
               <li className="page_menu_item menu_mm" onClick={closeMenu}>
-                <Link to="/">Accueil</Link>
+                <Link to="/">ROULIO</Link>
               </li>
               <li
                 className="page_menu_item has-children menu_mm"
@@ -177,6 +236,21 @@ const Header = ({ quantity }) => {
               <li className="page_menu_item menu_mm" onClick={closeMenu}>
                 <Link to="/contact">Contact</Link>
               </li>
+              {isLogged && (
+                <li className="page_menu_item menu_mm">
+                  <Link to="/account/profile">Compte</Link>
+                </li>
+              )}
+              {!isLogged && (
+                <li className="page_menu_item menu_mm">
+                  <Link to="/login">Connexion</Link>
+                </li>
+              )}
+              {isLogged && (
+                <li className="page_menu_item menu_mm">
+                  <Link onClick={logout}>Déconnexion</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

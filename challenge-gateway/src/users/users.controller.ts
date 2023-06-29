@@ -74,14 +74,13 @@ export class UsersController {
     return this.usersService.login(body);
   }
 
-  @AuthenticationRequired()
-  @Post(':id/reset-password')
+  @Post(':email/reset-password')
   @HttpCode(200)
-  requestPasswordReset(@Param('id') id: string) {
-    return this.usersService.requestPasswordReset(id);
+  requestPasswordReset(@Param('email') email: string) {
+    console.log(email);
+    return this.usersService.requestPasswordReset(email);
   }
 
-  @AuthenticationRequired()
   @Patch('reset-password/:token')
   resetPassword(
     @Param('token') token: string,

@@ -60,9 +60,9 @@ export class UsersService {
     return this.usersProxy.send('validate-user', jwtToken);
   }
 
-  async requestPasswordReset(id: string) {
-    const { email, message, token } = await lastValueFrom(
-      this.usersProxy.send('requestResetPassword', id),
+  async requestPasswordReset(email: string) {
+    const { message, token } = await lastValueFrom(
+      this.usersProxy.send('requestResetPassword', email),
     );
 
     if (!message) {

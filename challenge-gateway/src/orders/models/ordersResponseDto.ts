@@ -26,19 +26,21 @@ export class OrderProductDto {
     quantity : number;
     orderId : string;
     is_returned : boolean;
+    nbProductReturned? : number;
 
-    constructor(id : string, product : Product, quantity: number, is_returned : boolean, orderId : string){
+    constructor(id : string, product : Product, quantity: number, is_returned : boolean, orderId : string, nbProductReturned? : number){
         this.id = id;
         this.is_returned = is_returned;
         this.orderId = orderId;
         this.quantity = quantity;
         this.product = product;
+        this.nbProductReturned = nbProductReturned;
     }
 }
 
 
 export class OrderResponseDto {
-    id : string;
+    orderId : string;
     total : number;
     is_delivered : boolean;
     address : Address;

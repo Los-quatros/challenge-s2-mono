@@ -8,11 +8,16 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: returns-db
     ports:
-      - 5437:5432
+      - 5440:5432
     volumes:
       - ./database:/var/lib/postgresql/data
+    networks:
+      - challenge-network
+
   returns-server:
+    restart: always
     build: .
+    command: sh -c "npm install && npm run start:dev"
     ports:
       - 3005:3000
     environment:
@@ -21,9 +26,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: returns-db
+    working_dir: /home/node
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/home/node
     depends_on:
       - returns-db
     networks:
@@ -32,7 +37,9 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8084:8080
+      - 8084:8080 
+    networks:
+      - challenge-network  
 networks:
   challenge-network:
     external: true

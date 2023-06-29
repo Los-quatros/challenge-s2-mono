@@ -36,25 +36,38 @@ export class OrderProductDto {
     id : string;
     product : Product;
     quantity : number;
-    orderId : string;
+    orderId? : string;
     is_returned : boolean;
+    nbProductReturned? : number
 
-    constructor(id : string, product : Product, quantity: number, is_returned : boolean, orderId : string){
+    constructor(id : string, product : Product, quantity: number, is_returned : boolean, orderId? : string, nbProductReturned? : number){
         this.id = id;
         this.is_returned = is_returned;
         this.orderId = orderId;
         this.quantity = quantity;
         this.product = product;
-    }
+        this.nbProductReturned = nbProductReturned;
+    };
 }
 
 export class OrderResponseDto {
-    id : string;
-    total : number;
+    orderId : string;
+    total? : number;
     is_delivered : boolean;
     address : Address;
     carrier : Carrier;
-    is_paid : boolean;
+    is_paid? : boolean;
     orderProducts : Array<OrderProductDto>;
-    userId : string;
+    userId? : string;
+
+    constructor(id : string, is_delivered : boolean, address : Address, carrier : Carrier, orderProducts : Array<OrderProductDto>, userId? : string,  total? : number, is_paid? : boolean){
+        this.orderId = id;
+        this.total = total;
+        this.is_delivered = is_delivered;
+        this.address = address;
+        this.carrier = carrier;
+        this.is_paid = is_paid;
+        this.orderProducts = orderProducts;
+        this.userId = userId;
+    }
 }

@@ -7,10 +7,12 @@ import { MailModule } from './mail/mail.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CarriersModule } from './carriers/carriers/carriers.module';
+import { ReturnsController } from './returns/returns.controller';
+import { ReturnsModule } from './returns/returns.module';
 
 
 @Module({
-  imports: [UsersModule, AuthenticationModule, SellersModule, MailModule, ProductsModule, OrdersModule, CarriersModule],
+  imports: [ReturnsModule ,UsersModule, AuthenticationModule, SellersModule, MailModule, ProductsModule, OrdersModule, CarriersModule],
   controllers: [AppController],
   providers: [],  
 })
