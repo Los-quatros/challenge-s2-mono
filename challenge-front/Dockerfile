@@ -3,7 +3,7 @@ FROM node:12.16.1-alpine3.9 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/
-COPY ./package-lock /app/
+COPY ./package-lock.json /app/
 RUN npm
 COPY . /app
 RUN npm build
