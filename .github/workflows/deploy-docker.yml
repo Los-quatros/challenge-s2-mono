@@ -100,6 +100,42 @@ jobs:
           file: ./challenge-orders/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-orders:latest
+
+      - name: Build and push challenge-products
+        # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-products/') }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./challenge-products
+          file: ./challenge-products/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-products:latest
+      
+      - name: Build and push challenge-payments
+        # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-payments/') }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./challenge-payments
+          file: ./challenge-payments/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-payments:latest
+      
+      - name: Build and push challenge-sellers
+        # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-sellers/') }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./challenge-sellers
+          file: ./challenge-sellers/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-sellers:latest
+
+      - name: Build and push challenge-returns
+        # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-returns/') }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./challenge-returns
+          file: ./challenge-returns/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-returns:latest
       
   deploy-kubernetes:
     runs-on: ubuntu-latest
