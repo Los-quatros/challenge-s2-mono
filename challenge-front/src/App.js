@@ -82,17 +82,17 @@ const AppContent = () => {
 	const hasToken = localStorage.getItem("token") ? true : false;
 	const location = useLocation();
 	const displayHeader =
-		location.pathname === "/login" &&
-		location.pathname === "/register" &&
-		location.pathname === "/reset-password" &&
-		location.pathname === "/new-password" &&
-		location.pathname.startsWith("/account");
+		location.pathname !== "/login" &&
+		location.pathname !== "/register" &&
+		location.pathname !== "/reset-password" &&
+		location.pathname !== "/new-password" &&
+		!location.pathname.startsWith("/account");
 	const displayFooter =
-		location.pathname === "/login" &&
-		location.pathname === "/register" &&
-		location.pathname === "/reset-password" &&
-		location.pathname === "/new-password" &&
-		location.pathname.startsWith("/account");
+		location.pathname !== "/login" &&
+		location.pathname !== "/register" &&
+		location.pathname !== "/reset-password" &&
+		location.pathname !== "/new-password" &&
+		!location.pathname.startsWith("/account");
 	const [cartQuantity, setCartQuantity] = useState(0);
 
 	useEffect(() => {
