@@ -119,23 +119,18 @@ jobs:
 
       - name: Deploy challenge-front
         run: |
-          ./kustomize build challenge-front | kubectl patch deployment challenge-front -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+          kubectl patch deployment challenge-front -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
 
-      # - name: Configure kubectl
-      #   run: |
-      #     gcloud container clusters get-credentials marketplace --zone europe-west1 --project calcium-post-383607
-
-      # - name: Deploy challenge-front
-      #   run: |
-      #     kubectl patch deployment challenge-front -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-      # - name: Deploy challenge-users
-      #   run: |
-      #     kubectl patch deployment challenge-users -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      - name: Deploy challenge-users
+        run: |
+          ./kustomize build challenge-users | kubectl patch deployment challenge-users -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
       
-      # - name: Deploy challenge-gateway
-      #   run: |
-      #     kubectl patch deployment challenge-gateway -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      - name: Deploy challenge-gateway
+        run: |
+          ./kustomize build challenge-gateway | kubectl patch deployment challenge-gateway -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
       
-      # - name: Deploy challenge-mailer
-      #   run: |
-      #     kubectl patch deployment challenge-mailer -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      - name: Deploy challenge-mailer
+        run: |
+          ./kustomize build challenge-mailer | kubectl patch deployment challenge-mailer -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      
+      
