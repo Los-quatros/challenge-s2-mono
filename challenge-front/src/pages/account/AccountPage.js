@@ -73,7 +73,7 @@ function AccountPage() {
 				<nav id="sidebar">
 					<div className="p-4 pt-5">
 						<Link
-							onClick={handleLinkClick}
+							to="/"
 							className="img logo rounded-circle mb-5"
 							style={{ backgroundImage: `url(${profileImage})` }}
 						></Link>
