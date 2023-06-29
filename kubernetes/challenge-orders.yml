@@ -34,7 +34,7 @@ spec:
             - name: POSTGRES_HOST
               value: challenge-orders-db
             - name: POSTGRES_PORT
-              value: "5433"
+              value: "5432"
 ---
 
 apiVersion: v1
