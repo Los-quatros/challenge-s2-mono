@@ -124,7 +124,7 @@ const Header = ({ quantity }) => {
                   <nav className="main_nav">
                     <ul className="mb-0">
                       <li className="active">
-                        <Link to="/">ROUROU</Link>
+                        <Link to="/">Accueil</Link>
                       </li>
                       <li className="hassubs">
                         <Link onClick={handleLinkClick}>Catégories</Link>
@@ -209,7 +209,7 @@ const Header = ({ quantity }) => {
           <div className="page_menu_content">
             <ul className="page_menu_nav menu_mm">
               <li className="page_menu_item menu_mm" onClick={closeMenu}>
-                <Link to="/">ROULIOS</Link>
+                <Link to="/">Accueil</Link>
               </li>
               <li
                 className="page_menu_item has-children menu_mm"
