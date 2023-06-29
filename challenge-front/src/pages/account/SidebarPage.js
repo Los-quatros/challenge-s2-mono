@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
+import { useEffect } from "react";
+
 const $ = window.$;
 
 /**
@@ -21,7 +23,7 @@ const setToast = (message, type) => {
 	});
 };
 
-function SidebarPage() {
+function SidebarPage({ sidebarMenuChange, menu }) {
 	const navigate = useNavigate();
 
 	/**
@@ -36,6 +38,30 @@ function SidebarPage() {
 			setToast("Vous avez été déconnecté", "success");
 		}, 500);
 	};
+
+	/**
+	 * Handle sidebar menu change
+	 * - Emit event to parent component
+	 * @param { Event } event Link click event
+	 * @param { string } menu Sidebar menu name
+	 */
+	const handleSidebarMenuChange = (event, menu) => {
+		event.preventDefault();
+		document
+			.querySelectorAll("#navbar li")
+			.forEach((link) => link.classList.remove("active"));
+		$(`li.${menu}`).addClass("active");
+		sidebarMenuChange(event, menu);
+	};
+
+	useEffect(() => {
+		document.querySelectorAll("#navbar li").forEach((link) => {
+			link.classList.remove("active");
+			if (link.classList.contains(menu)) {
+				link.classList.add("active");
+			}
+		});
+	}, [menu]);
 
 	/**
 	 * Toggle sidebar
@@ -68,26 +94,30 @@ function SidebarPage() {
 						<i className="fa fa-bars"></i>
 					</button>
 					<div className="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul className="nav navbar-nav ml-auto">
-							<li className="nav-item active">
-								<Link className="nav-link" to="">
-									Profil
-								</Link>
+						<ul className="nav navbar-nav ml-auto" id="navbar">
+							<li
+								className="nav-item active profile"
+								onClick={(event) => handleSidebarMenuChange(event, "profile")}
+							>
+								<Link className="nav-link">Profil</Link>
 							</li>
-							<li className="nav-item">
-								<Link className="nav-link" to="">
-									Mes commandes
-								</Link>
+							<li
+								className="nav-item orders"
+								onClick={(event) => handleSidebarMenuChange(event, "orders")}
+							>
+								<Link className="nav-link">Mes commandes</Link>
 							</li>
-							<li className="nav-item">
-								<Link className="nav-link" to="">
-									Mes adresses
-								</Link>
+							<li
+								className="nav-item addresses"
+								onClick={(event) => handleSidebarMenuChange(event, "addresses")}
+							>
+								<Link className="nav-link">Mes adresses</Link>
 							</li>
-							<li className="nav-item">
-								<Link className="nav-link" to="">
-									Mes retours
-								</Link>
+							<li
+								className="nav-item returns"
+								onClick={(event) => handleSidebarMenuChange(event, "returns")}
+							>
+								<Link className="nav-link">Mes retours</Link>
 							</li>
 							<li className="nav-item">
 								<Link className="nav-link" onClick={logout}>

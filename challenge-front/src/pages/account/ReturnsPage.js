@@ -1,6 +1,19 @@
-function ReturnsPage() {
+import SidebarPage from "./SidebarPage";
+
+function ReturnsPage({ accountMenuChange, menu }) {
+	/**
+	 * Handle the change of the menu in the sidebar
+	 * - This function is passed to the SidebarPage component
+	 * @param { Event } event Click event
+	 * @param { string } menu Menu name
+	 */
+	const handleReturnsMenuChange = (event, menu) => {
+		accountMenuChange(event, menu);
+	};
+
 	return (
 		<div id="content" className="p-4 p-md-5">
+			<SidebarPage sidebarMenuChange={handleReturnsMenuChange} menu={menu} />
 			<h2 className="mb-4">Sidebar #04</h2>
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
