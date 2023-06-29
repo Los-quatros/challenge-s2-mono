@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: challenge-products-db
-spec: 
+  name: challenge-returns-db
+spec:
   selector:
     matchLabels:
-      app: challenge-products-db
+      app: challenge-returns-db
   replicas: 1
   template:
     metadata:
       labels:
-        app: challenge-products-db
+        app: challenge-returns-db
     spec:
       containers:
         - name: postgres
@@ -21,7 +21,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
             - name: POSTGRES_DB
-              value: challenge-products-db
+              value: challenge-returns-db
           ports:
             - containerPort: 5432
           volumeMounts:
@@ -30,15 +30,17 @@ spec:
       volumes:
         - name: postgres-persistent-storage
           emptyDir: {}
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: challenge-products-db
+  name: challenge-returns-db
 spec:
   type: ClusterIP
   selector:
-    app: challenge-products-db
+    app: challenge-returns-db
   ports:
     - name: postgres
       port: 5432
