@@ -146,14 +146,19 @@ const Header = ({ quantity }) => {
 											<li>
 												<Link to="/contact">Contact</Link>
 											</li>
+											{isLogged && (
+												<li>
+													<Link to="/account/profile">Compte</Link>
+												</li>
+											)}
 											{!isLogged && (
 												<li>
-													<Link to="/login">Se connecter</Link>
+													<Link to="/login">Connexion</Link>
 												</li>
 											)}
 											{isLogged && (
 												<li>
-													<Link onClick={logout}>Se déconnecter</Link>
+													<Link onClick={logout}>Déconnexion</Link>
 												</li>
 											)}
 										</ul>
@@ -231,14 +236,19 @@ const Header = ({ quantity }) => {
 							<li className="page_menu_item menu_mm" onClick={closeMenu}>
 								<Link to="/contact">Contact</Link>
 							</li>
+							{isLogged && (
+								<li className="page_menu_item menu_mm">
+									<Link to="/account/profile">Compte</Link>
+								</li>
+							)}
 							{!isLogged && (
 								<li className="page_menu_item menu_mm">
-									<Link to="/login">Se connecter</Link>
+									<Link to="/login">Connexion</Link>
 								</li>
 							)}
 							{isLogged && (
 								<li className="page_menu_item menu_mm">
-									<Link onClick={logout}>Se déconnecter</Link>
+									<Link onClick={logout}>Déconnexion</Link>
 								</li>
 							)}
 						</ul>
