@@ -13,7 +13,11 @@ import Header from "./components/Header";
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
 const NewPassword = lazy(() => import("./components/NewPassword"));
+const Orders = lazy(() => import("./pages/account/OrdersPage"));
+const Returns = lazy(() => import("./pages/account/ReturnsPage"));
 const Register = lazy(() => import("./components/Register"));
+const Addresses = lazy(() => import("./pages/account/AddressesPage"));
+const Account = lazy(() => import("./pages/account/AccountPage"));
 const Home = lazy(() => import("./pages/HomePage.js"));
 const Categories = lazy(() => import("./pages/CategoriesPage"));
 const ProductDetails = lazy(() =>
@@ -75,19 +79,21 @@ const clearLinks = () => {
 };
 
 const AppContent = () => {
+	const hasToken = localStorage.getItem("token") ? true : false;
 	const location = useLocation();
 	const displayHeader =
-		location.pathname !== "/login" &&
-		location.pathname !== "/register" &&
-		location.pathname !== "/reset-password" &&
-		location.pathname !== "/new-password";
-	const isAuth =
-		location.pathname === "/login" ||
-		location.pathname === "/register" ||
-		location.pathname === "/reset-password" ||
-		location.pathname === "/new-password";
+		location.pathname === "/login" &&
+		location.pathname === "/register" &&
+		location.pathname === "/reset-password" &&
+		location.pathname === "/new-password" &&
+		location.pathname.startsWith("/account");
+	const displayFooter =
+		location.pathname === "/login" &&
+		location.pathname === "/register" &&
+		location.pathname === "/reset-password" &&
+		location.pathname === "/new-password" &&
+		location.pathname.startsWith("/account");
 	const [cartQuantity, setCartQuantity] = useState(0);
-	const [isLogged, setIsLogged] = useState(false);
 
 	useEffect(() => {
 		clearLinks();
@@ -117,6 +123,8 @@ const AppContent = () => {
 		} else if (location.pathname === "/cart") {
 			loadCSS("./assets/styles/cart/cart.css");
 			loadCSS("./assets/styles/cart/responsive.css");
+		} else if (location.pathname.startsWith("/account")) {
+			loadCSS("../assets/styles/account/profile.css");
 		}
 	}, [location.pathname]);
 
@@ -125,13 +133,6 @@ const AppContent = () => {
 		if (cart) {
 			const cartItems = JSON.parse(cart);
 			setCartQuantity(cartItems.length);
-		}
-	}, []);
-
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (token) {
-			setIsLogged(true);
 		}
 	}, []);
 
@@ -151,13 +152,17 @@ const AppContent = () => {
 			{displayHeader && <Header quantity={cartQuantity} />}
 			<Routes>
 				<Route path="/" element={<Home />} />
-				{isAuth && !isLogged && <Route path="/login" element={<Login />} />}
-				{isAuth && <Route path="/new-password" element={<NewPassword />} />}
-				{isAuth && <Route path="/reset-password" element={<ResetPassword />} />}
-				{isAuth && !isLogged && (
-					<Route path="/register" element={<Register />} />
-				)}
+				{!hasToken && <Route path="/login" element={<Login />} />}
+				{<Route path="/new-password" element={<NewPassword />} />}
+				{<Route path="/reset-password" element={<ResetPassword />} />}
+				{!hasToken && <Route path="/register" element={<Register />} />}
 				<Route path="/categories/:category" element={<Categories />} />
+				{hasToken && <Route path="/account/:name" element={<Account />} />}
+				{hasToken && (
+					<Route path="/account/addresses" element={<Addresses />} />
+				)}
+				{hasToken && <Route path="/account/orders" element={<Orders />} />}
+				{hasToken && <Route path="/account/returns" element={<Returns />} />}
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/cart" element={<Cart />} />
 				<Route
@@ -166,7 +171,7 @@ const AppContent = () => {
 				/>
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
-			{!isAuth && <Footer />}
+			{displayFooter && <Footer />}
 		</Suspense>
 	);
 };
