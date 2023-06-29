@@ -209,7 +209,7 @@ const Header = ({ quantity }) => {
           <div className="page_menu_content">
             <ul className="page_menu_nav menu_mm">
               <li className="page_menu_item menu_mm" onClick={closeMenu}>
-                <Link to="/">ROULIO</Link>
+                <Link to="/">ROULIOS</Link>
               </li>
               <li
                 className="page_menu_item has-children menu_mm"
