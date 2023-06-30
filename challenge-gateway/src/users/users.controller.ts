@@ -77,7 +77,6 @@ export class UsersController {
   @Post(':email/reset-password')
   @HttpCode(200)
   requestPasswordReset(@Param('email') email: string) {
-    console.log(email);
     return this.usersService.requestPasswordReset(email);
   }
 

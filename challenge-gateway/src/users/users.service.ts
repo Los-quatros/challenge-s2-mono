@@ -41,7 +41,7 @@ export class UsersService {
   }
 
   async deleteUser(id: string) {
-    return this.usersProxy.send('deleteUser', id);
+    this.usersProxy.send('deleteUser', id);
   }
 
   async login(body: LoginRequest) {
@@ -90,6 +90,7 @@ export class UsersService {
     );
 
     if (!result.error) {
+      await this.mailService.sendMailBecomeSeller(user.email);
       return result;
     }
     throw new BadRequestException(result.error);

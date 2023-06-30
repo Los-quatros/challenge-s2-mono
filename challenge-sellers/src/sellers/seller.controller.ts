@@ -54,7 +54,6 @@ export class SellerController {
 
   @EventPattern('refuseSeller')
   async refuseSeller(@Payload() id: string): Promise<Seller> {
-    console.log(id, "refuseController");
     return await this.sellerService.refuseSeller(id);
   }
   

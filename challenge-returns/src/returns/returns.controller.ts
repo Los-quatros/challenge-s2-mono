@@ -13,6 +13,5 @@ export class ReturnsController {
 
     @EventPattern('eventName')
     async test(@Payload() data : string){
-        console.log(data);
     }
 }

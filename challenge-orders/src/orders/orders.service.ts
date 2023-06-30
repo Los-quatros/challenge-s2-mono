@@ -63,8 +63,6 @@ export class OrdersService {
         order.orderProducts = orderProductsIdsConcatenation;
         this.ordersRepository.update({id : order.id}, {orderProducts : orderProductsIdsConcatenation});
 
-        console.log(order.getOrderProductIds());
-
         return createdOrder;
 
     } catch (error) {
@@ -107,7 +105,6 @@ export class OrdersService {
         orderProducts.push(new OrderProductDto(orderProduct.id, new Product(orderProduct.product_id), orderProduct.quantity, orderProduct.is_returned, undefined, orderProduct.nbProductReturned));
         return new OrderResponseDto(order.id, order.is_delivered, new Address(order.address), new Carrier(order.carrier), orderProducts);
       }));
-      console.log(result);
       return result;
     }
 
@@ -137,7 +134,6 @@ export class OrdersService {
           }
           result.push(ordersAggregated);
         }
-        console.log(result);
          return result;
       }catch(error) {
         throw new HttpException({
