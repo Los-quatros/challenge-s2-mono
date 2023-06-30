@@ -199,6 +199,8 @@ export class UsersService {
   }
 
   async createSellerAccount(user: AccountSellerDto): Promise<any> {
+    user.email = user.email.toLowerCase();
+    console.log(user.email);
     try {
       const existingUser = await this.usersRepository.findOneBy({
         email: user.email,
