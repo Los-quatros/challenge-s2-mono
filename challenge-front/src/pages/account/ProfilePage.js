@@ -112,9 +112,16 @@ function ProfilePage({ accountMenuChange, menu }) {
 				}
 			})
 			.then((data) => {
-				setLastName(data.lastName);
-				setFirstName(data.firstName);
-				setEmail(data.email);
+				if (data) {
+					setLastName(data.lastName);
+					setFirstName(data.firstName);
+					setEmail(data.email);
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération des données",
+						"error"
+					);
+				}
 			})
 			.catch(() => {
 				setToast(

@@ -91,6 +91,8 @@ function Login() {
 						setTimeout(() => {
 							setToast("Vous êtes connecté", "success");
 						}, 500);
+					} else {
+						setToast("Une erreur est survenue lors de la connexion", "error");
 					}
 				})
 				.catch(() =>
