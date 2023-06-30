@@ -54,7 +54,7 @@ export class UsersService {
 
   async login(body: LoginRequest) {
     try {
-      const result = await this.usersProxy.send('login', body).toPromise();
+      const result = await lastValueFrom(this.usersProxy.send('login', body));
       if (!result.error) {
         return result;
       }

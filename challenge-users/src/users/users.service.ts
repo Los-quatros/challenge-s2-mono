@@ -76,6 +76,13 @@ export class UsersService {
 
   async updateUser(id: string, updatedUser: UpdateUserDto): Promise<any> {
     try {
+      if (updatedUser.password) {
+        const hashedPassword: string = await bcrypt.hash(
+          updatedUser.password,
+          10
+        );
+        updatedUser.password = hashedPassword;
+      }
       await this.usersRepository.update(id, updatedUser);
 
       return "Utilisateur mis à jour avec succès";
