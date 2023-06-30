@@ -80,13 +80,10 @@ export class UsersService {
 
       return "Utilisateur mis à jour avec succès";
     } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: "Error updating user",
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error,
+      };
     }
   }
 

@@ -82,6 +82,6 @@ export class SellersService {
   }
 
   async deleteSeller(id: string) {
-    return await lastValueFrom(this.sellersProxy.send('delete-seller', id));
+    await lastValueFrom(this.sellersProxy.send('delete-seller', id));
   }
 }

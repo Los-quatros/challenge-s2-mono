@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -42,8 +43,9 @@ export class SellersController {
   @AuthenticationRequired()
   @HasRole(Role.ADMINISTRATOR)
   @Delete(':id')
+  @HttpCode(204)
   async deleteSeller(@Param('id') id: string) {
-    return await this.sellersService.deleteSeller(id);
+    await this.sellersService.deleteSeller(id);
   }
 
   @AuthenticationRequired()

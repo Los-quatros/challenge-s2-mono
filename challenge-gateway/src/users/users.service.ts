@@ -37,7 +37,15 @@ export class UsersService {
   }
 
   async updateUser(id, user: any) {
-    return this.usersProxy.send('updateUser', { id, user });
+    const updateUser = await lastValueFrom(
+      this.usersProxy.send('updateUser', { id, user }),
+    );
+
+    if (!updateUser.error) {
+      return updateUser;
+    }
+
+    throw new BadRequestException(updateUser.error);
   }
 
   async deleteUser(id: string) {
