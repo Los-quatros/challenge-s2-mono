@@ -234,7 +234,13 @@ export class UsersService {
         description: user.description,
         userId: newUser.id,
       };
+
       const seller = await this.sellersService.createSellerAccount(dataSeller);
+
+      if (seller.error) {
+        return seller;
+      }
+
       const updateUser = { ...newUser, sellerId: seller.id };
       await this.usersRepository.update(newUser.id, updateUser);
 
