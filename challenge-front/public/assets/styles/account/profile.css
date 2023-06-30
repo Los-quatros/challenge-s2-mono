@@ -345,9 +345,93 @@ progress {
   height: auto;
 }
 
+
+.button {
+  width: 178px;
+  height: 61px;
+  background: none;
+  text-align: center;
+  border: solid 2px #1b1b1b;
+  overflow: hidden;
+  cursor: pointer;
+}
+
 [type="search"] {
   outline-offset: -2px;
   -webkit-appearance: none;
+}
+
+.profile_button {
+  position: relative;
+  margin-top: 10px;
+}
+
+.profile_button span {
+  display: block;
+  position: relative;
+  color: #1b1b1b;
+  z-index: 2;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.button {
+  width: 178px;
+  height: 61px;
+  background: none;
+  text-align: center;
+  border: solid 2px #1b1b1b;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button a {
+  display: block;
+  position: relative;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 57px;
+  color: #1b1b1b;
+  background: none;
+  z-index: 1;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  background: #1b1b1b;
+  z-index: 0;
+  opacity: 0;
+  -webkit-transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
+  transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
+  -webkit-transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s, background-color 0.3s;
+  transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
+}
+
+.button:hover::after {
+  opacity: 1;
+  -webkit-transform: rotate3d(0, 0, 1, 0deg);
+  transform: rotate3d(0, 0, 1, 0deg);
+  -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.profile_button:hover span {
+  color: #FFFFFF;
 }
 
 [type="search"]::-webkit-search-decoration {
@@ -5797,6 +5881,10 @@ a.badge-success:hover,
 a.badge-success:focus {
   color: #fff;
   background-color: #1e7e34;
+}
+
+span.red {
+  color: red;
 }
 
 a.badge-success:focus,
