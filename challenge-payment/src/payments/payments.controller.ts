@@ -16,7 +16,6 @@ export class PaymentsController {
 
   @EventPattern('create-stripe-session')
   async createCheckoutSession() {
-    
     const session = await this.paymentsService.createCheckoutSession();
     return { sessionId: session };
 

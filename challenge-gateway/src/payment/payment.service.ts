@@ -4,12 +4,13 @@ import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class PaymentService {
-    constructor(
-        @Inject('PAYMENTS_SERVICE') private readonly paymentProxy: ClientProxy,
-        
-    ) {}
+  constructor(
+    @Inject('PAYMENTS_SERVICE') private readonly paymentProxy: ClientProxy,
+  ) {}
 
-    async createCheckoutSession() {
-        return await lastValueFrom(this.paymentProxy.send('create-stripe-session', {}));
-    }
+  async createCheckoutSession() {
+    return await lastValueFrom(
+      this.paymentProxy.send('create-stripe-session', {}),
+    );
+  }
 }
