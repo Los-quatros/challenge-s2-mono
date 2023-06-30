@@ -32,10 +32,14 @@ function ResetPassword() {
 		useState(false);
 	const [passwordError, setPasswordError] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
-	const handleClickPassword = () => setIsPasswordVisible(!isPasswordVisible);
 	const handleClickConfirmPassword = () =>
 		setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
 	const [token, setToken] = useState("");
+
+	/**
+	 * Handle state of password visibility
+	 */
+	const handleClickPassword = () => setIsPasswordVisible(!isPasswordVisible);
 
 	useEffect(() => {
 		if (password === "") {
