@@ -66,7 +66,7 @@ function Register() {
 			if (lastName.length >= 3) {
 				setLastNameError("");
 			} else {
-				setLastNameError("Le nom doit contenir au moins 2 caractères");
+				setLastNameError("Le nom doit contenir au moins 3 caractères");
 			}
 		}
 	}, [lastName]);
