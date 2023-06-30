@@ -181,3 +181,11 @@ jobs:
       - name: Deploy challenge-orders
         run: |
           kubectl patch deployment challenge-orders -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      
+      - name: Deploy challenge-products
+        run: |
+          kubectl patch deployment challenge-products -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+      
+      - name: Deploy challenge-sellers
+        run: |
+          kubectl patch deployment challenge-sellers -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
