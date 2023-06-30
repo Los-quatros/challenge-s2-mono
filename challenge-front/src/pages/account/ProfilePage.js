@@ -216,6 +216,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 													Nom<span className="red">*</span>
 												</label>
 												<input
+													required
 													type="text"
 													className="form-control"
 													placeholder="John"
@@ -234,6 +235,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 													Prénom<span className="red">*</span>
 												</label>
 												<input
+													required
 													type="text"
 													className="form-control"
 													placeholder="Doe"
@@ -252,6 +254,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 													Adresse email<span className="red">*</span>
 												</label>
 												<input
+													required
 													type="email"
 													className="form-control"
 													id="email"
@@ -270,6 +273,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 													Nouveau mot de passe<span className="red">*</span>
 												</label>
 												<input
+													required
 													placeholder="******"
 													type="password"
 													className="form-control"
@@ -289,6 +293,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 													<span className="red">*</span>
 												</label>
 												<input
+													required
 													placeholder="******"
 													type="password"
 													className="form-control"

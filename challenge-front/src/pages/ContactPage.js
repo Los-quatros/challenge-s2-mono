@@ -157,7 +157,7 @@ function ContactPage() {
 													type="text"
 													id="contact_name"
 													className="contact_input"
-													required="required"
+													required
 													onChange={onLastNameChange}
 													value={lastName}
 												/>
@@ -170,7 +170,7 @@ function ContactPage() {
 													type="text"
 													id="contact_last_name"
 													className="contact_input"
-													required="required"
+													required
 													onChange={onFirstNameChange}
 													value={firstName}
 												/>
@@ -195,7 +195,7 @@ function ContactPage() {
 											<textarea
 												id="contact_textarea"
 												className="contact_input contact_textarea"
-												required="required"
+												required
 												onChange={onMessageChange}
 												value={message}
 											></textarea>
