@@ -130,8 +130,10 @@ function ProfilePage({ accountMenuChange, menu }) {
 	 */
 	const update = async (event) => {
 		event.preventDefault();
+
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
+
 		if (
 			lastNameError === "" &&
 			firstNameError === "" &&
