@@ -85,11 +85,15 @@ function Login() {
 					}
 				})
 				.then((data) => {
-					localStorage.setItem("token", data);
-					navigate("/");
-					setTimeout(() => {
-						setToast("Vous êtes connecté", "success");
-					}, 500);
+					if (data) {
+						localStorage.setItem("token", data);
+						navigate("/");
+						setTimeout(() => {
+							setToast("Vous êtes connecté", "success");
+						}, 500);
+					} else {
+						setToast("Une erreur est survenue lors de la connexion", "error");
+					}
 				})
 				.catch(() =>
 					setToast("Une erreur est survenue lors de la connexion", "error")
