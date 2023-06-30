@@ -378,6 +378,23 @@ progress {
   transition: all 200ms ease;
 }
 
+.addresses_button {
+  position: relative;
+  margin-top: 10px;
+}
+
+.addresses_button span {
+  display: block;
+  position: relative;
+  color: #1b1b1b;
+  z-index: 2;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
 .button {
   width: 178px;
   height: 61px;
@@ -431,6 +448,10 @@ progress {
 }
 
 .profile_button:hover span {
+  color: #FFFFFF;
+}
+
+.addresses_button:hover span {
   color: #FFFFFF;
 }
 
