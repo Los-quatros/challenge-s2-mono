@@ -15,12 +15,10 @@ export class OrdersService {
         private ordersRepository: Repository<Order>,
         @InjectRepository(OrderProduct)
         private orderProductRepository: Repository<OrderProduct>,
-        @Inject("PRODUCTS_SERVICE") private productsProxy: ClientProxy
     ) { 
         
      }
 
-    // si c'est un seller il faudra contacter alors penser a envoyer un event pour que le service seller ajoute l'id du produit au tabeau de produits du seller, si c'est un admin plus rien a faire
     async GetUserOrders( userId : string ): Promise<Array<OrderResponseDto>> {
         try {
            const orders =  await this.ordersRepository.findBy({ userId : userId['id'] });
@@ -33,6 +31,15 @@ export class OrdersService {
         }
     }
 
+    async GetOrder(id : string) : Promise<Order> {
+      return await this.ordersRepository.findOneBy({id : id});
+    }
+
+    // TODO : to test (to be used after creating an return and we must do it from the gateway)
+    async UpdateNbItemReturnedForOrderProduct(nbItemReturned : number, idOrderProduct : string){
+      return this.orderProductRepository.update({id : idOrderProduct['id']}, {nbProductReturned : nbItemReturned['quantity']});
+    }
+ 
     async CreateOrder( data : CreateOrderDto) : Promise<Order> {
       try {
         const order = new Order();
@@ -62,9 +69,6 @@ export class OrdersService {
           });
         order.orderProducts = orderProductsIdsConcatenation;
         this.ordersRepository.update({id : order.id}, {orderProducts : orderProductsIdsConcatenation});
-
-        console.log(order.getOrderProductIds());
-
         return createdOrder;
 
     } catch (error) {
@@ -73,7 +77,7 @@ export class OrdersService {
             error: 'Error while creating order',
         }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
+    }
 
     async GetOrders() : Promise<Array<OrderResponseDto>> {
       try {
@@ -107,10 +111,13 @@ export class OrdersService {
         orderProducts.push(new OrderProductDto(orderProduct.id, new Product(orderProduct.product_id), orderProduct.quantity, orderProduct.is_returned, undefined, orderProduct.nbProductReturned));
         return new OrderResponseDto(order.id, order.is_delivered, new Address(order.address), new Carrier(order.carrier), orderProducts);
       }));
-      console.log(result);
       return result;
     }
 
+    async GetOrderProduct(id : string) : Promise<OrderProductDto>{
+      const result = await this.orderProductRepository.findOneBy({id : id});
+      return new OrderProductDto(result.id,  new Product(result.product_id),result.quantity, result.is_returned, result.orderId );
+    }
 
     private async GetOrdersWithProducts(orders : Array<Order>) : Promise<Array<OrderResponseDto>> {
       try {
@@ -137,8 +144,7 @@ export class OrdersService {
           }
           result.push(ordersAggregated);
         }
-        console.log(result);
-         return result;
+        return result;
       }catch(error) {
         throw new HttpException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,

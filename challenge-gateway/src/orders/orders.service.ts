@@ -20,13 +20,38 @@ export class OrdersService {
         return this.AsignProductsAddressAndCarrierToOrder(orders);
     }
 
+    // must return sessionId
     async CreateOrder(data : CreateOrderDto) : Promise<any> {
+        // wait for order creation
+        const order = await lastValueFrom(this.ordersProxy.send('CreateOrder', {data}));
+        console.log(order);
         return this.ordersProxy.send('CreateOrder', {data});
+        // get the order and build the products of the order
+        // this.paymentService.CreatePayment(order)
+    }
+
+    async GetOrder(id : string) : Promise<any> {
+        return this.ordersProxy.send('GetOrder', {id});
     }
 
     async GetOrders() : Promise<any> {
         let orders : Array<OrderResponseDto> = await lastValueFrom( this.ordersProxy.send('GetAllOrders', {}));
         return this.AsignProductsAddressAndCarrierToOrder(orders);
+    }
+
+    async GetOrderProduct(idOrderProduct : string) : Promise<any>{
+        return this.ordersProxy.send('GetOrderProduct', {idOrderProduct});
+    }
+
+    async GetOrderProductsIdsByProductIds(productIds : Array<string>) : Promise<Array<string>>{
+        const ordersWithSellerProductsOnly : Array<OrderResponseDto> =  await lastValueFrom(this.ordersProxy.send('GetOrderProductsByProducts', {productIds}));
+        const result : Array<string> = [];
+        for(let op of ordersWithSellerProductsOnly){
+            op['orderProducts'].forEach((op) => {
+                result.push(op['id']);
+            })
+        }
+        return result;
     }
 
     async GetOrderProductsByProductIds(productIds : Array<string>) : Promise<Array<OrderResponseDto>> {
@@ -35,6 +60,11 @@ export class OrdersService {
         return resultWithCarrierProductsAndAddress;
     }
 
+    async UpdateNbItemReturnedForOrderProduct(id : string, quantity : number){
+        return this.ordersProxy.send('UpdateNbItemReturned', {id, quantity});
+    }
+
+    
     private async AsignProductsAddressAndCarrierToOrder(orders : Array<OrderResponseDto>){
         const ordersResponse : Array<OrderResponseDto> = [];
         for(let order of orders){
@@ -46,7 +76,6 @@ export class OrdersService {
                 const product : Product = await firstValueFrom(await this.productsService.GetProductById(item['product']['id']));
                 products.push( new OrderProductDto(item['id'], product, item['quantity'], item['is_returned'], item['orderId'], item['nbProductReturned']) );
             }
-
             order.orderId = order['orderId'];
             order.is_delivered = order['is_delivered'];
             order.is_paid = order['is_paid'];
@@ -56,7 +85,13 @@ export class OrdersService {
             order.products = products;
             ordersResponse.push(order);
         }
-        
         return ordersResponse;
     }
+
+    public async AssignProductToOrderProduct(orderProduct : OrderProductDto){
+        const product : Product = await firstValueFrom(await this.productsService.GetProductById(orderProduct.product.id));
+        orderProduct.product = product;
+        return orderProduct;
+    }
+    
 }

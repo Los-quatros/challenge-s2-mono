@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Param, ValidationPipe, Body } from '@nestjs/common';
+import { Controller, Post, Get, Param, ValidationPipe, Body, Patch } from '@nestjs/common';
 import { CreateOrderDto } from './models/CreateOrderDto';
 import { OrderResponseDto } from './models/ordersResponseDto';
 import { OrdersService } from './orders.service';
@@ -13,15 +13,21 @@ export class OrdersController {
     }
 
     // for a client
-    @Get("/users/:id")
+    @Get("/users/:id")                                                              
     async Get(@Param() userId : string) : Promise<Array<OrderResponseDto>> {
-        return this.ordersService.GetOrdersByUser(userId);
+        return await this.ordersService.GetOrdersByUser(userId);
     }
 
     // for admin
     @Get()
     async GetOrders() : Promise<any> {
         return this.ordersService.GetOrders();
+    }
+
+    // TODO : SET ISDELIVERED ON TRUE
+    @Patch()
+    async ModerateOrder(){
+        return this.ordersService
     }
 
 }

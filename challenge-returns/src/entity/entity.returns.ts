@@ -5,7 +5,7 @@ export class Returns {
     @PrimaryGeneratedColumn("uuid")
     id : string;
 
-    @Column()
+    @Column('decimal', { precision: 6, scale: 2 })
     total : number;
 
     @Column()
