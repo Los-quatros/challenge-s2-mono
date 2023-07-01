@@ -119,6 +119,10 @@ export class OrdersService {
       return new OrderProductDto(result.id,  new Product(result.product_id),result.quantity, result.is_returned, result.orderId );
     }
 
+    async ValidateOrDecline(decision: boolean, returnId: string) {
+      return await this.ordersRepository.update({id : returnId}, {is_delivered : decision});
+    }
+
     private async GetOrdersWithProducts(orders : Array<Order>) : Promise<Array<OrderResponseDto>> {
       try {
         const result : OrderResponseDto[] = []
