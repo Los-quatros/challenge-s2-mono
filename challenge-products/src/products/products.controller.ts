@@ -42,7 +42,6 @@ export class ProductsController {
 
     @EventPattern('GetSellerProducts')
     async getSellerProducts(@Payload() idSeller : string){
-        console.log(idSeller)
         return this.productService.getSellerProducts(idSeller['id']);
     }
 }

@@ -5,7 +5,7 @@ export class Address {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({default: true})
+    @Column({default : true, nullable : true})
     state: boolean;
 
     @Column()

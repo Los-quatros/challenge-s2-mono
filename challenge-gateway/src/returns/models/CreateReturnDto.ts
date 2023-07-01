@@ -1,17 +1,17 @@
 
 import { IsDefined, MinLength } from "class-validator";
-export class CreateOrderProductDto {
+export class CreateOrderProductForReturnDto {
 
     @IsDefined()
     id_product : string;
 
     @IsDefined()
-    quantity : number;
+    nbItemReturned : number;
 }
 
 export class CreateReturnDto {
 
-    products : Array<CreateOrderProductDto>;
+    orderProducts : Array<CreateOrderProductForReturnDto>;
     reason : string;
     total : number;
 }
