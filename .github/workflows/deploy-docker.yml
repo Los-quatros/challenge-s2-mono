@@ -3,7 +3,7 @@ name: Publish Docker image
 on:
   push:
     branches:
-      - main
+      - feature/change-gke
 env:
   GKE_CLUSTER: marketplace
   GKE_ZONE: europe-west1
