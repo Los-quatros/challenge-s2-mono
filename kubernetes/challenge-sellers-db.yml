@@ -23,7 +23,6 @@ spec:
       volumes:
         - name: mongodb-persistent-storage
           emptyDir: {}
-
 ---
 
 apiVersion: v1
