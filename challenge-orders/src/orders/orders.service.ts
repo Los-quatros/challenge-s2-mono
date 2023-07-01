@@ -9,14 +9,14 @@ import { Address, Carrier, OrderResponseDto, Product, OrderProductDto } from './
 
 @Injectable()
 export class OrdersService {
-    
+
     constructor(
         @InjectRepository(Order)
         private ordersRepository: Repository<Order>,
         @InjectRepository(OrderProduct)
         private orderProductRepository: Repository<OrderProduct>,
-    ) { 
-        
+    ) {
+
      }
 
     async GetUserOrders( userId : string ): Promise<Array<OrderResponseDto>> {
@@ -39,7 +39,7 @@ export class OrdersService {
     async UpdateNbItemReturnedForOrderProduct(nbItemReturned : number, idOrderProduct : string){
       return this.orderProductRepository.update({id : idOrderProduct['id']}, {nbProductReturned : nbItemReturned['quantity']});
     }
- 
+
     async CreateOrder( data : CreateOrderDto) : Promise<Order> {
       try {
         const order = new Order();
@@ -96,21 +96,21 @@ export class OrdersService {
       try {
         orderProducts = await this.orderProductRepository.find({where : {
           product_id: In(productIds)
-        }});  
+        }});
       }catch(error) {
         throw new HttpException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
           error: 'Error while fetching orderProducts',
         }, HttpStatus.INTERNAL_SERVER_ERROR);
       };
-      
       const result : Array<OrderResponseDto> = await Promise.all(orderProducts.map(async (elm) => {
         const orderProduct : OrderProduct = elm;
-        const order : Order = await this.ordersRepository.findOneBy({id : orderProduct.orderId});
+        const order : Order = await this.ordersRepository.findOneBy({id : orderProduct?.orderId});
         let orderProducts : Array<OrderProductDto> = [];
-        orderProducts.push(new OrderProductDto(orderProduct.id, new Product(orderProduct.product_id), orderProduct.quantity, orderProduct.is_returned, undefined, orderProduct.nbProductReturned));
-        return new OrderResponseDto(order.id, order.is_delivered, new Address(order.address), new Carrier(order.carrier), orderProducts);
+        orderProducts.push(new OrderProductDto(orderProduct?.id, new Product(orderProduct?.product_id), orderProduct?.quantity, orderProduct?.is_returned, undefined, orderProduct?.nbProductReturned));
+        return new OrderResponseDto(order?.id, order?.is_delivered, new Address(order?.address), new Carrier(order?.carrier), orderProducts);
       }));
+      console.log(result);
       return result;
     }
 
@@ -151,8 +151,8 @@ export class OrdersService {
           error: 'Error while fetching products for orders',
         }, HttpStatus.INTERNAL_SERVER_ERROR);
       }
-    } 
+    }
 
-    
+
 
 }
