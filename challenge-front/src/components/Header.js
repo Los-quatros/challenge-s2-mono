@@ -22,7 +22,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: true,
+		closeOnClick: false,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
