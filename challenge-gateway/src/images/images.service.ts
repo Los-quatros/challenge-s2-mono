@@ -8,9 +8,5 @@ export class ImagesService {
     @Inject('IMAGES_SERVICE') private readonly imagesProxy: ClientProxy,
   ) {}
 
-  async createCheckoutSession() {
-    return await lastValueFrom(
-      this.imagesProxy.send('create-stripe-session', {}),
-    );
-  }
+
 }
