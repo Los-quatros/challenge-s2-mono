@@ -37,7 +37,6 @@ const resetAndSetActiveLink = (name) => {
 
 function AddressesPage() {
 	const [addresses, setAddresses] = useState([]);
-	const [isChanged, setIsChanged] = useState(false);
 	const { name } = useParams();
 
 	const getAddresses = () => {
@@ -58,12 +57,18 @@ function AddressesPage() {
 			.then((data) => {
 				if (data) {
 					const newAddresses = data.map((address) => ({
-						zip: { value: address.zip, error: "" },
-						country: { value: address.country, error: "" },
-						street: { value: address.street, error: "" },
-						city: { value: address.city, error: "" },
+						id: address.id,
+						zip: { value: address.zip, error: "", hasChanged: false },
+						country: { value: address.country, error: "", hasChanged: false },
+						street: { value: address.street, error: "", hasChanged: false },
+						city: { value: address.city, error: "", hasChanged: false },
 					}));
 					setAddresses(newAddresses);
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération des données",
+						"error"
+					);
 				}
 			})
 			.catch(() => {
@@ -89,10 +94,11 @@ function AddressesPage() {
 		setAddresses([
 			...addresses,
 			{
-				zip: { value: "", error: "" },
-				country: { value: "", error: "" },
-				street: { value: "", error: "" },
-				city: { value: "", error: "" },
+				id: null,
+				zip: { value: "", error: "", hasChanged: false },
+				country: { value: "", error: "", hasChanged: false },
+				street: { value: "", error: "", hasChanged: false },
+				city: { value: "", error: "", hasChanged: false },
 			},
 		]);
 	};
@@ -106,9 +112,9 @@ function AddressesPage() {
 	const handleChange = (index, field, value) => {
 		const updatedAddresses = [...addresses];
 		updatedAddresses[index][field].value = value;
+		updatedAddresses[index][field].hasChanged = true;
 		if (field === "zip") {
 			if (value === "") {
-				setIsChanged(false);
 				updatedAddresses[index][field].error = "Le code postal est obligatoire";
 			} else {
 				const regex = /^[0-9]{5}$/;
@@ -118,11 +124,9 @@ function AddressesPage() {
 					updatedAddresses[index][field].error =
 						"Le code postal doit contenir 5 chiffres";
 				}
-				setIsChanged(true);
 			}
 		} else if (field === "country") {
 			if (value === "") {
-				setIsChanged(false);
 				updatedAddresses[index][field].error = "Le pays est obligatoire";
 			} else {
 				if (value.length >= 5) {
@@ -131,11 +135,9 @@ function AddressesPage() {
 					updatedAddresses[index][field].error =
 						"Le pays doit contenir au moins 5 caractères";
 				}
-				setIsChanged(true);
 			}
 		} else if (field === "street") {
 			if (value === "") {
-				setIsChanged(false);
 				updatedAddresses[index][field].error = "La rue est obligatoire";
 			} else {
 				if (value.length >= 5) {
@@ -144,11 +146,9 @@ function AddressesPage() {
 					updatedAddresses[index][field].error =
 						"La rue doit contenir au moins 5 caractères";
 				}
-				setIsChanged(true);
 			}
 		} else if (field === "city") {
 			if (value === "") {
-				setIsChanged(false);
 				updatedAddresses[index][field].error = "La ville est obligatoire";
 			} else {
 				if (value.length >= 5) {
@@ -157,20 +157,78 @@ function AddressesPage() {
 					updatedAddresses[index][field].error =
 						"La ville doit contenir au moins 5 caractères";
 				}
-				setIsChanged(true);
 			}
 		}
 		setAddresses(updatedAddresses);
 	};
 
 	/**
+	 * Set hasChanged to true or false for the specified address
+	 * @param { string } field Field name
+	 * @param { boolean } bool Boolean to set hasChanged to true or false
+	 */
+	const setHasChanged = (field, bool) => {
+		const updatedAddresses = [...addresses];
+		for (let i = 0; i < updatedAddresses.length; i++) {
+			updatedAddresses[i][field].hasChanged = bool;
+		}
+		setAddresses(updatedAddresses);
+	};
+
+	/**
 	 * Delete an address from the list
+	 * @param { Event } event Event button on click
 	 * @param { number } index Index of the address to delete
 	 */
-	const deleteAddress = (index) => {
+	const deleteAddress = (event, index) => {
+		event.preventDefault();
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		if (addresses[index].id === null) {
+			removeAddress(event, index);
+		} else {
+			fetch(`http://localhost:4000/addresses/${addresses[index].id}`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${decodedToken.id}`,
+				},
+			})
+				.then((response) => {
+					if (response.status === 200) {
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						removeAddress(event, index);
+					} else {
+						setToast(
+							"Une erreur est survenue lors de la suppression de l'adresse",
+							"error"
+						);
+					}
+				})
+				.catch(() => {
+					setToast(
+						"Une erreur est survenue lors de la suppression de l'adresse",
+						"error"
+					);
+				});
+		}
+	};
+
+	/**
+	 * Remove an address from the list
+	 * @param {*} event
+	 * @param {*} index
+	 */
+	const removeAddress = (event, index) => {
+		event.preventDefault();
 		const updatedAddresses = [...addresses];
 		updatedAddresses.splice(index, 1);
 		setAddresses(updatedAddresses);
+		setToast("Adresse supprimée", "success");
 	};
 
 	/**
@@ -217,8 +275,11 @@ function AddressesPage() {
 				})
 				.then((data) => {
 					if (data) {
-						setIsChanged(false);
 						setToast("Adresse ajoutée avec succès", "success");
+						setHasChanged("street", false);
+						setHasChanged("zip", false);
+						setHasChanged("country", false);
+						setHasChanged("city", false);
 					} else {
 						setToast(
 							"Une erreur est survenue lors de l'ajout de l'adresse",
@@ -264,7 +325,7 @@ function AddressesPage() {
 										<div className="row g-3">
 											<div className="col-12">
 												<label
-													htmlFor={`street${index}`}
+													htmlFor={`street-${index}`}
 													className="form-label"
 												>
 													Rue<span className="red">*</span>
@@ -274,7 +335,7 @@ function AddressesPage() {
 													type="text"
 													className="form-control"
 													placeholder="11 rue du general emapain"
-													id={`street${index}`}
+													id={`street-${index}`}
 													value={address.street.value}
 													onInput={(event) =>
 														handleChange(index, "street", event.target.value)
@@ -287,7 +348,7 @@ function AddressesPage() {
 												)}
 											</div>
 											<div className="col-12 mt-2">
-												<label htmlFor={`city${index}`} className="form-label">
+												<label htmlFor={`city-${index}`} className="form-label">
 													Ville<span className="red">*</span>
 												</label>
 												<input
@@ -295,7 +356,7 @@ function AddressesPage() {
 													type="text"
 													className="form-control"
 													placeholder="Saint-Ouen-l'Aumône"
-													id={`city${index}`}
+													id={`city-${index}`}
 													value={address.city.value}
 													onInput={(event) =>
 														handleChange(index, "city", event.target.value)
@@ -308,7 +369,7 @@ function AddressesPage() {
 												)}
 											</div>
 											<div className="col-12 mt-2">
-												<label htmlFor={`zip${index}`} className="form-label">
+												<label htmlFor={`zip-${index}`} className="form-label">
 													Code postal<span className="red">*</span>
 												</label>
 												<input
@@ -316,7 +377,7 @@ function AddressesPage() {
 													type="text"
 													className="form-control"
 													placeholder="95350"
-													id={`zip${index}`}
+													id={`zip-${index}`}
 													value={address.zip.value}
 													onInput={(event) =>
 														handleChange(index, "zip", event.target.value)
@@ -330,7 +391,7 @@ function AddressesPage() {
 											</div>
 											<div className="col-12 mt-2">
 												<label
-													htmlFor={`country${index}`}
+													htmlFor={`country-${index}`}
 													className="form-label"
 												>
 													Pays<span className="red">*</span>
@@ -340,7 +401,7 @@ function AddressesPage() {
 													type="text"
 													className="form-control"
 													placeholder="France"
-													id={`country${index}`}
+													id={`country-${index}`}
 													value={address.country.value}
 													onInput={(event) =>
 														handleChange(index, "country", event.target.value)
@@ -362,17 +423,20 @@ function AddressesPage() {
 														<span>Supprimer l'adresse</span>
 													</button>
 												</div>
-												{isChanged && (
-													<div className="gap-3 d-md-flex text-center">
-														<button
-															className="button addresses_button"
-															onClick={(event) => saveAddress(event, index)}
-															style={{ height: "50px" }}
-														>
-															<span>Enregistrer l'adresse</span>
-														</button>
-													</div>
-												)}
+												{address.street.hasChanged === true &&
+													address.city.hasChanged === true &&
+													address.zip.hasChanged === true &&
+													address.country.hasChanged && (
+														<div className="gap-3 d-md-flex text-center">
+															<button
+																className="button addresses_button"
+																onClick={(event) => saveAddress(event, index)}
+																style={{ height: "50px" }}
+															>
+																<span>Enregistrer l'adresse</span>
+															</button>
+														</div>
+													)}
 											</div>
 										</div>
 									</div>
