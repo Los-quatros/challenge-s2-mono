@@ -40,11 +40,7 @@ function AddressesPage() {
 	const [isChanged, setIsChanged] = useState(false);
 	const { name } = useParams();
 
-	useEffect(() => {
-		resetAndSetActiveLink(name);
-	}, [name]);
-
-	useEffect(() => {
+	const getAddresses = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
 		fetch(`http://localhost:4000/addresses/users/${decodedToken.id}`, {
@@ -61,17 +57,13 @@ function AddressesPage() {
 			})
 			.then((data) => {
 				if (data) {
-					data.forEach((address) => {
-						setAddresses([
-							...addresses,
-							{
-								zip: { value: address.zip, error: "" },
-								country: { value: address.country, error: "" },
-								street: { value: address.street, error: "" },
-								city: { value: address.city, error: "" },
-							},
-						]);
-					});
+					const newAddresses = data.map((address) => ({
+						zip: { value: address.zip, error: "" },
+						country: { value: address.country, error: "" },
+						street: { value: address.street, error: "" },
+						city: { value: address.city, error: "" },
+					}));
+					setAddresses(newAddresses);
 				}
 			})
 			.catch(() => {
@@ -80,7 +72,15 @@ function AddressesPage() {
 					"error"
 				);
 			});
-	}, [addresses]);
+	};
+
+	useEffect(() => {
+		resetAndSetActiveLink(name);
+	}, [name]);
+
+	useEffect(() => {
+		getAddresses();
+	}, []);
 
 	/**
 	 * Add a new address
