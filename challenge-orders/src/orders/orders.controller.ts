@@ -43,7 +43,7 @@ export class OrdersController {
         return this.ordersService.GetOrder(id['id']);
     }
 
-    @EventPattern('AcceptOrDeclineOrder')
+    @EventPattern('AcceptOrDeclineOrderDelivery')
     async ModerateReturn(@Payload() data: any) {
         return this.ordersService.ValidateOrDecline(
         data['decision'],
