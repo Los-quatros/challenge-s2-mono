@@ -11,4 +11,8 @@ import { lastValueFrom } from 'rxjs';
 export class ImagesController {
   constructor(readonly imagesService: ImagesService) {}
 
+  @Post('/upload')
+  async upload(image: any) {
+    return await this.imagesService.uploadImage(image);
+  }
 }

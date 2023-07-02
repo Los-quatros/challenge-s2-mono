@@ -8,5 +8,10 @@ export class ImagesService {
     @Inject('IMAGES_SERVICE') private readonly imagesProxy: ClientProxy,
   ) {}
 
+  async uploadImage(image: any) {
+    return await lastValueFrom(
+      this.imagesProxy.send('upload-image', {image}),
+    );
+  }
 
 }
