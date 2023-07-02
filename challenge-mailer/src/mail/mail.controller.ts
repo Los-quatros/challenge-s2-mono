@@ -1,6 +1,7 @@
 import { Controller } from "@nestjs/common";
 import { MailService } from "./mail.service";
 import { EventPattern, Payload } from "@nestjs/microservices";
+import { ContactDto } from "./dto/contact.dto";
 
 @Controller("mail")
 export class MailController {
@@ -46,5 +47,10 @@ export class MailController {
   @EventPattern("resetPassword")
   async sendMailResetPassword(@Payload() email: string) {
     return await this.mailService.sendMailResetPassword(email);
+  }
+
+  @EventPattern("contactMail")
+  async sendMailContact(@Payload() data: ContactDto) {
+    return await this.mailService.sendMailContact(data);
   }
 }

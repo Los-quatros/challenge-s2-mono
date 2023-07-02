@@ -71,4 +71,9 @@ export class UsersController {
   async getUserBySellerId(@Payload() id: string) {
     return this.usersService.getUserBySellerId(id);
   }
+
+  @EventPattern("getAdminEmail")
+  async getAdminEmail() {
+    return this.usersService.getAdminEmail();
+  }
 }

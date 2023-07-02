@@ -267,4 +267,16 @@ export class UsersService {
     }
     return user;
   }
+
+  async getAdminEmail(): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ roles: "admin" });
+
+    if (!user) {
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: "Utilisateur non trouvé",
+      };
+    }
+    return user.email;
+  }
 }
