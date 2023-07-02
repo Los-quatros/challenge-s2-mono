@@ -36,7 +36,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 
 	useEffect(() => {
 		if (email === "") {
-			setEmailError("L'adresse mail est obligatoire");
+			setEmailError("");
 		} else {
 			const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 			if (regex.test(email)) {
@@ -49,7 +49,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 
 	useEffect(() => {
 		if (firstName === "") {
-			setFirstNameError("Le prénom est obligatoire");
+			setFirstNameError("");
 		} else {
 			if (firstName.length >= 3) {
 				setFirstNameError("");
@@ -61,7 +61,7 @@ function ProfilePage({ accountMenuChange, menu }) {
 
 	useEffect(() => {
 		if (lastName === "") {
-			setLastNameError("Le nom est obligatoire");
+			setLastNameError("");
 		} else {
 			if (lastName.length >= 3) {
 				setLastNameError("");
@@ -104,11 +104,6 @@ function ProfilePage({ accountMenuChange, menu }) {
 			.then((response) => {
 				if (response.status === 200) {
 					return response.json();
-				} else {
-					setToast(
-						"Une erreur est survenue lors de la récupération des données",
-						"error"
-					);
 				}
 			})
 			.then((data) => {
@@ -192,12 +187,9 @@ function ProfilePage({ accountMenuChange, menu }) {
 	/**
 	 * Handle the change of the menu in the sidebar
 	 * - This function is passed to the SidebarPage component
-	 * @param { Event } event Click event
 	 * @param { string } menu Menu name
 	 */
-	const handleProfileMenuChange = (event, menu) => {
-		accountMenuChange(event, menu);
-	};
+	const handleProfileMenuChange = (menu) => accountMenuChange(menu);
 
 	return (
 		<>

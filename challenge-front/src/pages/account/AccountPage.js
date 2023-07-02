@@ -53,11 +53,9 @@ function AccountPage() {
 
 	/**
 	 * Triggered when the menu changes
-	 * @param { Event } event Click event
 	 * @param { string } menu Menu name
 	 */
-	const accountMenuChange = (event, menu) => {
-		event.preventDefault();
+	const accountMenuChange = (menu) => {
 		setMenu(menu);
 		const menuItems = document.querySelectorAll(".list-unstyled.components li");
 		menuItems.forEach((item) => item.classList.remove("active"));
@@ -77,13 +75,16 @@ function AccountPage() {
 						></Link>
 						<ul className="list-unstyled components mb-5">
 							<li className="profile active">
-								<Link onClick={(event) => accountMenuChange(event, "profile")}>
+								<Link
+									onClick={() => accountMenuChange("profile")}
+									to="/account/profile"
+								>
 									Profil
 								</Link>
 							</li>
 							<li className="orders">
 								<Link
-									onClick={(event) => accountMenuChange(event, "orders")}
+									onClick={() => accountMenuChange("orders")}
 									to="/account/orders"
 								>
 									Mes commandes
@@ -91,7 +92,7 @@ function AccountPage() {
 							</li>
 							<li className="addresses">
 								<Link
-									onClick={(event) => accountMenuChange(event, "addresses")}
+									onClick={() => accountMenuChange("addresses")}
 									to="/account/addresses"
 								>
 									Mes adresses
@@ -99,7 +100,7 @@ function AccountPage() {
 							</li>
 							<li className="returns">
 								<Link
-									onClick={(event) => accountMenuChange(event, "returns")}
+									onClick={() => accountMenuChange("returns")}
 									to="/account/returns"
 								>
 									Mes retours

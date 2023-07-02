@@ -158,11 +158,6 @@ const AppContent = () => {
 				{!hasToken && <Route path="/register" element={<Register />} />}
 				<Route path="/categories/:category" element={<Categories />} />
 				{hasToken && <Route path="/account/:name" element={<Account />} />}
-				{hasToken && (
-					<Route path="/account/addresses" element={<Addresses />} />
-				)}
-				{hasToken && <Route path="/account/orders" element={<Orders />} />}
-				{hasToken && <Route path="/account/returns" element={<Returns />} />}
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/cart" element={<Cart />} />
 				<Route
