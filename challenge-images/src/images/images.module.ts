@@ -4,6 +4,9 @@ import { ImagesController } from './images.controller';
 import { ImagesService } from './images.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MulterModule } from '@nestjs/platform-express';
+import { Image } from '../entity/images.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 
 @Module({
 
@@ -15,6 +18,7 @@ import { MulterModule } from '@nestjs/platform-express';
           urls: [`amqp://rmq-service:5672`],
           queue: 'images_queue',
           queueOptions: {
+
             durable: false
           }
       }
@@ -22,7 +26,9 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './uploads/',
     }),
+    TypeOrmModule.forFeature([Image])
   ],
+  
   providers: [ImagesService],
   controllers: [ImagesController],
 })

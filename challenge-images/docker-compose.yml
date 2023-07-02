@@ -39,6 +39,8 @@ services:
     restart: always
     ports:
       - 8093:8080
+    networks:
+      - challenge-network    
 
 networks:
   challenge-network:
