@@ -42,16 +42,16 @@ function SidebarPage({ sidebarMenuChange, menu }) {
 	/**
 	 * Handle sidebar menu change
 	 * - Emit event to parent component
-	 * @param { Event } event Link click event
 	 * @param { string } menu Sidebar menu name
 	 */
-	const handleSidebarMenuChange = (event, menu) => {
-		event.preventDefault();
-		document
-			.querySelectorAll("#navbar li")
-			.forEach((link) => link.classList.remove("active"));
-		$(`li.${menu}`).addClass("active");
-		sidebarMenuChange(event, menu);
+	const handleSidebarMenuChange = (menu) => {
+		document.querySelectorAll("#navbar li").forEach((link) => {
+			link.classList.remove("active");
+			if (link.classList.contains(menu)) {
+				link.classList.add("active");
+			}
+		});
+		sidebarMenuChange(menu);
 	};
 
 	useEffect(() => {
@@ -97,25 +97,25 @@ function SidebarPage({ sidebarMenuChange, menu }) {
 						<ul className="nav navbar-nav ml-auto" id="navbar">
 							<li
 								className="nav-item active profile"
-								onClick={(event) => handleSidebarMenuChange(event, "profile")}
+								onClick={() => handleSidebarMenuChange("profile")}
 							>
 								<Link className="nav-link">Profil</Link>
 							</li>
 							<li
 								className="nav-item orders"
-								onClick={(event) => handleSidebarMenuChange(event, "orders")}
+								onClick={() => handleSidebarMenuChange("orders")}
 							>
 								<Link className="nav-link">Mes commandes</Link>
 							</li>
 							<li
 								className="nav-item addresses"
-								onClick={(event) => handleSidebarMenuChange(event, "addresses")}
+								onClick={() => handleSidebarMenuChange("addresses")}
 							>
 								<Link className="nav-link">Mes adresses</Link>
 							</li>
 							<li
 								className="nav-item returns"
-								onClick={(event) => handleSidebarMenuChange(event, "returns")}
+								onClick={() => handleSidebarMenuChange("returns")}
 							>
 								<Link className="nav-link">Mes retours</Link>
 							</li>
