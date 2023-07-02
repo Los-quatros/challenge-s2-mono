@@ -5,7 +5,9 @@ import { EventPattern } from "@nestjs/microservices";
 
 @Controller("authentication")
 export class AuthenticationController {
-  public constructor(private readonly authenticationService: AuthenticationService) { }
+  public constructor(
+    private readonly authenticationService: AuthenticationService
+  ) {}
 
   @EventPattern("login")
   public login(@Body(ValidationPipe) loginRequest: LoginRequest) {
@@ -16,5 +18,4 @@ export class AuthenticationController {
   public validateUser(@Body(ValidationPipe) jwtToken: string) {
     return this.authenticationService.validateUser(jwtToken);
   }
-  
 }

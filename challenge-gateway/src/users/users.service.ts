@@ -37,16 +37,24 @@ export class UsersService {
   }
 
   async updateUser(id, user: any) {
-    return this.usersProxy.send('updateUser', { id, user });
+    const updateUser = await lastValueFrom(
+      this.usersProxy.send('updateUser', { id, user }),
+    );
+
+    if (!updateUser.error) {
+      return updateUser;
+    }
+
+    throw new BadRequestException(updateUser.error);
   }
 
   async deleteUser(id: string) {
-    return this.usersProxy.send('deleteUser', id);
+    this.usersProxy.send('deleteUser', id);
   }
 
   async login(body: LoginRequest) {
     try {
-      const result = await this.usersProxy.send('login', body).toPromise();
+      const result = await lastValueFrom(this.usersProxy.send('login', body));
       if (!result.error) {
         return result;
       }
@@ -90,6 +98,7 @@ export class UsersService {
     );
 
     if (!result.error) {
+      await this.mailService.sendMailBecomeSeller(user.email);
       return result;
     }
     throw new BadRequestException(result.error);
