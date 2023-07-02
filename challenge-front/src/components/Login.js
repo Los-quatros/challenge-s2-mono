@@ -80,8 +80,6 @@ function Login() {
 				.then((response) => {
 					if (response.status === 200) {
 						return response.text();
-					} else {
-						setToast("Mauvais identifiants", "error");
 					}
 				})
 				.then((data) => {
