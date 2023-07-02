@@ -1,9 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-import { useEffect } from "react";
-
-const $ = window.$;
+import profileImage from "../../assets/images/account/profile.png";
 
 /**
  * Display toast message
@@ -23,9 +21,7 @@ const setToast = (message, type) => {
 	});
 };
 
-function SidebarPage({ sidebarMenuChange, menu }) {
-	const navigate = useNavigate();
-
+function SidebarPage() {
 	/**
 	 * Logout the user
 	 * @param { Event } event Click event
@@ -33,99 +29,39 @@ function SidebarPage({ sidebarMenuChange, menu }) {
 	const logout = (event) => {
 		event.preventDefault();
 		localStorage.removeItem("token");
-		navigate("/");
+		Navigate("/");
 		setTimeout(() => {
 			setToast("Vous avez été déconnecté", "success");
 		}, 500);
 	};
 
-	/**
-	 * Handle sidebar menu change
-	 * - Emit event to parent component
-	 * @param { string } menu Sidebar menu name
-	 */
-	const handleSidebarMenuChange = (menu) => {
-		document.querySelectorAll("#navbar li").forEach((link) => {
-			link.classList.remove("active");
-			if (link.classList.contains(menu)) {
-				link.classList.add("active");
-			}
-		});
-		sidebarMenuChange(menu);
-	};
-
-	useEffect(() => {
-		document.querySelectorAll("#navbar li").forEach((link) => {
-			link.classList.remove("active");
-			if (link.classList.contains(menu)) {
-				link.classList.add("active");
-			}
-		});
-	}, [menu]);
-
-	/**
-	 * Toggle sidebar
-	 */
-	const toggleSidebar = () => $("#sidebar").toggleClass("active");
-
 	return (
 		<>
 			<ToastContainer />
-			<nav className="navbar navbar-expand-lg navbar-light bg-light">
-				<div className="container-fluid">
-					<button
-						type="button"
-						id="sidebarCollapse"
-						className="btn btn-primary"
-						onClick={toggleSidebar}
-					>
-						<i className="fa fa-bars"></i>
-						<span className="sr-only">Burger menu</span>
-					</button>
-					<button
-						className="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button"
-						data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent"
-						aria-expanded="false"
-						aria-label="Burger menu"
-					>
-						<i className="fa fa-bars"></i>
-					</button>
-					<div className="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul className="nav navbar-nav ml-auto" id="navbar">
-							<li
-								className="nav-item active profile"
-								onClick={() => handleSidebarMenuChange("profile")}
-							>
-								<Link className="nav-link">Profil</Link>
-							</li>
-							<li
-								className="nav-item orders"
-								onClick={() => handleSidebarMenuChange("orders")}
-							>
-								<Link className="nav-link">Mes commandes</Link>
-							</li>
-							<li
-								className="nav-item addresses"
-								onClick={() => handleSidebarMenuChange("addresses")}
-							>
-								<Link className="nav-link">Mes adresses</Link>
-							</li>
-							<li
-								className="nav-item returns"
-								onClick={() => handleSidebarMenuChange("returns")}
-							>
-								<Link className="nav-link">Mes retours</Link>
-							</li>
-							<li className="nav-item">
-								<Link className="nav-link" onClick={logout}>
-									Déconnexion
-								</Link>
-							</li>
-						</ul>
-					</div>
+			<nav id="sidebar">
+				<div className="p-4 pt-5">
+					<Link
+						to="/"
+						className="img logo rounded-circle mb-5"
+						style={{ backgroundImage: `url(${profileImage})` }}
+					></Link>
+					<ul className="list-unstyled components mb-5">
+						<li className="profile active" id="account-profile">
+							<Link to="/account/profile">Profil</Link>
+						</li>
+						<li className="orders" id="account-orders">
+							<Link to="/account/orders">Mes commandes</Link>
+						</li>
+						<li className="addresses" id="account-addresses">
+							<Link to="/account/addresses">Mes adresses</Link>
+						</li>
+						<li className="returns" id="account-returns">
+							<Link to="/account/returns">Mes retours</Link>
+						</li>
+						<li>
+							<Link onClick={logout}>Déconnexion</Link>
+						</li>
+					</ul>
 				</div>
 			</nav>
 		</>

@@ -1,8 +1,9 @@
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import SidebarPage from "./SidebarPage";
+import HeaderPage from "./HeaderPage";
 import jwt_decode from "jwt-decode";
+import { useParams } from "react-router-dom";
 
 /**
  * Display toast message
@@ -22,7 +23,20 @@ const setToast = (message, type) => {
 	});
 };
 
-function ProfilePage({ accountMenuChange, menu }) {
+/**
+ * Reset and set active link in li element
+ * @param { string } name Account menu name
+ */
+const resetAndSetActiveLink = (name) => {
+	document
+		.querySelector(".list-unstyled")
+		.querySelectorAll("li")
+		.forEach((li) => li.classList.remove("active"));
+	document.querySelector(`#account-${name}`).classList.add("active");
+};
+
+function ProfilePage() {
+	const { name } = useParams();
 	const [lastName, setLastName] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [email, setEmail] = useState("");
@@ -126,6 +140,10 @@ function ProfilePage({ accountMenuChange, menu }) {
 			});
 	}, []);
 
+	useEffect(() => {
+		resetAndSetActiveLink(name);
+	}, [name]);
+
 	/**
 	 * Update the user profile
 	 * @param { Event } event The event of the div
@@ -184,18 +202,11 @@ function ProfilePage({ accountMenuChange, menu }) {
 		}
 	};
 
-	/**
-	 * Handle the change of the menu in the sidebar
-	 * - This function is passed to the SidebarPage component
-	 * @param { string } menu Menu name
-	 */
-	const handleProfileMenuChange = (menu) => accountMenuChange(menu);
-
 	return (
 		<>
 			<ToastContainer />
 			<div id="content" className="p-4 p-md-5">
-				<SidebarPage sidebarMenuChange={handleProfileMenuChange} menu={menu} />
+				<HeaderPage />
 				<div className="row">
 					<div className="col-12">
 						<form className="file-upload">

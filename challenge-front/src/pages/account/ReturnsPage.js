@@ -1,16 +1,29 @@
-import SidebarPage from "./SidebarPage";
+import SidebarPage from "./HeaderPage";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-function ReturnsPage({ accountMenuChange, menu }) {
-	/**
-	 * Handle the change of the menu in the sidebar
-	 * - This function is passed to the SidebarPage component
-	 * @param { string } menu Menu name
-	 */
-	const handleReturnsMenuChange = (menu) => accountMenuChange(menu);
+/**
+ * Reset and set active link in li element
+ * @param { string } name Account menu name
+ */
+const resetAndSetActiveLink = (name) => {
+	document
+		.querySelector(".list-unstyled")
+		.querySelectorAll("li")
+		.forEach((li) => li.classList.remove("active"));
+	document.querySelector(`#account-${name}`).classList.add("active");
+};
+
+function ReturnsPage() {
+	const { name } = useParams();
+
+	useEffect(() => {
+		resetAndSetActiveLink(name);
+	}, [name]);
 
 	return (
 		<div id="content" className="p-4 p-md-5">
-			<SidebarPage sidebarMenuChange={handleReturnsMenuChange} menu={menu} />
+			<SidebarPage />
 			<h2 className="mb-4">Sidebar #04</h2>
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
