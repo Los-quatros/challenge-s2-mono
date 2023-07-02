@@ -213,11 +213,6 @@ function AddressesPage() {
 				.then((response) => {
 					if (response.status === 201) {
 						return response.json();
-					} else {
-						setToast(
-							"Une erreur est survenue lors de l'ajout de l'adresse",
-							"error"
-						);
 					}
 				})
 				.then((data) => {
