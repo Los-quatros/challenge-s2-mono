@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 function AccountPage() {
 	const { name } = useParams();
-	const [menu, setMenu] = useState("profile");
+	const [menu, setMenu] = useState("");
 
 	useEffect(() => {
 		setMenu(name);
@@ -21,15 +21,10 @@ function AccountPage() {
 			<ToastContainer />
 			<div className="wrapper d-flex align-items-stretch">
 				<SidebarPage />
-				{menu === "orders" ? (
-					<OrdersPage />
-				) : menu === "addresses" ? (
-					<AddressesPage />
-				) : menu === "returns" ? (
-					<ReturnsPage />
-				) : (
-					<ProfilePage />
-				)}
+				{menu === "orders" && <OrdersPage />}
+				{menu === "addresses" && <AddressesPage />}
+				{menu === "returns" && <ReturnsPage />}
+				{menu === "profile" && <ProfilePage />}
 			</div>
 		</>
 	);
