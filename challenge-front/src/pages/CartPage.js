@@ -24,7 +24,7 @@ const setToast = (message, type) => {
 	});
 };
 
-function CartPage() {
+function CartPage({ handleClearCart }) {
 	const [products, setProducts] = useState([]);
 	const [deliveryMode, setDeliveryMode] = useState("free");
 	const [subtotal, setSubtotal] = useState(0);
@@ -180,6 +180,7 @@ function CartPage() {
 		setTotal(0);
 		setDeliveryMode("free");
 		setToast("Le panier a été vidé", "success");
+		handleClearCart();
 	};
 
 	/**

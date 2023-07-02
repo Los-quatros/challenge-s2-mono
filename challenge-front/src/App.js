@@ -147,6 +147,14 @@ const AppContent = () => {
 		}
 	};
 
+	/**
+	 * Handle clear cart
+	 */
+	const handleClearCart = () => {
+		localStorage.removeItem("cart");
+		setCartQuantity(0);
+	};
+
 	return (
 		<Suspense fallback={<span>...</span>}>
 			{displayHeader && <Header quantity={cartQuantity} />}
@@ -159,7 +167,10 @@ const AppContent = () => {
 				<Route path="/categories/:category" element={<Categories />} />
 				{hasToken && <Route path="/account/:name" element={<Account />} />}
 				<Route path="/contact" element={<Contact />} />
-				<Route path="/cart" element={<Cart />} />
+				<Route
+					path="/cart"
+					element={<Cart handleClearCart={handleClearCart} />}
+				/>
 				<Route
 					path="/products/:category/:productId"
 					element={<ProductDetails handleCartChange={handleCartChange} />}
