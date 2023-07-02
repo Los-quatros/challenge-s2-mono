@@ -109,14 +109,14 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-products:latest
       
-      - name: Build and push challenge-payments
-        # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-payments/') }}
+      - name: Build and push challenge-payment
+        # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-payment/') }}
         uses: docker/build-push-action@v2
         with:
-          context: ./challenge-payments
-          file: ./challenge-payments/Dockerfile
+          context: ./challenge-payment
+          file: ./challenge-payment/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-payments:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-payment:latest
       
       - name: Build and push challenge-sellers
         # if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'challenge-sellers/') }}
