@@ -15,9 +15,9 @@ import { UpdateProductDto } from './models/UpdateProductDto';
 import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantityDto';
 import { ProductsService } from './products.service';
 import {
-    AuthenticationRequired,
-    HasRole,
-  } from 'src/authentication/authentication.decorator';
+  AuthenticationRequired,
+  HasRole,
+} from 'src/authentication/authentication.decorator';
 import { Role } from 'src/authentication/authentication.enum';
 
 @Controller('products')
@@ -45,15 +45,11 @@ export class ProductsController {
     );
   }
 
-  @AuthenticationRequired()
-  @HasRole(Role.USER)
   @Get()
   async GetAllProducts() {
     return this.productsService.GetAllProducts();
   }
 
-  @AuthenticationRequired()
-  @HasRole(Role.USER)
   @Get('/:id')
   async GetProductById(@Param() productId: string) {
     return this.productsService.GetProductById(productId);
@@ -69,8 +65,6 @@ export class ProductsController {
     return this.productsService.UpdateProduct(productId, body);
   }
 
-  @AuthenticationRequired()
-  @HasRole(Role.USER)
   @Get('/categories/all')
   async GetCategories() {
     return this.productsService.GetCategories();
