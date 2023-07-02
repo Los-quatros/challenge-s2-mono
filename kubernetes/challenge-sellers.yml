@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-sellers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-sellers
+  template:
+    metadata:
+      labels:
+        app: challenge-sellers
+    spec:
+      containers:
+        - name: challenge-sellers
+          image: yacinesoussi/challenges2-yacine-sellers:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URL
+              value: mongodb://challenge-sellers-db:27017/sellers-db
+        
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-sellers
+  labels:
+    app: challenge-sellers
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3006
+    targetPort: 3000
+  selector:
+    app: challenge-sellers

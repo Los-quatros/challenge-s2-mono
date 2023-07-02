@@ -76,17 +76,21 @@ export class UsersService {
 
   async updateUser(id: string, updatedUser: UpdateUserDto): Promise<any> {
     try {
+      if (updatedUser.password) {
+        const hashedPassword: string = await bcrypt.hash(
+          updatedUser.password,
+          10
+        );
+        updatedUser.password = hashedPassword;
+      }
       await this.usersRepository.update(id, updatedUser);
 
       return "Utilisateur mis à jour avec succès";
     } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: "Error updating user",
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error,
+      };
     }
   }
 
@@ -199,6 +203,7 @@ export class UsersService {
   }
 
   async createSellerAccount(user: AccountSellerDto): Promise<any> {
+    user.email = user.email.toLowerCase();
     try {
       const existingUser = await this.usersRepository.findOneBy({
         email: user.email,
@@ -229,7 +234,13 @@ export class UsersService {
         description: user.description,
         userId: newUser.id,
       };
+
       const seller = await this.sellersService.createSellerAccount(dataSeller);
+
+      if (seller.error) {
+        return seller;
+      }
+
       const updateUser = { ...newUser, sellerId: seller.id };
       await this.usersRepository.update(newUser.id, updateUser);
 
@@ -255,5 +266,17 @@ export class UsersService {
       };
     }
     return user;
+  }
+
+  async getAdminEmail(): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ roles: "admin" });
+
+    if (!user) {
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: "Utilisateur non trouvé",
+      };
+    }
+    return user.email;
   }
 }

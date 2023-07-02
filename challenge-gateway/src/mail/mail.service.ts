@@ -47,4 +47,8 @@ export class MailService {
   async sendMailResetPassword(email: string): Promise<Object> {
     return await lastValueFrom(this.mailProxy.send('resetPassword', email));
   }
+
+  async sendMailContact(data: Object): Promise<string> {
+    return await lastValueFrom(this.mailProxy.send('contactMail', data));
+  }
 }

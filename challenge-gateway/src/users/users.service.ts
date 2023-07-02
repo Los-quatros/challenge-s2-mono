@@ -5,6 +5,7 @@ import { last, lastValueFrom } from 'rxjs';
 import { AccountSellerDto } from '../dto/accountSeller.dto';
 import { UserDto } from 'src/dto/users.dto';
 import { MailService } from 'src/mail/mail.service';
+import { ContactDto } from 'src/dto/contact.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,16 +38,24 @@ export class UsersService {
   }
 
   async updateUser(id, user: any) {
-    return this.usersProxy.send('updateUser', { id, user });
+    const updateUser = await lastValueFrom(
+      this.usersProxy.send('updateUser', { id, user }),
+    );
+
+    if (!updateUser.error) {
+      return updateUser;
+    }
+
+    throw new BadRequestException(updateUser.error);
   }
 
   async deleteUser(id: string) {
-    return this.usersProxy.send('deleteUser', id);
+    this.usersProxy.send('deleteUser', id);
   }
 
   async login(body: LoginRequest) {
     try {
-      const result = await this.usersProxy.send('login', body).toPromise();
+      const result = await lastValueFrom(this.usersProxy.send('login', body));
       if (!result.error) {
         return result;
       }
@@ -90,6 +99,7 @@ export class UsersService {
     );
 
     if (!result.error) {
+      await this.mailService.sendMailBecomeSeller(user.email);
       return result;
     }
     throw new BadRequestException(result.error);
@@ -97,5 +107,16 @@ export class UsersService {
 
   async getUserBySellerId(id: string): Promise<UserDto> {
     return await lastValueFrom(this.usersProxy.send('getUserBySellerId', id));
+  }
+
+  async getAdminEmail(): Promise<string> {
+    return await lastValueFrom(this.usersProxy.send('getAdminEmail', {}));
+  }
+
+  async sendMailContact(data: ContactDto): Promise<Object> {
+    const emailAdmin = await this.getAdminEmail();
+    data.emailAdmin = emailAdmin;
+
+    return await this.mailService.sendMailContact(data);
   }
 }

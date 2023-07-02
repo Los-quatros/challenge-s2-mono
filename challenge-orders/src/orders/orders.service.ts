@@ -110,7 +110,6 @@ export class OrdersService {
         orderProducts.push(new OrderProductDto(orderProduct?.id, new Product(orderProduct?.product_id), orderProduct?.quantity, orderProduct?.is_returned, undefined, orderProduct?.nbProductReturned));
         return new OrderResponseDto(order?.id, order?.is_delivered, new Address(order?.address), new Carrier(order?.carrier), orderProducts);
       }));
-      console.log(result);
       return result;
     }
 

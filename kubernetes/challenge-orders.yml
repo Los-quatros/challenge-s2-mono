@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-orders
+  template:
+    metadata:
+      labels:
+        app: challenge-orders
+    spec:
+      containers:
+        - name: challenge-orders
+          image: yacinesoussi/challenges2-yacine-orders:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_DB
+              value: challenge-orders-db
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_HOST
+              value: challenge-orders-db
+            - name: POSTGRES_PORT
+              value: "5432"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-orders
+  labels:
+    app: challenge-orders
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3001
+    targetPort: 3000
+  selector:
+    app: challenge-orders

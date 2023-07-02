@@ -11,7 +11,7 @@ export class AuthenticationService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly sellersService: SellersService
-  ) { }
+  ) {}
 
   public async login(loginRequest: LoginRequest) {
     const user = await this.usersService.getUserByEmail(loginRequest.email);
@@ -19,8 +19,8 @@ export class AuthenticationService {
     if (!user) {
       return {
         error: "Email ou mot de passe incorrect",
-        status: 400
-      }
+        status: 400,
+      };
     }
 
     const isValidPassword = await compare(loginRequest.password, user.password);
@@ -28,24 +28,23 @@ export class AuthenticationService {
     if (!isValidPassword) {
       return {
         error: "Email ou mot de passe incorrect",
-        status: 400
-      }
+        status: 400,
+      };
     }
 
-    if(user.roles === 'seller') {
-
-      const isSellerAvailable = await this.sellersService.checkIfSellerIsAvailable(user.id);
+    if (user.roles === "seller") {
+      const isSellerAvailable =
+        await this.sellersService.checkIfSellerIsAvailable(user.id);
       if (!isSellerAvailable) {
         return {
           error: "Votre compte vendeur n'est pas encore activé",
-          status: 403
-        }
+          status: 403,
+        };
       }
     }
 
-    
     const payload = {
-      id: user.id
+      id: user.id,
     };
 
     const token = this.jwtService.sign(payload);
@@ -61,11 +60,10 @@ export class AuthenticationService {
     if (!user) {
       return {
         error: "Invalid user",
-        status: 400
-      }
+        status: 400,
+      };
     }
 
     return user;
   }
-
 }
