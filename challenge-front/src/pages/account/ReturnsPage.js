@@ -28,6 +28,10 @@ function ReturnsPage() {
 		resetAndSetActiveLink(name);
 	}, [name]);
 
+	useEffect(() => {
+		initReturns();
+	}, []);
+
 	/**
 	 * Initialize returns data
 	 * TODO : fetch data from API
@@ -75,10 +79,6 @@ function ReturnsPage() {
 			},
 		]);
 	};
-
-	useEffect(() => {
-		initReturns();
-	}, []);
 
 	return (
 		<>
