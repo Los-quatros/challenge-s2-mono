@@ -43,6 +43,7 @@ function OrdersPage() {
 	const [selectedOrder, setSelectedOrder] = useState(null);
 	const [returnReason, setReturnReason] = useState("");
 	const [orders, setOrders] = useState([]);
+	const [selectedProducts, setSelectedProducts] = useState([]);
 
 	useEffect(() => {
 		resetAndSetActiveLink(name);
@@ -56,14 +57,28 @@ function OrdersPage() {
 	 * Submit return request on selected order
 	 * TODO : fetch API
 	 * TODO : toasts
+	 * TODO : check if checkbox are disabled after return and same for button submit
 	 */
 	const submitReturnRequest = () => {
-		if (returnReason === "") {
+		if (selectedProducts.length === 0) {
+			setToast("Veuillez sélectionner au moins un produit", "info");
+		} else if (returnReason === "") {
 			setToast("Veuillez saisir une raison de retour", "info");
 		} else {
 			setToast("Votre demande de retour a bien été prise en compte", "success");
-			setSelectedOrder(null);
-			setReturnReason("");
+			resetFields();
+		}
+	};
+
+	/**
+	 * Handle product selection
+	 * @param { object } product Selected product
+	 */
+	const handleProductSelection = (product) => {
+		if (selectedProducts.includes(product)) {
+			setSelectedProducts(selectedProducts.filter((p) => p !== product));
+		} else {
+			setSelectedProducts([...selectedProducts, product]);
 		}
 	};
 
@@ -82,7 +97,13 @@ function OrdersPage() {
 	/**
 	 * Cancel return request
 	 */
-	const cancelReturnRequest = () => {
+	const cancelReturnRequest = () => resetFields();
+
+	/**
+	 * Reset fields of order return
+	 */
+	const resetFields = () => {
+		setSelectedProducts([]);
 		setSelectedOrder(null);
 		setReturnReason("");
 	};
@@ -104,12 +125,14 @@ function OrdersPage() {
 						quantity: 1,
 						price: 1259.99,
 						image: phone1,
+						isReturned: false,
 					},
 					{
 						name: "Casque audio Sony WH-1000XM4",
 						quantity: 1,
 						price: 379.99,
 						image: headphone1,
+						isReturned: false,
 					},
 				],
 				address: "1 rue de la paix",
@@ -125,12 +148,14 @@ function OrdersPage() {
 						quantity: 1,
 						price: 1259.99,
 						image: phone2,
+						isReturned: true,
 					},
 					{
 						name: "Casque audio Sony WH-1000XM4",
 						quantity: 1,
 						price: 379.99,
 						image: headphone2,
+						isReturned: false,
 					},
 				],
 				address: "1 rue de la paix",
@@ -162,6 +187,7 @@ function OrdersPage() {
 												<th>Nom du produit</th>
 												<th>Quantité</th>
 												<th>Prix</th>
+												{order.isDelivered && <th>Retour</th>}
 											</tr>
 										</thead>
 										<tbody>
@@ -177,6 +203,15 @@ function OrdersPage() {
 													<td>{product.name}</td>
 													<td>{product.quantity}</td>
 													<td>{product.price}€</td>
+													{order.isDelivered && !product.isReturned && (
+														<td>
+															<input
+																type="checkbox"
+																checked={selectedProducts.includes(product)}
+																onChange={() => handleProductSelection(product)}
+															/>
+														</td>
+													)}
 												</tr>
 											))}
 										</tbody>
