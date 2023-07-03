@@ -2,10 +2,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import HeaderPage from "./HeaderPage";
-import headphone1 from "../../assets/images/categories/headphones/headphone_6.png"; // TODO remove
-import headphone2 from "../../assets/images/categories/headphones/headphone_8.png"; // TODO remove
-import phone1 from "../../assets/images/categories/phones/phone_6.png"; // TODO remove
-import phone2 from "../../assets/images/categories/phones/phone_4.png"; // TODO remove
+import defaultProduct from "../../assets/images/categories/default.png";
+import jwt_decode from "jwt-decode";
 import { useParams } from "react-router-dom";
 
 /**
@@ -55,9 +53,6 @@ function OrdersPage() {
 
 	/**
 	 * Submit return request on selected order
-	 * TODO : fetch API
-	 * TODO : toasts
-	 * TODO : check if checkbox are disabled after return and same for button submit
 	 */
 	const submitReturnRequest = () => {
 		if (selectedProducts.length === 0) {
@@ -65,8 +60,53 @@ function OrdersPage() {
 		} else if (returnReason === "") {
 			setToast("Veuillez saisir une raison de retour", "info");
 		} else {
-			setToast("Votre demande de retour a bien été prise en compte", "success");
-			resetFields();
+			const token = localStorage.getItem("token");
+			const decodedToken = jwt_decode(token);
+			fetch(`http://localhost:4000/returns/users/${decodedToken.id}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify({
+					orderProducts: selectedProducts.map((product) => {
+						return {
+							id_product: product.id,
+							nbItemReturned: product.quantity,
+						};
+					}),
+					reason: returnReason,
+					total: selectedProducts.reduce(
+						(acc, product) => acc + product.price * product.quantity,
+						0
+					),
+				}),
+			})
+				.then((res) => {
+					if (res.status === 201) {
+						return res.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						setToast(
+							"Votre demande de retour a bien été prise en compte",
+							"success"
+						);
+						resetFields();
+					} else {
+						setToast(
+							"Une erreur est survenue lors de la demande de retour",
+							"error"
+						);
+					}
+				})
+				.catch(() =>
+					setToast(
+						"Une erreur est survenue lors de la demande de retour",
+						"error"
+					)
+				);
 		}
 	};
 
@@ -87,7 +127,7 @@ function OrdersPage() {
 	 * @param { object } order Order object
 	 */
 	const handleSelectOrder = (order) => {
-		if (!order.isDelivered) {
+		if (!order.is_delivered) {
 			setToast("Demande de retour impossible, commande non livrée", "info");
 		} else {
 			setSelectedOrder(order);
@@ -110,59 +150,63 @@ function OrdersPage() {
 
 	/**
 	 * Init orders
-	 * TODO : fetch orders from API
-	 * TODO : toasts
-	 * TODO : verify if we receive only isPaid = true
 	 */
 	const initOrders = () => {
-		setOrders([
-			{
-				id: "0f789703-c647-4e9f-8507-e5d23df473ce",
-				date: "01-07-2021",
-				products: [
-					{
-						name: "Apple iPhone 12 Pro Max",
-						quantity: 1,
-						price: 1259.99,
-						image: phone1,
-						isReturned: false,
-					},
-					{
-						name: "Casque audio Sony WH-1000XM4",
-						quantity: 1,
-						price: 379.99,
-						image: headphone1,
-						isReturned: false,
-					},
-				],
-				address: "1 rue de la paix",
-				carrier: "UPS",
-				isDelivered: true,
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/orders/users/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
 			},
-			{
-				id: "0f789703-c646-4e9f-8507-e5d23df473ce",
-				date: "01-07-2021",
-				products: [
-					{
-						name: "Apple iPhone 12 Pro Max",
-						quantity: 1,
-						price: 1259.99,
-						image: phone2,
-						isReturned: true,
-					},
-					{
-						name: "Casque audio Sony WH-1000XM4",
-						quantity: 1,
-						price: 379.99,
-						image: headphone2,
-						isReturned: false,
-					},
-				],
-				address: "1 rue de la paix",
-				carrier: "Colissimo",
-				isDelivered: false,
-			},
-		]);
+		})
+			.then((res) => {
+				if (res.status === 200) {
+					return res.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					const orders = [];
+					data.forEach((order) => {
+						if (order.is_paid) {
+							const products = order.products.map((product) => {
+								return {
+									id: product["product"].id,
+									name: product["product"].label,
+									quantity: product["product"].quantity,
+									price: product["product"].price,
+									image: product["product"].image
+										? product["product"].image
+										: defaultProduct,
+									is_returned: product.is_returned,
+								};
+							});
+							orders.push({
+								id: order.orderId,
+								date: order.date ? order.date : new Date().toLocaleDateString(),
+								products: products,
+								address: `${order.address.street} ${order.address.zip} ${order.address.city}`,
+								carrier: order.carrier.name,
+								is_delivered: order.is_delivered,
+							});
+						}
+					});
+					setOrders(orders);
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération des commandes",
+						"error"
+					);
+				}
+			})
+			.catch(() =>
+				setToast(
+					"Une erreur est survenue lors de la récupération des commandes",
+					"error"
+				)
+			);
 	};
 
 	return (
@@ -172,8 +216,8 @@ function OrdersPage() {
 				<HeaderPage />
 				<div className="container">
 					{orders.length > 0 ? (
-						orders.map((order) => (
-							<div key={order.id} className="card mb-3">
+						orders.map((order, index) => (
+							<div key={`${order.name}-${index}`} className="card mb-3">
 								<div className="card-header">
 									<h4>Numéro de commande : {order.id}</h4>
 									<p>Date : {order.date}</p>
@@ -187,12 +231,12 @@ function OrdersPage() {
 												<th>Nom du produit</th>
 												<th>Quantité</th>
 												<th>Prix</th>
-												{order.isDelivered && <th>Retour</th>}
+												{order.is_delivered && <th>Retour</th>}
 											</tr>
 										</thead>
 										<tbody>
-											{order.products.map((product) => (
-												<tr key={product.name}>
+											{order.products.map((product, index) => (
+												<tr key={`${product.label}-${index}`}>
 													<td>
 														<img
 															src={product.image}
@@ -203,11 +247,15 @@ function OrdersPage() {
 													<td>{product.name}</td>
 													<td>{product.quantity}</td>
 													<td>{product.price}€</td>
-													{order.isDelivered && !product.isReturned && (
+													{order.is_delivered && (
 														<td>
 															<input
 																type="checkbox"
-																checked={selectedProducts.includes(product)}
+																disabled={product.is_returned}
+																checked={
+																	product.is_returned ||
+																	selectedProducts.includes(product)
+																}
 																onChange={() => handleProductSelection(product)}
 															/>
 														</td>
@@ -257,9 +305,9 @@ function OrdersPage() {
 											</>
 										) : (
 											<button
-												disabled={!order.isDelivered}
+												disabled={!order.is_delivered}
 												style={{
-													cursor: !order.isDelivered
+													cursor: !order.is_delivered
 														? "not-allowed"
 														: "pointer",
 												}}
