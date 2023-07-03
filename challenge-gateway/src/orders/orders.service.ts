@@ -91,6 +91,13 @@ export class OrdersService {
     return resultWithCarrierProductsAndAddress;
   }
 
+  async ModerateOrderDelivery(decision: boolean, idOrder: string) {
+    return this.ordersProxy.send('AcceptOrDeclineOrderDelivery', {
+      decision,
+      idOrder,
+    });
+  }
+
   async UpdateNbItemReturnedForOrderProduct(id: string, quantity: number) {
     return this.ordersProxy.send('UpdateNbItemReturned', { id, quantity });
   }
