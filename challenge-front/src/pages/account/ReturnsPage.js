@@ -20,6 +20,24 @@ const resetAndSetActiveLink = (name) => {
 	document.querySelector(`#account-${name}`).classList.add("active");
 };
 
+/**
+ * Display toast message
+ * @param { String } message Toast message
+ * @param { String } type Toast type
+ */
+const setToast = (message, type) => {
+	toast[type](message, {
+		position: "top-right",
+		autoClose: 1500,
+		hideProgressBar: false,
+		closeOnClick: false,
+		pauseOnHover: false,
+		draggable: true,
+		progress: undefined,
+		theme: "light",
+	});
+};
+
 function ReturnsPage() {
 	const { name } = useParams();
 	const [returns, setReturns] = useState([]);
