@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const defaultImage = require("../assets/images/default.png");
+const defaultImage = require("../assets/images/home/default.png");
 
 function HomeContainer(props) {
 	const [image, setImage] = useState(defaultImage);
