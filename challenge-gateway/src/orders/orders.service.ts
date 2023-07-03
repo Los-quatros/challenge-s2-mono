@@ -6,13 +6,15 @@ import { ProductsService } from 'src/products/products.service';
 import { CreateOrderDto } from './models/CreateOrderDto';
 import { Address, Carrier, OrderProductDto, OrderResponseDto, Product } from './models/ordersResponseDto';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { PaymentService } from 'src/payment/payment.service';
 
 @Injectable()
 export class OrdersService {
     constructor(@Inject('ORDERS_SERVICE') private readonly ordersProxy: ClientProxy,
     private readonly addressesService : AddressesService, 
     private readonly carriersService : CarriersService,
-    private readonly productsService : ProductsService
+    private readonly productsService : ProductsService,
+    private readonly paymentsService : PaymentService
     ) {}
 
     async GetOrdersByUser(userId : string) : Promise<Array<OrderResponseDto>>{
@@ -21,7 +23,11 @@ export class OrdersService {
     }
 
     async CreateOrder(data : CreateOrderDto) : Promise<any> {
-        return this.ordersProxy.send('CreateOrder', {data});
+        const result : any = await lastValueFrom(this.ordersProxy.send('CreateOrder', {data}));
+        this.paymentsService.createCheckoutSession(result);
+
+        return ;
+
     }
 
     async GetOrders() : Promise<any> {
@@ -58,5 +64,12 @@ export class OrdersService {
         }
         
         return ordersResponse;
+    }
+
+    async GetProductsOrder(orderId: string) : Promise<any> {
+        const result : any = await lastValueFrom(this.ordersProxy.send('GetProductsOrder', {orderId}));
+    
+        return result;
+
     }
 }

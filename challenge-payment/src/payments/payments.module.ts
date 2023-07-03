@@ -3,10 +3,10 @@ import { Module } from '@nestjs/common';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { OrdersModule } from '../orders/orders.module';
 
 
 @Module({
-
   imports: [ClientsModule.register([
     {
         name: 'PAYMENTS_SERVICE',
@@ -19,7 +19,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
             }
         }
     }
-  ]),],
+  ]),
+  OrdersModule
+],
   providers: [PaymentsService],
   controllers: [PaymentsController],
 })

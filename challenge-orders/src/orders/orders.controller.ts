@@ -27,6 +27,11 @@ export class OrdersController {
         return this.ordersService.GetOrderProductsByProductsIds(sellerProductsIds['productIds']);
     }
 
+    @EventPattern("GetProductsOrder")
+    async getProductsOrder(orderId : string) {
+        return this.ordersService.GetProductsOrder(orderId);
+    }
+
 }
 
 

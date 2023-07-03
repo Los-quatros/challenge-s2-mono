@@ -5,9 +5,10 @@ import { CarriersModule } from 'src/carriers/carriers/carriers.module';
 import { ProductsModule } from 'src/products/products.module';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
+import { PaymentModule } from 'src/payment/payment.module';
 
 @Module({
-  imports: [ProductsModule,CarriersModule,AddressesModule,ClientsModule.register([
+  imports: [PaymentModule,ProductsModule,CarriersModule,AddressesModule,ClientsModule.register([
     {
         name: 'ORDERS_SERVICE',
         transport: Transport.RMQ,
