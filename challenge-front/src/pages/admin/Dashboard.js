@@ -5,6 +5,7 @@ import sidebar from "../../assets/styles/admin/sidebar.module.css";
 import ProductPreviewAll from "../../components/Admin/Products/ProductPreviewAll";
 import OrderPreviewAll from "../../components/Admin/Orders/OrderPreviewAll";
 import ReturnPreviewAll from "../../components/Admin/Returns/ReturnPreviewAll";
+import CarrierPreviewAll from "../../components/Admin/Carriers/CarrierPreviewAll";
 const Dashboard = () => {
   return (
     <>
@@ -109,6 +110,7 @@ const Dashboard = () => {
                 <OrderPreviewAll />
                 <ReturnPreviewAll />
                 <ProductPreviewAll />
+                <CarrierPreviewAll />
               </div>
             </section>
           </div>
