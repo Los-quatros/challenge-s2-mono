@@ -2,6 +2,7 @@ import Stripe from 'stripe';
 import { All, Injectable,Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { OrdersService } from '../orders/orders.service';
+import { ProductsService } from '../products/products.service';
 
 
 
@@ -11,7 +12,7 @@ const stripe = new Stripe('sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yL
 
 @Injectable()
 export class PaymentsService {
-  constructor(private ordersService: OrdersService) {}
+  constructor(private ordersService: OrdersService, private productsService: ProductsService) {}
 
   
   async createCheckoutSession(data : any) {

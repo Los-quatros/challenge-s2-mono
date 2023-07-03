@@ -4,10 +4,12 @@ import { AppService } from './app.service';
 import { PaymentsModule } from './payments/payments.module';
 import { ConfigModule } from '@nestjs/config';
 import { OrdersModule } from './orders/orders.module';
+import { ProductsModule } from './products/products.module';
+
 
 
 @Module({
-  imports: [PaymentsModule,ConfigModule.forRoot(), OrdersModule],
+  imports: [ProductsModule,PaymentsModule,ConfigModule.forRoot(), OrdersModule],
   controllers: [AppController],
   providers: [AppService],
 })
