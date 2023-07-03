@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post,UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ImagesService } from './images.service';
 import {
   AuthenticationRequired,
@@ -6,13 +6,19 @@ import {
 } from 'src/authentication/authentication.decorator';
 import { Role } from 'src/authentication/authentication.enum';
 import { lastValueFrom } from 'rxjs';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('images')
 export class ImagesController {
   constructor(readonly imagesService: ImagesService) {}
 
   @Post('/upload')
-  async upload(image: any) {
-    return await this.imagesService.uploadImage(image);
+  @UseInterceptors(FileInterceptor('file', {
+    dest: '/uploads/'
+  }))
+  async uploadImage(@UploadedFile() file: any): Promise<any> {
+    const savedImage = await this.imagesService.uploadImage(file);
+    return savedImage;
   }
 }
+

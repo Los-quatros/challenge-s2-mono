@@ -6,6 +6,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MulterModule } from '@nestjs/platform-express';
 import { Image } from '../entity/images.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { diskStorage } from 'multer';
+
 
 
 @Module({
@@ -24,7 +26,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }
     }]),
     MulterModule.register({
-      dest: './uploads/',
+      storage: diskStorage({
+        destination: './uploads/',
+
+      }),
     }),
     TypeOrmModule.forFeature([Image])
   ],

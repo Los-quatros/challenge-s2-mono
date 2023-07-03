@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ImagesModule } from './images/images.module';
 
+
 @Module({
   imports: [
     ImagesModule,TypeOrmModule.forRoot({
@@ -16,6 +17,7 @@ import { ImagesModule } from './images/images.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    
   ],
   controllers: [AppController],
   providers: [AppService],

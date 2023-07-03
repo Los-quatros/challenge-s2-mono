@@ -1,4 +1,4 @@
-import { Inject, Injectable, BadRequestException } from '@nestjs/common';
+import { Inject, Injectable, BadRequestException,UploadedFile } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 
@@ -8,10 +8,15 @@ export class ImagesService {
     @Inject('IMAGES_SERVICE') private readonly imagesProxy: ClientProxy,
   ) {}
 
-  async uploadImage(image: any) {
-    return await lastValueFrom(
-      this.imagesProxy.send('upload-image', {image}),
-    );
+  async uploadImage(file: any): Promise<any> {
+    const image = {
+      name: file.originalname,
+      emplacementFile: file.path,
+      userId: null, 
+      productId: null,
+    };
+    const savedImage = await this.imagesProxy.send('saveImage', image).toPromise();
+    return savedImage;
   }
 
 }

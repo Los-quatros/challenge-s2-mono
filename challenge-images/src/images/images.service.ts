@@ -11,14 +11,13 @@ import { Image } from '../entity/images.entity';
 export class ImagesService {
   constructor(@Inject("IMAGES_SERVICE") readonly imagesProxy: ClientProxy, @InjectRepository(Image) private readonly imageRepository: Repository<Image>) {}
  
-  async uploadImage(data: any, file: any): Promise<Image> {
+  async uploadImage(file: any): Promise<Image> {
     const newImage = this.imageRepository.create({
       name: file.originalname,
       emplacementFile: file.path,
     });
 
     const savedImage = await this.imageRepository.save(newImage);
-
     return savedImage;
   }
 
