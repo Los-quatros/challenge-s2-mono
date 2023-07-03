@@ -21,4 +21,6 @@ export class Product {
     sellerId?: string;
     @Column({ default : true})
     isActivated : boolean;
+    @Column({nullable : true})
+    image : string;
 }

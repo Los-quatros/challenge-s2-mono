@@ -114,6 +114,7 @@ export class OrdersService {
       const carrier: Carrier = await firstValueFrom(
         await this.carriersService.GetCarrierById(order.carrier.id),
       );
+      // TODO : PRODUCT
       // get all product of orders
       const products: Array<OrderProductDto> = [];
       for (let item of order['orderProducts']) {

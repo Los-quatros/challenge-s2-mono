@@ -29,6 +29,7 @@ export class ProductsService {
                 productToPersist.sellerId = product['idSeller'];
             }
             productToPersist.category = categoryProduct;
+            productToPersist.image = product['idImage'];
             const result = await this.productsRepository.save(productToPersist);
             return result;
         } catch (error) {

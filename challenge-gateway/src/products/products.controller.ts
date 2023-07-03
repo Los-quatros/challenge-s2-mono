@@ -6,10 +6,8 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
 import { CreateProductDto } from './models/CreateProductDto';
 import { UpdateProductDto } from './models/UpdateProductDto';
 import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantityDto';
@@ -45,11 +43,13 @@ export class ProductsController {
     );
   }
 
+  // TODO : PRODUCT
   @Get()
   async GetAllProducts() {
     return this.productsService.GetAllProducts();
   }
 
+  // TODO : PRODUCT
   @Get('/:id')
   async GetProductById(@Param() productId: string) {
     return this.productsService.GetProductById(productId);
@@ -70,6 +70,7 @@ export class ProductsController {
     return this.productsService.GetCategories();
   }
 
+  // TODO : PRODUCT
   @AuthenticationRequired()
   @HasRole(Role.SELLER)
   @Get('/sellers/:id')

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Returns {
@@ -20,6 +20,9 @@ export class Returns {
 
     @Column()
     userId : string;
+
+    @CreateDateColumn({nullable : true})
+    createdAt: Date;
 
     getOrderProductIds(): string[] {
         return this.orderProducts.split(';');
