@@ -31,7 +31,7 @@ export class OrdersController {
     @EventPattern('UpdateNbItemReturned')
     async updateNbReturnedItemForOrderProduct(@Payload() id : string, @Payload() quantity : number){
         return this.ordersService.UpdateNbItemReturnedForOrderProduct(quantity, id);
-    }  
+    }
 
     @EventPattern('GetOrderProduct')
     async getOrderProduct(@Payload() id : string) : Promise<OrderProductDto>{

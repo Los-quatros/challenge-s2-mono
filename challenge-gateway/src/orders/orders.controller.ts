@@ -50,6 +50,9 @@ export class OrdersController {
     @Body() decision: boolean,
     @Param() idOrder: string,
   ) {
-    return this.ordersService.ModerateOrderDelivery(decision, idOrder);
+    return this.ordersService.ModerateOrderDelivery(
+      decision['decision'],
+      idOrder['id'],
+    );
   }
 }
