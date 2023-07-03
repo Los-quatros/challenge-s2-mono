@@ -71,7 +71,6 @@ export class ReturnsService {
     //     const address : Address = await lastValueFrom(await this.addressesService.GetAddressById(orderConcerned['address']));
     //     return new ReturnsResponseDto(elm['id'], elm['reason'], listOrderProducts, elm['status'], elm['userid'], carrier, address);
     // }));
-    // console.log(response);
     // return response;
   }
 

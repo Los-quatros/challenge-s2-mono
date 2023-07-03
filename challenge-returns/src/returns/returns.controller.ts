@@ -1,6 +1,5 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { Returns } from 'src/entity/entity.returns';
 import { CreateReturnModel } from 'src/models/CreateReturnModel';
 import { ReturnsResponseDto } from 'src/models/ReturnsResponseDto';
 import { ReturnsService } from './returns.service';
@@ -40,7 +39,6 @@ export class ReturnsController {
 
   @EventPattern('GetReturnsWithSales')
   async GetAllReturnsWithSellerSales(@Payload() salesIds: Array<string>) {
-    console.log('error');
     return this.returnsService.GetAllForSeller(salesIds['orderProducts']);
   }
 }

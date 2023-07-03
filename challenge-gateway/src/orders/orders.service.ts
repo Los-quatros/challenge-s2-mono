@@ -39,7 +39,6 @@ export class OrdersService {
     const order = await lastValueFrom(
       this.ordersProxy.send('CreateOrder', { data }),
     );
-    console.log(order);
     // build OrderproductDto to do this : this.AsignProductsAddressAndCarrierToOrder(orders);
     return order;
     // get the order and build the products of the order

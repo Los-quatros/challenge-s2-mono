@@ -114,7 +114,6 @@ export class ProductsService {
             if(data['isActivated'] != undefined) {
                 updateObject.isActivated = data['isActivated'];
             }
-            console.log(updateObject);
 
             return await this.productsRepository.update({id : productId}, updateObject);
         }catch(error) {

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateReturnDto } from './models/CreateReturnDto';
 import { ReturnsResponseDto } from './models/ReturnsResponseDto';
 import { ReturnsService } from './returns.service';
@@ -16,7 +23,8 @@ export class ReturnsController {
   @HasRole(Role.USER)
   @Post('/users/:id')
   async CreateReturn(
-    @Body() createReturnDto: CreateReturnDto,
+    @Body(new ValidationPipe({ transform: true }))
+    createReturnDto: CreateReturnDto,
     @Param() userId: string,
   ) {
     return this.returnsService.CreateReturn(createReturnDto, userId);
