@@ -13,10 +13,7 @@ import Header from "./components/Header";
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
 const NewPassword = lazy(() => import("./components/NewPassword"));
-const Orders = lazy(() => import("./pages/account/OrdersPage"));
-const Returns = lazy(() => import("./pages/account/ReturnsPage"));
 const Register = lazy(() => import("./components/Register"));
-const Addresses = lazy(() => import("./pages/account/AddressesPage"));
 const Account = lazy(() => import("./pages/account/AccountPage"));
 const Home = lazy(() => import("./pages/HomePage.js"));
 const Categories = lazy(() => import("./pages/CategoriesPage"));
@@ -94,6 +91,12 @@ const AppContent = () => {
 		location.pathname !== "/new-password" &&
 		!location.pathname.startsWith("/account");
 	const [cartQuantity, setCartQuantity] = useState(0);
+
+	useEffect(() => {
+		if (!hasToken) {
+			handleClearCart();
+		}
+	}, [hasToken]);
 
 	useEffect(() => {
 		clearLinks();
