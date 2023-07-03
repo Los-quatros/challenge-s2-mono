@@ -61,6 +61,7 @@ const useClient = () => {
 
   const deleteUser = async (userId) => {
     await deleteUserMutation.mutateAsync(userId);
+    queryClient.invalidateQueries("users");
   };
 
   return {

@@ -58,9 +58,9 @@ const ClientPreviewAll = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.length > 0 &&
+                {users &&
                   users.map((user) => (
-                    <tr key={user.id} onClick={() => openPopup(user)}>
+                    <tr key={user.id}>
                       <td>{user.email}</td>
                       <td>{user.lastName}</td>
                       <td>{user.firstName}</td>
@@ -82,6 +82,7 @@ const ClientPreviewAll = () => {
                               color: "red",
                               cursor: "pointer",
                             }}
+                            onClick={() => deleteUser(user.id)}
                           ></i>
                         </span>
                       </td>

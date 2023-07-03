@@ -1,32 +1,26 @@
 import React, { useState } from "react";
 import "../../../assets/styles/admin/popup.css";
 
-const ClientPopup = ({ user, onClose, onSave }) => {
-  const [email, setEmail] = useState(user.email);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [firstName, setFirstName] = useState(user.firstName);
+const SellerPopup = ({ user, onClose, onSave }) => {
+  const [name, setName] = useState(user.name);
+  const [description, setDescription] = useState(user.description);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
   };
 
   const handleSave = () => {
-    const updatedClient = {
+    const updatedSeller = {
       id: user?.id,
-      email,
-      lastName,
-      firstName,
+      name,
+      description,
     };
 
-    onSave(updatedClient);
+    onSave(updatedSeller);
   };
 
   return (
@@ -36,32 +30,24 @@ const ClientPopup = ({ user, onClose, onSave }) => {
           <h2>{user.id ? "Modifier Utilisateur" : "Ajouter Utilisateur"}</h2>
           <form>
             <div className="form-group">
-              <label>Email</label>
-              <input
-                type="text"
-                className="form-control"
-                value={email}
-                onChange={handleEmailChange}
-              />
-            </div>
-            <div className="form-group">
               <label>Nom</label>
               <input
                 type="text"
                 className="form-control"
-                value={lastName}
-                onChange={handleLastNameChange}
+                value={name}
+                onChange={handleNameChange}
               />
             </div>
             <div className="form-group">
-              <label>Prénom</label>
-              <input
-                type="text"
+              <label>Description</label>
+              <textarea
+                rows="4"
                 className="form-control"
-                value={firstName}
-                onChange={handleFirstNameChange}
+                value={description}
+                onChange={handleDescriptionChange}
               />
             </div>
+
             <div className="popup-buttons">
               <button className="btn btn-primary m-2" onClick={handleSave}>
                 {user.id ? "Enregistrer" : "Ajouter"}
@@ -77,4 +63,4 @@ const ClientPopup = ({ user, onClose, onSave }) => {
   );
 };
 
-export default ClientPopup;
+export default SellerPopup;
