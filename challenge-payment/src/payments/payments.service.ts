@@ -18,40 +18,38 @@ export class PaymentsService {
   async createCheckoutSession(data : any) {
     let products = await this.ordersService.getProductsOrder(data['data'].id);
     let productIds = products.map(product => product.product_id);
+    
+    let orderProducts = [];
+    for (let productId of productIds) {
+      let product = await this.productsService.getProductById(productId);
+      orderProducts.push({
+        label: product.label,
+        price: product.price,
+        quantity: products.find(p => p.product_id === productId).quantity
+      });
+    }
 
-
-    console.log(productIds)
+    
+    const lineItems = orderProducts.map(orderProduct => ({
+      price_data: {
+        currency: 'eur',
+        product_data: {
+          name: orderProduct.label,
+        },
+        unit_amount: orderProduct.price,
+      },
+      quantity: orderProduct.quantity,
+    }));
+    
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: 'item1',
-              },
-              unit_amount: 100,
-            },
-            quantity: 1,
-          },
-          {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: 'item1',
-              },
-              unit_amount: 100,
-            },
-            quantity: 1,
-          },
-          
-        ],
+        line_items: lineItems,
         mode: 'payment',
         success_url: 'https://localhost:4000/payments/success',
         cancel_url: 'https://localhost:4000/payments/cancel',
       });
-  
+      console.log(session.id);
       return { sessionId: session.id };
     
   }
