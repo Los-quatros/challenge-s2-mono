@@ -25,44 +25,80 @@ const OrderPreviewAll = () => {
                   <th>Date</th>
                   <th>Produits</th>
                   <th>Prix</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Kolor Tea Shirt For Man</td>
                   <td>
-                    <span class="badge badge-primary">Sale</span>
+                    <span class="badge badge-primary">En cours</span>
                   </td>
                   <td>January 22</td>
                   <td>2</td>
                   <td class="color-primary">$21.56</td>
+                  <td>
+                    <span className="m-l-10">
+                      <i
+                        className="fa fa-check-square pr-2"
+                        aria-hidden="true"
+                        style={{
+                          color: "gray",
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                      <i
+                        className="fa fa-check-square pr-2"
+                        aria-hidden="true"
+                        style={{
+                          color: "green",
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                    </span>
+                  </td>
                 </tr>
                 <tr>
                   <td>Kolor Tea Shirt For Women</td>
                   <td>
-                    <span class="badge badge-success">Tax</span>
+                    <span class="badge badge-success">Livré</span>
                   </td>
                   <td>January 30</td>
                   <td>1</td>
                   <td class="color-success">$55.32</td>
+                  <td>
+                    <span className="m-l-10">
+                      <i
+                        className="fa fa-check-square pr-2"
+                        aria-hidden="true"
+                        style={{
+                          color: "green",
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                    </span>
+                  </td>
                 </tr>
                 <tr>
                   <td>Blue Backpack For Baby</td>
                   <td>
-                    <span class="badge badge-danger">Extended</span>
+                    <span class="badge badge-danger p-1">Extended</span>
                   </td>
                   <td>January 25</td>
                   <td>1</td>
                   <td class="color-danger">$14.85</td>
-                </tr>
-                <tr>
-                  <td>Blue Backpack For Baby</td>
                   <td>
-                    <span class="badge badge-danger">Extended</span>
+                    <span className="m-l-10">
+                      <i
+                        className="fa fa-check-square pr-2"
+                        aria-hidden="true"
+                        style={{
+                          color: "green",
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                    </span>
                   </td>
-                  <td>January 25</td>
-                  <td>1</td>
-                  <td class="color-danger">$14.85</td>
                 </tr>
               </tbody>
             </table>

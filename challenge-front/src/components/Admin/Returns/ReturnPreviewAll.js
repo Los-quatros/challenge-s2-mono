@@ -10,7 +10,7 @@ const ReturnPreviewAll = () => {
             styles["card-title"] +
             " " +
             styles.pr +
-            " card-title mb-2 d-flex justify-content-between border-bottom pb-1"
+            " card-title mb-2 d-flex justify-content-between border-bottom pb-4"
           }
         >
           <h4>Demande de retours </h4>
