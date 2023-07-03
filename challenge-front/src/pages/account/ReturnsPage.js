@@ -3,10 +3,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import HeaderPage from "./HeaderPage";
-import headphone1 from "../../assets/images/categories/headphones/headphone_6.png"; // TODO remove
-import headphone2 from "../../assets/images/categories/headphones/headphone_8.png"; // TODO remove
-import phone1 from "../../assets/images/categories/phones/phone_6.png"; // TODO remove
-import phone2 from "../../assets/images/categories/phones/phone_4.png"; // TODO remove
+import defaultProduct from "../../assets/images/categories/default.png";
+import jwt_decode from "jwt-decode";
 
 /**
  * Reset and set active link in li element
@@ -52,50 +50,56 @@ function ReturnsPage() {
 
 	/**
 	 * Initialize returns data
-	 * TODO : fetch data from API
-	 * TODO : toast error
 	 */
 	const initReturns = () => {
-		setReturns([
-			{
-				id: "0f789703-c647-4e9f-8507-e5d23df473ce",
-				date: "01-07-2021",
-				products: [
-					{
-						name: "Apple iPhone 12 Pro Max",
-						quantity: 1,
-						price: 1259.99,
-						image: phone1,
-					},
-					{
-						name: "Casque audio Sony WH-1000XM4",
-						quantity: 1,
-						price: 379.99,
-						image: headphone1,
-					},
-				],
-				reason: "Article endommagé",
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/returns/users/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
 			},
-			{
-				id: "0f789703-c646-4e9f-8507-e5d23df473ce",
-				date: "01-07-2021",
-				products: [
-					{
-						name: "Apple iPhone 12 Pro Max",
-						quantity: 1,
-						price: 1259.99,
-						image: phone2,
-					},
-					{
-						name: "Casque audio Sony WH-1000XM4",
-						quantity: 1,
-						price: 379.99,
-						image: headphone2,
-					},
-				],
-				reason: "Taille non conforme",
-			},
-		]);
+		})
+			.then((res) => {
+				if (res.status === 200) {
+					return res.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					const returns = data.map((ret) => {
+						const products = ret.orderProducts.map((orderProduct) => {
+							return {
+								name: orderProduct.product.label,
+								quantity: orderProduct.product.quantity,
+								price: orderProduct.product.price,
+								image: orderProduct.product.image
+									? orderProduct.product.image
+									: defaultProduct,
+							};
+						});
+						return {
+							id: ret.id,
+							date: ret.date ? ret.date : new Date().toLocaleDateString(),
+							products: products,
+							reason: ret.reason,
+						};
+					});
+					setReturns(returns);
+				} else {
+					setToast(
+						"Une erreur est survenur lors de la récupération des retours",
+						"error"
+					);
+				}
+			})
+			.catch(() => {
+				setToast(
+					"Une erreur est survenur lors de la récupération des retours",
+					"error"
+				);
+			});
 	};
 
 	return (
@@ -133,12 +137,12 @@ function ReturnsPage() {
 											</tr>
 										</thead>
 										<tbody>
-											{ret.products.map((product) => (
-												<tr key={product.name}>
+											{ret.products.map((product, index) => (
+												<tr key={`${product.name}${index}`}>
 													<td>
 														<img
 															src={product.image}
-															alt={product.name}
+															alt={`${product.name}`}
 															style={{ width: "50px", height: "50px" }}
 														/>
 													</td>
