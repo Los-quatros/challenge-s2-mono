@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../../assets/styles/admin/popup.client.css";
+
 const ClientPopup = ({ user, onClose, onSave }) => {
   const [email, setEmail] = useState(user.email);
   const [lastName, setLastName] = useState(user.lastName);
@@ -19,6 +20,7 @@ const ClientPopup = ({ user, onClose, onSave }) => {
 
   const handleSave = () => {
     const updatedClient = {
+      id: user?.id,
       email,
       lastName,
       firstName,

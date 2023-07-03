@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import ClientPopup from "./ClientPopup";
 import { useQuery, useMutation } from "react-query";
+import useClient from "../../../hooks/Admin/useClient";
 
 const ClientPreviewAll = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -17,25 +18,20 @@ const ClientPreviewAll = () => {
     setIsPopupOpen(false);
   };
 
-  const handleSave = (updatedUser) => {
-    console.log(updatedUser);
-    closePopup();
+  const { users, isLoading, saveUser, deleteUser } = useClient();
+
+  const handleSave = async (user) => {
+    try {
+      await saveUser(user);
+      closePopup();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const users = [
-    {
-      id: 1,
-      email: "Yacine1.soussi@gmail.com",
-      lastName: "Soussi",
-      firstName: "Yacine",
-    },
-    {
-      id: 2,
-      email: "YacineCDC@gmail.com",
-      lastName: "Soussi",
-      firstName: "Yacine",
-    },
-  ];
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="col-lg-6">
@@ -65,34 +61,35 @@ const ClientPreviewAll = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} onClick={() => openPopup(user)}>
-                    <td>{user.email}</td>
-                    <td>{user.lastName}</td>
-                    <td>{user.firstName}</td>
-                    <td>
-                      <span className="m-l-10">
-                        <i
-                          className="fa fa-pencil-square-o pr-2"
-                          aria-hidden="true"
-                          style={{
-                            color: "blue",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => openPopup(user)}
-                        ></i>
-                        <i
-                          className="fa fa-trash pr-2"
-                          aria-hidden="true"
-                          style={{
-                            color: "red",
-                            cursor: "pointer",
-                          }}
-                        ></i>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {users.length > 0 &&
+                  users.map((user) => (
+                    <tr key={user.id} onClick={() => openPopup(user)}>
+                      <td>{user.email}</td>
+                      <td>{user.lastName}</td>
+                      <td>{user.firstName}</td>
+                      <td>
+                        <span className="m-l-10">
+                          <i
+                            className="fa fa-pencil-square-o pr-2"
+                            aria-hidden="true"
+                            style={{
+                              color: "blue",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => openPopup(user)}
+                          ></i>
+                          <i
+                            className="fa fa-trash pr-2"
+                            aria-hidden="true"
+                            style={{
+                              color: "red",
+                              cursor: "pointer",
+                            }}
+                          ></i>
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
