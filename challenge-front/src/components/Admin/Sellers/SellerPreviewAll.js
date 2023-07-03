@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 const SellerPreviewAll = () => {
   return (
-    <div class="col-lg-6">
+    <div className="col-lg-6">
       <div className={styles.card + " card"}>
         <div
           className={
@@ -15,9 +15,9 @@ const SellerPreviewAll = () => {
           <h4>Tous les vendeurs </h4>
           <a href="">Voir plus</a>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
+        <div className="card-body">
+          <div className="table-responsive">
+            <table className="table">
               <thead>
                 <tr>
                   <th>Email</th>

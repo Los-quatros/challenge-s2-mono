@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 const ProductPreviewAll = () => {
   return (
-    <div class="col-lg-6">
+    <div className="col-lg-6">
       <div className={styles.card + " card"}>
         <div
           className={
@@ -15,9 +15,9 @@ const ProductPreviewAll = () => {
           <h4>Tous les produits </h4>
           <a href="">Voir plus</a>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
+        <div className="card-body">
+          <div className="table-responsive">
+            <table className="table">
               <thead>
                 <tr>
                   <th></th>
@@ -33,7 +33,7 @@ const ProductPreviewAll = () => {
                   </td>
                   <td>Kolor Tea Shirt For Man</td>
                   <td>January 22</td>
-                  <td class="color-primary">$21.56</td>
+                  <td className="color-primary">$21.56</td>
                 </tr>
                 <tr>
                   <td>
@@ -41,7 +41,7 @@ const ProductPreviewAll = () => {
                   </td>
                   <td>Kolor Tea Shirt For Man</td>
                   <td>January 22</td>
-                  <td class="color-primary">$21.56</td>
+                  <td className="color-primary">$21.56</td>
                 </tr>
                 <tr>
                   <td>
@@ -49,7 +49,7 @@ const ProductPreviewAll = () => {
                   </td>
                   <td>Kolor Tea Shirt For Man</td>
                   <td>January 22</td>
-                  <td class="color-primary">$21.56</td>
+                  <td className="color-primary">$21.56</td>
                 </tr>
               </tbody>
             </table>
