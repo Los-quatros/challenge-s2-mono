@@ -19,4 +19,9 @@ export class ImagesService {
     return savedImage;
   }
 
+  async getImage(id :any) {
+
+    return await  lastValueFrom(this.imagesProxy.send('getImage', {id}));
+  }
+
 }

@@ -1,4 +1,4 @@
-import { All, Injectable,Inject,UploadedFile,UseInterceptors } from '@nestjs/common';
+import { All, Injectable,Inject,UploadedFile,UseInterceptors,NotFoundException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,5 +20,10 @@ export class ImagesService {
     const savedImage = await this.imageRepository.save(newImage);
     return savedImage;
   }
+
+  async getImage(id: any): Promise<Image> {
+    return await this.imageRepository.findOne({where: {id}});
+  }
+
 
 }
