@@ -45,9 +45,6 @@ const ClientPreviewAll = () => {
           }
         >
           <h4>Tous les clients </h4>
-          <button className="btn btn-primary" onClick={() => openPopup({})}>
-            Ajouter
-          </button>
         </div>
         <div className="card-body">
           <div className="table-responsive">
