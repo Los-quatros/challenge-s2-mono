@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import profileImage from "../../assets/images/account/profile.png";
@@ -22,6 +22,8 @@ const setToast = (message, type) => {
 };
 
 function SidebarPage() {
+	const navigate = useNavigate();
+
 	/**
 	 * Logout the user
 	 * @param { Event } event Click event
@@ -29,7 +31,7 @@ function SidebarPage() {
 	const logout = (event) => {
 		event.preventDefault();
 		localStorage.removeItem("token");
-		Navigate("/");
+		navigate("/");
 		setTimeout(() => {
 			setToast("Vous avez été déconnecté", "success");
 		}, 500);
