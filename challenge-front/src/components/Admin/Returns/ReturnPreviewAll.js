@@ -5,8 +5,16 @@ const ReturnPreviewAll = () => {
   return (
     <div className="col-lg-6">
       <div className={styles.card + " card"}>
-        <div className={styles["card-title"] + " " + styles.pr + " card-title"}>
+        <div
+          className={
+            styles["card-title"] +
+            " " +
+            styles.pr +
+            " card-title mb-2 d-flex justify-content-between border-bottom pb-1"
+          }
+        >
           <h4>Demande de retours </h4>
+          <a href="#">Voir plus</a>
         </div>
         <div className={`${styles["recent-comment"]} border-bottom pb-3 mb-3`}>
           <div className="card-item">

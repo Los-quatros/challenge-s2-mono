@@ -4,8 +4,16 @@ const ProductPreviewAll = () => {
   return (
     <div class="col-lg-6">
       <div className={styles.card + " card"}>
-        <div className={styles["card-title"] + " " + styles.pr + " card-title"}>
+        <div
+          className={
+            styles["card-title"] +
+            " " +
+            styles.pr +
+            " card-title d-flex justify-content-between"
+          }
+        >
           <h4>Toutes les produits </h4>
+          <a href="">Voir plus</a>
         </div>
         <div class="card-body">
           <div class="table-responsive">

@@ -4,8 +4,16 @@ const OrderPreviewAll = () => {
   return (
     <div class="col-lg-6">
       <div className={styles.card + " card"}>
-        <div className={styles["card-title"] + " " + styles.pr + " card-title"}>
+        <div
+          className={
+            styles["card-title"] +
+            " " +
+            styles.pr +
+            " card-title d-flex justify-content-between pb-1"
+          }
+        >
           <h4>Toutes les commandes </h4>
+          <a href="">Voir plus</a>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -37,6 +45,15 @@ const OrderPreviewAll = () => {
                   <td>January 30</td>
                   <td>1</td>
                   <td class="color-success">$55.32</td>
+                </tr>
+                <tr>
+                  <td>Blue Backpack For Baby</td>
+                  <td>
+                    <span class="badge badge-danger">Extended</span>
+                  </td>
+                  <td>January 25</td>
+                  <td>1</td>
+                  <td class="color-danger">$14.85</td>
                 </tr>
                 <tr>
                   <td>Blue Backpack For Baby</td>
