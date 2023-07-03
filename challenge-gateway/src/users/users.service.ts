@@ -5,6 +5,7 @@ import { last, lastValueFrom } from 'rxjs';
 import { AccountSellerDto } from '../dto/accountSeller.dto';
 import { UserDto } from 'src/dto/users.dto';
 import { MailService } from 'src/mail/mail.service';
+import { ContactDto } from 'src/dto/contact.dto';
 
 @Injectable()
 export class UsersService {
@@ -106,5 +107,16 @@ export class UsersService {
 
   async getUserBySellerId(id: string): Promise<UserDto> {
     return await lastValueFrom(this.usersProxy.send('getUserBySellerId', id));
+  }
+
+  async getAdminEmail(): Promise<string> {
+    return await lastValueFrom(this.usersProxy.send('getAdminEmail', {}));
+  }
+
+  async sendMailContact(data: ContactDto): Promise<Object> {
+    const emailAdmin = await this.getAdminEmail();
+    data.emailAdmin = emailAdmin;
+
+    return await this.mailService.sendMailContact(data);
   }
 }

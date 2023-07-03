@@ -9,6 +9,7 @@ import {
   Patch,
   HttpCode,
   ParseUUIDPipe,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UsersPipe } from './users.pipe';
 import { UsersService } from './users.service';
@@ -24,6 +25,7 @@ import {
 } from 'src/authentication/authentication.decorator';
 import { Role } from 'src/authentication/authentication.enum';
 import { AccountSellerDto } from '../dto/accountSeller.dto';
+import { ContactDto } from 'src/dto/contact.dto';
 
 @Controller('users')
 export class UsersController {
@@ -94,5 +96,11 @@ export class UsersController {
     @Body(new UsersPipe()) accountSellerDto: AccountSellerDto,
   ) {
     return this.usersService.createSellerAccount(accountSellerDto);
+  }
+
+  @Post('contact')
+  @HttpCode(200)
+  contact(@Body(ValidationPipe) body: ContactDto) {
+    return this.usersService.sendMailContact(body);
   }
 }

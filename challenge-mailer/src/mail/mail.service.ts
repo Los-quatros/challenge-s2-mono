@@ -3,6 +3,7 @@ import { MailerService as NestMailerService } from "@nestjs-modules/mailer";
 import * as handlebars from "handlebars";
 import * as fs from "fs";
 import * as path from "path";
+import { ContactDto } from "./dto/contact.dto";
 
 @Injectable()
 export class MailService {
@@ -195,6 +196,56 @@ export class MailService {
       subject: subject,
       html: htmlContent,
     });
+    return {
+      message: "Email sent successfully",
+    };
+  }
+
+  async sendMailContact(data: ContactDto): Promise<Object> {
+    const templateName = "contact";
+    const subjectMail = "Nouveau message de contact";
+
+    const templateContent = this.loadTemplate(templateName);
+    const template = handlebars.compile(templateContent);
+
+    const { emailAdmin, email, message, subject } = data;
+
+    const htmlContent = template({
+      email,
+      subject,
+      message,
+    });
+
+    await this.mailerService.sendMail({
+      from: process.env.EMAIL_SERVER,
+      to: emailAdmin,
+      subject: subjectMail,
+      html: htmlContent,
+    });
+
+    await this.sendMailContactConfirm(email);
+
+    return {
+      message: "Email sent successfully",
+    };
+  }
+
+  async sendMailContactConfirm(email: string): Promise<Object> {
+    const templateName = "contact.confirm";
+    const subject = "Votre demande de contact a bien été envoyée.";
+
+    const templateContent = this.loadTemplate(templateName);
+    const template = handlebars.compile(templateContent);
+
+    const htmlContent = template({});
+
+    await this.mailerService.sendMail({
+      from: process.env.EMAIL_SERVER,
+      to: email,
+      subject: subject,
+      html: htmlContent,
+    });
+
     return {
       message: "Email sent successfully",
     };

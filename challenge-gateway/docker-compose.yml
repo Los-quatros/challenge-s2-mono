@@ -28,6 +28,7 @@ services:
     volumes:
       - .:/home/node
     depends_on:
+      - rmq-service
       - gateway-db
     networks:
       - challenge-network
@@ -39,10 +40,7 @@ services:
       - 8092:8080
     
   rmq-service:
-    image: rabbitmq:3.9.11-alpine
-    volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    image: rabbitmq:3-management
     ports:
         - 5672:5672
         - 15672:15672
