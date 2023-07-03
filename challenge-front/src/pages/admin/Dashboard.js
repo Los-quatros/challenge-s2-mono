@@ -6,6 +6,8 @@ import ProductPreviewAll from "../../components/Admin/Products/ProductPreviewAll
 import OrderPreviewAll from "../../components/Admin/Orders/OrderPreviewAll";
 import ReturnPreviewAll from "../../components/Admin/Returns/ReturnPreviewAll";
 import CarrierPreviewAll from "../../components/Admin/Carriers/CarrierPreviewAll";
+import ClientPreviewAll from "../../components/Admin/Clients/ClientPreviewAll";
+import SellerPreviewAll from "../../components/Admin/Sellers/SellerPreviewAll";
 const Dashboard = () => {
   return (
     <>
@@ -111,6 +113,8 @@ const Dashboard = () => {
                 <ReturnPreviewAll />
                 <ProductPreviewAll />
                 <CarrierPreviewAll />
+                <ClientPreviewAll />
+                <SellerPreviewAll />
               </div>
             </section>
           </div>

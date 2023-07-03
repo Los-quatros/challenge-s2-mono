@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 
-const CarrierPreviewAll = () => {
+const ClientPreviewAll = () => {
   return (
     <div className="col-lg-6">
       <div className={styles.card + " card"}>
@@ -13,7 +13,7 @@ const CarrierPreviewAll = () => {
             " card-title d-flex justify-content-between"
           }
         >
-          <h4>Tous les transporteurs </h4>
+          <h4>Tous les clients </h4>
           <a href="">Voir plus</a>
         </div>
         <div className="card-body">
@@ -21,20 +21,24 @@ const CarrierPreviewAll = () => {
             <table className="table">
               <thead>
                 <tr>
+                  <th>Email</th>
                   <th>Nom</th>
-                  <th>Fees</th>
+                  <th>Prénom</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
+                  <td>YacineCDC@gmail.com</td>
                   <td>Kolor Tea Shirt For Man</td>
                   <td className="color-primary">$21.56</td>
                 </tr>
                 <tr>
+                  <td>YacineCDC@gmail.com</td>
                   <td>Kolor Tea Shirt For Man</td>
                   <td className="color-primary">$21.56</td>
                 </tr>
                 <tr>
+                  <td>YacineCDC@gmail.com</td>
                   <td>Kolor Tea Shirt For Man</td>
                   <td className="color-primary">$21.56</td>
                 </tr>
@@ -47,4 +51,4 @@ const CarrierPreviewAll = () => {
   );
 };
 
-export default CarrierPreviewAll;
+export default ClientPreviewAll;
