@@ -10,9 +10,10 @@ import { CarriersModule } from './carriers/carriers/carriers.module';
 import { ReturnsController } from './returns/returns.controller';
 import { ReturnsModule } from './returns/returns.module';
 import { PaymentModule } from './payment/payment.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
-  imports: [ReturnsModule ,UsersModule, AuthenticationModule, SellersModule, MailModule, ProductsModule, OrdersModule, CarriersModule, PaymentModule],
+  imports: [ReturnsModule ,UsersModule, AuthenticationModule, SellersModule, MailModule, ProductsModule, OrdersModule, CarriersModule, PaymentModule, ImagesModule],
   controllers: [AppController],
   providers: [],  
 })
