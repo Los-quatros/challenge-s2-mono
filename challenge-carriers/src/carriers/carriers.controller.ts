@@ -9,12 +9,17 @@ export class CarriersController {
     constructor(private carriersService: CarriersService) {}
 
     @EventPattern('GetCarrier')
-    async GetCarrierById(@Payload() id : string) : Promise<CarrierDto> {
+    async GetCarrierById(@Payload() id : string) : Promise<any> {
         return this.carriersService.GetCarrierByid(id['id']);
     }
 
     @EventPattern('GetAllCarriers')
     async GetAllCarriers() : Promise<Array<Carriers>> {
         return this.carriersService.GetAllCarriers();
+    }
+
+    @EventPattern('GetCarrierForOrder')
+    async GetCarrierByIdForOrder(@Payload() id : string) : Promise<any> {
+        return this.carriersService.GetCarrierByIdForOrder(id);
     }
 }

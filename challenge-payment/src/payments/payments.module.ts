@@ -5,6 +5,8 @@ import { PaymentsService } from './payments.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { OrdersModule } from '../orders/orders.module';
 import { ProductsModule } from '../products/products.module';
+import { CarriersModule } from '../carriers/carriers.module';
+
 
 
 @Module({
@@ -22,7 +24,8 @@ import { ProductsModule } from '../products/products.module';
     }
   ]),
   OrdersModule,
-  ProductsModule
+  ProductsModule,
+  CarriersModule
 ],
   providers: [PaymentsService],
   controllers: [PaymentsController],
