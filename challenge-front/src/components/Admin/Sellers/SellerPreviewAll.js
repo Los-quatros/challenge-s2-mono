@@ -66,7 +66,6 @@ const SellerPreviewAll = () => {
           }
         >
           <h4>Tous les vendeurs </h4>
-          <a href="">Voir plus</a>
         </div>
         <div className="card-body">
           <div className="table-responsive">
