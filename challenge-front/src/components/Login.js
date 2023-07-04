@@ -174,10 +174,6 @@ function Login() {
 									S'enregistrer
 								</Link>
 								<br />
-								<span className="txt1">Devenir vendeur ?</span>
-								<Link className="txt2 ml-1" to="/register/seller">
-									Cliquez ici
-								</Link>
 							</div>
 						</form>
 					</div>

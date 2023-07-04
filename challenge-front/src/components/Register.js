@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
@@ -33,6 +33,11 @@ function Register() {
 	const [firstNameError, setFirstNameError] = useState("");
 	const [lastNameError, setLastNameError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
+	const [shopName, setShopName] = useState("");
+	const [shopDescription, setShopDescription] = useState("");
+	const [shopError, setShopError] = useState("");
+	const [shopDescriptionError, setShopDescriptionError] = useState("");
+	const { name } = useParams();
 
 	useEffect(() => {
 		if (email === "") {
@@ -83,6 +88,32 @@ function Register() {
 		}
 	}, [password]);
 
+	useEffect(() => {
+		if (shopName === "") {
+			setShopError("");
+		} else {
+			if (shopName.length >= 3) {
+				setShopError("");
+			} else {
+				setShopError("Le nom du magasin doit contenir au moins 3 caractères");
+			}
+		}
+	}, [shopName]);
+
+	useEffect(() => {
+		if (shopDescription === "") {
+			setShopDescriptionError("");
+		} else {
+			if (shopDescription.length >= 10) {
+				setShopDescriptionError("");
+			} else {
+				setShopDescriptionError(
+					"La description du magasin doit contenir au moins 10 caractères"
+				);
+			}
+		}
+	}, [shopDescription]);
+
 	/**
 	 * Change the visibility of the password input
 	 */
@@ -94,32 +125,78 @@ function Register() {
 	 */
 	const register = (event) => {
 		event.preventDefault();
-		if (
-			firstNameError === "" &&
-			lastNameError === "" &&
-			emailError === "" &&
-			passwordError === ""
-		) {
-			fetch("http://localhost:4000/users", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ firstName, lastName, email, password }),
-			})
-				.then((response) => {
-					if (response.status === 201) {
-						navigate("/login");
-						setTimeout(() => {
-							setToast("Votre compte a bien été créé", "success");
-						}, 500);
-					} else {
-						setToast("Une erreur est survenue lors de l'inscription", "error");
-					}
+
+		if (name === "seller") {
+			if (
+				(firstNameError === "",
+				lastNameError === "",
+				emailError === "" &&
+					passwordError === "" &&
+					shopError === "" &&
+					shopDescriptionError === "")
+			) {
+				fetch("http://localhost:4000/users/sellers", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						firstName,
+						lastName,
+						email,
+						password,
+						name: shopName,
+						description: shopDescription,
+					}),
 				})
-				.catch(() =>
-					setToast("Une erreur est survenue lors de l'inscription", "error")
-				);
+					.then((response) => {
+						if (response.status === 201) {
+							navigate("/login");
+							setTimeout(() => {
+								setToast("Votre compte a bien été créé", "success");
+							}, 500);
+						} else {
+							setToast(
+								"Une erreur est survenue lors de l'inscription",
+								"error"
+							);
+						}
+					})
+					.catch(() =>
+						setToast("Une erreur est survenue lors de l'inscription", "error")
+					);
+			}
+		} else {
+			if (
+				firstNameError === "" &&
+				lastNameError === "" &&
+				emailError === "" &&
+				passwordError === ""
+			) {
+				fetch("http://localhost:4000/users", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ firstName, lastName, email, password }),
+				})
+					.then((response) => {
+						if (response.status === 201) {
+							navigate("/login");
+							setTimeout(() => {
+								setToast("Votre compte a bien été créé", "success");
+							}, 500);
+						} else {
+							setToast(
+								"Une erreur est survenue lors de l'inscription",
+								"error"
+							);
+						}
+					})
+					.catch(() =>
+						setToast("Une erreur est survenue lors de l'inscription", "error")
+					);
+			}
 		}
 	};
 
@@ -193,6 +270,50 @@ function Register() {
 									{emailError}
 								</div>
 							)}
+							{name === "seller" && (
+								<>
+									<div className="wrap-input100 validate-input">
+										<input
+											required
+											className="input100"
+											type="text"
+											name="shopName"
+											placeholder="Nom de la boutique"
+											onInput={(event) => setShopName(event.target.value)}
+										/>
+										<span className="focus-input100"></span>
+									</div>
+									{shopError !== "" && (
+										<div
+											className="text-danger"
+											style={{ marginTop: "-20px", marginBottom: "20px" }}
+										>
+											{shopError}
+										</div>
+									)}
+									<div className="wrap-input100 validate-input">
+										<input
+											required
+											className="input100"
+											type="text"
+											name="description"
+											placeholder="Description de la boutique"
+											onInput={(event) =>
+												setShopDescription(event.target.value)
+											}
+										/>
+										<span className="focus-input100"></span>
+									</div>
+									{shopDescriptionError !== "" && (
+										<div
+											className="text-danger"
+											style={{ marginTop: "-20px", marginBottom: "20px" }}
+										>
+											{shopDescriptionError}
+										</div>
+									)}
+								</>
+							)}
 							<div className="wrap-input100 validate-input">
 								<span className="btn-show-pass" onClick={handleClick}>
 									{isVisible ? (
@@ -225,7 +346,7 @@ function Register() {
 									<button className="login100-form-btn">S'enregistrer</button>
 								</div>
 							</div>
-							<div className="text-center p-t-115">
+							<div className="text-center p-t-35">
 								<span className="txt1">Déjà un compte ?</span>
 								<Link className="txt2 ml-1" to="/login">
 									Se connecter

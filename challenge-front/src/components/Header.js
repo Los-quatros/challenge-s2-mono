@@ -146,6 +146,11 @@ const Header = ({ quantity }) => {
 											<li>
 												<Link to="/contact">Contact</Link>
 											</li>
+											{!isLogged && (
+												<li>
+													<Link to="/register/seller">Vendeur</Link>
+												</li>
+											)}
 											{isLogged && (
 												<li>
 													<Link to="/account/profile">Compte</Link>
@@ -239,6 +244,11 @@ const Header = ({ quantity }) => {
 							{isLogged && (
 								<li className="page_menu_item menu_mm">
 									<Link to="/account/profile">Compte</Link>
+								</li>
+							)}
+							{!isLogged && (
+								<li className="page_menu_item menu_mm">
+									<Link to="/register/seller">Vendeur</Link>
 								</li>
 							)}
 							{!isLogged && (
