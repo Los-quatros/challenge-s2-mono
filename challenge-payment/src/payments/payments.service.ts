@@ -65,7 +65,8 @@ export class PaymentsService {
         success_url: 'https://localhost:4000/payments/success',
         cancel_url: 'https://localhost:4000/payments/cancel',
       });
-     
+    
+    console.log(session.id);
     return { sessionId: session.id };
     
   }
