@@ -17,3 +17,10 @@
     padding: 20px;
     border-radius: 5px;
 }
+
+.error-message {
+    display: block;
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

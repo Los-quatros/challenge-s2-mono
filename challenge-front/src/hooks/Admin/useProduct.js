@@ -53,24 +53,6 @@ const useProduct = () => {
     return response;
   };
 
-  const deleteProductMutation = useMutation((productId) => {
-    return fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/products/${productId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-  });
-
-  const deleteProduct = async (productId) => {
-    const response = await deleteProductMutation.mutateAsync(productId);
-    queryClient.invalidateQueries("products");
-    return response;
-  };
-
   const desactivateProductMutation = useMutation((productId) => {
     return fetch(
       `${process.env.REACT_APP_BASE_API_URL}/products/${productId}`,
@@ -119,7 +101,6 @@ const useProduct = () => {
     error,
     refetch,
     saveProduct,
-    deleteProduct,
     desactivateProduct,
     activateProduct,
   };
