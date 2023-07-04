@@ -21,6 +21,7 @@ export class OrdersController {
     // for admin
     @Get()
     async GetOrders() : Promise<any> {
+        
         return this.ordersService.GetOrders();
     }
 
