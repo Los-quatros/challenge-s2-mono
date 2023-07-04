@@ -76,6 +76,17 @@ export class ProductsService {
         }
     }
 
+    async getAllProductsAdmin() : Promise<Product[] | any> {
+        try{
+            return await this.productsRepository.find();
+        } catch(error) {
+            return {
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                error: 'Error lors de la récupération des produits',
+            }
+        }
+    }
+
     async getProductById(value : string) : Promise<Product>{
         try {
             const product = await this.productsRepository.findOneBy({id : value, isActivated : true })

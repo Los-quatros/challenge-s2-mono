@@ -1,3 +1,4 @@
+import { lastValueFrom } from 'rxjs';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateProductDto } from './models/CreateProductDto';
@@ -23,7 +24,17 @@ export class ProductsService {
   }
 
   async GetAllProducts() {
-    return this.productsProxy.send('getAllProducts', {});
+    this.productsProxy.send('getAllProducts', {});
+  }
+
+  async GetAllProductsAdmin(): Promise<any> {
+    const result: any = lastValueFrom(
+      this.productsProxy.send('getAllProductsAdmin', {}),
+    );
+    if (result.error) {
+      throw new Error(result.error);
+    }
+    return result;
   }
 
   async GetProductById(value: string): Promise<any> {

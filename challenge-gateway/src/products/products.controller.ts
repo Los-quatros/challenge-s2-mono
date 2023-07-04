@@ -43,6 +43,11 @@ export class ProductsController {
     );
   }
 
+  @Get('/admin/all')
+  async GetAllProductsAdmin() {
+    return this.productsService.GetAllProductsAdmin();
+  }
+
   // TODO : PRODUCT
   @Get()
   async GetAllProducts() {

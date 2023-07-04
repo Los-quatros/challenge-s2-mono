@@ -26,6 +26,11 @@ export class ProductsController {
         return this.productService.getAllProducts();
     }
 
+    @EventPattern("getAllProductsAdmin")
+    async GetAllProductsAdmin() : Promise<Array<Product>>{
+        return this.productService.getAllProductsAdmin();
+    }
+
     @EventPattern("getProduct")
     async getProductById(@Payload() productId : string) : Promise<Product>{
         return this.productService.getProductById(productId['value']);
