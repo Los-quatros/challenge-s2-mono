@@ -23,16 +23,21 @@ export class OrdersService {
     }
 
     async CreateOrder(data : CreateOrderDto) : Promise<any> {
-        const result : any = await lastValueFrom(this.ordersProxy.send('CreateOrder', {data}));
-        this.paymentsService.createCheckoutSession(result);
+        const orderCreated = await lastValueFrom(this.ordersProxy.send('CreateOrder', {data}));
+        const orders : Array<OrderResponseDto> = await this.GetOrders();
+        let ordersWithProducts : OrderResponseDto[] = [];
+        ordersWithProducts = (orders.filter(order => {
+            return order.orderId === orderCreated.id;
+        }));
+          
+        return this.paymentsService.createCheckoutSession(ordersWithProducts);
 
-        return ;
 
     }
 
     async GetOrders() : Promise<any> {
         let orders : Array<OrderResponseDto> = await lastValueFrom( this.ordersProxy.send('GetAllOrders', {}));
-        return this.AsignProductsAddressAndCarrierToOrder(orders);
+        return await this.AsignProductsAddressAndCarrierToOrder(orders);
     }
 
     async GetOrderProductsByProductIds(productIds : Array<string>) : Promise<Array<OrderResponseDto>> {
