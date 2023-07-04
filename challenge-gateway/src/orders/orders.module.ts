@@ -7,6 +7,7 @@ import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { PaymentModule } from 'src/payment/payment.module';
 import { ProductsModule } from 'src/products/products.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ProductsModule } from 'src/products/products.module';
     ProductsModule,
     CarriersModule,
     AddressesModule,
+    UsersModule,
     ClientsModule.register([
       {
         name: 'ORDERS_SERVICE',

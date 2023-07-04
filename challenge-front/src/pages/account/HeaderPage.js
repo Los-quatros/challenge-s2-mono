@@ -47,13 +47,6 @@ function SidebarPage() {
 	const navigate = useNavigate();
 	const { name } = useParams();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [userRole, setUserRole] = useState("");
-
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
-		console.log(decodedToken);
-	}, []);
 
 	useEffect(() => {
 		resetAndSetActiveLink(name);
