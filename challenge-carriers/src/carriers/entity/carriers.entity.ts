@@ -8,7 +8,7 @@ export class Carriers {
     @Column()
     name: string
 
-    @Column({ type: 'float' })
+    @Column()
     fees: number
 
 }
