@@ -163,15 +163,20 @@ function Login() {
 									<button className="login100-form-btn">Se connecter</button>
 								</div>
 							</div>
-							<div className="text-center p-t-115">
+							<div className="text-center p-t-35">
 								<span className="txt1">Mot de passe oublié ?</span>
 								<Link className="txt2 ml-1" to="/new-password">
-									Cliquer ici
+									Réinitialiser
 								</Link>
 								<br />
 								<span className="txt1">Pas encore inscrit ?</span>
-								<Link className="txt2 ml-1" to="/register">
+								<Link className="txt2 ml-1" to="/register/user">
 									S'enregistrer
+								</Link>
+								<br />
+								<span className="txt1">Devenir vendeur ?</span>
+								<Link className="txt2 ml-1" to="/register/seller">
+									Cliquez ici
 								</Link>
 							</div>
 						</form>

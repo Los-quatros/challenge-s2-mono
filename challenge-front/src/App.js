@@ -80,13 +80,13 @@ const AppContent = () => {
 	const location = useLocation();
 	const displayHeader =
 		location.pathname !== "/login" &&
-		location.pathname !== "/register" &&
+		!location.pathname.startsWith("/register") &&
 		location.pathname !== "/reset-password" &&
 		location.pathname !== "/new-password" &&
 		!location.pathname.startsWith("/account");
 	const displayFooter =
 		location.pathname !== "/login" &&
-		location.pathname !== "/register" &&
+		!location.pathname.startsWith("/register") &&
 		location.pathname !== "/reset-password" &&
 		location.pathname !== "/new-password" &&
 		!location.pathname.startsWith("/account");
@@ -111,12 +111,12 @@ const AppContent = () => {
 			loadCSS("../assets/styles/categories/responsive.css");
 		} else if (
 			location.pathname === "/login" ||
-			location.pathname === "/register" ||
+			location.pathname.startsWith("/register") ||
 			location.pathname === "/reset-password" ||
 			location.pathname === "/new-password"
 		) {
-			loadCSS("./assets/styles/auth/auth.css");
-			loadCSS("./assets/styles/auth/util.css");
+			loadCSS("../assets/styles/auth/auth.css");
+			loadCSS("../assets/styles/auth/util.css");
 		} else if (location.pathname.startsWith("/products")) {
 			loadCSS("../../assets/styles/products/product.css");
 			loadCSS("../../assets/styles/products/responsive.css");
@@ -166,7 +166,7 @@ const AppContent = () => {
 				{!hasToken && <Route path="/login" element={<Login />} />}
 				{<Route path="/new-password" element={<NewPassword />} />}
 				{<Route path="/reset-password" element={<ResetPassword />} />}
-				{!hasToken && <Route path="/register" element={<Register />} />}
+				{!hasToken && <Route path="/register/:name" element={<Register />} />}
 				<Route path="/categories/:category" element={<Categories />} />
 				{hasToken && <Route path="/account/:name" element={<Account />} />}
 				<Route path="/contact" element={<Contact />} />
