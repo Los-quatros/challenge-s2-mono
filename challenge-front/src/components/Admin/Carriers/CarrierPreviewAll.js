@@ -44,7 +44,6 @@ const CarrierPreviewAll = () => {
           }
         >
           <h4>Tous les transporteurs </h4>
-          <a href="">Voir plus</a>
         </div>
         <div className="card-body">
           <div className="table-responsive">

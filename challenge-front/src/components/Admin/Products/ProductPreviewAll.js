@@ -13,7 +13,6 @@ const ProductPreviewAll = () => {
           }
         >
           <h4>Tous les produits </h4>
-          <a href="">Voir plus</a>
         </div>
         <div className="card-body">
           <div className="table-responsive">

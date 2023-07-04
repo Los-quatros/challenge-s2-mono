@@ -25,7 +25,6 @@ const OrderPreviewAll = () => {
           }
         >
           <h4>Toutes les commandes </h4>
-          <a href="">Voir plus</a>
         </div>
         <div className="card-body">
           <div className="table-responsive">
