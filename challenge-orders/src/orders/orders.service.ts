@@ -157,5 +157,18 @@ export class OrdersService {
     }
 
 
+    async GetProductsOrder(orderId: string) : Promise<any> {
+      try {
+        return await this.orderProductRepository.findBy({orderId : orderId});
+        
+      }catch(error){
+        throw new HttpException({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Error while fetching orders',
+        }, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    
 
 }

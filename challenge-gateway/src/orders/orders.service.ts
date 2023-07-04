@@ -16,6 +16,7 @@ import {
   Product,
 } from './models/ordersResponseDto';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { PaymentService } from 'src/payment/payment.service';
 
 @Injectable()
 export class OrdersService {
@@ -149,5 +150,13 @@ export class OrdersService {
     );
     orderProduct.product = product;
     return orderProduct;
+  }
+
+  async GetProductsOrder(orderId: string): Promise<any> {
+    const result: any = await lastValueFrom(
+      this.ordersProxy.send('GetProductsOrder', { orderId }),
+    );
+
+    return result;
   }
 }
