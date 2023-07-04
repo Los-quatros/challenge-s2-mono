@@ -31,7 +31,7 @@ export class UsersService {
 
   async remove(id: string): Promise<any> {
     try {
-      await this.usersRepository.delete(id);
+      return await this.usersRepository.delete(id);
     } catch (error) {
       throw new HttpException(
         {
@@ -238,6 +238,7 @@ export class UsersService {
       const seller = await this.sellersService.createSellerAccount(dataSeller);
 
       if (seller.error) {
+        await this.usersRepository.delete(newUser.id);
         return seller;
       }
 

@@ -46,7 +46,7 @@ export class SellerController {
 
   @EventPattern('delete-seller')
   async delete(@Payload() id: string): Promise<void> {
-    await this.sellerService.remove(id);
+    return await this.sellerService.remove(id);
   }
 
   @EventPattern('checkIfSellerIsActif')

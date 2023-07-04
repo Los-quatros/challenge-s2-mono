@@ -149,48 +149,6 @@ export class OrdersService {
     return orderProduct;
   }
 
-  private async AsignProductsAddressAndCarrierToOrder(
-    orders: Array<OrderResponseDto>,
-  ) {
-    const ordersResponse: Array<OrderResponseDto> = [];
-    for (let order of orders) {
-      const address: Address = await firstValueFrom(
-        await this.addressesService.GetAddressById(order.address.id),
-      );
-      const carrier: Carrier = await firstValueFrom(
-        await this.carriersService.GetCarrierById(order.carrier.id),
-      );
-      // get all product of orders
-      const products: Array<OrderProductDto> = [];
-      for (let item of order['orderProducts']) {
-        const product: Product = await firstValueFrom(
-          await this.productsService.GetProductById(item['product']['id']),
-        );
-        products.push(
-          new OrderProductDto(
-            item['id'],
-            product,
-            item['quantity'],
-            item['is_returned'],
-            item['orderId'],
-            item['nbProductReturned'],
-          ),
-        );
-      }
-
-      order.orderId = order['orderId'];
-      order.is_delivered = order['is_delivered'];
-      order.is_paid = order['is_paid'];
-      order.total = order['total'];
-      order.address = address;
-      order.carrier = carrier;
-      order.products = products;
-      ordersResponse.push(order);
-    }
-
-    return ordersResponse;
-  }
-
   async GetProductsOrder(orderId: string): Promise<any> {
     const result: any = await lastValueFrom(
       this.ordersProxy.send('GetProductsOrder', { orderId }),
