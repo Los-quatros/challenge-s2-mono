@@ -28,10 +28,6 @@ const CarrierPreviewAll = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="col-lg-4">
       <div className={styles.card + " card"}>
@@ -45,49 +41,61 @@ const CarrierPreviewAll = () => {
         >
           <h4>Tous les transporteurs </h4>
         </div>
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Fees</th>
-                </tr>
-              </thead>
-              <tbody>
-                {carriers &&
-                  carriers.map((carrier) => (
-                    <tr key={carrier.id}>
-                      <td>{carrier.name}</td>
-                      <td>{carrier.fees}</td>
-                      <td>
-                        <span className="m-l-10">
-                          <i
-                            className="fa fa-pencil-square-o pr-2"
-                            aria-hidden="true"
-                            style={{
-                              color: "blue",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => openPopup(carrier)}
-                          ></i>
-                          <i
-                            className="fa fa-trash pr-2"
-                            aria-hidden="true"
-                            style={{
-                              color: "red",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => deleteCarrier(carrier.id)}
-                          ></i>
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+        {isLoading ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <div
+              className="spinner-border"
+              style={{ width: "3rem", height: "3rem" }}
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="card-body">
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Fees</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {carriers &&
+                    carriers.map((carrier) => (
+                      <tr key={carrier.id}>
+                        <td>{carrier.name}</td>
+                        <td>{carrier.fees}</td>
+                        <td>
+                          <span className="m-l-10">
+                            <i
+                              className="fa fa-pencil-square-o pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "blue",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => openPopup(carrier)}
+                            ></i>
+                            <i
+                              className="fa fa-trash pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "red",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => deleteCarrier(carrier.id)}
+                            ></i>
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
       {isPopupOpen && (
         <CarrierPopup

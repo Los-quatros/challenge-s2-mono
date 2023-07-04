@@ -29,10 +29,6 @@ const ClientPreviewAll = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="col-lg-6">
       <div className={styles.card + " card"}>
@@ -46,52 +42,64 @@ const ClientPreviewAll = () => {
         >
           <h4>Tous les clients </h4>
         </div>
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Nom</th>
-                  <th>Prénom</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users &&
-                  users.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.email}</td>
-                      <td>{user.lastName}</td>
-                      <td>{user.firstName}</td>
-                      <td>
-                        <span className="m-l-10">
-                          <i
-                            className="fa fa-pencil-square-o pr-2"
-                            aria-hidden="true"
-                            style={{
-                              color: "blue",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => openPopup(user)}
-                          ></i>
-                          <i
-                            className="fa fa-trash pr-2"
-                            aria-hidden="true"
-                            style={{
-                              color: "red",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => deleteUser(user.id)}
-                          ></i>
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+        {isLoading ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <div
+              className="spinner-border"
+              style={{ width: "3rem", height: "3rem" }}
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="card-body">
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users &&
+                    users.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.email}</td>
+                        <td>{user.lastName}</td>
+                        <td>{user.firstName}</td>
+                        <td>
+                          <span className="m-l-10">
+                            <i
+                              className="fa fa-pencil-square-o pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "blue",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => openPopup(user)}
+                            ></i>
+                            <i
+                              className="fa fa-trash pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "red",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => deleteUser(user.id)}
+                            ></i>
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
       {isPopupOpen && (
         <ClientPopup

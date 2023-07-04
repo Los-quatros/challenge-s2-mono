@@ -5,9 +5,6 @@ import moment from "moment";
 
 const OrderPreviewAll = () => {
   const { orders, isLoading, deliveryOrder, error, refetch } = useOrder();
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (error) {
     return <div>Une erreur est survenue</div>;
@@ -26,62 +23,78 @@ const OrderPreviewAll = () => {
         >
           <h4>Toutes les commandes </h4>
         </div>
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Référence</th>
-                  <th>État</th>
-                  <th>Date</th>
-                  <th>Items</th>
-                  <th>Prix</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders &&
-                  orders.map((order) => (
-                    <tr key={order.orderId}>
-                      <td>{order.orderId}</td>
-                      <td>
-                        {order.is_delivered ? (
-                          <span className="badge badge-success">Livré</span>
-                        ) : (
-                          <span className="badge badge-warning">En cours</span>
-                        )}
-                      </td>
-                      <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
-                      <td>{order.orderProducts.length}</td>
-                      <td className="color-primary">{order.total} €</td>
-                      <td>
-                        {order.is_delivered ? (
-                          <i
-                            className="fa fa-check-square pr-2"
-                            aria-hidden="true"
-                            style={{
-                              color: "gray",
-                              cursor: "not-allowed",
-                            }}
-                          ></i>
-                        ) : (
-                          <i
-                            className="fa fa-check-square pr-2"
-                            aria-hidden="true"
-                            style={{
-                              color: "green",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => deliveryOrder(order.orderId)}
-                          ></i>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+        {isLoading ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <div
+              className="spinner-border"
+              style={{ width: "3rem", height: "3rem" }}
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
-        </div>
+        ) : error ? (
+          <div>Une erreur est survenue</div>
+        ) : (
+          <div className="card-body">
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Référence</th>
+                    <th>État</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Prix</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders &&
+                    orders.map((order) => (
+                      <tr key={order.orderId}>
+                        <td>{order.orderId}</td>
+                        <td>
+                          {order.is_delivered ? (
+                            <span className="badge badge-success">Livré</span>
+                          ) : (
+                            <span className="badge badge-warning">
+                              En cours
+                            </span>
+                          )}
+                        </td>
+                        <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
+                        <td>{order.orderProducts.length}</td>
+                        <td className="color-primary">{order.total} €</td>
+                        <td>
+                          {order.is_delivered ? (
+                            <i
+                              className="fa fa-check-square pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "gray",
+                                cursor: "not-allowed",
+                              }}
+                            ></i>
+                          ) : (
+                            <i
+                              className="fa fa-check-square pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "green",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => deliveryOrder(order.orderId)}
+                            ></i>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
