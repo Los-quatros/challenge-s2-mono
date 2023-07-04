@@ -18,40 +18,36 @@ export class PaymentsService {
 
   
   async createCheckoutSession(data : any) {
-    let carrier = await this.carriersService.getCarrierByid(data['data'].carrier);
-
-    let products = await this.ordersService.getProductsOrder(data['data'].id);
-    let productIds = products.map(product => product.product_id);
-    
-    let orderProducts = [];
-    for (let productId of productIds) {
-      let product = await this.productsService.getProductById(productId);
-      orderProducts.push({
-        label: product.label,
-        price: product.price,
-        quantity: products.find(p => p.product_id === productId).quantity
+    const result = data['data'][0]
+    const orderCarrier = result.carrier
+    const items = result.products
+    const productsForStripe = []
+  
+    for (let item of items) {
+      productsForStripe.push({
+        label: item.product.label,
+        price: item.product.price,
+        quantity: item.quantity
       });
     }
-
-    
-    const lineItems = orderProducts.map(orderProduct => ({
+    const lineItems = productsForStripe.map(productForStripe => ({
       price_data: {
         currency: 'eur',
         product_data: {
-          name: orderProduct.label,
+          name: productForStripe.label,
         },
-        unit_amount: parseInt(orderProduct.price)*100,
+        unit_amount: parseInt(productForStripe.price)*100,
       },
-      quantity: orderProduct.quantity,
+      quantity: productForStripe.quantity,
     }));
 
     const carrierLineItem = {
       price_data: {
         currency: 'eur',
         product_data: {
-          name: carrier.name,
+          name: orderCarrier.name,
         },
-        unit_amount: parseInt(carrier.fees) * 100, 
+        unit_amount: parseInt(orderCarrier.fees) * 100, 
       },
       quantity: 1,
     };
@@ -66,8 +62,8 @@ export class PaymentsService {
         cancel_url: 'https://localhost:4000/payments/cancel',
       });
     
-    console.log(session.id);
-    return { sessionId: session.id };
+
+    return { sessionId: session.id, result };
     
   }
 

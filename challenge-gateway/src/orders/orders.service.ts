@@ -31,18 +31,6 @@ export class OrdersService {
     return this.AssignProductsAddressAndCarrierToOrder(orders);
   }
 
-  // must return sessionId
-  async CreateOrder(data: CreateOrderDto): Promise<any> {
-    // wait for order creation
-    const order = await lastValueFrom(
-      this.ordersProxy.send('CreateOrder', { data }),
-    );
-    // build OrderproductDto to do this : this.AsignProductsAddressAndCarrierToOrder(orders);
-    return order;
-    // get the order and build the products of the order
-    // this.paymentService.CreatePayment(order)
-  }
-
   async GetOrder(id: string): Promise<any> {
     return this.ordersProxy.send('GetOrder', { id });
   }
@@ -93,6 +81,18 @@ export class OrdersService {
       decision,
       idOrder,
     });
+  }
+  async CreateOrder(data: CreateOrderDto): Promise<any> {
+    const orderCreated = await lastValueFrom(
+      this.ordersProxy.send('CreateOrder', { data }),
+    );
+    const orders: Array<OrderResponseDto> = await this.GetOrders();
+    let ordersWithProducts: OrderResponseDto[] = [];
+    ordersWithProducts = orders.filter((order) => {
+      return order.orderId === orderCreated.id;
+    });
+
+    return this.paymentsService.createCheckoutSession(ordersWithProducts);
   }
 
   async UpdateNbItemReturnedForOrderProduct(id: string, quantity: number) {
