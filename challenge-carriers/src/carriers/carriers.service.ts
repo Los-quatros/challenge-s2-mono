@@ -11,7 +11,7 @@ export class CarriersService {
         private carriersRepository: Repository<Carriers>
     ){}
 
-    async GetCarrierByid(id : string) : Promise<CarrierDto> {
+    async GetCarrierByid(id : string) : Promise<any> {
         try {
             return await this.carriersRepository.findOneBy({id : id['id']});
         }catch(error) {
@@ -30,6 +30,17 @@ export class CarriersService {
                 status : HttpStatus.INTERNAL_SERVER_ERROR,
                 error : "Error while fetching all carriers"
             }, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async GetCarrierByIdForOrder(id : string) : Promise<any> {
+        try {
+            return await this.carriersRepository.findOneBy({id : id});
+        }catch(error) {
+            throw new HttpException({
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                error: 'Error while fetching carrier',
+              }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -1,15 +1,16 @@
-import { UsersModule } from './../users/users.module';
-import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+
 import { AddressesModule } from 'src/addresses/addresses.module';
 import { CarriersModule } from 'src/carriers/carriers/carriers.module';
-import { ProductsModule } from 'src/products/products.module';
+import { Module } from '@nestjs/common';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
+import { PaymentModule } from 'src/payment/payment.module';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
   imports: [
-    UsersModule,
+    PaymentModule,
     ProductsModule,
     CarriersModule,
     AddressesModule,

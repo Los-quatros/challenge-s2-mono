@@ -12,7 +12,7 @@ export class PaymentController {
   constructor(readonly paymentService: PaymentService) {}
 
   @Post('/checkout')
-  async createCheckout() {
-    return await this.paymentService.createCheckoutSession();
+  async createCheckout(data :any) {
+    return await this.paymentService.createCheckoutSession(data);
   }
 }

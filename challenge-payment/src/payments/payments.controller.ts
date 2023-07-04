@@ -5,7 +5,7 @@ import {
     Res,
     Inject
   } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { PaymentsService } from './payments.service';
 
   
@@ -15,14 +15,14 @@ export class PaymentsController {
   constructor(private paymentsService: PaymentsService) {}
 
   @EventPattern('create-stripe-session')
-  async createCheckoutSession() {
-    const session = await this.paymentsService.createCheckoutSession();
+  async createCheckoutSession(@Payload() data :any) {
+    const session = await this.paymentsService.createCheckoutSession(data);
     return { sessionId: session };
 
   }
 
   @EventPattern('payment-success')
-  async handlePaymentSuccess(@Body() data: any) {
+  async handlePaymentSuccess(@Body() data: any) { 
     
     return 'payment successed';
   }
