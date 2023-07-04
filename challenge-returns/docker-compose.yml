@@ -13,7 +13,6 @@ services:
       - ./database:/var/lib/postgresql/data
     networks:
       - challenge-network
-
   returns-server:
     restart: always
     build: .
@@ -37,9 +36,9 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8084:8080 
+      - 8084:8080
     networks:
-      - challenge-network  
+      - challenge-network
 networks:
   challenge-network:
     external: true

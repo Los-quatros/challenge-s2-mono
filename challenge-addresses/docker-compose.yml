@@ -12,7 +12,7 @@ services:
     volumes:
       - ./database:/var/lib/postgresql/data
     networks:
-      - challenge-network    
+      - challenge-network
   address-server:
     build: .
     command: npm run start:dev
@@ -25,11 +25,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: address-db
+    working_dir: /home/node
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/home/node
     networks:
-      - challenge-network    
+      - challenge-network
     depends_on:
       - address-db
   adminer:
@@ -38,7 +38,7 @@ services:
     ports:
       - 8088:8080
     networks:
-      - challenge-network      
+      - challenge-network
 networks:
   challenge-network:
-    external: true         
+    external: true

@@ -13,7 +13,6 @@ services:
       - ./database:/var/lib/postgresql/data
     networks:
       - challenge-network
-
   payments-server:
     build: .
     command: npm run start:dev
@@ -26,14 +25,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: payments-db
+    working_dir: /home/node
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/home/node
     depends_on:
       - payments-db
     networks:
       - challenge-network
-    
+
   adminer:
     image: adminer
     restart: always

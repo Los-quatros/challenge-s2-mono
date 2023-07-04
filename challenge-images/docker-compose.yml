@@ -13,7 +13,6 @@ services:
       - ./database:/var/lib/postgresql/data
     networks:
       - challenge-network
-
   images-server:
     build: .
     command: npm run start:dev
@@ -26,22 +25,20 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: images-db
+    working_dir: /home/node
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/home/node
     depends_on:
       - images-db
     networks:
       - challenge-network
-    
   adminer:
     image: adminer
     restart: always
     ports:
       - 8093:8080
     networks:
-      - challenge-network    
-
+      - challenge-network
 networks:
   challenge-network:
     external: true
