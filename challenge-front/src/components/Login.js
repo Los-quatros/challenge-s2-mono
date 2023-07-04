@@ -81,6 +81,12 @@ function Login() {
 					if (response.status === 200) {
 						return response.text();
 					}
+					if (response.status === 400) {
+						setToast(
+							"Votre compte doit être validé par un administrateur",
+							"error"
+						);
+					}
 				})
 				.then((data) => {
 					if (data) {
@@ -89,8 +95,6 @@ function Login() {
 						setTimeout(() => {
 							setToast("Vous êtes connecté", "success");
 						}, 500);
-					} else {
-						setToast("Une erreur est survenue lors de la connexion", "error");
 					}
 				})
 				.catch(() =>
