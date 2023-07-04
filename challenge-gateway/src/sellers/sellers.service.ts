@@ -39,13 +39,15 @@ export class SellersService {
 
   async activateSeller(id: string) {
     try {
-      this.sellersProxy.send('activeSeller', id);
+      const seller = await lastValueFrom(
+        this.sellersProxy.send('activeSeller', id),
+      );
       const user: any = await this.usersService.getUserBySellerId(id);
       if (user.error) {
         throw new BadRequestException(user.error);
       }
       await this.mailService.sendMailBecomeSellerAccepted(user.email);
-      return 'Seller activated';
+      return seller;
     } catch (error) {
       throw error;
     }
@@ -53,13 +55,15 @@ export class SellersService {
 
   async deactivateSeller(id: string) {
     try {
-      this.sellersProxy.send('refuseSeller', id);
+      const seller = await lastValueFrom(
+        this.sellersProxy.send('refuseSeller', id),
+      );
       const user: any = await this.usersService.getUserBySellerId(id);
       if (user.error) {
         throw new BadRequestException(user.error);
       }
       await this.mailService.sendMailBecomeSellerRefused(user.email);
-      return 'Seller desactivated';
+      return seller;
     } catch (error) {
       throw error;
     }

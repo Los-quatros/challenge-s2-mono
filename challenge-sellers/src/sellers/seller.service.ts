@@ -81,7 +81,7 @@ export class SellerService {
     };
   }
 
-  async activeSeller(id: string): Promise<Seller | object> {
+  async activeSeller(id: string): Promise<Seller | any> {
     try {
       const seller = await this.sellerModel.findOne({ id: id });
       seller.isActive = true;
@@ -94,7 +94,7 @@ export class SellerService {
     }
   }
 
-  async refuseSeller(id: string): Promise<Seller | object> {
+  async refuseSeller(id: string): Promise<Seller | any> {
     try {
       const seller = await this.sellerModel.findOne({ id: id });
       seller.isActive = false;
