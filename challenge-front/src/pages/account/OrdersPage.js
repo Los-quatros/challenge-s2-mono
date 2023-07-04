@@ -80,12 +80,12 @@ function OrdersPage() {
 					);
 				}
 			})
-			.catch((err) => {
+			.catch(() =>
 				setToast(
 					"Une erreur est survenue lors de la récupération de vos informations",
 					"error"
-				);
-			});
+				)
+			);
 	}, []);
 
 	/**
