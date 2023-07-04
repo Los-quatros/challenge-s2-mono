@@ -3,7 +3,7 @@ import styles from "../../../assets/styles/admin/style.module.css";
 
 const ReturnPreviewAll = () => {
   return (
-    <div className="col-lg-6">
+    <div className="col-lg-4">
       <div className={styles.card + " card"}>
         <div
           className={

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 const ProductPreviewAll = () => {
   return (
-    <div className="col-lg-6">
+    <div className="col-lg-8">
       <div className={styles.card + " card"}>
         <div
           className={

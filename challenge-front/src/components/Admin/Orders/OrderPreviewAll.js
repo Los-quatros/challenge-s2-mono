@@ -1,8 +1,20 @@
 import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
+import useOrder from "../../../hooks/Admin/useOrder";
+import moment from "moment";
+
 const OrderPreviewAll = () => {
+  const { orders, isLoading, deliveryOrder, error, refetch } = useOrder();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Une erreur est survenue</div>;
+  }
+
   return (
-    <div className="col-lg-6">
+    <div className="col-lg-8">
       <div className={styles.card + " card"}>
         <div
           className={
@@ -23,83 +35,50 @@ const OrderPreviewAll = () => {
                   <th>Référence</th>
                   <th>État</th>
                   <th>Date</th>
-                  <th>Produits</th>
+                  <th>Items</th>
                   <th>Prix</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Kolor Tea Shirt For Man</td>
-                  <td>
-                    <span className="badge badge-primary">En cours</span>
-                  </td>
-                  <td>January 22</td>
-                  <td>2</td>
-                  <td className="color-primary">$21.56</td>
-                  <td>
-                    <span className="m-l-10">
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "gray",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "green",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Kolor Tea Shirt For Women</td>
-                  <td>
-                    <span className="badge badge-success">Livré</span>
-                  </td>
-                  <td>January 30</td>
-                  <td>1</td>
-                  <td className="color-success">$55.32</td>
-                  <td>
-                    <span className="m-l-10">
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "green",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Blue Backpack For Baby</td>
-                  <td>
-                    <span className="badge badge-danger p-1">Extended</span>
-                  </td>
-                  <td>January 25</td>
-                  <td>1</td>
-                  <td className="color-danger">$14.85</td>
-                  <td>
-                    <span className="m-l-10">
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "green",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                    </span>
-                  </td>
-                </tr>
+                {orders &&
+                  orders.map((order) => (
+                    <tr key={order.orderId}>
+                      <td>{order.orderId}</td>
+                      <td>
+                        {order.is_delivered ? (
+                          <span className="badge badge-success">Livré</span>
+                        ) : (
+                          <span className="badge badge-warning">En cours</span>
+                        )}
+                      </td>
+                      <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
+                      <td>{order.orderProducts.length}</td>
+                      <td className="color-primary">{order.total} €</td>
+                      <td>
+                        {order.is_delivered ? (
+                          <i
+                            className="fa fa-check-square pr-2"
+                            aria-hidden="true"
+                            style={{
+                              color: "gray",
+                              cursor: "not-allowed",
+                            }}
+                          ></i>
+                        ) : (
+                          <i
+                            className="fa fa-check-square pr-2"
+                            aria-hidden="true"
+                            style={{
+                              color: "green",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => deliveryOrder(order.orderId)}
+                          ></i>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

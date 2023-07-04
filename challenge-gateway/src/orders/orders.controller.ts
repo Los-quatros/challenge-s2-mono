@@ -43,8 +43,8 @@ export class OrdersController {
     return this.ordersService.GetOrders();
   }
 
-  // @AuthenticationRequired()
-  // @HasRole(Role.ADMINISTRATOR)
+  @AuthenticationRequired()
+  @HasRole(Role.ADMINISTRATOR)
   @Patch('/:id/delivery')
   async ManageOrderDelivery(
     @Body() decision: boolean,
