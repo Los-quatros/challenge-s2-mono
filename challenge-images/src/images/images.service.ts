@@ -15,6 +15,9 @@ export class ImagesService {
     const newImage = this.imageRepository.create({
       name: file.originalname,
       emplacementFile: file.path,
+      productId: file.productId ? file.productId : null,
+      userId: file.userId ? file.userId : null,
+
     });
 
     const savedImage = await this.imageRepository.save(newImage);
