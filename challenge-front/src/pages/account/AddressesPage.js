@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import SidebarPage from "./HeaderPage";
+import HeaderPage from "./HeaderPage";
 import jwt_decode from "jwt-decode";
 import { useParams } from "react-router-dom";
 
@@ -300,7 +300,7 @@ function AddressesPage() {
 		<>
 			<ToastContainer />
 			<div id="content" className="p-4 p-md-5">
-				<SidebarPage />
+				<HeaderPage />
 				<div className="row">
 					<div className="col-12 p-0">
 						<div
