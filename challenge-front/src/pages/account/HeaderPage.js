@@ -1,6 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
+
+import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
 
 const $ = window.$;
 
@@ -14,7 +16,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -45,6 +47,13 @@ function SidebarPage() {
 	const navigate = useNavigate();
 	const { name } = useParams();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [userRole, setUserRole] = useState("");
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		console.log(decodedToken);
+	}, []);
 
 	useEffect(() => {
 		resetAndSetActiveLink(name);
@@ -74,62 +83,59 @@ function SidebarPage() {
 	const toggleSidebar = () => $("#sidebar").toggleClass("active");
 
 	return (
-		<>
-			<ToastContainer />
-			<nav className="navbar navbar-expand-lg navbar-light bg-light">
-				<div className="container-fluid">
-					<button
-						type="button"
-						id="sidebarCollapse"
-						className="btn btn-primary"
-						onClick={toggleSidebar}
-					>
-						<i className="fa fa-bars"></i>
-						<span className="sr-only">Burger menu</span>
-					</button>
-					<button
-						className="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button"
-						onClick={toggleMenu}
-						aria-label="Burger menu"
-					>
-						<i className="fa fa-bars"></i>
-					</button>
-					<div
-						className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}
-						id="navbarSupportedContent"
-					>
-						<ul className="nav navbar-nav ml-auto" id="navbar">
-							<li className="nav-item active profile" id="account-profile">
-								<Link to="../../account/profile" className="nav-link">
-									Profil
-								</Link>
-							</li>
-							<li className="nav-item orders" id="account-orders">
-								<Link to="../../account/orders" className="nav-link">
-									Mes commandes
-								</Link>
-							</li>
-							<li className="nav-item addresses" id="account-addresses">
-								<Link to="../../account/addresses" className="nav-link">
-									Mes adresses
-								</Link>
-							</li>
-							<li className="nav-item returns" id="account-returns">
-								<Link to="../../account/returns" className="nav-link">
-									Mes retours
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link className="nav-link" onClick={logout}>
-									Déconnexion
-								</Link>
-							</li>
-						</ul>
-					</div>
+		<nav className="navbar navbar-expand-lg navbar-light bg-light">
+			<div className="container-fluid">
+				<button
+					type="button"
+					id="sidebarCollapse"
+					className="btn btn-primary"
+					onClick={toggleSidebar}
+				>
+					<i className="fa fa-bars"></i>
+					<span className="sr-only">Burger menu</span>
+				</button>
+				<button
+					className="btn btn-dark d-inline-block d-lg-none ml-auto"
+					type="button"
+					onClick={toggleMenu}
+					aria-label="Burger menu"
+				>
+					<i className="fa fa-bars"></i>
+				</button>
+				<div
+					className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}
+					id="navbarSupportedContent"
+				>
+					<ul className="nav navbar-nav ml-auto" id="navbar">
+						<li className="nav-item active profile" id="account-profile">
+							<Link to="../../account/profile" className="nav-link">
+								Profil
+							</Link>
+						</li>
+						<li className="nav-item orders" id="account-orders">
+							<Link to="../../account/orders" className="nav-link">
+								Mes commandes
+							</Link>
+						</li>
+						<li className="nav-item addresses" id="account-addresses">
+							<Link to="../../account/addresses" className="nav-link">
+								Mes adresses
+							</Link>
+						</li>
+						<li className="nav-item returns" id="account-returns">
+							<Link to="../../account/returns" className="nav-link">
+								Mes retours
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link className="nav-link" onClick={logout}>
+								Déconnexion
+							</Link>
+						</li>
+					</ul>
 				</div>
-			</nav>
-		</>
+			</div>
+		</nav>
 	);
 }
 

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 import AddressesPage from "./AddressesPage";
+import HeaderPage from "./HeaderPage";
 import OrdersPage from "./OrdersPage";
 import ProfilePage from "./ProfilePage";
 import ReturnsPage from "./ReturnsPage";
 import SidebarPage from "./SidebarPage";
-import { ToastContainer } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 function AccountPage() {
@@ -18,13 +18,15 @@ function AccountPage() {
 
 	return (
 		<>
-			<ToastContainer />
 			<div className="wrapper d-flex align-items-stretch">
 				<SidebarPage />
-				{menu === "orders" && <OrdersPage />}
-				{menu === "addresses" && <AddressesPage />}
-				{menu === "returns" && <ReturnsPage />}
-				{menu === "profile" && <ProfilePage />}
+				<div id="content" className="p-4 p-md-5">
+					<HeaderPage />
+					{menu === "orders" && <OrdersPage />}
+					{menu === "addresses" && <AddressesPage />}
+					{menu === "returns" && <ReturnsPage />}
+					{menu === "profile" && <ProfilePage />}
+				</div>
 			</div>
 		</>
 	);

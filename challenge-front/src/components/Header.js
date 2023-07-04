@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import { gsap } from "gsap";
+import { toast } from "react-toastify";
 
 const $ = window.$;
 
@@ -22,7 +22,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -111,7 +111,6 @@ const Header = ({ quantity }) => {
 
 	return (
 		<>
-			<ToastContainer />
 			<header className="header">
 				<div className="header_container">
 					<div className="container">

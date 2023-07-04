@@ -1,5 +1,4 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import HomeContainer from "../HomeContainerPage";
@@ -7,6 +6,7 @@ import imageCamerasBackground from "../../assets/images/categories/cameras/camer
 import imageHeadphonesBackground from "../../assets/images/categories/headphones/headphone_1.png";
 import imagePhonesBackground from "../../assets/images/categories/phones/phone_1.png";
 import imageTabletsBackground from "../../assets/images/categories/tablets/tablet_1.png";
+import { toast } from "react-toastify";
 
 /**
  * Display toast message
@@ -18,7 +18,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -166,7 +166,6 @@ function ProductDetailsPage({ handleCartChange }) {
 
 	return (
 		<>
-			<ToastContainer />
 			<div className="home">
 				<HomeContainer image={image} title={title} content={content} />
 			</div>

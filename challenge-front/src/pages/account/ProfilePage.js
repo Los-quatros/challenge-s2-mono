@@ -1,8 +1,7 @@
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import HeaderPage from "./HeaderPage";
 import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 /**
@@ -15,7 +14,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -203,129 +202,120 @@ function ProfilePage() {
 	};
 
 	return (
-		<>
-			<ToastContainer />
-			<div id="content" className="p-4 p-md-5">
-				<HeaderPage />
-				<div className="row">
-					<div className="col-12">
-						<form className="file-upload">
-							<div className="row gx-5">
-								<div className="col-12 mb-3 mb-xxl-0">
-									<div className="bg-secondary-soft rounded">
-										<div className="row g-3">
-											<div className="col-12">
-												<label htmlFor="lastName" className="form-label">
-													Nom<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="text"
-													className="form-control"
-													placeholder="John"
-													id="lastName"
-													value={lastName}
-													onInput={(event) => setLastName(event.target.value)}
-												/>
-											</div>
-										</div>
-										{lastNameError !== "" && (
-											<div className="text-danger mt-2">{lastNameError}</div>
-										)}
-										<div className="row g-3 mt-2">
-											<div className="col-12">
-												<label htmlFor="firstName" className="form-label">
-													Prénom<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="text"
-													className="form-control"
-													placeholder="Doe"
-													id="firstName"
-													value={firstName}
-													onInput={(event) => setFirstName(event.target.value)}
-												/>
-											</div>
-										</div>
-										{firstNameError !== "" && (
-											<div className="text-danger mt-2">{firstNameError}</div>
-										)}
-										<div className="row g-3 mt-2">
-											<div className="col-12">
-												<label htmlFor="email" className="form-label">
-													Adresse email<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="email"
-													className="form-control"
-													id="email"
-													placeholder="johndoe@hotmail.fr"
-													value={email}
-													onInput={(event) => setEmail(event.target.value)}
-												/>
-											</div>
-										</div>
-										{emailError !== "" && (
-											<div className="text-danger mt-2">{emailError}</div>
-										)}
-										<div className="row g-3 mt-2">
-											<div className="col-12">
-												<label htmlFor="password" className="form-label">
-													Nouveau mot de passe<span className="red">*</span>
-												</label>
-												<input
-													required
-													placeholder="******"
-													type="password"
-													className="form-control"
-													id="password"
-													value={password}
-													onInput={(event) => setPassword(event.target.value)}
-												/>
-											</div>
-										</div>
-										{passwordError !== "" && (
-											<div className="text-danger mt-2">{passwordError}</div>
-										)}
-										<div className="row g-3 mt-2">
-											<div className="col-12">
-												<label htmlFor="confirmPassword" className="form-label">
-													Confirmation mot de passe{" "}
-													<span className="red">*</span>
-												</label>
-												<input
-													required
-													placeholder="******"
-													type="password"
-													className="form-control"
-													id="confirmPassword"
-													value={confirmPassword}
-													onInput={(event) =>
-														setConfirmPassword(event.target.value)
-													}
-												/>
-											</div>
-										</div>
-										{confirmPasswordError !== "" && (
-											<div className="text-danger mt-2">
-												{confirmPasswordError}
-											</div>
-										)}
+		<div className="row">
+			<div className="col-12">
+				<form className="file-upload">
+					<div className="row gx-5">
+						<div className="col-12 mb-3 mb-xxl-0">
+							<div className="bg-secondary-soft rounded">
+								<div className="row g-3">
+									<div className="col-12">
+										<label htmlFor="lastName" className="form-label">
+											Nom<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="text"
+											className="form-control"
+											placeholder="John"
+											id="lastName"
+											value={lastName}
+											onInput={(event) => setLastName(event.target.value)}
+										/>
 									</div>
 								</div>
+								{lastNameError !== "" && (
+									<div className="text-danger mt-2">{lastNameError}</div>
+								)}
+								<div className="row g-3 mt-2">
+									<div className="col-12">
+										<label htmlFor="firstName" className="form-label">
+											Prénom<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="text"
+											className="form-control"
+											placeholder="Doe"
+											id="firstName"
+											value={firstName}
+											onInput={(event) => setFirstName(event.target.value)}
+										/>
+									</div>
+								</div>
+								{firstNameError !== "" && (
+									<div className="text-danger mt-2">{firstNameError}</div>
+								)}
+								<div className="row g-3 mt-2">
+									<div className="col-12">
+										<label htmlFor="email" className="form-label">
+											Adresse email<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="email"
+											className="form-control"
+											id="email"
+											placeholder="johndoe@hotmail.fr"
+											value={email}
+											onInput={(event) => setEmail(event.target.value)}
+										/>
+									</div>
+								</div>
+								{emailError !== "" && (
+									<div className="text-danger mt-2">{emailError}</div>
+								)}
+								<div className="row g-3 mt-2">
+									<div className="col-12">
+										<label htmlFor="password" className="form-label">
+											Nouveau mot de passe<span className="red">*</span>
+										</label>
+										<input
+											required
+											placeholder="******"
+											type="password"
+											className="form-control"
+											id="password"
+											value={password}
+											onInput={(event) => setPassword(event.target.value)}
+										/>
+									</div>
+								</div>
+								{passwordError !== "" && (
+									<div className="text-danger mt-2">{passwordError}</div>
+								)}
+								<div className="row g-3 mt-2">
+									<div className="col-12">
+										<label htmlFor="confirmPassword" className="form-label">
+											Confirmation mot de passe <span className="red">*</span>
+										</label>
+										<input
+											required
+											placeholder="******"
+											type="password"
+											className="form-control"
+											id="confirmPassword"
+											value={confirmPassword}
+											onInput={(event) =>
+												setConfirmPassword(event.target.value)
+											}
+										/>
+									</div>
+								</div>
+								{confirmPasswordError !== "" && (
+									<div className="text-danger mt-2">{confirmPasswordError}</div>
+								)}
 							</div>
-							<div className="gap-3 d-md-flex text-center" onClick={update}>
-								<button className="button profile_button">
-									<span>Mettre à jour</span>
-								</button>
-							</div>
-						</form>
+						</div>
 					</div>
-				</div>
+					<div className="gap-3 d-md-flex text-center" onClick={update}>
+						<button className="button profile_button">
+							<span>Mettre à jour</span>
+						</button>
+					</div>
+				</form>
 			</div>
-		</>
+		</div>
 	);
 }
 

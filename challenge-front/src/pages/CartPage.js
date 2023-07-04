@@ -1,8 +1,8 @@
-import { ToastContainer, toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import cartPageBackground from "../assets/images/cart/cart.png";
+import { toast } from "react-toastify";
 // import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -213,7 +213,6 @@ function CartPage({ handleClearCart }) {
 
 	return (
 		<>
-			<ToastContainer />
 			<div className="home">
 				<div className="home_container">
 					<div

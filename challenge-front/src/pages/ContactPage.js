@@ -1,9 +1,9 @@
-import { ToastContainer, toast } from "react-toastify";
 import { useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import contactPageBackground from "../assets/images/contact/contact.png";
+import { toast } from "react-toastify";
 
 function ContactPage() {
 	const [lastName, setLastName] = useState("");
@@ -60,7 +60,7 @@ function ContactPage() {
 			position: "top-right",
 			autoClose: 1500,
 			hideProgressBar: false,
-			closeOnClick: false,
+			closeOnClick: true,
 			pauseOnHover: false,
 			draggable: true,
 			progress: undefined,
@@ -106,7 +106,6 @@ function ContactPage() {
 
 	return (
 		<>
-			<ToastContainer />
 			<div className="home">
 				<div className="home_container">
 					<div

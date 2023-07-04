@@ -1,10 +1,9 @@
 import { Link, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import HeaderPage from "./HeaderPage";
 import defaultProduct from "../../assets/images/categories/default.png";
 import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
 
 /**
  * Reset and set active link in li element
@@ -28,7 +27,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -103,65 +102,59 @@ function ReturnsPage() {
 	};
 
 	return (
-		<>
-			<ToastContainer />
-			<div id="content" className="p-4 p-md-5">
-				<HeaderPage />
-				<div className="container p-0">
-					{returns.length === 0 ? (
-						<div className="text-center mt-5">
-							<h3>Aucun retour de commande</h3>
-							<p>
-								Effectuez un retour de commande depuis la page{" "}
-								<Link style={{ fontStyle: "italic" }} to="/account/orders">
-									Mes commandes
-								</Link>
-							</p>
-						</div>
-					) : (
-						returns.map((ret) => (
-							<div key={ret.id} className="card mb-3">
-								<div className="card-header">
-									<h4>Numéro de commande : {ret.id}</h4>
-									<p>Date : {ret.date}</p>
-								</div>
-								<div className="card-body">
-									<h5>Produits :</h5>
-									<table className="table">
-										<thead>
-											<tr>
-												<th>Image</th>
-												<th>Nom du produit</th>
-												<th>Quantité</th>
-												<th>Prix</th>
-											</tr>
-										</thead>
-										<tbody>
-											{ret.products.map((product, index) => (
-												<tr key={`${product.name}${index}`}>
-													<td>
-														<img
-															src={product.image}
-															alt={`${product.name}`}
-															style={{ width: "50px", height: "50px" }}
-														/>
-													</td>
-													<td>{product.name}</td>
-													<td>{product.quantity}</td>
-													<td>{product.price}€</td>
-												</tr>
-											))}
-										</tbody>
-									</table>
-									<h5>Raison du retour :</h5>
-									<p>{ret.reason}</p>
-								</div>
-							</div>
-						))
-					)}
+		<div className="container p-0">
+			{returns.length === 0 ? (
+				<div className="text-center mt-5">
+					<h3>Aucun retour de commande</h3>
+					<p>
+						Effectuez un retour de commande depuis la page{" "}
+						<Link style={{ fontStyle: "italic" }} to="/account/orders">
+							Mes commandes
+						</Link>
+					</p>
 				</div>
-			</div>
-		</>
+			) : (
+				returns.map((ret) => (
+					<div key={ret.id} className="card mb-3">
+						<div className="card-header">
+							<h4>Numéro de commande : {ret.id}</h4>
+							<p>Date : {ret.date}</p>
+						</div>
+						<div className="card-body">
+							<h5>Produits :</h5>
+							<table className="table">
+								<thead>
+									<tr>
+										<th>Image</th>
+										<th>Nom du produit</th>
+										<th>Quantité</th>
+										<th>Prix</th>
+									</tr>
+								</thead>
+								<tbody>
+									{ret.products.map((product, index) => (
+										<tr key={`${product.name}${index}`}>
+											<td>
+												<img
+													src={product.image}
+													alt={`${product.name}`}
+													style={{ width: "50px", height: "50px" }}
+												/>
+											</td>
+											<td>{product.name}</td>
+											<td>{product.quantity}</td>
+											<td>{product.price}€</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+							<h5>Raison du retour :</h5>
+							<p>{ret.reason}</p>
+						</div>
+					</div>
+				))
+			)}
+		</div>
 	);
 }
 

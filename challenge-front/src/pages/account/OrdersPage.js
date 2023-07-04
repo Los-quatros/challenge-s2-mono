@@ -1,9 +1,8 @@
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import HeaderPage from "./HeaderPage";
 import defaultProduct from "../../assets/images/categories/default.png";
 import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 /**
@@ -16,7 +15,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -210,126 +209,118 @@ function OrdersPage() {
 	};
 
 	return (
-		<>
-			<ToastContainer />
-			<div id="content" className="p-4 p-md-5">
-				<HeaderPage />
-				<div className="container">
-					{orders.length > 0 ? (
-						orders.map((order, index) => (
-							<div key={`${order.name}-${index}`} className="card mb-3">
-								<div className="card-header">
-									<h4>Numéro de commande : {order.id}</h4>
-									<p>Date : {order.date}</p>
-								</div>
-								<div className="card-body">
-									<h5>Produits :</h5>
-									<table className="table">
-										<thead>
-											<tr>
-												<th>Image</th>
-												<th>Nom du produit</th>
-												<th>Quantité</th>
-												<th>Prix</th>
-												{order.is_delivered && <th>Retour</th>}
-											</tr>
-										</thead>
-										<tbody>
-											{order.products.map((product, index) => (
-												<tr key={`${product.label}-${index}`}>
-													<td>
-														<img
-															src={product.image}
-															alt={product.name}
-															style={{ width: "50px", height: "50px" }}
-														/>
-													</td>
-													<td>{product.name}</td>
-													<td>{product.quantity}</td>
-													<td>{product.price}€</td>
-													{order.is_delivered && (
-														<td>
-															<input
-																type="checkbox"
-																disabled={product.is_returned}
-																checked={
-																	product.is_returned ||
-																	selectedProducts.includes(product)
-																}
-																onChange={() => handleProductSelection(product)}
-															/>
-														</td>
-													)}
-												</tr>
-											))}
-										</tbody>
-									</table>
-									<div className="transporter-info">
-										<h5>Transporteur :</h5>
-										<div className="transporter">
-											<div className="transporter-details">
-												<h6>{order.carrier}</h6>
-											</div>
-										</div>
-									</div>
-									<h5>Adresse de livraison :</h5>
-									<p>{order.address}</p>
-									<div className="text-left">
-										{selectedOrder && selectedOrder.id === order.id ? (
-											<>
-												<div>
-													<button
-														className="btn btn-secondary  mr-2"
-														onClick={cancelReturnRequest}
-													>
-														Annuler le retour
-													</button>
-													<button
-														className="btn btn-secondary "
-														onClick={submitReturnRequest}
-													>
-														Valider le retour
-													</button>
-												</div>
-												<div className="mt-3">
-													<textarea
-														className="form-control"
-														rows="3"
-														placeholder="Raison du retour ..."
-														value={returnReason}
-														onChange={(event) =>
-															setReturnReason(event.target.value)
+		<div className="container">
+			{orders.length > 0 ? (
+				orders.map((order, index) => (
+					<div key={`${order.name}-${index}`} className="card mb-3">
+						<div className="card-header">
+							<h4>Numéro de commande : {order.id}</h4>
+							<p>Date : {order.date}</p>
+						</div>
+						<div className="card-body">
+							<h5>Produits :</h5>
+							<table className="table">
+								<thead>
+									<tr>
+										<th>Image</th>
+										<th>Nom du produit</th>
+										<th>Quantité</th>
+										<th>Prix</th>
+										{order.is_delivered && <th>Retour</th>}
+									</tr>
+								</thead>
+								<tbody>
+									{order.products.map((product, index) => (
+										<tr key={`${product.label}-${index}`}>
+											<td>
+												<img
+													src={product.image}
+													alt={product.name}
+													style={{ width: "50px", height: "50px" }}
+												/>
+											</td>
+											<td>{product.name}</td>
+											<td>{product.quantity}</td>
+											<td>{product.price}€</td>
+											{order.is_delivered && (
+												<td>
+													<input
+														type="checkbox"
+														disabled={product.is_returned}
+														checked={
+															product.is_returned ||
+															selectedProducts.includes(product)
 														}
-													></textarea>
-												</div>
-											</>
-										) : (
-											<button
-												disabled={!order.is_delivered}
-												style={{
-													cursor: !order.is_delivered
-														? "not-allowed"
-														: "pointer",
-												}}
-												className="btn btn-secondary"
-												onClick={() => handleSelectOrder(order)}
-											>
-												Demander un retour
-											</button>
-										)}
+														onChange={() => handleProductSelection(product)}
+													/>
+												</td>
+											)}
+										</tr>
+									))}
+								</tbody>
+							</table>
+							<div className="transporter-info">
+								<h5>Transporteur :</h5>
+								<div className="transporter">
+									<div className="transporter-details">
+										<h6>{order.carrier}</h6>
 									</div>
 								</div>
 							</div>
-						))
-					) : (
-						<div className="text-center mt-5">
-							<h3>Aucune commande à afficher</h3>
-							<p>Vous n'avez passé aucune commande pour le moment.</p>
+							<h5>Adresse de livraison :</h5>
+							<p>{order.address}</p>
+							<div className="text-left">
+								{selectedOrder && selectedOrder.id === order.id ? (
+									<>
+										<div>
+											<button
+												className="btn btn-secondary  mr-2"
+												onClick={cancelReturnRequest}
+											>
+												Annuler le retour
+											</button>
+											<button
+												className="btn btn-secondary "
+												onClick={submitReturnRequest}
+											>
+												Valider le retour
+											</button>
+										</div>
+										<div className="mt-3">
+											<textarea
+												className="form-control"
+												rows="3"
+												placeholder="Raison du retour ..."
+												value={returnReason}
+												onChange={(event) =>
+													setReturnReason(event.target.value)
+												}
+											></textarea>
+										</div>
+									</>
+								) : (
+									<button
+										disabled={!order.is_delivered}
+										style={{
+											cursor: !order.is_delivered ? "not-allowed" : "pointer",
+										}}
+										className="btn btn-secondary"
+										onClick={() => handleSelectOrder(order)}
+									>
+										Demander un retour
+									</button>
+								)}
+							</div>
 						</div>
-					)}
+					</div>
+				))
+			) : (
+				<div className="text-center mt-5">
+					<h3>Aucune commande à afficher</h3>
+					<p>Vous n'avez passé aucune commande pour le moment.</p>
 				</div>
-			</div>
-		</>
+			)}
+		</div>
 	);
 }
 

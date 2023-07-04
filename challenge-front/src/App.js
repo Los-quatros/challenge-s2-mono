@@ -9,6 +9,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import { ToastContainer } from "react-toastify";
 
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
@@ -160,6 +161,7 @@ const AppContent = () => {
 
 	return (
 		<Suspense fallback={<span>...</span>}>
+			<ToastContainer />
 			{displayHeader && <Header quantity={cartQuantity} />}
 			<Routes>
 				<Route path="/" element={<Home />} />

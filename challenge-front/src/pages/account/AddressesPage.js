@@ -1,8 +1,7 @@
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
-import HeaderPage from "./HeaderPage";
 import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 /**
@@ -15,7 +14,7 @@ const setToast = (message, type) => {
 		position: "top-right",
 		autoClose: 1500,
 		hideProgressBar: false,
-		closeOnClick: false,
+		closeOnClick: true,
 		pauseOnHover: false,
 		draggable: true,
 		progress: undefined,
@@ -297,156 +296,141 @@ function AddressesPage() {
 	};
 
 	return (
-		<>
-			<ToastContainer />
-			<div id="content" className="p-4 p-md-5">
-				<HeaderPage />
-				<div className="row">
-					<div className="col-12 p-0">
-						<div
-							className="gap-3 d-md-flex text-center"
-							style={{ marginBottom: "40px" }}
-						>
-							<button
-								className="button addresses_button mt-0"
-								onClick={addAddress}
-							>
-								<span>Ajouter une adresse</span>
-							</button>
-						</div>
-						<div className="row gx-5">
-							{addresses.map((address, index) => (
-								<div key={index} className="col-12 mb-3 mb-xxl-0">
-									<div className="bg-secondary-soft rounded">
-										<hr
-											className="hr hr-blurry"
-											style={{ marginTop: index === 0 ? "0px" : "16px" }}
+		<div className="row">
+			<div className="col-12 p-0">
+				<div
+					className="gap-3 d-md-flex text-center"
+					style={{ marginBottom: "40px" }}
+				>
+					<button className="button addresses_button mt-0" onClick={addAddress}>
+						<span>Ajouter une adresse</span>
+					</button>
+				</div>
+				<div className="row gx-5">
+					{addresses.map((address, index) => (
+						<div key={index} className="col-12 mb-3 mb-xxl-0">
+							<div className="bg-secondary-soft rounded">
+								<hr
+									className="hr hr-blurry"
+									style={{ marginTop: index === 0 ? "0px" : "16px" }}
+								/>
+								<div className="row g-3">
+									<div className="col-12">
+										<label htmlFor={`street-${index}`} className="form-label">
+											Rue<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="text"
+											className="form-control"
+											placeholder="11 rue du general emapain"
+											id={`street-${index}`}
+											value={address.street.value}
+											onInput={(event) =>
+												handleChange(index, "street", event.target.value)
+											}
 										/>
-										<div className="row g-3">
-											<div className="col-12">
-												<label
-													htmlFor={`street-${index}`}
-													className="form-label"
-												>
-													Rue<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="text"
-													className="form-control"
-													placeholder="11 rue du general emapain"
-													id={`street-${index}`}
-													value={address.street.value}
-													onInput={(event) =>
-														handleChange(index, "street", event.target.value)
-													}
-												/>
-												{address.street.error !== "" && (
-													<div className="text-danger mt-2">
-														{address.street.error}
-													</div>
-												)}
+										{address.street.error !== "" && (
+											<div className="text-danger mt-2">
+												{address.street.error}
 											</div>
-											<div className="col-12 mt-2">
-												<label htmlFor={`city-${index}`} className="form-label">
-													Ville<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="text"
-													className="form-control"
-													placeholder="Saint-Ouen-l'Aumône"
-													id={`city-${index}`}
-													value={address.city.value}
-													onInput={(event) =>
-														handleChange(index, "city", event.target.value)
-													}
-												/>
-												{address.city.error !== "" && (
-													<div className="text-danger mt-2">
-														{address.city.error}
-													</div>
-												)}
+										)}
+									</div>
+									<div className="col-12 mt-2">
+										<label htmlFor={`city-${index}`} className="form-label">
+											Ville<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="text"
+											className="form-control"
+											placeholder="Saint-Ouen-l'Aumône"
+											id={`city-${index}`}
+											value={address.city.value}
+											onInput={(event) =>
+												handleChange(index, "city", event.target.value)
+											}
+										/>
+										{address.city.error !== "" && (
+											<div className="text-danger mt-2">
+												{address.city.error}
 											</div>
-											<div className="col-12 mt-2">
-												<label htmlFor={`zip-${index}`} className="form-label">
-													Code postal<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="text"
-													className="form-control"
-													placeholder="95350"
-													id={`zip-${index}`}
-													value={address.zip.value}
-													onInput={(event) =>
-														handleChange(index, "zip", event.target.value)
-													}
-												/>
-												{address.zip.error !== "" && (
-													<div className="text-danger mt-2">
-														{address.zip.error}
-													</div>
-												)}
+										)}
+									</div>
+									<div className="col-12 mt-2">
+										<label htmlFor={`zip-${index}`} className="form-label">
+											Code postal<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="text"
+											className="form-control"
+											placeholder="95350"
+											id={`zip-${index}`}
+											value={address.zip.value}
+											onInput={(event) =>
+												handleChange(index, "zip", event.target.value)
+											}
+										/>
+										{address.zip.error !== "" && (
+											<div className="text-danger mt-2">
+												{address.zip.error}
 											</div>
-											<div className="col-12 mt-2">
-												<label
-													htmlFor={`country-${index}`}
-													className="form-label"
-												>
-													Pays<span className="red">*</span>
-												</label>
-												<input
-													required
-													type="text"
-													className="form-control"
-													placeholder="France"
-													id={`country-${index}`}
-													value={address.country.value}
-													onInput={(event) =>
-														handleChange(index, "country", event.target.value)
-													}
-												/>
-												{address.country.error !== "" && (
-													<div className="text-danger mt-2">
-														{address.country.error}
-													</div>
-												)}
+										)}
+									</div>
+									<div className="col-12 mt-2">
+										<label htmlFor={`country-${index}`} className="form-label">
+											Pays<span className="red">*</span>
+										</label>
+										<input
+											required
+											type="text"
+											className="form-control"
+											placeholder="France"
+											id={`country-${index}`}
+											value={address.country.value}
+											onInput={(event) =>
+												handleChange(index, "country", event.target.value)
+											}
+										/>
+										{address.country.error !== "" && (
+											<div className="text-danger mt-2">
+												{address.country.error}
 											</div>
-											<div className="col-12 mt-2 d-flex">
-												<div className="gap-3 d-md-flex text-center mr-3">
+										)}
+									</div>
+									<div className="col-12 mt-2 d-flex">
+										<div className="gap-3 d-md-flex text-center mr-3">
+											<button
+												onClick={(event) => deleteAddress(event, index)}
+												className="button addresses_button"
+												style={{ height: "50px" }}
+											>
+												<span>Supprimer l'adresse</span>
+											</button>
+										</div>
+										{address.street.hasChanged === true &&
+											address.city.hasChanged === true &&
+											address.zip.hasChanged === true &&
+											address.country.hasChanged && (
+												<div className="gap-3 d-md-flex text-center">
 													<button
-														onClick={(event) => deleteAddress(event, index)}
 														className="button addresses_button"
+														onClick={(event) => saveAddress(event, index)}
 														style={{ height: "50px" }}
 													>
-														<span>Supprimer l'adresse</span>
+														<span>Enregistrer l'adresse</span>
 													</button>
 												</div>
-												{address.street.hasChanged === true &&
-													address.city.hasChanged === true &&
-													address.zip.hasChanged === true &&
-													address.country.hasChanged && (
-														<div className="gap-3 d-md-flex text-center">
-															<button
-																className="button addresses_button"
-																onClick={(event) => saveAddress(event, index)}
-																style={{ height: "50px" }}
-															>
-																<span>Enregistrer l'adresse</span>
-															</button>
-														</div>
-													)}
-											</div>
-										</div>
+											)}
 									</div>
 								</div>
-							))}
+							</div>
 						</div>
-					</div>
+					))}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
