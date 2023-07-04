@@ -122,6 +122,7 @@ export class ReturnsService {
         const address: Address = await lastValueFrom(
           await this.addressesService.GetAddressById(orderConcerned['address']),
         );
+        console.log(elm, 'elm');
         return new ReturnsResponseDto(
           elm['id'],
           elm['reason'],
@@ -130,6 +131,7 @@ export class ReturnsService {
           elm['userid'],
           carrier,
           address,
+          elm['createdAt'],
         );
       }),
     );
