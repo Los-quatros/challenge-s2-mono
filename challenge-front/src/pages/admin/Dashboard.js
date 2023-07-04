@@ -8,7 +8,14 @@ import ReturnPreviewAll from "../../components/Admin/Returns/ReturnPreviewAll";
 import CarrierPreviewAll from "../../components/Admin/Carriers/CarrierPreviewAll";
 import ClientPreviewAll from "../../components/Admin/Clients/ClientPreviewAll";
 import SellerPreviewAll from "../../components/Admin/Sellers/SellerPreviewAll";
+import useClient from "../../hooks/Admin/useClient";
+import useSeller from "../../hooks/Admin/useSeller";
+import useCarrier from "../../hooks/Admin/useCarrier";
 const Dashboard = () => {
+  const { users } = useClient();
+  const { sellers } = useSeller();
+  const { carriers } = useCarrier();
+
   return (
     <>
       <Sidebar />
@@ -42,7 +49,9 @@ const Dashboard = () => {
                       </div>
                       <div className={styles["stat-content dib"]}>
                         <div className={styles["stat-text"]}>Total clients</div>
-                        <div className={styles["stat-digit"]}>961</div>
+                        <div className={styles["stat-digit"]}>
+                          {users ? users.length : 0}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -57,7 +66,9 @@ const Dashboard = () => {
                         <div className={styles["stat-text"]}>
                           Total vendeurs
                         </div>
-                        <div className={styles["stat-digit"]}>961</div>
+                        <div className={styles["stat-digit"]}>
+                          {sellers && sellers.length}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -87,7 +98,9 @@ const Dashboard = () => {
                         <div className={styles["stat-text"]}>
                           Total transporteurs
                         </div>
-                        <div className={styles["stat-digit"]}>961</div>
+                        <div className={styles["stat-digit"]}>
+                          {carriers && carriers.length}
+                        </div>
                       </div>
                     </div>
                   </div>
