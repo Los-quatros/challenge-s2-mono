@@ -96,7 +96,9 @@ export class OrdersService {
   }
 
   async UpdateNbItemReturnedForOrderProduct(id: string, quantity: number) {
-    return this.ordersProxy.send('UpdateNbItemReturned', { id, quantity });
+    return await lastValueFrom(
+      this.ordersProxy.send('UpdateNbItemReturned', { id, quantity }),
+    );
   }
 
   private async AssignProductsAddressAndCarrierToOrder(
