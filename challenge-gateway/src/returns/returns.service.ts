@@ -34,8 +34,6 @@ export class ReturnsService {
       this.returnsProxy.send('CreateReturn', { retrunDto: returnDto, userId }),
     );
     if (!result.error) {
-      // update nbItemReturned for products
-      // await this.ordersService.UpdateNbItemReturnedForOrderProduct(returnDto['orderProducts'][0].id_product, returnDto['orderProducts'][0].nbItemReturned);
       returnDto['orderProducts'].forEach(
         async (elm: CreateOrderProductForReturnDto) => {
           await this.ordersService.UpdateNbItemReturnedForOrderProduct(
