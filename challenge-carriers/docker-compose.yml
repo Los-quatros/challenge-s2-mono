@@ -41,7 +41,6 @@ services:
 
   carrier-db-test:
     image: postgres:12.1-alpine
-    container_name: carrier-db-test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
