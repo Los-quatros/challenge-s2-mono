@@ -47,6 +47,7 @@ function ReturnsPage({ role }) {
 			initSellerReturns();
 		}
 	}, [role]);
+
 	/**
 	 * Initialize user returns data
 	 */
@@ -68,16 +69,22 @@ function ReturnsPage({ role }) {
 			.then((data) => {
 				if (data) {
 					const returns = data.map((ret) => {
-						const products = ret.orderProducts.map((orderProduct) => {
-							return {
-								name: orderProduct.product.label,
-								quantity: orderProduct.product.quantity,
-								price: orderProduct.product.price,
-								image: orderProduct.product.image
-									? orderProduct.product.image
-									: defaultProduct,
-							};
-						});
+						const products = ret.orderProducts
+							.map((orderProduct) => {
+								if (orderProduct?.["product"]) {
+									return {
+										name: orderProduct.product.label,
+										quantity: orderProduct.product.quantity,
+										price: orderProduct.product.price,
+										image: orderProduct.product.image
+											? orderProduct.product.image
+											: defaultProduct,
+									};
+								} else {
+									return null;
+								}
+							})
+							.filter(Boolean);
 						return {
 							id: ret.id,
 							date: ret.date ? ret.date : new Date().toLocaleDateString(),

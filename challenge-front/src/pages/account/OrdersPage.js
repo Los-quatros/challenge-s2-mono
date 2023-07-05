@@ -164,18 +164,24 @@ function OrdersPage({ role }) {
 					const orders = [];
 					data.forEach((order) => {
 						if (order.is_paid) {
-							const products = order.products.map((product) => {
-								return {
-									id: product["product"].id,
-									name: product["product"].label,
-									quantity: product["product"].quantity,
-									price: product["product"].price,
-									image: product["product"].image
-										? product["product"].image
-										: defaultProduct,
-									is_returned: product.is_returned,
-								};
-							});
+							const products = order.products
+								.map((product) => {
+									if (product?.["product"]) {
+										return {
+											id: product["product"].id,
+											name: product["product"].label,
+											quantity: product["product"].quantity,
+											price: product["product"].price,
+											image: product["product"].image
+												? product["product"].image
+												: defaultProduct,
+											is_returned: product.is_returned,
+										};
+									} else {
+										return null;
+									}
+								})
+								.filter(Boolean);
 							orders.push({
 								id: order.orderId,
 								date: order.date ? order.date : new Date().toLocaleDateString(),
@@ -258,6 +264,14 @@ function OrdersPage({ role }) {
 				)
 			);
 	};
+
+	useEffect(() => {
+		if (role === "user") {
+			initOrdersUser();
+		} else if (role === "seller") {
+			initSalesSeller();
+		}
+	}, [role]);
 
 	return (
 		<div className="container">
