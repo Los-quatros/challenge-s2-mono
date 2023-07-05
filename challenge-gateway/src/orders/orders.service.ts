@@ -43,11 +43,18 @@ export class OrdersService {
 
     return this.paymentsService.createCheckoutSession(ordersWithProducts);
   }
+  async GetOrder(id: string): Promise<any> {
+    return this.ordersProxy.send('GetOrder', { id });
+  }
   async GetOrders(): Promise<any> {
     const orders: Array<OrderResponseDto> = await lastValueFrom(
       this.ordersProxy.send('GetAllOrders', {}),
     );
     return this.AssignProductsAddressAndCarrierToOrder(orders);
+  }
+
+  async GetOrderProduct(idOrderProduct: string): Promise<any> {
+    return this.ordersProxy.send('GetOrderProduct', { idOrderProduct });
   }
 
   async GetOrderProductsIdsByProductIds(
