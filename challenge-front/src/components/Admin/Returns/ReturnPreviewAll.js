@@ -8,7 +8,10 @@ const ReturnPreviewAll = () => {
 
   return (
     <div className="col-lg-4">
-      <div className={styles.card + " card"}>
+      <div
+        className={styles.card + " card"}
+        style={{ height: "500px", overflow: "scroll" }}
+      >
         <div
           className={
             styles["card-title"] +

@@ -30,7 +30,7 @@ const CarrierPreviewAll = () => {
 
   return (
     <div className="col-lg-4">
-      <div className={styles.card + " card"}>
+      <div className={styles.card + " card"} style={{ height: "500px" }}>
         <div
           className={
             styles["card-title"] +
@@ -52,7 +52,7 @@ const CarrierPreviewAll = () => {
             </div>
           </div>
         ) : (
-          <div className="card-body">
+          <div className="card-body" style={{ overflow: "scroll" }}>
             <div className="table-responsive">
               <table className="table">
                 <thead>

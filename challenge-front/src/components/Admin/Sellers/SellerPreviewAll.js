@@ -53,7 +53,10 @@ const SellerPreviewAll = () => {
 
   return (
     <div className="col-lg-6">
-      <div className={styles.card + " card"}>
+      <div
+        className={styles.card + " card pr-2"}
+        style={{ height: "500px", overflow: "scroll" }}
+      >
         <div
           className={
             styles["card-title"] +
@@ -75,7 +78,7 @@ const SellerPreviewAll = () => {
             </div>
           </div>
         ) : (
-          <div className="card-body">
+          <div className="card-body" style={{ overflow: "scroll" }}>
             <div className="table-responsive">
               <table className="table">
                 <thead>

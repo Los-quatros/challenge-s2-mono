@@ -6,13 +6,9 @@ import moment from "moment";
 const OrderPreviewAll = () => {
   const { orders, isLoading, deliveryOrder, error, refetch } = useOrder();
 
-  if (error) {
-    return <div>Une erreur est survenue</div>;
-  }
-
   return (
     <div className="col-lg-8">
-      <div className={styles.card + " card"}>
+      <div className={styles.card + " card"} style={{ height: "500px" }}>
         <div
           className={
             styles["card-title"] +
@@ -36,7 +32,7 @@ const OrderPreviewAll = () => {
         ) : error ? (
           <div>Une erreur est survenue</div>
         ) : (
-          <div className="card-body">
+          <div className="card-body" style={{ overflow: "scroll" }}>
             <div className="table-responsive">
               <table className="table">
                 <thead>
