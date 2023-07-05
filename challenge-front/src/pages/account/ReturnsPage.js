@@ -38,19 +38,57 @@ const setToast = (message, type) => {
 function ReturnsPage() {
 	const { name } = useParams();
 	const [returns, setReturns] = useState([]);
+	const [userRole, setUserRole] = useState("user");
 
 	useEffect(() => {
 		resetAndSetActiveLink(name);
 	}, [name]);
 
 	useEffect(() => {
-		initReturns();
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					const role = (data && data.roles) || "user";
+					setUserRole(role);
+					if (role === "admin") {
+						return;
+					} else if (role === "seller") {
+						initSellerReturns();
+					} else {
+						initUserReturns();
+					}
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération de vos informations",
+						"error"
+					);
+				}
+			})
+			.catch(() =>
+				setToast(
+					"Une erreur est survenue lors de la récupération de vos informations",
+					"error"
+				)
+			);
 	}, []);
 
 	/**
-	 * Initialize returns data
+	 * Initialize user returns data
 	 */
-	const initReturns = () => {
+	const initUserReturns = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
 		fetch(`http://localhost:4000/returns/users/${decodedToken.id}`, {
@@ -101,23 +139,84 @@ function ReturnsPage() {
 			});
 	};
 
+	/**
+	 * Initialize seller returns data
+	 */
+	const initSellerReturns = () => {
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/returns/sellers/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					const returns = data.map((ret) => {
+						const products = ret.orderProducts.map((orderProduct) => {
+							return {
+								name: orderProduct.product.label,
+								quantity: orderProduct.product.quantity,
+								price: orderProduct.product.price,
+								image: orderProduct.product.image
+									? orderProduct.product.image
+									: defaultProduct,
+							};
+						});
+						return {
+							id: ret.id,
+							date: ret.date ? ret.date : new Date().toLocaleDateString(),
+							products: products,
+							reason: ret.reason,
+						};
+					});
+					setReturns(returns);
+				} else {
+					setToast(
+						"Une erreur est survenur lors de la récupération des retours",
+						"error"
+					);
+				}
+			})
+			.catch(() => {
+				setToast(
+					"Une erreur est survenur lors de la récupération des retours",
+					"error"
+				);
+			});
+	};
+
 	return (
 		<div className="container p-0">
 			{returns.length === 0 ? (
-				<div className="text-center mt-5">
-					<h3>Aucun retour de commande</h3>
-					<p>
-						Effectuez un retour de commande depuis la page{" "}
-						<Link style={{ fontStyle: "italic" }} to="/account/orders">
-							Mes commandes
-						</Link>
-					</p>
-				</div>
+				userRole === "user" ? (
+					<div className="text-center mt-5">
+						<h3>Aucun retour de commande.</h3>
+						<p>
+							Effectuez un retour de commande depuis la page{" "}
+							<Link style={{ fontStyle: "italic" }} to="/account/orders">
+								Mes commandes.
+							</Link>
+						</p>
+					</div>
+				) : (
+					<div className="text-center mt-5">
+						<h3>Aucun retour de commande à afficher.</h3>
+						<p>Vous n'avez pas encore de retour de commande pour le moment.</p>
+					</div>
+				)
 			) : (
 				returns.map((ret) => (
 					<div key={ret.id} className="card mb-3">
 						<div className="card-header">
-							<h4>Numéro de commande : {ret.id}</h4>
+							<h4>Numéro de retour : {ret.id}</h4>
 							<p>Date : {ret.date}</p>
 						</div>
 						<div className="card-body">

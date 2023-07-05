@@ -14,7 +14,6 @@ services:
   gateway-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
-    restart: always
     ports:
       - 4000:4000
     environment:
@@ -33,7 +32,6 @@ services:
       - challenge-network
   adminer:
     image: adminer
-    restart: always
     ports:
       - 8092:8080
   rmq-service:

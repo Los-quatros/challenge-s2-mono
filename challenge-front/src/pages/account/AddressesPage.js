@@ -38,6 +38,9 @@ function AddressesPage() {
 	const [addresses, setAddresses] = useState([]);
 	const { name } = useParams();
 
+	/**
+	 * Get all addresses of the users
+	 */
 	const getAddresses = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
@@ -57,22 +60,38 @@ function AddressesPage() {
 				if (data) {
 					const newAddresses = data.map((address) => ({
 						id: address.id,
-						zip: { value: address.zip, error: "", hasChanged: false },
-						country: { value: address.country, error: "", hasChanged: false },
-						street: { value: address.street, error: "", hasChanged: false },
-						city: { value: address.city, error: "", hasChanged: false },
+						zip: {
+							value: address.zip ? address.zip : "",
+							error: "",
+							hasChanged: false,
+						},
+						country: {
+							value: address.country ? address.country : "",
+							error: "",
+							hasChanged: false,
+						},
+						street: {
+							value: address.street ? address.street : "",
+							error: "",
+							hasChanged: false,
+						},
+						city: {
+							value: address.city ? address.city : "",
+							error: "",
+							hasChanged: false,
+						},
 					}));
 					setAddresses(newAddresses);
 				} else {
 					setToast(
-						"Une erreur est survenue lors de la récupération des données",
+						"Une erreur est survenue lors de la récupération des adresses",
 						"error"
 					);
 				}
 			})
 			.catch(() => {
 				setToast(
-					"Une erreur est survenue lors de la récupération des données",
+					"Une erreur est survenue lors de la récupération des adresses",
 					"error"
 				);
 			});
@@ -409,20 +428,20 @@ function AddressesPage() {
 												<span>Supprimer l'adresse</span>
 											</button>
 										</div>
-										{address.street.hasChanged === true &&
-											address.city.hasChanged === true &&
-											address.zip.hasChanged === true &&
-											address.country.hasChanged && (
-												<div className="gap-3 d-md-flex text-center">
-													<button
-														className="button addresses_button"
-														onClick={(event) => saveAddress(event, index)}
-														style={{ height: "50px" }}
-													>
-														<span>Enregistrer l'adresse</span>
-													</button>
-												</div>
-											)}
+										{(address.street.hasChanged === true ||
+											address.city.hasChanged === true ||
+											address.zip.hasChanged === true ||
+											address.country.hasChanged) && (
+											<div className="gap-3 d-md-flex text-center">
+												<button
+													className="button addresses_button"
+													onClick={(event) => saveAddress(event, index)}
+													style={{ height: "50px" }}
+												>
+													<span>Enregistrer l'adresse</span>
+												</button>
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
