@@ -31,21 +31,10 @@ export class OrdersService {
     return this.AssignProductsAddressAndCarrierToOrder(orders);
   }
 
-  async CreateOrder(data: CreateOrderDto): Promise<any> {
-    const orderCreated = await lastValueFrom(
-      this.ordersProxy.send('CreateOrder', { data }),
-    );
-    const orders: Array<OrderResponseDto> = await this.GetOrders();
-    let ordersWithProducts: OrderResponseDto[] = [];
-    ordersWithProducts = orders.filter((order) => {
-      return order.orderId === orderCreated.id;
-    });
-
-    return this.paymentsService.createCheckoutSession(ordersWithProducts);
-  }
   async GetOrder(id: string): Promise<any> {
     return this.ordersProxy.send('GetOrder', { id });
   }
+
   async GetOrders(): Promise<any> {
     const orders: Array<OrderResponseDto> = await lastValueFrom(
       this.ordersProxy.send('GetAllOrders', {}),
@@ -92,6 +81,18 @@ export class OrdersService {
       decision,
       idOrder,
     });
+  }
+  async CreateOrder(data: CreateOrderDto): Promise<any> {
+    const orderCreated = await lastValueFrom(
+      this.ordersProxy.send('CreateOrder', { data }),
+    );
+    const orders: Array<OrderResponseDto> = await this.GetOrders();
+    let ordersWithProducts: OrderResponseDto[] = [];
+    ordersWithProducts = orders.filter((order) => {
+      return order.orderId === orderCreated.id;
+    });
+
+    return this.paymentsService.createCheckoutSession(ordersWithProducts);
   }
 
   async UpdateNbItemReturnedForOrderProduct(id: string, quantity: number) {

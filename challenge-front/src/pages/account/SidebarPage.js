@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
+import jwt_decode from "jwt-decode";
 import profileImage from "../../assets/images/account/profile.png";
 import { toast } from "react-toastify";
 
@@ -23,6 +25,7 @@ const setToast = (message, type) => {
 
 function SidebarPage() {
 	const navigate = useNavigate();
+	const [userRole, setUserRole] = useState("user");
 
 	/**
 	 * Logout the user
@@ -36,6 +39,40 @@ function SidebarPage() {
 			setToast("Vous avez été déconnecté", "success");
 		}, 500);
 	};
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					const role = (data && data.roles) || "user";
+					setUserRole(role);
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération de vos informations",
+						"error"
+					);
+				}
+			})
+			.catch(() =>
+				setToast(
+					"Une erreur est survenue lors de la récupération de vos informations",
+					"error"
+				)
+			);
+	}, []);
 
 	return (
 		<nav id="sidebar">
@@ -52,9 +89,16 @@ function SidebarPage() {
 					<li className="orders" id="account-orders">
 						<Link to="/account/orders">Mes commandes</Link>
 					</li>
-					<li className="addresses" id="account-addresses">
-						<Link to="/account/addresses">Mes adresses</Link>
-					</li>
+					{userRole === "user" && (
+						<li className="addresses" id="account-addresses">
+							<Link to="/account/addresses">Mes adresses</Link>
+						</li>
+					)}
+					{userRole === "seller" && (
+						<li className="products" id="account-products">
+							<Link to="/account/products">Mes produits</Link>
+						</li>
+					)}
 					<li className="returns" id="account-returns">
 						<Link to="/account/returns">Mes retours</Link>
 					</li>
