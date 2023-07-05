@@ -76,4 +76,9 @@ export class UsersController {
   async getAdminEmail() {
     return this.usersService.getAdminEmail();
   }
+  
+  @EventPattern("getEmailById")
+  async getEmailById(idUser : string): Promise<string>{
+    return this.usersService.GetEmailById(idUser);
+  }
 }

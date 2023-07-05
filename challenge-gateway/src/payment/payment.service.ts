@@ -10,8 +10,13 @@ export class PaymentService {
   ) {}
 
   async createCheckoutSession(data : Array<OrderResponseDto>) {
-    return  await lastValueFrom(
+    return await lastValueFrom(
       this.paymentProxy.send('create-stripe-session', { data}),
     );
+    
+  }
+
+  async paymentValidated(idOrder : string){
+    return this.paymentProxy.send('payment-success', idOrder);
   }
 }

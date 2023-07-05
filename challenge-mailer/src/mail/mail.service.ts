@@ -139,7 +139,7 @@ export class MailService {
     const template = handlebars.compile(templateContent);
 
     const { email, order } = data;
-
+    
     const htmlContent = template({
       items: order.products,
       total: order.total,

@@ -35,6 +35,10 @@ export class OrdersService {
       return await this.ordersRepository.findOneBy({id : id});
     }
 
+    async ValidateOrder(id : string) {
+      return await this.ordersRepository.update({id : id}, {is_paid : true});
+    }
+
     // TODO : to test (to be used after creating an return and we must do it from the gateway)
     async UpdateNbItemReturnedForOrderProduct(nbItemReturned : number, idOrderProduct : string){
       return this.orderProductRepository.update({id : idOrderProduct['id']}, {nbProductReturned : nbItemReturned['quantity'], is_returned : true});
@@ -165,6 +169,22 @@ export class OrdersService {
         throw new HttpException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
           error: 'Error while fetching orders',
+        }, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    async GetUserIdByOrderId(id : string) : Promise<Object>{
+      try {
+        const order : Order = await this.ordersRepository.findOneBy({id : id});
+        return {
+          userId : order.userId,
+          total : order.total
+        };
+      }catch(error){
+
+        throw new HttpException({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Error while fetching user id by order id',
         }, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
