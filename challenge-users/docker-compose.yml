@@ -13,11 +13,9 @@ services:
       - ./users-database:/var/lib/postgresql/data
     networks:
       - challenge-network
-      
   users-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
-    restart: always
     ports:
       - 3008:3000
     environment:
@@ -32,15 +30,13 @@ services:
     depends_on:
       - users-db
     networks:
-      - challenge-network  
-
+      - challenge-network
   adminer:
     image: adminer
-    restart: always
     ports:
       - 8087:8080
     networks:
-      - challenge-network  
+      - challenge-network
 networks:
   challenge-network:
     external: true

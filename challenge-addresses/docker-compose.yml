@@ -12,7 +12,7 @@ services:
     volumes:
       - ./database:/var/lib/postgresql/data
     networks:
-      - challenge-network    
+      - challenge-network
   address-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
@@ -29,16 +29,15 @@ services:
     volumes:
       - .:/home/node
     networks:
-      - challenge-network    
+      - challenge-network
     depends_on:
       - address-db
   adminer:
     image: adminer
-    restart: always
     ports:
       - 8088:8080
     networks:
-      - challenge-network      
+      - challenge-network
 networks:
   challenge-network:
-    external: true         
+    external: true
