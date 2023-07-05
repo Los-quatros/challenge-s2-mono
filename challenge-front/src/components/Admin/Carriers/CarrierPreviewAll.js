@@ -31,7 +31,13 @@ const CarrierPreviewAll = () => {
     });
   };
 
-  const { carriers, isLoading, saveCarrier, deleteCarrier } = useCarrier();
+  const {
+    carriers,
+    isLoading,
+    saveCarrier,
+    activateCarrier,
+    desactivateCarrier,
+  } = useCarrier();
 
   const handleSave = async (carrier) => {
     try {
@@ -43,13 +49,21 @@ const CarrierPreviewAll = () => {
     }
   };
 
-  const handleDelete = async (carrierId) => {
+  const handleDesactivate = async (carrierId) => {
     try {
-      await deleteCarrier(carrierId);
-      closePopup();
-      setToast("Transporteur supprimé avec succès", "success");
+      await desactivateCarrier(carrierId);
+      setToast("Transporteur désactivé avec succès", "success");
     } catch (error) {
-      setToast("Erreur lors de la suppression du transporteur", "error");
+      setToast("Erreur lors de la désactivation du transporteur", "error");
+    }
+  };
+
+  const handleActivate = async (carrierId) => {
+    try {
+      await activateCarrier(carrierId);
+      setToast("Transporteur activé avec succès", "success");
+    } catch (error) {
+      setToast("Erreur lors de l'activation du transporteur", "error");
     }
   };
 
@@ -110,15 +124,19 @@ const CarrierPreviewAll = () => {
                               }}
                               onClick={() => openPopup(carrier)}
                             ></i>
-                            <i
-                              className="fa fa-trash pr-2"
-                              aria-hidden="true"
-                              style={{
-                                color: "red",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => handleDelete(carrier.id)}
-                            ></i>
+                            {carrier.isActive ? (
+                              <i
+                                className="fa fa-unlock"
+                                style={{ color: "black", cursor: "pointer" }}
+                                onClick={() => handleDesactivate(carrier.id)}
+                              ></i>
+                            ) : (
+                              <i
+                                className="fa fa-lock"
+                                style={{ color: "black", cursor: "pointer" }}
+                                onClick={() => handleActivate(carrier.id)}
+                              ></i>
+                            )}
                           </span>
                         </td>
                       </tr>
