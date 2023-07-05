@@ -57,22 +57,38 @@ function AddressesPage() {
 				if (data) {
 					const newAddresses = data.map((address) => ({
 						id: address.id,
-						zip: { value: address.zip, error: "", hasChanged: false },
-						country: { value: address.country, error: "", hasChanged: false },
-						street: { value: address.street, error: "", hasChanged: false },
-						city: { value: address.city, error: "", hasChanged: false },
+						zip: {
+							value: address.zip ? address.zip : "",
+							error: "",
+							hasChanged: false,
+						},
+						country: {
+							value: address.country ? address.country : "",
+							error: "",
+							hasChanged: false,
+						},
+						street: {
+							value: address.street ? address.street : "",
+							error: "",
+							hasChanged: false,
+						},
+						city: {
+							value: address.city ? address.city : "",
+							error: "",
+							hasChanged: false,
+						},
 					}));
 					setAddresses(newAddresses);
 				} else {
 					setToast(
-						"Une erreur est survenue lors de la récupération des données",
+						"Une erreur est survenue lors de la récupération des adresses",
 						"error"
 					);
 				}
 			})
 			.catch(() => {
 				setToast(
-					"Une erreur est survenue lors de la récupération des données",
+					"Une erreur est survenue lors de la récupération des adresses",
 					"error"
 				);
 			});

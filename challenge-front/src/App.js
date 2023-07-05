@@ -2,17 +2,14 @@ import {
 	Navigate,
 	Route,
 	BrowserRouter as Router,
-	RouterProvider,
 	Routes,
 	useLocation,
 } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
 
-import Dashboard from "./pages/admin/Dashboard";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
-import { router } from "./services/router";
 
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
