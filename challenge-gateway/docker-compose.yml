@@ -22,6 +22,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: gateway-db
+      JWT_SECRET: mychallenge2023
     working_dir: /home/node
     volumes:
       - .:/home/node

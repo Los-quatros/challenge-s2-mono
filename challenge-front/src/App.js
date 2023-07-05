@@ -6,11 +6,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
-
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
-
+import Loader from "./components/Loader";
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
 const NewPassword = lazy(() => import("./components/NewPassword"));
@@ -21,6 +20,7 @@ const Categories = lazy(() => import("./pages/CategoriesPage"));
 const ProductDetails = lazy(() =>
   import("./pages/products/ProductDetailsPage")
 );
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 
 // const { user, isA}
 const Contact = lazy(() => import("./pages/ContactPage"));
@@ -59,6 +59,10 @@ const App = () => {
   );
 };
 
+const AdminRouter = function () {
+  return <h1>Rest</h1>;
+};
+
 /**
  * Load CSS file and remove it if it already exists
  * @param { string } path Css file path
@@ -80,6 +84,8 @@ const clearLinks = () => {
 
 const AppContent = () => {
   const hasToken = localStorage.getItem("token") ? true : false;
+  const isAdmin = localStorage.getItem("role") === "admin" ? true : false;
+
   const location = useLocation();
   const displayHeader =
     location.pathname !== "/login" &&
@@ -164,10 +170,11 @@ const AppContent = () => {
   };
 
   return (
-    <Suspense fallback={<span>...</span>}>
+    <Suspense fallback={<Loader />}>
       <ToastContainer />
       {displayHeader && <Header quantity={cartQuantity} />}
       <Routes>
+        {isAdmin && <Route path="/" element={<Navigate to="/admin" />} />}
         <Route path="/" element={<Home />} />
         {!hasToken && <Route path="/login" element={<Login />} />}
         {<Route path="/new-password" element={<NewPassword />} />}
@@ -184,8 +191,11 @@ const AppContent = () => {
           path="/products/:category/:productId"
           element={<ProductDetails handleCartChange={handleCartChange} />}
         />
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        {isAdmin ? (
+          <Route path="/admin" element={<Dashboard />} />
+        ) : (
+          <Route path="*" element={<Navigate to="/" />} />
+        )}
       </Routes>
       {displayFooter && <Footer />}
     </Suspense>
