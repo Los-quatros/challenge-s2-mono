@@ -45,6 +45,12 @@ export class ProductsController {
         return this.productService.getCategories();
     }
 
+    @EventPattern('CreateCategory')
+    async createCategory(@Payload() name : string) : Promise<Category> {
+        return this.productService.createCategory(name['name']);
+    }
+    
+
     @EventPattern('GetSellerProducts')
     async getSellerProducts(@Payload() idSeller : string){
         return this.productService.getSellerProducts(idSeller['id']);

@@ -65,7 +65,7 @@ const CategoryPreviewAll = () => {
           }
         >
           <h4>Liste des catégories</h4>
-          <button className="btn btn-dark" onClick={() => openPopup(null)}>
+          <button className="btn btn-dark" onClick={() => openPopup({})}>
             Ajouter
           </button>
         </div>
@@ -86,23 +86,19 @@ const CategoryPreviewAll = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {categories !== undefined ||
-                    (null &&
-                      categories.map((category) => (
-                        <tr key={category.id}>
-                          <td>{category.name}</td>
-                          <td>
-                            <i
-                              className="fas fa-edit text-primary"
-                              onClick={() => openPopup(category)}
-                            />
-                            <i
-                              className="fas fa-trash-alt text-danger ml-2"
-                              onClick={() => handleDelete(category.id)}
-                            />
-                          </td>
-                        </tr>
-                      )))}
+                  {categories &&
+                    categories.map((category) => (
+                      <tr key={category.id}>
+                        <td>{category.name}</td>
+                        <td>
+                          <i
+                            className="fa fa-pencil-square-o pr-2"
+                            style={{ color: "blue", cursor: "pointer" }}
+                            onClick={() => openPopup(category)}
+                          />
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -112,8 +108,8 @@ const CategoryPreviewAll = () => {
       {isPopupOpen && (
         <CategoryPopup
           category={selectedCategory}
-          closePopup={closePopup}
-          handleSave={handleSave}
+          onClose={closePopup}
+          onSave={handleSave}
         />
       )}
     </div>

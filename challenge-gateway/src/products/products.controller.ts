@@ -48,13 +48,11 @@ export class ProductsController {
     return this.productsService.GetAllProductsAdmin();
   }
 
-  // TODO : PRODUCT
   @Get()
   async GetAllProducts() {
     return this.productsService.GetAllProducts();
   }
 
-  // TODO : PRODUCT
   @Get('/:id')
   async GetProductById(@Param() productId: string) {
     return this.productsService.GetProductById(productId);
@@ -75,7 +73,14 @@ export class ProductsController {
     return this.productsService.GetCategories();
   }
 
-  // TODO : PRODUCT
+  @AuthenticationRequired()
+  @HasRole(Role.ADMINISTRATOR)
+  @Post('/categories')
+  async CreateCategory(@Body() body: { name: string }) {
+    return this.productsService.CreateCategory(body.name);
+  }
+
+  @Delete('/categories/:id')
   @AuthenticationRequired()
   @HasRole(Role.SELLER)
   @Get('/sellers/:id')

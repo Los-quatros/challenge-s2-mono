@@ -49,6 +49,17 @@ export class ProductsService {
     return this.productsProxy.send('GetAllCategories', {});
   }
 
+  async CreateCategory(name: string) {
+    const result = await lastValueFrom(
+      this.productsProxy.send('CreateCategory', { name }),
+    );
+
+    if (result.error) {
+      throw new Error(result.error);
+    }
+    return result;
+  }
+
   async GetSellerProducts(id: string) {
     return this.productsProxy.send('GetSellerProducts', { id });
   }

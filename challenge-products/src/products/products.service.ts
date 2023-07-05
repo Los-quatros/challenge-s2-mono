@@ -146,6 +146,22 @@ export class ProductsService {
         }
     }
 
+    async createCategory(category : string) : Promise<Category | any> {
+        try {
+            const categoryToPersist = new Category();
+            categoryToPersist.name = category;
+
+            return await this.categoryRepository.save(categoryToPersist);
+        }catch(error) {
+            console.log(error);
+            return {
+                status : HttpStatus.INTERNAL_SERVER_ERROR,
+                error : 'Error while creating category',
+                }
+        }
+    }
+
+
     async getSellerProducts(sellerId : string) : Promise<Array<Product>> {
         try {
             return await this.productsRepository.findBy({sellerId : sellerId})

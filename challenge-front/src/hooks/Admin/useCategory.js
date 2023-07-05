@@ -5,7 +5,7 @@ const useCategory = () => {
 
   const fetchCategories = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/categories/admin/all`,
+      `${process.env.REACT_APP_BASE_API_URL}/products/categories/all`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ const useCategory = () => {
       );
     }
 
-    return fetch(`${process.env.REACT_APP_BASE_API_URL}/categories`, {
+    return fetch(`${process.env.REACT_APP_BASE_API_URL}/products/categories`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,6 +54,9 @@ const useCategory = () => {
 
   const saveCategory = async (category) => {
     const response = await saveCategoryMutation.mutateAsync(category);
+    if (response.ok !== true) {
+      throw new Error("Une erreur est survenue lors de l'enregistrement");
+    }
     queryClient.invalidateQueries("categories");
     return response;
   };

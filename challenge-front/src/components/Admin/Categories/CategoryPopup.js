@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import "../../../assets/styles/admin/popup.css";
 
 const CategoryPopup = ({ category, onClose, onSave }) => {
-  const [label, setLabel] = useState(category.label);
+  const [name, setLabel] = useState(category.name);
 
   const [errors, setErrors] = useState({
-    label: "",
+    name: "",
   });
 
   const validateForm = () => {
     let newErrors = {};
 
-    if (label === "" || !label) {
-      newErrors.label = "Veuillez saisir un label.";
+    if (name === "" || !name) {
+      newErrors.name = "Veuillez saisir un name.";
     }
 
     setErrors(newErrors);
@@ -22,13 +22,13 @@ const CategoryPopup = ({ category, onClose, onSave }) => {
 
   const handleLabelChange = (e) => {
     setLabel(e.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, label: "" }));
+    setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
   };
 
   const handleSave = () => {
     const updatedCategory = {
       id: category?.id,
-      label,
+      name,
     };
 
     onSave(updatedCategory);
@@ -45,11 +45,11 @@ const CategoryPopup = ({ category, onClose, onSave }) => {
               <input
                 type="text"
                 className="form-control"
-                value={label}
+                value={name}
                 onChange={handleLabelChange}
               />
-              {errors.label && (
-                <div className="error-message">{errors.label}</div>
+              {errors.name && (
+                <div className="error-message">{errors.name}</div>
               )}
             </div>
             <div className="popup-buttons">
