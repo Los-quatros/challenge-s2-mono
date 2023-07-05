@@ -23,71 +23,26 @@ const setToast = (message, type) => {
 	});
 };
 
-/**
- * Reset and set active link in li element
- * @param { string } name Account menu name
- */
-const resetAndSetActiveLink = (name) => {
-	document
-		.querySelector(".list-unstyled")
-		.querySelectorAll("li")
-		.forEach((li) => li.classList.remove("active"));
-	document.querySelector(`#account-${name}`).classList.add("active");
-};
-
-function OrdersPage() {
+function OrdersPage({ role }) {
 	const { name } = useParams();
 	const [selectedOrder, setSelectedOrder] = useState(null);
 	const [returnReason, setReturnReason] = useState("");
 	const [orders, setOrders] = useState([]);
 	const [sales, setSales] = useState([]);
 	const [selectedProducts, setSelectedProducts] = useState([]);
-	const [userRole, setUserRole] = useState("user");
 
 	useEffect(() => {
-		resetAndSetActiveLink(name);
-	}, [name]);
-
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-			})
-			.then((data) => {
-				if (data) {
-					const role = (data && data.roles) || "user";
-					setUserRole(role);
-					if (role === "admin") {
-						return;
-					} else if (role === "seller") {
-						initSalesSeller();
-					} else {
-						initOrdersUser();
-					}
+		document
+			.querySelector(`#account-menu`)
+			.querySelectorAll("li")
+			.forEach((li) => {
+				if (li.id === `account-${name}`) {
+					li.classList.add("active");
 				} else {
-					setToast(
-						"Une erreur est survenue lors de la récupération de vos informations",
-						"error"
-					);
+					li.classList.remove("active");
 				}
-			})
-			.catch(() =>
-				setToast(
-					"Une erreur est survenue lors de la récupération de vos informations",
-					"error"
-				)
-			);
-	}, []);
+			});
+	}, [name]);
 
 	/**
 	 * Submit return request on selected order
@@ -410,7 +365,7 @@ function OrdersPage() {
 							</div>
 						</div>
 				  ))
-				: userRole === "user" && (
+				: role === "user" && (
 						<div className="text-center mt-5">
 							<h3>Aucune commande à afficher.</h3>
 							<p>Vous n'avez passé aucune commande pour le moment.</p>
@@ -464,7 +419,7 @@ function OrdersPage() {
 							</div>
 						</div>
 				  ))
-				: userRole === "seller" && (
+				: role === "seller" && (
 						<div className="text-center mt-5">
 							<h3>Aucune vente à afficher</h3>
 							<p>Vous n'avez effectué aucune vente pour le moment.</p>

@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 
 const $ = window.$;
@@ -24,68 +23,23 @@ const setToast = (message, type) => {
 	});
 };
 
-/**
- * Reset and set active link in li element
- * @param { string } name Account menu name
- */
-const resetAndSetActiveLink = (name) => {
-	document
-		.querySelector("#navbarSupportedContent #navbar")
-		.querySelectorAll("li")
-		.forEach((li) => {
-			if (li.classList.contains("active") && li.id !== `account-${name}`) {
-				li.classList.remove("active");
-			} else {
-				if (li.id === `account-${name}`) {
-					li.classList.add("active");
-				}
-			}
-		});
-};
-
-function SidebarPage() {
+function SidebarPage({ role }) {
 	const navigate = useNavigate();
 	const { name } = useParams();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [userRole, setUserRole] = useState("user");
 
 	useEffect(() => {
-		resetAndSetActiveLink(name);
-	}, [name]);
-
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-			})
-			.then((data) => {
-				if (data) {
-					const role = (data && data.roles) || "user";
-					setUserRole(role);
+		document
+			.querySelector(`#navbar`)
+			.querySelectorAll("li")
+			.forEach((li) => {
+				if (li.id === `account-${name}`) {
+					li.classList.add("active");
 				} else {
-					setToast(
-						"Une erreur est survenue lors de la récupération de vos informations",
-						"error"
-					);
+					li.classList.remove("active");
 				}
-			})
-			.catch(() =>
-				setToast(
-					"Une erreur est survenue lors de la récupération de vos informations",
-					"error"
-				)
-			);
-	}, []);
+			});
+	}, [name]);
 
 	/**
 	 * Toggle menu
@@ -145,14 +99,14 @@ function SidebarPage() {
 								Mes commandes
 							</Link>
 						</li>
-						{userRole === "user" && (
+						{role === "user" && (
 							<li className="nav-item addresses" id="account-addresses">
 								<Link to="../../account/addresses" className="nav-link">
 									Mes adresses
 								</Link>
 							</li>
 						)}
-						{userRole === "seller" && (
+						{role === "seller" && (
 							<li className="nav-item products" id="account-products">
 								<Link to="../../account/products" className="nav-link">
 									Mes produits
@@ -164,7 +118,7 @@ function SidebarPage() {
 								Mes retours
 							</Link>
 						</li>
-						<li className="nav-item">
+						<li className="nav-item logout" id="account-logout">
 							<Link className="nav-link" onClick={logout}>
 								Déconnexion
 							</Link>

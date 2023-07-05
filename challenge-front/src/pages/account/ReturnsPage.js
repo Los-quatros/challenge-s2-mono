@@ -6,18 +6,6 @@ import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 
 /**
- * Reset and set active link in li element
- * @param { string } name Account menu name
- */
-const resetAndSetActiveLink = (name) => {
-	document
-		.querySelector(".list-unstyled")
-		.querySelectorAll("li")
-		.forEach((li) => li.classList.remove("active"));
-	document.querySelector(`#account-${name}`).classList.add("active");
-};
-
-/**
  * Display toast message
  * @param { String } message Toast message
  * @param { String } type Toast type
@@ -35,56 +23,30 @@ const setToast = (message, type) => {
 	});
 };
 
-function ReturnsPage() {
+function ReturnsPage({ role }) {
 	const { name } = useParams();
 	const [returns, setReturns] = useState([]);
-	const [userRole, setUserRole] = useState("user");
 
 	useEffect(() => {
-		resetAndSetActiveLink(name);
+		document
+			.querySelector(`#account-menu`)
+			.querySelectorAll("li")
+			.forEach((li) => {
+				if (li.id === `account-${name}`) {
+					li.classList.add("active");
+				} else {
+					li.classList.remove("active");
+				}
+			});
 	}, [name]);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-			})
-			.then((data) => {
-				if (data) {
-					const role = (data && data.roles) || "user";
-					setUserRole(role);
-					if (role === "admin") {
-						return;
-					} else if (role === "seller") {
-						initSellerReturns();
-					} else {
-						initUserReturns();
-					}
-				} else {
-					setToast(
-						"Une erreur est survenue lors de la récupération de vos informations",
-						"error"
-					);
-				}
-			})
-			.catch(() =>
-				setToast(
-					"Une erreur est survenue lors de la récupération de vos informations",
-					"error"
-				)
-			);
-	}, []);
-
+		if (role === "user") {
+			initUserReturns();
+		} else if (role === "seller") {
+			initSellerReturns();
+		}
+	}, [role]);
 	/**
 	 * Initialize user returns data
 	 */
@@ -196,7 +158,7 @@ function ReturnsPage() {
 	return (
 		<div className="container p-0">
 			{returns.length === 0 ? (
-				userRole === "user" ? (
+				role === "user" ? (
 					<div className="text-center mt-5">
 						<h3>Aucun retour de commande.</h3>
 						<p>

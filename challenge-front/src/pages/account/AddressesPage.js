@@ -22,18 +22,6 @@ const setToast = (message, type) => {
 	});
 };
 
-/**
- * Reset and set active link in li element
- * @param { string } name Account menu name
- */
-const resetAndSetActiveLink = (name) => {
-	document
-		.querySelector(".list-unstyled")
-		.querySelectorAll("li")
-		.forEach((li) => li.classList.remove("active"));
-	document.querySelector(`#account-${name}`).classList.add("active");
-};
-
 function AddressesPage() {
 	const [addresses, setAddresses] = useState([]);
 	const { name } = useParams();
@@ -98,7 +86,16 @@ function AddressesPage() {
 	};
 
 	useEffect(() => {
-		resetAndSetActiveLink(name);
+		document
+			.querySelector(`#account-menu`)
+			.querySelectorAll("li")
+			.forEach((li) => {
+				if (li.id === `account-${name}`) {
+					li.classList.add("active");
+				} else {
+					li.classList.remove("active");
+				}
+			});
 	}, [name]);
 
 	useEffect(() => {

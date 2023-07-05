@@ -137,7 +137,7 @@ export class ProductsService {
 
     async getSellerProducts(sellerId : string) : Promise<Array<Product>> {
         try {
-            return await this.productsRepository.findBy({sellerId : sellerId})
+            return await this.productsRepository.findBy({sellerId : sellerId, isActivated : true})
         }catch(error){
             throw new HttpException({
                 status : HttpStatus.INTERNAL_SERVER_ERROR,
