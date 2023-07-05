@@ -63,9 +63,9 @@ export class ProductsController {
     return this.productsService.CreateCategory(body.name);
   }
 
-  @Delete('/categories/:id')
-  @AuthenticationRequired()
-  @HasRole(Role.SELLER)
+  //@Delete('/categories/:id')
+  // @AuthenticationRequired()
+  // @HasRole(Role.SELLER)
   @Get('/sellers/:id')
   async GetSellerProducts(@Param() idSeller: string) {
     return this.productsService.GetSellerProducts(idSeller['id']);

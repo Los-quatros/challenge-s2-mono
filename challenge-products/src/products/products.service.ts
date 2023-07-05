@@ -81,7 +81,10 @@ export class ProductsService {
 
     async getAllProductsAdmin() : Promise<Product[] | any> {
         try{
-            return await this.productsRepository.find();
+            return await this.productsRepository.find({
+                where : {isActivated : true},
+                relations: ['category']
+            });
         } catch(error) {
             return {
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -92,7 +95,10 @@ export class ProductsService {
 
     async getProductById(value : string) : Promise<Product>{
         try {
-            const product = await this.productsRepository.findOneBy({id : value, isActivated : true })
+            const product = await this.productsRepository.findOne({
+                where : {id : value, isActivated : true },
+                relations: ['category'],
+            })
             return product;
         } catch(error){
             throw new HttpException({
@@ -167,7 +173,10 @@ export class ProductsService {
 
     async getSellerProducts(sellerId : string) : Promise<Array<Product>> {
         try {
-            return await this.productsRepository.findBy({sellerId : sellerId})
+            return await this.productsRepository.find({
+                where : {sellerId : sellerId},
+                relations: ['category']
+            })
         }catch(error){
             throw new HttpException({
                 status : HttpStatus.INTERNAL_SERVER_ERROR,
