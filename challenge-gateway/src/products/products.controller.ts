@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
@@ -32,7 +31,6 @@ export class ProductsController {
 
   @Get()
   async GetAllProducts() {
-    console.log("hello")
     return this.productsService.GetAllProducts();
   }
 
