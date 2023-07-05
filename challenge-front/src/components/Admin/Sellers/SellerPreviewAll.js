@@ -65,7 +65,7 @@ const SellerPreviewAll = () => {
             " card-title d-flex justify-content-between"
           }
         >
-          <h4>Tous les vendeurs </h4>
+          <h4>Liste des vendeurs </h4>
         </div>
         {isLoading ? (
           <div className="d-flex justify-content-center align-items-center">

@@ -50,7 +50,7 @@ const ProductPreviewAll = () => {
   };
 
   return (
-    <div className="col-lg-8">
+    <div className="col-lg-12">
       <div className={styles.card + " card"} style={{ height: "500px" }}>
         <div
           className={
@@ -60,7 +60,7 @@ const ProductPreviewAll = () => {
             " card-title d-flex justify-content-between"
           }
         >
-          <h4>Tous les produits </h4>
+          <h4>Liste des produits </h4>
 
           <button
             className="btn btn-dark"

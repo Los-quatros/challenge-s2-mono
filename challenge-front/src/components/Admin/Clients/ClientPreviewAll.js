@@ -54,7 +54,7 @@ const ClientPreviewAll = () => {
             " card-title d-flex justify-content-between"
           }
         >
-          <h4>Tous les clients </h4>
+          <h4>Liste des clients </h4>
         </div>
         {isLoading ? (
           <div className="d-flex justify-content-center align-items-center">

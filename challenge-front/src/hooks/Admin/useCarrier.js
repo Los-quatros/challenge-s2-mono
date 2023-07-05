@@ -49,6 +49,9 @@ const useCarrier = () => {
 
   const saveCarrier = async (carrier) => {
     const response = await saveCarrierMutation.mutateAsync(carrier);
+    if (response !== 200 || response !== 201) {
+      throw new Error();
+    }
     queryClient.invalidateQueries("carriers");
     return response;
   };

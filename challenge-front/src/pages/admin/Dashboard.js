@@ -8,9 +8,11 @@ import ReturnPreviewAll from "../../components/Admin/Returns/ReturnPreviewAll";
 import CarrierPreviewAll from "../../components/Admin/Carriers/CarrierPreviewAll";
 import ClientPreviewAll from "../../components/Admin/Clients/ClientPreviewAll";
 import SellerPreviewAll from "../../components/Admin/Sellers/SellerPreviewAll";
+import CategoryPreviewAll from "../../components/Admin/Categories/CategoryPreviewAll";
 import useClient from "../../hooks/Admin/useClient";
 import useSeller from "../../hooks/Admin/useSeller";
 import useCarrier from "../../hooks/Admin/useCarrier";
+import useCategory from "../../hooks/Admin/useCategory";
 const Dashboard = () => {
   const { users } = useClient();
   const { sellers } = useSeller();
@@ -125,9 +127,10 @@ const Dashboard = () => {
                 <OrderPreviewAll />
                 <ReturnPreviewAll />
                 <ProductPreviewAll />
-                <CarrierPreviewAll />
                 <ClientPreviewAll />
                 <SellerPreviewAll />
+                <CategoryPreviewAll />
+                <CarrierPreviewAll />
               </div>
             </section>
           </div>

@@ -54,7 +54,7 @@ const CarrierPreviewAll = () => {
   };
 
   return (
-    <div className="col-lg-4">
+    <div className="col-lg-6">
       <div className={styles.card + " card"} style={{ height: "500px" }}>
         <div
           className={
@@ -64,7 +64,14 @@ const CarrierPreviewAll = () => {
             " card-title d-flex justify-content-between"
           }
         >
-          <h4>Tous les transporteurs </h4>
+          <h4>Liste des transporteurs </h4>
+          <button
+            className="btn btn-dark"
+            onClick={() => openPopup({})}
+            style={{ height: "40px" }}
+          >
+            Ajouter
+          </button>
         </div>
         {isLoading ? (
           <div className="d-flex justify-content-center align-items-center">
