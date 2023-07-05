@@ -395,6 +395,23 @@ progress {
   transition: all 200ms ease;
 }
 
+.products_button {
+  position: relative;
+  margin-top: 10px;
+}
+
+.products_button span {
+  display: block;
+  position: relative;
+  color: #1b1b1b;
+  z-index: 2;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
 .button {
   width: 178px;
   height: 61px;
@@ -452,6 +469,10 @@ progress {
 }
 
 .addresses_button:hover span {
+  color: #FFFFFF;
+}
+
+.products_button:hover span {
   color: #FFFFFF;
 }
 
@@ -2369,7 +2390,7 @@ pre code {
 .form-control {
   display: block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
+  height: calc(1.9em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -4500,7 +4521,7 @@ input[type="button"].btn-block {
 .custom-select {
   display: inline-block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
+  height: calc(1.9em + 0.75rem + 2px);
   padding: 0.375rem 1.75rem 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -4564,7 +4585,7 @@ input[type="button"].btn-block {
   position: relative;
   display: inline-block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
+  height: calc(1.9em + 0.75rem + 2px);
   margin-bottom: 0;
 }
 
@@ -4572,7 +4593,7 @@ input[type="button"].btn-block {
   position: relative;
   z-index: 2;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
+  height: calc(1.9em + 0.75rem + 2px);
   margin: 0;
   opacity: 0;
 }
@@ -4601,7 +4622,7 @@ input[type="button"].btn-block {
   right: 0;
   left: 0;
   z-index: 1;
-  height: calc(1.5em + 0.75rem + 2px);
+  height: calc(1.9em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-weight: 400;
   line-height: 1.5;

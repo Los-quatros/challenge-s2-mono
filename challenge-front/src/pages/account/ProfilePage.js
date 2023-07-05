@@ -126,14 +126,14 @@ function ProfilePage() {
 					setEmail(data.email);
 				} else {
 					setToast(
-						"Une erreur est survenue lors de la récupération des données",
+						"Une erreur est survenue lors de la récupération de vos données",
 						"error"
 					);
 				}
 			})
 			.catch(() => {
 				setToast(
-					"Une erreur est survenue lors de la récupération des données",
+					"Une erreur est survenue lors de la récupération de vos données",
 					"error"
 				);
 			});
