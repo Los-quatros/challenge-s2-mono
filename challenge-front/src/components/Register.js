@@ -22,39 +22,7 @@ const setToast = (message, type) => {
 	});
 };
 
-
 function Register() {
-	const [selectedFile, setSelectedFile] = useState(null);
-	const [fileError, setFileError] = useState("");
-	
-	const handleFileChange = (event) => {
-		const file = event.target.files[0];
-		setSelectedFile(file);
-	};
-	
-	const handleFileUpload = () => {
-		if (selectedFile) {
-		  const formData = new FormData();
-		  formData.append("file", selectedFile);
-	  
-		  fetch("http://localhost:4000/images/upload", {
-			method: "POST",
-			body: formData,
-		  })
-			.then((response) => {
-			  if (response.status === 200) {
-				setToast("Fichier téléchargé avec succès", "success");
-			  } else {
-				setToast("Une erreur est survenue lors du téléchargement du fichier", "error");
-			  }
-			})
-			.catch(() => {
-			  setToast("Une erreur est survenue lors du téléchargement du fichier", "error");
-			});
-		} else {
-		  setFileError("Aucun fichier sélectionné");
-		}
-	  };
 	const navigate = useNavigate();
 	const [isVisible, setIsVisible] = useState(false);
 	const [email, setEmail] = useState("");
@@ -167,7 +135,6 @@ function Register() {
 					shopError === "" &&
 					shopDescriptionError === "")
 			) {
-				handleFileUpload();
 				fetch("http://localhost:4000/users/sellers", {
 					method: "POST",
 					headers: {
@@ -206,7 +173,6 @@ function Register() {
 				emailError === "" &&
 				passwordError === ""
 			) {
-				handleFileUpload();
 				fetch("http://localhost:4000/users", {
 					method: "POST",
 					headers: {
@@ -370,19 +336,12 @@ function Register() {
 								{passwordError}
 							</div>
 						)}
-
-						<div className="wrap-input100 validate-input">
-						<input type="file" onChange={handleFileChange} />
-						</div>
-						{fileError && <div className="text-danger">{fileError}</div>}
-						
 						<div className="container-login100-form-btn">
 							<div className="wrap-login100-form-btn">
 								<div className="login100-form-bgbtn"></div>
 								<button className="login100-form-btn">S'enregistrer</button>
 							</div>
 						</div>
-						
 						<div className="text-center p-t-35">
 							<span className="txt1">Déjà un compte ?</span>
 							<Link className="txt2 ml-1" to="/login">
