@@ -28,7 +28,7 @@ export class ProductsController {
 
     @EventPattern("getProduct")
     async getProductById(@Payload() productId : string) : Promise<Product>{
-        return this.productService.getProductById(productId['value']);
+        return this.productService.getProductById(productId);
     }
 
     @EventPattern('UpdateProduct')

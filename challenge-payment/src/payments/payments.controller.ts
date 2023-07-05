@@ -16,14 +16,14 @@ export class PaymentsController {
 
   @EventPattern('create-stripe-session')
   async createCheckoutSession(@Payload() data :any) {
-    const session = await this.paymentsService.createCheckoutSession(data['data']);
+    const session = await this.paymentsService.createCheckoutSession(data['data'][0]);
     return { data : session };
 
   }
 
   @EventPattern('payment-success')
   async handlePaymentSuccess(idOrder: string) { 
-    this.paymentsService.UpdatesAfterPaymentValidation(idOrder);
+    await this.paymentsService.UpdatesAfterPaymentValidation(idOrder);
     return 'payment successed';
   }
 

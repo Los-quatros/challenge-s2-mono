@@ -13,6 +13,7 @@ export class PaymentService {
     return await lastValueFrom(
       this.paymentProxy.send('create-stripe-session', { data}),
     );
+    
   }
 
   async paymentValidated(idOrder : string){

@@ -181,6 +181,7 @@ export class OrdersService {
           total : order.total
         };
       }catch(error){
+
         throw new HttpException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
           error: 'Error while fetching user id by order id',

@@ -18,7 +18,7 @@ export class ProductsService {
   }
 
   async GetProductById(value: string): Promise<any> {
-    return this.productsProxy.send('getProduct', { value });
+    return this.productsProxy.send('getProduct',  value );
   }
 
   async UpdateProduct(productId: string, data: UpdateProductDto) {

@@ -19,7 +19,7 @@ export class PaymentsService {
 
   
   async createCheckoutSession(data : any) {
-    const result = data['data'][0]
+    const result = data;
     const orderCarrier = result.carrier
     const items = result.products
     const productsForStripe = []
@@ -59,36 +59,29 @@ export class PaymentsService {
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: `https://localhost:4000/payments/success/${result.id}`,
+        success_url: `https://localhost:4000/payments/success/${result.orderId}`,
         cancel_url: 'https://localhost:4000/payments/cancel',
       });
     
-    let test = this.UpdatesAfterPaymentValidation(data);
     return { sessionId: session.id, result };
   }
 
   async UpdatesAfterPaymentValidation(idOrder : string){
-    // mark order as paid
-    await this.ordersService.validateOrder(idOrder);
+    await this.ordersService.validateOrder(idOrder['idOrder']);
     let orderProducts : Array<any> = [];
     try {
-      orderProducts = await this.ordersService.getProductsOrder(idOrder);
+      orderProducts = await this.ordersService.getProductsOrder(idOrder['idOrder']);
     }catch(error){
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    // update products quantity
-      // build update products quantity model
-      const modelForUpdate : Array<ProductUpdate> = orderProducts.map(orderProduct => {
+    const modelForUpdate : Array<ProductUpdate> = orderProducts.map(orderProduct => {
           return new ProductUpdate(orderProduct['product_id'], orderProduct['quantity']);
       });
     this.productsService.UpdateStockProduct(new UpdateProductsQuantityDto(modelForUpdate));
 
-    // build object for email template and trigger event to send the email
-      // get the user id from the orderId, and send request to userService to retreive email of the user (get user by id)
-      const userIdAndTotal : string = await this.ordersService.getUserIdAndTotalFromOrderId(idOrder);
+      const userIdAndTotal : string = await this.ordersService.getUserIdAndTotalFromOrderId(idOrder['idOrder']);
       const email : string = await this.usersService.getUserEmail(userIdAndTotal['userId']);
       const orderTotal : number = userIdAndTotal['total'];
-      // get every products with the id_product in orderProduct and build an object with the quantity, the product name, product price
       const products : Array<Object> = await Promise.all(orderProducts.map(async orderProduct => {
         const product  = await this.productsService.getProductById(orderProduct['product_id']);
         return {
@@ -97,17 +90,14 @@ export class PaymentsService {
           quantity : orderProduct['product_id']
         }
       }));
-      // send email to confirm order
-      this.mailsService.SendEmailForOrderConfirmation({
-        orders : {
+      await this.mailsService.SendEmailForOrderConfirmation({
+        order : {
           products: products,
           total : orderTotal  
         },
         email : email
       });
       
-      // build the objetc and send it 
-      //this.mailsService.SendEmailForOrderConfirmation();
     return ;
   }
 

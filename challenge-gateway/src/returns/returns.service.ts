@@ -113,7 +113,6 @@ export class ReturnsService {
         const user : UserDto = await lastValueFrom(
             await this.usersService.getUser(elm['userId'])
         );
-        console.log(user);
         return new ReturnsResponseDto(
           elm['id'],
           elm['reason'],

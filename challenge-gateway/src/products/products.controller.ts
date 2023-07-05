@@ -37,7 +37,7 @@ export class ProductsController {
 
   @Get('/:id')
   async GetProductById(@Param() productId: string) {
-    return this.productsService.GetProductById(productId);
+    return this.productsService.GetProductById(productId['id']);
   }
 
   @AuthenticationRequired()

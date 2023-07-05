@@ -6,6 +6,6 @@ export class MailsService {
     constructor(@Inject('MAILS_SERVICE') private readonly mailClient: ClientProxy) {}
     
     async SendEmailForOrderConfirmation(data : Object){
-        return this.mailClient.send('orderMail', data);
+        return this.mailClient.emit('orderMail', data);
     }
 }

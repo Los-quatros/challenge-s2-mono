@@ -16,7 +16,7 @@ export class PaymentController {
     return await this.paymentService.createCheckoutSession(data['idorder']);
   }
 
-  @Post()
+  @Post('/success/:idOrder')
   async paymentValidated(@Param() idOrder : string){
     return await this.paymentService.paymentValidated(idOrder);
   }
