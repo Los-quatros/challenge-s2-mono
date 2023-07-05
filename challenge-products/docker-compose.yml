@@ -16,7 +16,6 @@ services:
   products-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
-    restart: always
     ports:
       - 3003:3000
     environment:
@@ -34,7 +33,6 @@ services:
       - challenge-network
   adminer:
     image: adminer
-    restart: always
     ports:
       - 8082:8080
     networks:

@@ -16,7 +16,6 @@ services:
   payments-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
-    restart: always
     ports:
       - 3002:3000
     environment:
@@ -35,7 +34,6 @@ services:
 
   adminer:
     image: adminer
-    restart: always
     ports:
       - 8083:8080
 
