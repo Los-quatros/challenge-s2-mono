@@ -1,8 +1,8 @@
-import { ToastContainer, toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import cartPageBackground from "../assets/images/cart/cart.png";
+import { toast } from "react-toastify";
 // import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +24,7 @@ const setToast = (message, type) => {
 	});
 };
 
-function CartPage() {
+function CartPage({ handleClearCart }) {
 	const [products, setProducts] = useState([]);
 	const [deliveryMode, setDeliveryMode] = useState("free");
 	const [subtotal, setSubtotal] = useState(0);
@@ -180,6 +180,7 @@ function CartPage() {
 		setTotal(0);
 		setDeliveryMode("free");
 		setToast("Le panier a été vidé", "success");
+		handleClearCart();
 	};
 
 	/**
@@ -212,7 +213,6 @@ function CartPage() {
 
 	return (
 		<>
-			<ToastContainer />
 			<div className="home">
 				<div className="home_container">
 					<div

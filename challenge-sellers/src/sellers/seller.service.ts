@@ -81,19 +81,29 @@ export class SellerService {
     };
   }
 
-  async activeSeller(id: string): Promise<Seller> {
-    const seller = await this.sellerModel.findOne({ id: id });
-    seller.isActive = true;
-    seller.save();
-
-    return seller;
+  async activeSeller(id: string): Promise<Seller | any> {
+    try {
+      const seller = await this.sellerModel.findOne({ id: id });
+      seller.isActive = true;
+      seller.save();
+      return seller;
+    } catch (error) {
+      return {
+        error: "Le vendeur n'existe pas",
+      };
+    }
   }
 
-  async refuseSeller(id: string): Promise<Seller> {
-    const seller = await this.sellerModel.findOne({ id: id });
-    seller.isActive = false;
-    seller.save();
-
-    return seller;
+  async refuseSeller(id: string): Promise<Seller | any> {
+    try {
+      const seller = await this.sellerModel.findOne({ id: id });
+      seller.isActive = false;
+      seller.save();
+      return seller;
+    } catch (error) {
+      return {
+        error: "Le vendeur n'existe pas",
+      };
+    }
   }
 }

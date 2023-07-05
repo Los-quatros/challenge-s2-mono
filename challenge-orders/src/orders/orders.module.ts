@@ -10,7 +10,7 @@ import { OrdersService } from './orders.service';
   imports: [TypeOrmModule.forFeature([Order, OrderProduct]), 
   ClientsModule.register([
     {
-      name : "PRODUCTS_SERVICE",
+      name : "ORDERS_SERVICE",
       transport: Transport.RMQ,
       options: {
         urls: ['amqp://rmq-service:5672'],

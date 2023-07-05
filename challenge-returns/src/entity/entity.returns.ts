@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Returns {
     @PrimaryGeneratedColumn("uuid")
     id : string;
 
-    @Column()
+    @Column('decimal', { precision: 6, scale: 2 })
     total : number;
 
     @Column()
@@ -20,6 +20,9 @@ export class Returns {
 
     @Column()
     userId : string;
+
+    @CreateDateColumn({nullable : true})
+    createdAt: Date;
 
     getOrderProductIds(): string[] {
         return this.orderProducts.split(';');

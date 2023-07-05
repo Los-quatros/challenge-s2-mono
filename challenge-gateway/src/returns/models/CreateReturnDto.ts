@@ -1,17 +1,15 @@
+import { ArrayMinSize, IsDefined } from 'class-validator';
+export class CreateOrderProductForReturnDto {
+  @IsDefined()
+  id_product: string;
 
-import { IsDefined, MinLength } from "class-validator";
-export class CreateOrderProductDto {
-
-    @IsDefined()
-    id_product : string;
-
-    @IsDefined()
-    quantity : number;
+  @IsDefined()
+  nbItemReturned: number;
 }
 
 export class CreateReturnDto {
-
-    products : Array<CreateOrderProductDto>;
-    reason : string;
-    total : number;
+  @ArrayMinSize(1)
+  orderProducts: Array<CreateOrderProductForReturnDto>;
+  reason: string;
+  total: number;
 }
