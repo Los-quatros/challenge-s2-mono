@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDateColumn } from 'typeorm';
 import { OrderProduct } from './orderProduct.entity';
 import { Exclude, Expose } from 'class-transformer';
 @Entity()
@@ -6,7 +6,7 @@ export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('decimal', {default : 0})
     total: number;
 
     @Column({ default : false})
@@ -26,7 +26,10 @@ export class Order {
 
     @Column({default : null})
     orderProducts : string
-
+    
+    @CreateDateColumn({nullable : true})
+    createdAt: Date;
+    
     getOrderProductIds(): string[] {
         return this.orderProducts.split(';');
     }

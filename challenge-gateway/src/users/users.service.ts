@@ -50,7 +50,7 @@ export class UsersService {
   }
 
   async deleteUser(id: string) {
-    this.usersProxy.send('deleteUser', id);
+    return lastValueFrom(this.usersProxy.send('deleteUser', id));
   }
 
   async login(body: LoginRequest) {

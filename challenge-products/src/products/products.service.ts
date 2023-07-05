@@ -24,14 +24,15 @@ export class ProductsService {
             productToPersist.description = product['description'];
             productToPersist.label = product['label'];
             productToPersist.price = product['price'];
-            productToPersist.quantity = product['quantity']
-            productToPersist.sellerId = product['idSeller'] ? null : product['idSeller'];
+            productToPersist.quantity = product['quantity'];
+            if(product['idSeller']) {
+                productToPersist.sellerId = product['idSeller'];
+            }
             productToPersist.category = categoryProduct;
-
+            productToPersist.image = product['idImage'];
             const result = await this.productsRepository.save(productToPersist);
             return result;
         } catch (error) {
-            console.log(error)
            throw new HttpException({
              status: HttpStatus.INTERNAL_SERVER_ERROR,
              error: 'Error while creating product',
@@ -53,7 +54,7 @@ export class ProductsService {
                 actualProduct.quantity = actualProduct.quantity -  product['quantity'];
                 let productUpdated = await this.productsRepository.save(actualProduct);
                 result.push(productUpdated);
-                
+
             } catch(error) {
                 throw new HttpException({
                     status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -66,12 +67,23 @@ export class ProductsService {
 
     async getAllProducts() : Promise<Product[]> {
         try{
-            return await this.productsRepository.find();
+            return await this.productsRepository.find({where : {isActivated : true}});
         } catch(error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
                 error: 'Error while fetching all products',
             }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    async getAllProductsAdmin() : Promise<Product[] | any> {
+        try{
+            return await this.productsRepository.find();
+        } catch(error) {
+            return {
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                error: 'Error lors de la récupération des produits',
+            }
         }
     }
 
@@ -82,14 +94,14 @@ export class ProductsService {
         } catch(error){
             throw new HttpException({
               status : HttpStatus.INTERNAL_SERVER_ERROR,
-              error : 'Error while fetching products by ids',  
+              error : 'Error while fetching products by ids',
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     async updateProduct(productId : string, data : UpdateProductDto) {
         try {
-            const updateObject: Partial<Product> = {}; 
+            const updateObject: Partial<Product> = {};
             if (data['label']) {
             updateObject.label = data['label'];
             }
@@ -113,13 +125,12 @@ export class ProductsService {
             if(data['isActivated'] != undefined) {
                 updateObject.isActivated = data['isActivated'];
             }
-            console.log(updateObject);
 
             return await this.productsRepository.update({id : productId}, updateObject);
         }catch(error) {
             throw new HttpException({
                 status : HttpStatus.INTERNAL_SERVER_ERROR,
-                error : 'Error while updating product',  
+                error : 'Error while updating product',
               }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -130,10 +141,26 @@ export class ProductsService {
         }catch(error) {
             throw new HttpException({
                 status : HttpStatus.INTERNAL_SERVER_ERROR,
-                error : 'Error while fetching categories',  
+                error : 'Error while fetching categories',
               }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    async createCategory(category : string) : Promise<Category | any> {
+        try {
+            const categoryToPersist = new Category();
+            categoryToPersist.name = category;
+
+            return await this.categoryRepository.save(categoryToPersist);
+        }catch(error) {
+            console.log(error);
+            return {
+                status : HttpStatus.INTERNAL_SERVER_ERROR,
+                error : 'Error while creating category',
+                }
+        }
+    }
+
 
     async getSellerProducts(sellerId : string) : Promise<Array<Product>> {
         try {
@@ -141,7 +168,7 @@ export class ProductsService {
         }catch(error){
             throw new HttpException({
                 status : HttpStatus.INTERNAL_SERVER_ERROR,
-                error : 'Error while fetching products seller',  
+                error : 'Error while fetching products seller',
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

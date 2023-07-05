@@ -6,26 +6,27 @@ import { CreateAddressDto } from './models/CreateAddressDto';
 
 @Injectable()
 export class AddressesService {
-    constructor(@Inject('ADDRESSES_SERVICE') private readonly addressesProxy: ClientProxy) {}
+  constructor(
+    @Inject('ADDRESSES_SERVICE') private readonly addressesProxy: ClientProxy,
+  ) {}
 
-    async CreateAddress(data : CreateAddressDto) {
-       return await this.addressesProxy.send('CreateAddress', {data})
-    }
+  async CreateAddress(data: CreateAddressDto) {
+    return await this.addressesProxy.send('CreateAddress', { data });
+  }
 
-    async GetUserAddresses(id : string) {
-        return await this.addressesProxy.send('GetUserAddresses', {id});
-    }
+  async GetUserAddresses(id: string) {
+    return await this.addressesProxy.send('GetUserAddresses', { id });
+  }
 
-    async DeleteAddress(id : string) {
-        return await this.addressesProxy.send('DeleteAddress', {id});
-    }
+  async DeleteAddress(id: string) {
+    return await this.addressesProxy.send('DeleteAddress', { id });
+  }
 
-    async ChangeAddress(idAddress : string, data : ChangeAddressDto) {
-        return await this.addressesProxy.send('ChangeAddress', {data, idAddress});
-    }
+  async ChangeAddress(idAddress: string, data: ChangeAddressDto) {
+    return await this.addressesProxy.send('ChangeAddress', { data, idAddress });
+  }
 
-    async GetAddressById(idAddress : string) : Promise<any> {
-        return this.addressesProxy.send('GetAddressById', { idAddress });
-    }
-
+  async GetAddressById(idAddress: string): Promise<any> {
+    return this.addressesProxy.send('GetAddressById', { idAddress });
+  }
 }

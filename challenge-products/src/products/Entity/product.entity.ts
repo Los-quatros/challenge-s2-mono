@@ -10,7 +10,7 @@ export class Product {
     label: string;
     @Column()
     description: string;
-    @Column()
+    @Column('decimal', {default : 0})
     price: number;
     @Column()
     quantity: number;
@@ -21,4 +21,6 @@ export class Product {
     sellerId?: string;
     @Column({ default : true})
     isActivated : boolean;
+    @Column({nullable : true})
+    image : string;
 }

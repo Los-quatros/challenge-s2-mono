@@ -5,4 +5,5 @@ export class CreateProductDto {
     quantity : number;
     category : string;
     idSeller? : string;
+    idImage? : string;
 }

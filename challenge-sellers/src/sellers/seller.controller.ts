@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  ValidationPipe,
+} from '@nestjs/common';
 import { SellerService } from './seller.service';
 import { Seller } from '../schema/sellers.model';
 import { CreateSellerDto, UpdateSellerDto } from './dto/sellers.dto';
@@ -22,19 +31,22 @@ export class SellerController {
 
   @EventPattern('updateSeller')
   async update(
-    @Payload() { id, updateSellerDto }: { id: string, updateSellerDto: UpdateSellerDto }, 
+    @Payload()
+    { id, updateSellerDto }: { id: string; updateSellerDto: UpdateSellerDto },
   ): Promise<Seller> {
     return await this.sellerService.update(id, updateSellerDto);
   }
 
   @EventPattern('create-seller')
-  async create(@Payload() createSellerDto: CreateSellerDto): Promise<CreateSellerDto> {
+  async create(
+    @Payload() createSellerDto: CreateSellerDto,
+  ): Promise<CreateSellerDto> {
     return await this.sellerService.create(createSellerDto);
   }
 
   @EventPattern('delete-seller')
   async delete(@Payload() id: string): Promise<void> {
-    await this.sellerService.remove(id);
+    return await this.sellerService.remove(id);
   }
 
   @EventPattern('checkIfSellerIsActif')
@@ -43,20 +55,19 @@ export class SellerController {
   }
 
   @EventPattern('createSellerAccount')
-  async createSellerAccount(@Payload() accountSellerDto: AccountSellerDto): Promise<CreateSellerDto> {
+  async createSellerAccount(
+    @Payload() accountSellerDto: AccountSellerDto,
+  ): Promise<CreateSellerDto> {
     return await this.sellerService.createSellerAccount(accountSellerDto);
   }
 
   @EventPattern('activeSeller')
   async activeSeller(@Payload() id: string): Promise<Seller> {
-   return await this.sellerService.activeSeller(id);
+    return await this.sellerService.activeSeller(id);
   }
 
   @EventPattern('refuseSeller')
   async refuseSeller(@Payload() id: string): Promise<Seller> {
     return await this.sellerService.refuseSeller(id);
   }
-  
-
-  
 }

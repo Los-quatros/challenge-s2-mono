@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Address {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({default : true, nullable : true})
     state: boolean;
 
     @Column()

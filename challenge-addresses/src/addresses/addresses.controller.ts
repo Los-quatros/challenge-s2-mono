@@ -11,7 +11,7 @@ export class AddressesController {
 
     @EventPattern("CreateAddress")
     async CreateAddress(@Payload() createAddressDto : CreateAddressDto) {
-        return this.addressesService.CreateAddress(createAddressDto['data']);   
+        return this.addressesService.CreateAddress(createAddressDto['data']);
     }
 
     @EventPattern("GetAddressById")

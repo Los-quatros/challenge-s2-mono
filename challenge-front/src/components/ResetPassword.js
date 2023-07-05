@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 import auth from "../assets/images/auth/auth.png";
+import { toast } from "react-toastify";
 
 /**
  * Display toast message
@@ -32,10 +32,14 @@ function ResetPassword() {
 		useState(false);
 	const [passwordError, setPasswordError] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
-	const handleClickPassword = () => setIsPasswordVisible(!isPasswordVisible);
 	const handleClickConfirmPassword = () =>
 		setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
 	const [token, setToken] = useState("");
+
+	/**
+	 * Handle state of password visibility
+	 */
+	const handleClickPassword = () => setIsPasswordVisible(!isPasswordVisible);
 
 	useEffect(() => {
 		if (password === "") {
@@ -103,87 +107,84 @@ function ResetPassword() {
 	};
 
 	return (
-		<>
-			<ToastContainer />
-			<div className="limiter">
-				<div className="container-login100">
-					<div className="wrap-login100">
-						<form
-							className="login100-form validate-form"
-							onSubmit={updatePassword}
-						>
-							<span className="login100-form-title p-b-26">Bienvenue !</span>
-							<Link to="/">
-								<span className="login100-form-title p-b-48">
-									<img src={auth} alt="Logo d'un marché" />
-								</span>
-							</Link>
-							<div className="wrap-input100 validate-input">
-								<span className="btn-show-pass" onClick={handleClickPassword}>
-									{isPasswordVisible ? (
-										<i className="fa fa-eye"></i>
-									) : (
-										<i className="fa fa-eye-slash"></i>
-									)}
-								</span>
-								<input
-									required
-									className="input100"
-									type={isPasswordVisible ? "text" : "password"}
-									name="pass"
-									placeholder="Nouveau mot de passe"
-									onInput={(event) => setPassword(event.target.value)}
-								/>
-								<span className="focus-input100"></span>
+		<div className="limiter">
+			<div className="container-login100">
+				<div className="wrap-login100">
+					<form
+						className="login100-form validate-form"
+						onSubmit={updatePassword}
+					>
+						<span className="login100-form-title p-b-26">Bienvenue !</span>
+						<Link to="/">
+							<span className="login100-form-title p-b-48">
+								<img src={auth} alt="Logo d'un marché" />
+							</span>
+						</Link>
+						<div className="wrap-input100 validate-input">
+							<span className="btn-show-pass" onClick={handleClickPassword}>
+								{isPasswordVisible ? (
+									<i className="fa fa-eye"></i>
+								) : (
+									<i className="fa fa-eye-slash"></i>
+								)}
+							</span>
+							<input
+								required
+								className="input100"
+								type={isPasswordVisible ? "text" : "password"}
+								name="pass"
+								placeholder="Nouveau mot de passe"
+								onInput={(event) => setPassword(event.target.value)}
+							/>
+							<span className="focus-input100"></span>
+						</div>
+						{passwordError !== "" && (
+							<div
+								className="text-danger"
+								style={{ marginTop: "-20px", marginBottom: "20px" }}
+							>
+								{passwordError}
 							</div>
-							{passwordError !== "" && (
-								<div
-									className="text-danger"
-									style={{ marginTop: "-20px", marginBottom: "20px" }}
-								>
-									{passwordError}
-								</div>
-							)}
-							<div className="wrap-input100 validate-input">
-								<span
-									className="btn-show-pass"
-									onClick={handleClickConfirmPassword}
-								>
-									{isConfirmPasswordVisible ? (
-										<i className="fa fa-eye"></i>
-									) : (
-										<i className="fa fa-eye-slash"></i>
-									)}
-								</span>
-								<input
-									required
-									className="input100"
-									type={isConfirmPasswordVisible ? "text" : "password"}
-									name="pass"
-									placeholder="Confirmation mot de passe"
-									onInput={(event) => setConfirmPassword(event.target.value)}
-								/>
-								<span className="focus-input100"></span>
+						)}
+						<div className="wrap-input100 validate-input">
+							<span
+								className="btn-show-pass"
+								onClick={handleClickConfirmPassword}
+							>
+								{isConfirmPasswordVisible ? (
+									<i className="fa fa-eye"></i>
+								) : (
+									<i className="fa fa-eye-slash"></i>
+								)}
+							</span>
+							<input
+								required
+								className="input100"
+								type={isConfirmPasswordVisible ? "text" : "password"}
+								name="pass"
+								placeholder="Confirmation mot de passe"
+								onInput={(event) => setConfirmPassword(event.target.value)}
+							/>
+							<span className="focus-input100"></span>
+						</div>
+						{confirmPasswordError !== "" && (
+							<div
+								className="text-danger"
+								style={{ marginTop: "-20px", marginBottom: "20px" }}
+							>
+								{confirmPasswordError}
 							</div>
-							{confirmPasswordError !== "" && (
-								<div
-									className="text-danger"
-									style={{ marginTop: "-20px", marginBottom: "20px" }}
-								>
-									{confirmPasswordError}
-								</div>
-							)}
-							<div className="container-login100-form-btn">
-								<div className="wrap-login100-form-btn">
-									<div className="login100-form-bgbtn"></div>
-									<button className="login100-form-btn">Mettre à jour</button>
-								</div>
+						)}
+						<div className="container-login100-form-btn">
+							<div className="wrap-login100-form-btn">
+								<div className="login100-form-bgbtn"></div>
+								<button className="login100-form-btn">Mettre à jour</button>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

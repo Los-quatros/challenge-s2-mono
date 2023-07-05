@@ -31,5 +31,5 @@ export class AddressesService {
     async ChangeAddress(data : ChangeAddressDto, idAddress : string) {
         return await this.addressesRepository.update({id : idAddress['id']}, {user_id : data['user_id'], city : data['city'], country : data['country'], zip : data['zip'], street : data['street']})
     }
-    
+
 }

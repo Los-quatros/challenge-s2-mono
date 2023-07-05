@@ -57,7 +57,7 @@ export class SellersController {
 
   @AuthenticationRequired()
   @HasRole(Role.ADMINISTRATOR)
-  @Patch(':id/deactivate')
+  @Patch(':id/desactivate')
   async deactivateSeller(@Param('id') id: string) {
     return await this.sellersService.deactivateSeller(id);
   }
