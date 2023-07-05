@@ -25,7 +25,6 @@ const ProductDetails = lazy(() =>
 // const { user, isA}
 const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
-
 const $ = window.$;
 
 window.$(function () {

@@ -91,7 +91,6 @@ export class OrdersService {
     ordersWithProducts = orders.filter((order) => {
       return order.orderId === orderCreated.id;
     });
-
     return this.paymentsService.createCheckoutSession(ordersWithProducts);
   }
 

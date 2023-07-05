@@ -12,5 +12,12 @@ export class OrdersService {
     async getProductsOrder(orderId: string) {
         return await lastValueFrom(this.ordersProxy.send('GetProductsOrder', orderId));
     }
+    async validateOrder(orderId : string) {
+        return this.ordersProxy.emit('ValidateOrder', orderId);
+    }
+
+    async getUserIdAndTotalFromOrderId(orderId : string) : Promise<string>{
+        return await lastValueFrom(this.ordersProxy.send('GetUserIdAndTotalFromOrder', orderId));
+    }
    
 }

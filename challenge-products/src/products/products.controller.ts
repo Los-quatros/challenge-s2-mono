@@ -18,7 +18,7 @@ export class ProductsController {
 
     @EventPattern("updateProductsQuantity")
     async updateProductQuantity(@Payload() updateProductQuantity : UpdateProductsQuantityDto){
-        return this.productService.updateProductsQuantity(updateProductQuantity['updateProductsQuantityDto']);
+        return this.productService.updateProductsQuantity(updateProductQuantity['productsToUpdate']);
     }
 
     @EventPattern("getAllProducts")
@@ -33,7 +33,7 @@ export class ProductsController {
 
     @EventPattern("getProduct")
     async getProductById(@Payload() productId : string) : Promise<Product>{
-        return this.productService.getProductById(productId['value']);
+        return this.productService.getProductById(productId);
     }
 
     @EventPattern('UpdateProduct')

@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { CreateProductDto } from './models/CreateProductDto';
 import { UpdateProductDto } from './models/UpdateProductDto';
-import { UpdateProductsQuantityDto } from './models/UpdateProductsQuantityDto';
 import { ProductsService } from './products.service';
 import {
   AuthenticationRequired,
@@ -31,23 +30,6 @@ export class ProductsController {
     return this.productsService.CreateProduct(product);
   }
 
-  @AuthenticationRequired()
-  @HasRole(Role.SELLER)
-  @Patch('/updateQuantity')
-  async UpdateProductQuantity(
-    @Body(new ValidationPipe({ transform: true }))
-    updateProductsQuantityDto: UpdateProductsQuantityDto,
-  ) {
-    return this.productsService.UpdateProductsQuantity(
-      updateProductsQuantityDto,
-    );
-  }
-
-  @Get('/admin/all')
-  async GetAllProductsAdmin() {
-    return this.productsService.GetAllProductsAdmin();
-  }
-
   @Get()
   async GetAllProducts() {
     return this.productsService.GetAllProducts();
@@ -55,7 +37,7 @@ export class ProductsController {
 
   @Get('/:id')
   async GetProductById(@Param() productId: string) {
-    return this.productsService.GetProductById(productId);
+    return this.productsService.GetProductById(productId['id']);
   }
 
   @AuthenticationRequired()

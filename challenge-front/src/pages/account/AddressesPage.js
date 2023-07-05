@@ -38,6 +38,9 @@ function AddressesPage() {
 	const [addresses, setAddresses] = useState([]);
 	const { name } = useParams();
 
+	/**
+	 * Get all addresses of the users
+	 */
 	const getAddresses = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
@@ -425,20 +428,20 @@ function AddressesPage() {
 												<span>Supprimer l'adresse</span>
 											</button>
 										</div>
-										{address.street.hasChanged === true &&
-											address.city.hasChanged === true &&
-											address.zip.hasChanged === true &&
-											address.country.hasChanged && (
-												<div className="gap-3 d-md-flex text-center">
-													<button
-														className="button addresses_button"
-														onClick={(event) => saveAddress(event, index)}
-														style={{ height: "50px" }}
-													>
-														<span>Enregistrer l'adresse</span>
-													</button>
-												</div>
-											)}
+										{(address.street.hasChanged === true ||
+											address.city.hasChanged === true ||
+											address.zip.hasChanged === true ||
+											address.country.hasChanged) && (
+											<div className="gap-3 d-md-flex text-center">
+												<button
+													className="button addresses_button"
+													onClick={(event) => saveAddress(event, index)}
+													style={{ height: "50px" }}
+												>
+													<span>Enregistrer l'adresse</span>
+												</button>
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
