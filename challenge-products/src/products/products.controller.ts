@@ -18,7 +18,7 @@ export class ProductsController {
 
     @EventPattern("updateProductsQuantity")
     async updateProductQuantity(@Payload() updateProductQuantity : UpdateProductsQuantityDto){
-        return this.productService.updateProductsQuantity(updateProductQuantity['updateProductsQuantityDto']);
+        return this.productService.updateProductsQuantity(updateProductQuantity['productsToUpdate']);
     }
 
     @EventPattern("getAllProducts")

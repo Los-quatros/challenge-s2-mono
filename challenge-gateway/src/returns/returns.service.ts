@@ -11,11 +11,12 @@ import {
 } from 'src/orders/models/ordersResponseDto';
 import { OrdersService } from 'src/orders/orders.service';
 import { ProductsService } from 'src/products/products.service';
+import { UsersService } from 'src/users/users.service';
 import {
   CreateOrderProductForReturnDto,
   CreateReturnDto,
 } from './models/CreateReturnDto';
-import { ReturnsResponseDto } from './models/ReturnsResponseDto';
+import { ReturnsResponseDto, UserDto } from './models/ReturnsResponseDto';
 
 @Injectable()
 export class ReturnsService {
@@ -25,6 +26,7 @@ export class ReturnsService {
     private readonly addressesService: AddressesService,
     private readonly carriersService: CarriersService,
     private readonly productService: ProductsService,
+    private readonly usersService: UsersService
   ) {}
 
   async CreateReturn(returnDto: CreateReturnDto, userId: string) {
@@ -58,20 +60,6 @@ export class ReturnsService {
       this.returnsProxy.send('GetAllReturns', {}),
     );
     return this.AssignProductAddressAndCarrierToReturn(result);
-    //let response : Array<any> = [];
-    // const response = Promise.all(result.map(async (elm : string) => {
-    //     const listOrderProducts : Array<OrderProductDto> = [];
-    //     for (let idOrderProduct of elm['orderProducts']){
-    //         const orderProduct : any = await lastValueFrom(await this.ordersService.GetOrderProduct(idOrderProduct));
-    //         const orderProductWithProduct = await this.ordersService.AssignProductToOrderProduct(orderProduct);
-    //         listOrderProducts.push(orderProductWithProduct);
-    //     }
-    //     const orderConcerned = await lastValueFrom(await this.ordersService.GetOrder(listOrderProducts[0].orderId));
-    //     const carrier : Carrier = await lastValueFrom(await this.carriersService.GetCarrierById(orderConcerned['carrier']));
-    //     const address : Address = await lastValueFrom(await this.addressesService.GetAddressById(orderConcerned['address']));
-    //     return new ReturnsResponseDto(elm['id'], elm['reason'], listOrderProducts, elm['status'], elm['userid'], carrier, address);
-    // }));
-    // return response;
   }
 
   async GetAllByUser(id: string): Promise<Array<ReturnsResponseDto>> {
@@ -122,14 +110,18 @@ export class ReturnsService {
         const address: Address = await lastValueFrom(
           await this.addressesService.GetAddressById(orderConcerned['address']),
         );
+        const user : UserDto = await lastValueFrom(
+            await this.usersService.getUser(elm['userId'])
+        );
+        console.log(user);
         return new ReturnsResponseDto(
           elm['id'],
           elm['reason'],
           listOrderProducts,
           elm['status'],
-          elm['userid'],
           carrier,
           address,
+          user
         );
       }),
     );

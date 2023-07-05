@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { CarriersService } from './carriers.service';
+import { UsersService } from './users.service';
 
 @Module({
     imports: [ClientsModule.register([
         {
-            name: 'CARRIERS_SERVICE',
+            name: 'USERS_SERVICE',
             transport: Transport.RMQ,
             options: {
                 urls: [`amqp://rmq-service:5672`],
-                queue: 'carriers_queue',
+                queue: 'users_queue',
                 queueOptions: {
                     durable: false
                 }
@@ -18,7 +18,7 @@ import { CarriersService } from './carriers.service';
     ]
 )],
     controllers: [],
-    providers: [CarriersService],
-    exports: [CarriersService]
+    providers: [UsersService],
+    exports: [UsersService]
 })
-export class CarriersModule {}
+export class UsersModule {}

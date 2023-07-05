@@ -56,6 +56,16 @@ export class OrdersController {
         return this.ordersService.GetProductsOrder(orderId);
     }
 
+    @EventPattern("ValidateOrder")
+    async validateOrder(idOrder : string){
+        return this.ordersService.ValidateOrder(idOrder);
+    }
+
+    @EventPattern("GetUserIdAndTotalFromOrder")
+    async GetUserIdByOrderId(orderId : string) : Promise<Object>{
+        return this.ordersService.GetUserIdByOrderId(orderId);
+    }
+
 }
 
 

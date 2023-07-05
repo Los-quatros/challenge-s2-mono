@@ -1,9 +1,10 @@
 import Stripe from 'stripe';
-import { All, Injectable,Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
-import { CarriersService } from '../carriers/carriers.service';
+import { ProductUpdate, UpdateProductsQuantityDto } from 'src/products/models/UpdateProductsQuantity';
+import { UsersService } from 'src/users/users.service';
+import { MailsService } from 'src/emails/email.service';
 
 
 
@@ -14,7 +15,7 @@ const stripe = new Stripe('sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yL
 
 @Injectable()
 export class PaymentsService {
-  constructor(private ordersService: OrdersService, private productsService: ProductsService, private carriersService: CarriersService ) {}
+  constructor(private ordersService: OrdersService, private productsService: ProductsService, private usersService : UsersService, private mailsService : MailsService) {}
 
   
   async createCheckoutSession(data : any) {
@@ -58,13 +59,56 @@ export class PaymentsService {
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: 'https://localhost:4000/payments/success',
+        success_url: `https://localhost:4000/payments/success/${result.id}`,
         cancel_url: 'https://localhost:4000/payments/cancel',
       });
     
-
+    let test = this.UpdatesAfterPaymentValidation(data);
     return { sessionId: session.id, result };
-    
+  }
+
+  async UpdatesAfterPaymentValidation(idOrder : string){
+    // mark order as paid
+    await this.ordersService.validateOrder(idOrder);
+    let orderProducts : Array<any> = [];
+    try {
+      orderProducts = await this.ordersService.getProductsOrder(idOrder);
+    }catch(error){
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    // update products quantity
+      // build update products quantity model
+      const modelForUpdate : Array<ProductUpdate> = orderProducts.map(orderProduct => {
+          return new ProductUpdate(orderProduct['product_id'], orderProduct['quantity']);
+      });
+    this.productsService.UpdateStockProduct(new UpdateProductsQuantityDto(modelForUpdate));
+
+    // build object for email template and trigger event to send the email
+      // get the user id from the orderId, and send request to userService to retreive email of the user (get user by id)
+      const userIdAndTotal : string = await this.ordersService.getUserIdAndTotalFromOrderId(idOrder);
+      const email : string = await this.usersService.getUserEmail(userIdAndTotal['userId']);
+      const orderTotal : number = userIdAndTotal['total'];
+      // get every products with the id_product in orderProduct and build an object with the quantity, the product name, product price
+      const products : Array<Object> = await Promise.all(orderProducts.map(async orderProduct => {
+        const product  = await this.productsService.getProductById(orderProduct['product_id']);
+        return {
+          label : product['label'],
+          price : product['price'],
+          quantity : orderProduct['product_id']
+        }
+      }));
+      // send email to confirm order
+      this.mailsService.SendEmailForOrderConfirmation({
+        orders : {
+          products: products,
+          total : orderTotal  
+        },
+        email : email
+      });
+      
+      // build the objetc and send it 
+      //this.mailsService.SendEmailForOrderConfirmation();
+    return ;
   }
 
 }

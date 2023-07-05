@@ -280,4 +280,15 @@ export class UsersService {
     }
     return user.email;
   }
+
+  async GetEmailById(id : string) : Promise<any> {
+    const user = await this.usersRepository.findOneBy({ id : id });
+    if (!user) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: "no user was found",
+      };
+    }
+    return user.email;
+  }
 }

@@ -16,20 +16,19 @@ export class PaymentsController {
 
   @EventPattern('create-stripe-session')
   async createCheckoutSession(@Payload() data :any) {
-    const session = await this.paymentsService.createCheckoutSession(data);
+    const session = await this.paymentsService.createCheckoutSession(data['data']);
     return { data : session };
 
   }
 
   @EventPattern('payment-success')
-  async handlePaymentSuccess(@Body() data: any) { 
-    
+  async handlePaymentSuccess(idOrder: string) { 
+    this.paymentsService.UpdatesAfterPaymentValidation(idOrder);
     return 'payment successed';
   }
 
   @EventPattern('payment-failed')
   handlePaymentCancel(@Res() res: Response) {
-  
     return 'payment failed please retry';
   }
 }
