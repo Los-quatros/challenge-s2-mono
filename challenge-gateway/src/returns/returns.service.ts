@@ -120,6 +120,7 @@ export class ReturnsService {
           elm['status'],
           carrier,
           address,
+          elm['createdAt'],
           user
         );
       }),

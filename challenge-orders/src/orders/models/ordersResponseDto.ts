@@ -59,8 +59,9 @@ export class OrderResponseDto {
     is_paid? : boolean;
     orderProducts : Array<OrderProductDto>;
     userId? : string;
+    createdAt?: Date;
 
-    constructor(id : string, is_delivered : boolean, address : Address, carrier : Carrier, orderProducts : Array<OrderProductDto>, userId? : string,  total? : number, is_paid? : boolean){
+    constructor(id : string, is_delivered : boolean, address : Address, carrier : Carrier, orderProducts : Array<OrderProductDto>, userId? : string,  total? : number, is_paid? : boolean, createdAt? : Date){
         this.orderId = id;
         this.total = total;
         this.is_delivered = is_delivered;

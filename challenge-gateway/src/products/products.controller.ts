@@ -55,7 +55,14 @@ export class ProductsController {
     return this.productsService.GetCategories();
   }
 
-  // TODO : PRODUCT
+  @AuthenticationRequired()
+  @HasRole(Role.ADMINISTRATOR)
+  @Post('/categories')
+  async CreateCategory(@Body() body: { name: string }) {
+    return this.productsService.CreateCategory(body.name);
+  }
+
+  @Delete('/categories/:id')
   @AuthenticationRequired()
   @HasRole(Role.SELLER)
   @Get('/sellers/:id')

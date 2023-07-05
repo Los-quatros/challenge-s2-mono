@@ -1,9 +1,36 @@
 import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
+import useOrder from "../../../hooks/Admin/useOrder";
+import moment from "moment";
+import { toast } from "react-toastify";
 const OrderPreviewAll = () => {
+  const { orders, isLoading, deliveryOrder, error } = useOrder();
+
+  const setToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const handleDelivery = async (orderId) => {
+    try {
+      await deliveryOrder(orderId);
+      setToast("Commande livrée avec succès", "success");
+    } catch (error) {
+      setToast("Erreur lors de la livraison de la commande", "error");
+    }
+  };
+
   return (
-    <div className="col-lg-6">
-      <div className={styles.card + " card"}>
+    <div className="col-lg-8">
+      <div className={styles.card + " card"} style={{ height: "500px" }}>
         <div
           className={
             styles["card-title"] +
@@ -13,97 +40,79 @@ const OrderPreviewAll = () => {
           }
         >
           <h4>Toutes les commandes </h4>
-          <a href="">Voir plus</a>
         </div>
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Référence</th>
-                  <th>État</th>
-                  <th>Date</th>
-                  <th>Produits</th>
-                  <th>Prix</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Kolor Tea Shirt For Man</td>
-                  <td>
-                    <span className="badge badge-primary">En cours</span>
-                  </td>
-                  <td>January 22</td>
-                  <td>2</td>
-                  <td className="color-primary">$21.56</td>
-                  <td>
-                    <span className="m-l-10">
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "gray",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "green",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Kolor Tea Shirt For Women</td>
-                  <td>
-                    <span className="badge badge-success">Livré</span>
-                  </td>
-                  <td>January 30</td>
-                  <td>1</td>
-                  <td className="color-success">$55.32</td>
-                  <td>
-                    <span className="m-l-10">
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "green",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Blue Backpack For Baby</td>
-                  <td>
-                    <span className="badge badge-danger p-1">Extended</span>
-                  </td>
-                  <td>January 25</td>
-                  <td>1</td>
-                  <td className="color-danger">$14.85</td>
-                  <td>
-                    <span className="m-l-10">
-                      <i
-                        className="fa fa-check-square pr-2"
-                        aria-hidden="true"
-                        style={{
-                          color: "green",
-                          cursor: "pointer",
-                        }}
-                      ></i>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        {isLoading ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <div
+              className="spinner-border"
+              style={{ width: "3rem", height: "3rem" }}
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
-        </div>
+        ) : error ? (
+          <div>Une erreur est survenue</div>
+        ) : (
+          <div className="card-body" style={{ overflow: "scroll" }}>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Référence</th>
+                    <th>État</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Prix</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders &&
+                    orders.map((order) => (
+                      <tr key={order.orderId}>
+                        <td>{order.orderId}</td>
+                        <td>
+                          {order.is_delivered ? (
+                            <span className="badge badge-success">Livré</span>
+                          ) : (
+                            <span className="badge badge-warning">
+                              En cours
+                            </span>
+                          )}
+                        </td>
+                        <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
+                        <td>{order.orderProducts.length}</td>
+                        <td className="color-primary">{order.total} €</td>
+                        <td>
+                          {order.is_delivered ? (
+                            <i
+                              className="fa fa-check-square pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "gray",
+                                cursor: "not-allowed",
+                              }}
+                            ></i>
+                          ) : (
+                            <i
+                              className="fa fa-check-square pr-2"
+                              aria-hidden="true"
+                              style={{
+                                color: "green",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleDelivery(order.orderId)}
+                            ></i>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -53,7 +53,7 @@ export class OrdersService {
         order.address = data['address'];
 
         const createdOrder = await this.ordersRepository.save(order);
-        // Create and associate the orderProducts
+        
         const orderProducts: OrderProduct[] = [];
         for (const item of data['orderProducts']) {
             const orderProduct = new OrderProduct();
@@ -126,7 +126,7 @@ export class OrdersService {
       return await this.ordersRepository.update({id : idOrder}, {is_delivered : decision});
     }
 
-    private async GetOrdersWithProducts(orders : Array<Order>) : Promise<Array<OrderResponseDto>> {
+    async GetOrdersWithProducts(orders : Array<Order>) : Promise<Array<OrderResponseDto>> {
       try {
         const result : OrderResponseDto[] = []
         for(const order of orders) {
@@ -147,12 +147,15 @@ export class OrdersService {
               carrier: carrier,
               is_paid: order.is_paid,
               userId: order.userId,
-              orderProducts: products
+              orderProducts: products,
+              createdAt: order.createdAt,
           }
           result.push(ordersAggregated);
         }
         return result;
       }catch(error) {
+        console.log(error, "error");
+
         throw new HttpException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
           error: 'Error while fetching products for orders',

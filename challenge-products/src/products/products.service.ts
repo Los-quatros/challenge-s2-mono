@@ -76,6 +76,17 @@ export class ProductsService {
         }
     }
 
+    async getAllProductsAdmin() : Promise<Product[] | any> {
+        try{
+            return await this.productsRepository.find();
+        } catch(error) {
+            return {
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                error: 'Error lors de la récupération des produits',
+            }
+        }
+    }
+
     async getProductById(value : string) : Promise<Product>{
         try {
             const product = await this.productsRepository.findOneBy({id : value, isActivated : true })
@@ -134,6 +145,22 @@ export class ProductsService {
               }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    async createCategory(category : string) : Promise<Category | any> {
+        try {
+            const categoryToPersist = new Category();
+            categoryToPersist.name = category;
+
+            return await this.categoryRepository.save(categoryToPersist);
+        }catch(error) {
+            console.log(error);
+            return {
+                status : HttpStatus.INTERNAL_SERVER_ERROR,
+                error : 'Error while creating category',
+                }
+        }
+    }
+
 
     async getSellerProducts(sellerId : string) : Promise<Array<Product>> {
         try {

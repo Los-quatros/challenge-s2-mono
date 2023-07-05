@@ -5,7 +5,7 @@ const useCarrier = () => {
 
   const fetchCarriers = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/carriers`,
+      `${process.env.REACT_APP_BASE_API_URL}/carriers/admin`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,34 +49,66 @@ const useCarrier = () => {
 
   const saveCarrier = async (carrier) => {
     const response = await saveCarrierMutation.mutateAsync(carrier);
+    if (response.ok !== true) {
+      throw new Error();
+    }
     queryClient.invalidateQueries("carriers");
     return response;
   };
 
-  const deleteCarrierMutation = useMutation((carrierId) => {
+  const desactivateCarrierMutation = useMutation((carrierId) => {
     return fetch(
       `${process.env.REACT_APP_BASE_API_URL}/carriers/${carrierId}`,
       {
-        method: "DELETE",
+        method: "PATCH",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        body: JSON.stringify({ isActive: false }),
       }
     );
   });
 
-  const deleteCarrier = async (carrierId) => {
-    await deleteCarrierMutation.mutateAsync(carrierId);
+  const desactivateCarrier = async (carrierId) => {
+    const response = await desactivateCarrierMutation.mutateAsync(carrierId);
+    if (response.ok !== true) {
+      throw new Error();
+    }
     queryClient.invalidateQueries("carriers");
+    return response;
+  };
+
+  const activateCarrierMutation = useMutation((carrierId) => {
+    return fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/carriers/${carrierId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ isActive: true }),
+      }
+    );
+  });
+
+  const activateCarrier = async (carrierId) => {
+    const response = await activateCarrierMutation.mutateAsync(carrierId);
+    if (response.ok !== true) {
+      throw new Error();
+    }
+    queryClient.invalidateQueries("carriers");
+    return response;
   };
 
   return {
     carriers,
     isLoading,
     saveCarrier,
-    deleteCarrier,
+    desactivateCarrier,
+    activateCarrier,
     error,
-    refetch,
   };
 };
 

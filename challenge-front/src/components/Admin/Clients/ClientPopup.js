@@ -63,10 +63,18 @@ const ClientPopup = ({ user, onClose, onSave }) => {
               />
             </div>
             <div className="popup-buttons">
-              <button className="btn btn-primary m-2" onClick={handleSave}>
+              <button
+                type="button"
+                className="btn btn-primary m-2"
+                onClick={handleSave}
+              >
                 {user.id ? "Enregistrer" : "Ajouter"}
               </button>
-              <button className="btn btn-secondary" onClick={onClose}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onClose}
+              >
                 Fermer
               </button>
             </div>

@@ -100,6 +100,7 @@ export class ReturnsService {
           elm.getOrderProductIds(),
           elm.status,
           elm.userId,
+          elm.createdAt,
         );
       }),
     );

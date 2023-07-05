@@ -26,6 +26,11 @@ export class ProductsController {
         return this.productService.getAllProducts();
     }
 
+    @EventPattern("getAllProductsAdmin")
+    async GetAllProductsAdmin() : Promise<Array<Product>>{
+        return this.productService.getAllProductsAdmin();
+    }
+
     @EventPattern("getProduct")
     async getProductById(@Payload() productId : string) : Promise<Product>{
         return this.productService.getProductById(productId);
@@ -39,6 +44,12 @@ export class ProductsController {
     async getCategories() : Promise<Array<Category>> {
         return this.productService.getCategories();
     }
+
+    @EventPattern('CreateCategory')
+    async createCategory(@Payload() name : string) : Promise<Category> {
+        return this.productService.createCategory(name['name']);
+    }
+    
 
     @EventPattern('GetSellerProducts')
     async getSellerProducts(@Payload() idSeller : string){
