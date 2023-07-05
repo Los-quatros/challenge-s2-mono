@@ -173,10 +173,14 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
             </div>
           </form>
           <div className="popup-buttons">
-            <button className="btn btn-primary m-2" onClick={handleSave}>
+            <button
+              type="button"
+              className="btn btn-primary m-2"
+              onClick={handleSave}
+            >
               Enregistrer
             </button>
-            <button className="btn btn-danger" onClick={onClose}>
+            <button type="button" className="btn btn-danger" onClick={onClose}>
               Annuler
             </button>
           </div>

@@ -2,9 +2,41 @@ import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import useReturn from "../../../hooks/Admin/useReturn";
 import moment from "moment";
+import { toast } from "react-toastify";
+
 const ReturnPreviewAll = () => {
-  const { returns, isLoading, acceptReturn, rejectReturn, error, refetch } =
-    useReturn();
+  const { returns, isLoading, acceptReturn, rejectReturn, error } = useReturn();
+
+  const setToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const handleAccept = async (returnId) => {
+    try {
+      await acceptReturn(returnId);
+      setToast("Demande de retour acceptée", "success");
+    } catch (err) {
+      setToast("Erreur lors de l'acceptation de la demande de retour", "error");
+    }
+  };
+
+  const handleReject = async (returnId) => {
+    try {
+      await rejectReturn(returnId);
+      setToast("Demande de retour rejetée", "success");
+    } catch (err) {
+      setToast("Erreur lors du rejet de la demande de retour", "error");
+    }
+  };
 
   return (
     <div className="col-lg-4">
@@ -49,6 +81,11 @@ const ReturnPreviewAll = () => {
                   </div>
                 </div>
                 <div style={{ color: "gray" }}>{ret.reason}</div>
+                <div className="d-flex justify-content-between mt-1 mb-1">
+                  <b style={{ color: "black" }}>
+                    #{ret.orderProducts[0].orderId}
+                  </b>
+                </div>
                 <div className={`${styles["comment-action"]} comment-action`}>
                   {ret.status === "pending" ? (
                     <div className={`${styles["badge"]} badge badge-warning`}>
@@ -76,13 +113,13 @@ const ReturnPreviewAll = () => {
                           color: "green",
                           cursor: "pointer",
                         }}
-                        onClick={() => acceptReturn(ret.id)}
+                        onClick={() => handleAccept(ret.id)}
                       ></i>
                       <i
                         className="fa fa-times red"
                         aria-hidden="true"
                         style={{ color: "red", cursor: "pointer" }}
-                        onClick={() => rejectReturn(ret.id)}
+                        onClick={() => handleReject(ret.id)}
                       ></i>
                     </span>
                   )}

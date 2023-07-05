@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import CarrierPopup from "./CarrierPopup";
 import useCarrier from "../../../hooks/Admin/useCarrier";
+import { toast } from "react-toastify";
 
 const CarrierPreviewAll = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -17,14 +18,38 @@ const CarrierPreviewAll = () => {
     setIsPopupOpen(false);
   };
 
+  const setToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   const { carriers, isLoading, saveCarrier, deleteCarrier } = useCarrier();
 
   const handleSave = async (carrier) => {
     try {
       await saveCarrier(carrier);
       closePopup();
+      setToast("Transporteur enregistré avec succès", "success");
     } catch (error) {
-      console.log(error);
+      setToast("Erreur lors de l'enregistrement du transporteur", "error");
+    }
+  };
+
+  const handleDelete = async (carrierId) => {
+    try {
+      await deleteCarrier(carrierId);
+      closePopup();
+      setToast("Transporteur supprimé avec succès", "success");
+    } catch (error) {
+      setToast("Erreur lors de la suppression du transporteur", "error");
     }
   };
 
@@ -85,7 +110,7 @@ const CarrierPreviewAll = () => {
                                 color: "red",
                                 cursor: "pointer",
                               }}
-                              onClick={() => deleteCarrier(carrier.id)}
+                              onClick={() => handleDelete(carrier.id)}
                             ></i>
                           </span>
                         </td>

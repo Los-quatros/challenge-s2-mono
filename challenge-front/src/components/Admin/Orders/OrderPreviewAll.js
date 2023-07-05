@@ -2,9 +2,31 @@ import React from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import useOrder from "../../../hooks/Admin/useOrder";
 import moment from "moment";
-
+import { toast } from "react-toastify";
 const OrderPreviewAll = () => {
-  const { orders, isLoading, deliveryOrder, error, refetch } = useOrder();
+  const { orders, isLoading, deliveryOrder, error } = useOrder();
+
+  const setToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const handleDelivery = async (orderId) => {
+    try {
+      await deliveryOrder(orderId);
+      setToast("Commande livrée avec succès", "success");
+    } catch (error) {
+      setToast("Erreur lors de la livraison de la commande", "error");
+    }
+  };
 
   return (
     <div className="col-lg-8">
@@ -80,7 +102,7 @@ const OrderPreviewAll = () => {
                                 color: "green",
                                 cursor: "pointer",
                               }}
-                              onClick={() => deliveryOrder(order.orderId)}
+                              onClick={() => handleDelivery(order.orderId)}
                             ></i>
                           )}
                         </td>

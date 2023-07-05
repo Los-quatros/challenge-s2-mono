@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import ClientPopup from "./ClientPopup";
-import { useQuery, useMutation } from "react-query";
 import useClient from "../../../hooks/Admin/useClient";
+import { toast } from "react-toastify";
 
 const ClientPreviewAll = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -18,14 +18,28 @@ const ClientPreviewAll = () => {
     setIsPopupOpen(false);
   };
 
+  const setToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   const { users, isLoading, saveUser, deleteUser } = useClient();
 
   const handleSave = async (user) => {
     try {
       await saveUser(user);
       closePopup();
+      setToast("Client enregistré avec succès", "success");
     } catch (error) {
-      console.log(error);
+      setToast("Erreur lors de l'enregistrement du client", "error");
     }
   };
 

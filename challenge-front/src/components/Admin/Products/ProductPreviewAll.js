@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import useProduct from "../../../hooks/Admin/useProduct";
 import ProductPopup from "./ProductPopup";
+import { toast } from "react-toastify";
 
 const ProductPreviewAll = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -17,11 +18,23 @@ const ProductPreviewAll = () => {
     setIsPopupOpen(false);
   };
 
+  const setToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   const {
     products,
     isLoading,
     saveProduct,
-    deleteProduct,
     activateProduct,
     desactivateProduct,
   } = useProduct();
@@ -30,8 +43,9 @@ const ProductPreviewAll = () => {
     try {
       await saveProduct(product);
       closePopup();
+      setToast("Produit enregistré avec succès", "success");
     } catch (error) {
-      console.log(error);
+      setToast("Erreur lors de l'enregistrement du produit", "error");
     }
   };
 
