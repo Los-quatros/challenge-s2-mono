@@ -37,6 +37,19 @@ services:
       - 8087:8080
     networks:
       - challenge-network
+  carrier-db-test:
+    image: postgres:12.1-alpine
+    container_name: carrier-db-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: carrier-db-test
+    ports:
+      - 5456:5432
+    volumes:
+      - ./database-test:/var/lib/postgresql/data
+    networks:
+      - challenge-network
 networks:
   challenge-network:
     external: true
