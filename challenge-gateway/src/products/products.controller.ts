@@ -32,6 +32,7 @@ export class ProductsController {
 
   @Get()
   async GetAllProducts() {
+    console.log("hello")
     return this.productsService.GetAllProducts();
   }
 

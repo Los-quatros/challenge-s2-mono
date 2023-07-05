@@ -67,7 +67,10 @@ export class ProductsService {
 
     async getAllProducts() : Promise<Product[]> {
         try{
-            return await this.productsRepository.find({where : {isActivated : true}});
+            return await this.productsRepository.find({
+                where : {isActivated : true},
+                relations: ['category']
+            });
         } catch(error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,

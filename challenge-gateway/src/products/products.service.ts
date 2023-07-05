@@ -15,7 +15,7 @@ export class ProductsService {
   }
 
   async GetAllProducts() {
-    this.productsProxy.send('getAllProducts', {});
+    return this.productsProxy.send('getAllProducts', {});
   }
 
   async GetAllProductsAdmin(): Promise<any> {
