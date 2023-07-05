@@ -6,6 +6,7 @@ docker-compose -f challenge-carriers/docker-compose.yml up -d
 docker-compose -f challenge-front/docker-compose.yml up -d
 docker-compose -f challenge-gateway/docker-compose.yml up -d
 docker-compose -f challenge-mailer/docker-compose.yml up -d
+docker-compose -f challenge-images/docker-compose.yml up -d
 docker-compose -f challenge-orders/docker-compose.yml up -d
 docker-compose -f challenge-payment/docker-compose.yml up -d
 docker-compose -f challenge-products/docker-compose.yml up -d
