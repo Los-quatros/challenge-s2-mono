@@ -42,7 +42,7 @@ function OrdersPage() {
 	const [orders, setOrders] = useState([]);
 	const [sales, setSales] = useState([]);
 	const [selectedProducts, setSelectedProducts] = useState([]);
-	const [userRole, setUserRole] = useState("");
+	const [userRole, setUserRole] = useState("user");
 
 	useEffect(() => {
 		resetAndSetActiveLink(name);
@@ -68,6 +68,7 @@ function OrdersPage() {
 					const role = (data && data.roles) || "user";
 					setUserRole(role);
 					if (role === "admin") {
+						return;
 					} else if (role === "seller") {
 						initSalesSeller();
 					} else {
@@ -411,7 +412,7 @@ function OrdersPage() {
 				  ))
 				: userRole === "user" && (
 						<div className="text-center mt-5">
-							<h3>Aucune commande à afficher</h3>
+							<h3>Aucune commande à afficher.</h3>
 							<p>Vous n'avez passé aucune commande pour le moment.</p>
 						</div>
 				  )}
