@@ -15,7 +15,7 @@ services:
       - challenge-network
   payments-server:
     build: .
-    command: npm run start:dev
+    command: sh -c "npm install && npm run start:dev"
     restart: always
     ports:
       - 3002:3000

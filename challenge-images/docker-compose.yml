@@ -15,7 +15,7 @@ services:
       - challenge-network
   images-server:
     build: .
-    command: npm run start:dev
+    command: sh -c "npm install && npm run start:dev"
     restart: always
     ports:
       - 3011:3000
