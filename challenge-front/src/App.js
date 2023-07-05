@@ -23,7 +23,7 @@ const ProductDetails = lazy(() =>
 );
 const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
-
+const Image = lazy(() => import("./components/Image"));
 const $ = window.$;
 
 window.$(function () {
@@ -181,6 +181,7 @@ const AppContent = () => {
 					element={<ProductDetails handleCartChange={handleCartChange} />}
 				/>
 				<Route path="*" element={<Navigate to="/" />} />
+				<Route path="/print/image" element={<Image/>}/>
 			</Routes>
 			{displayFooter && <Footer />}
 		</Suspense>
