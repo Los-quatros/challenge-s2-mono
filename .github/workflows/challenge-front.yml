@@ -3,10 +3,10 @@ name: CI/CD challenge front microservice
 on:
   push:
     branches:
-      - main
-    paths:
-      - "challenge-front/**"
-      - ".github/workflows/challenge-front.yml"
+      - feature/deploy-test
+    # paths:
+    #   - "challenge-front/**"
+    #   - ".github/workflows/challenge-front.yml"
 
 env:
   GKE_CLUSTER: marketplace
