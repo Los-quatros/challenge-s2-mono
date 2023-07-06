@@ -3,7 +3,7 @@ import { UsersService } from "../users/users.service";
 import { LoginRequest } from "./authentication.request";
 import { compare } from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
-import { SellersService } from "src/sellers/sellers.service";
+import { SellersService } from "../sellers/sellers.service";
 
 @Injectable()
 export class AuthenticationService {

@@ -7,6 +7,7 @@ import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcryptjs";
 import { UsersModule } from './users.module';
+import { ImagesModule } from '../images/images.module';
 
 
 describe('UsersService (functional)', () => {
@@ -21,6 +22,7 @@ describe('UsersService (functional)', () => {
       imports: [
         SellersModule,
         UsersModule,
+        ImagesModule,
         TypeOrmModule.forRoot({
           type: 'postgres',
           host:  process.env.DB_HOST,
