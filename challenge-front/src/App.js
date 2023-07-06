@@ -24,6 +24,7 @@ const ProductDetails = lazy(() =>
 const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const $ = window.$;
 
 window.$(function () {
@@ -183,6 +184,9 @@ const AppContent = () => {
 					element={<ProductDetails handleCartChange={handleCartChange} />}
 				/>
 				<Route path="/admin" element={<Dashboard />} />
+				{hasToken && (
+					<Route path="/payments/cancel" element={<PaymentCancel />} />
+				)}
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 			{displayFooter && <Footer />}

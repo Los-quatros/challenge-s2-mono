@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -22,22 +21,14 @@ const setToast = (message, type) => {
 };
 
 function PaymentCancel() {
-	const [isLogged, setIsLogged] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (token) {
-			setIsLogged(true);
-
-			if (isLogged) {
-				navigate("/cart");
-				setTimeout(() => {
-					setToast("Paiement annulé ou échoué, veuillez réessayer", "error");
-				}, 500);
-			}
-		}
-	}, [isLogged, navigate]);
+		navigate("/cart");
+		setTimeout(() => {
+			setToast("Paiement annulé ou échoué, veuillez réessayer", "error");
+		}, 500);
+	}, [navigate]);
 }
 
 export default PaymentCancel;
