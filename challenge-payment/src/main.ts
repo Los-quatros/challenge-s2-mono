@@ -17,6 +17,8 @@ async function bootstrap() {
     }
   });
   console.log('url',process.env.STRIPE_URL_FRONT);
+
+  
   await app.listen();
 }
 bootstrap();
