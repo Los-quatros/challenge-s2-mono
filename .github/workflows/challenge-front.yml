@@ -3,7 +3,7 @@ name: CI/CD challenge front microservice
 on:
   push:
     branches:
-      - main
+      - feature/test-env
     paths:
       - "challenge-front/**"
 
