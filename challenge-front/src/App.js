@@ -175,6 +175,9 @@ const AppContent = () => {
     setCartQuantity(0);
   };
 
+  console.log(process.env.REACT_APP_BASE_API_URL, "REACT_APP_BASE_API_URL");
+  console.log(process.env.REACT_APP_TATA, "tata");
+  console.log(process.env.REACT_APP_TOTO, "toto");
   return (
     <Suspense>
       <ToastContainer />
