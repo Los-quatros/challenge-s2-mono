@@ -27,10 +27,6 @@ spec:
           env:
             - name: REACT_APP_BASE_API_URL
               value: http://challenge-gateway:4000
-            - name: REACT_APP_HOST
-              value: challenge-gateway
-            - name: REACT_APP_API_URL
-              value: toto
 ---
 apiVersion: v1
 kind: Service
