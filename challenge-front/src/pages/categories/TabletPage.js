@@ -61,12 +61,51 @@ function TabletPage() {
 					return response.json();
 				}
 			})
-			.then((data) => {
+			.then((data, index) => {
 				if (data) {
+					const newProducts = [];
 					data.forEach((product) => {
-						if (product.category.name === "phones") {
+						if (product.category.name === "tablets") {
 							if (!product?.image) {
 								product.image = defaultImage;
+								newProducts.push({ ...product });
+								setProducts([...newProducts]);
+							} else {
+								fetch(
+									`${process.env.REACT_APP_BASE_API_URL}/images/${data[index].image.id}`,
+									{
+										method: "GET",
+										headers: {
+											"Content-Type": "application/json",
+											Authorization: `Bearer ${token}`,
+										},
+									}
+								)
+									.then((response) => {
+										if (response.status === 200) {
+											return response.blob();
+										}
+									})
+									.then((d) => {
+										if (d) {
+											const blob = d;
+											const url = URL.createObjectURL(blob);
+											data[index].image = url;
+											newProducts.push({ ...product });
+											setProducts([...newProducts]);
+										} else {
+											setToast(
+												"Une erreur est survenue lors de la récupération de l'image",
+												"info"
+											);
+										}
+									})
+									.catch(() => {
+										setToast(
+											"Une erreur est survenue lors de la récupération de l'image",
+											"info"
+										);
+									});
 							}
 							products.push(product);
 						}
