@@ -4,8 +4,8 @@ import { UsersModule } from '../users/users.module';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { UsersService } from '../users/users.service';
-import { SellersModule } from 'src/sellers/sellers.module';
-import { SellersService } from 'src/sellers/sellers.service';
+import { SellersModule } from '../sellers/sellers.module';
+import { SellersService } from '../sellers/sellers.service';
 
 @Module({
   imports: [

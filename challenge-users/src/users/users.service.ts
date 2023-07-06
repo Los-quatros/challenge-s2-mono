@@ -10,7 +10,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
-import { SellersService } from "src/sellers/sellers.service";
+import { SellersService } from "../sellers/sellers.service";
 import { AccountSellerDto } from "./dto/account.seller.dto";
 
 @Injectable()
