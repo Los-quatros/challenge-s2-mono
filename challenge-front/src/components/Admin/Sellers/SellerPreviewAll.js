@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../../assets/styles/admin/style.module.css";
 import useSeller from "../../../hooks/Admin/useSeller";
 import SellerPopup from "./SellerPopup";
+import { toast } from "react-toastify";
 
 const SellerPreviewAll = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -15,6 +16,16 @@ const SellerPreviewAll = () => {
   const closePopup = () => {
     setSelectedUser(null);
     setIsPopupOpen(false);
+  };
+
+  const setToast = (type, message) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      draggable: true,
+    });
   };
 
   const {
@@ -31,7 +42,7 @@ const SellerPreviewAll = () => {
       await saveSeller(seller);
       closePopup();
     } catch (error) {
-      console.log(error);
+      setToast("error", "Erreur lors de l'enregistrement du vendeur");
     }
   };
 
@@ -39,7 +50,7 @@ const SellerPreviewAll = () => {
     try {
       await activeSeller(sellerId);
     } catch (error) {
-      console.log(error);
+      setToast("error", "Erreur lors de l'activation du vendeur");
     }
   };
 
@@ -47,7 +58,7 @@ const SellerPreviewAll = () => {
     try {
       await desactiveSeller(sellerId);
     } catch (error) {
-      console.log(error);
+      setToast("error", "Erreur lors de la désactivation du vendeur");
     }
   };
 
