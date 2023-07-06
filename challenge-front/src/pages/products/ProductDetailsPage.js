@@ -42,29 +42,29 @@ function ProductDetailsPage({ handleCartChange }) {
 	const categories = ["headphones", "tablets", "phones", "cameras"];
 
 	useEffect(() => {
-		if (product.category === "headphones") {
+		if (product.category.name === "headphones") {
 			setTitle("Nos casques");
-		} else if (product.category === "tablets") {
+		} else if (product.category.name === "tablets") {
 			setTitle("Nos tablettes");
-		} else if (product.category === "phones") {
+		} else if (product.category.name === "phones") {
 			setTitle("Nos téléphones");
 		} else {
 			setTitle("Nos caméras");
 		}
-	}, [product.category]);
+	}, [product.category.name]);
 
 	useEffect(() => {
-		if (product.category === "headphones") {
+		if (product.category.name === "headphones") {
 			setContent(`Plongez au cœur d'une expérience sonore immersive et
       exceptionnelle avec nos casques de musique haut de gamme. Que vous soyez un audiophile
       passionné ou que vous cherchiez simplement à profiter pleinement de votre
       musique préférée, nos casques vous offriront une qualité audio inégalée.`);
-		} else if (product.category === "tablets") {
+		} else if (product.category.name === "tablets") {
 			setContent(`Découvrez notre sélection de tablettes haut de gamme qui
       vous offriront une expérience technologique exceptionnelle. Que vous soyez un amateur de
       divertissement, un étudiant ou un professionnel en déplacement, nos tablettes sont conçues pour répondre à
       tous vos besoins.`);
-		} else if (product.category === "phones") {
+		} else if (product.category.name === "phones") {
 			setContent(`Découvrez notre téléphone révolutionnaire, alliant style
       et fonctionnalités avancées ! Son design élégant et ergonomique captivera votre regard dès le premier
       instant. Plongez dans une expérience immersive grâce à son écran haute résolution, offrant des couleurs vives
@@ -75,19 +75,19 @@ function ProductDetailsPage({ handleCartChange }) {
       elles sont conçues pour répondre aux besoins des photographes et des vidéastes les plus exigeants.
       Faites un pas vers l'excellence photographique avec nos caméras de haute précision.`);
 		}
-	}, [product.category]);
+	}, [product.category.name]);
 
 	useEffect(() => {
-		if (product.category === "headphones") {
+		if (product.category.name === "headphones") {
 			setImage(imageHeadphonesBackground);
-		} else if (product.category === "tablets") {
+		} else if (product.category.name === "tablets") {
 			setImage(imageTabletsBackground);
-		} else if (product.category === "phones") {
+		} else if (product.category.name === "phones") {
 			setImage(imagePhonesBackground);
 		} else {
 			setImage(imageCamerasBackground);
 		}
-	}, [product.category]);
+	}, [product.category.name]);
 
 	/**
 	 * Triggered when the quantity input value changes
@@ -144,7 +144,8 @@ function ProductDetailsPage({ handleCartChange }) {
 		delete cartProduct.description;
 		if (cart) {
 			const existingProduct = cart.find(
-				(item) => item.id === product.id && item.category === product.category
+				(item) =>
+					item.id === product.id && item.category === product.category.name
 			);
 			if (existingProduct) {
 				existingProduct.quantity += quantity;
@@ -160,7 +161,7 @@ function ProductDetailsPage({ handleCartChange }) {
 		handleAddToCart();
 	};
 
-	if (!categories.includes(product.category)) {
+	if (!categories.includes(product.category.name)) {
 		return <Navigate to="/" />;
 	}
 
@@ -175,27 +176,27 @@ function ProductDetailsPage({ handleCartChange }) {
 						<div className="col-lg-6">
 							<div className="details_image">
 								<div className="details_image_large">
-									<img src={product.image} alt={product.name} />
+									<img src={product.image} alt={product.label} />
 								</div>
 								<div className="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
 									<div className="details_image_thumbnail active">
-										<img src={product.image} alt={product.name} />
+										<img src={product.image} alt={product.label} />
 									</div>
 									<div className="details_image_thumbnail">
-										<img src={product.image} alt={product.name} />
+										<img src={product.image} alt={product.label} />
 									</div>
 									<div className="details_image_thumbnail">
-										<img src={product.image} alt={product.name} />
+										<img src={product.image} alt={product.label} />
 									</div>
 									<div className="details_image_thumbnail">
-										<img src={product.image} alt={product.name} />
+										<img src={product.image} alt={product.label} />
 									</div>
 								</div>
 							</div>
 						</div>
 						<div className="col-lg-6">
 							<div className="details_content">
-								<div className="details_name">{product.name}</div>
+								<div className="details_name">{product.label}</div>
 								<div className="details_price">{product.price}€</div>
 								<div className="details_text">
 									<p>{product.description}</p>

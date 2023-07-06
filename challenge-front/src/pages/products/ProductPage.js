@@ -15,7 +15,9 @@ function Product(props) {
 	 * @returns Link to product details page
 	 */
 	const redirectToProductDetails = (id) => {
-		navigate(`/products/${product.category}/${id}`, { state: { product } });
+		navigate(`/products/${product.category.name}/${id}`, {
+			state: { product },
+		});
 	};
 
 	/**
@@ -32,11 +34,11 @@ function Product(props) {
 				onClick={() => redirectToProductDetails(product.id)}
 			>
 				<div className="product_image">
-					<img src={product.image} alt={product.name} />
+					<img src={product.image} alt={product.label} />
 				</div>
 				<div className="product_content">
 					<div className="product_title">
-						<Link onClick={handleLinkClick}>{product.name}</Link>
+						<Link onClick={handleLinkClick}>{product.label}</Link>
 					</div>
 					<div className="product_price">{product.price}€</div>
 				</div>
