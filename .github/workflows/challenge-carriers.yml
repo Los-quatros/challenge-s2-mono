@@ -29,7 +29,6 @@ jobs:
         ports:
           - 5432:5432
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/carrier-db-test
       DB_HOST: localhost
       DB_USER: postgres
       DB_PASSWORD: postgres

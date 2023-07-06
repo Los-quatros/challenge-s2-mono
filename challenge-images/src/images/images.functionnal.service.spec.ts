@@ -17,10 +17,10 @@ describe('ImagesService (functional)', () => {
         ImagesModule,
         TypeOrmModule.forRoot({
           type: 'postgres',
-          host: 'images-db-test',
+          host:  process.env.DB_HOST,
           port: 5432,
-          username: 'postgres',
-          password: 'postgres',
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
           database: 'images-db-test', 
           autoLoadEntities: true,
           synchronize: true,
