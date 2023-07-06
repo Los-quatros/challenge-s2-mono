@@ -3,9 +3,9 @@ name: CI/CD challenge front microservice
 on:
   push:
     branches:
-      - main
-    paths:
-      - "challenge-front/**"
+      - feature/test-env
+    # paths:
+    #   - "challenge-front/**"
 
 env:
   GKE_CLUSTER: marketplace

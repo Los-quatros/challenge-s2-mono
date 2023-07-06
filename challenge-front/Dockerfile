@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+ENV  REACT_APP_BASE_API_URL=http://146.148.122.41:4000   
+
 RUN npm install
 
 EXPOSE 3000
