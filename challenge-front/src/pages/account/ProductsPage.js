@@ -373,7 +373,7 @@ function ProductsPage() {
   const saveProduct = (event, index) => {
     event.preventDefault();
 
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     // const decodedToken = jwt_decode(token);
     const label = products[index].label;
     const price = products[index].price;
