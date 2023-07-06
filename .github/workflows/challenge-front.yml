@@ -51,8 +51,10 @@ jobs:
           context: ./challenge-front
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
+          args: |
+            --build-arg REACT_APP_BASE_API_URL=${{ secrets.REACT_APP_BASE_API_URL }}
         env:
-          REACT_APP_BASE_API_URL: http://146.148.122.41:4000
+          REACT_APP_BASE_API_URL: ${{ secrets.REACT_APP_BASE_API_URL }}
 
   deploy:
     runs-on: ubuntu-latest
