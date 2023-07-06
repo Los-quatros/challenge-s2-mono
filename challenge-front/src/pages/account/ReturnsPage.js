@@ -74,7 +74,7 @@ function ReturnsPage({ role }) {
 								if (orderProduct?.["product"]) {
 									return {
 										name: orderProduct.product.label,
-										quantity: orderProduct.product.quantity,
+										quantity: orderProduct.quantity,
 										price: orderProduct.product.price,
 										image: orderProduct.product.image
 											? orderProduct.product.image
