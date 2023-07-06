@@ -82,6 +82,7 @@ function OrdersPage({ role }) {
 				})
 				.then((data) => {
 					if (data) {
+						updateOrders(data);
 						setToast(
 							"Votre demande de retour a bien été prise en compte",
 							"success"
@@ -101,6 +102,23 @@ function OrdersPage({ role }) {
 					)
 				);
 		}
+	};
+
+	/**
+	 * Update orders after return request
+	 * @param { any } data Order data
+	 */
+	const updateOrders = (data) => {
+		const newOrders = orders.map((order) => {
+			order.products = order.products.map((product) => {
+				if (product.id === data.orderProducts) {
+					product.is_returned = true;
+				}
+				return product;
+			});
+			return order;
+		});
+		setOrders(newOrders);
 	};
 
 	/**
@@ -168,7 +186,7 @@ function OrdersPage({ role }) {
 								.map((product) => {
 									if (product?.["product"]) {
 										return {
-											id: product["product"].id,
+											id: product.id,
 											name: product["product"].label,
 											quantity: product.quantity,
 											price: product["product"].price,
@@ -365,9 +383,16 @@ function OrdersPage({ role }) {
 										</>
 									) : (
 										<button
-											disabled={!order.is_delivered}
+											disabled={
+												!order.is_delivered ||
+												order.products.every((product) => product.is_returned)
+											}
 											style={{
-												cursor: !order.is_delivered ? "not-allowed" : "pointer",
+												cursor:
+													!order.is_delivered ||
+													order.products.every((product) => product.is_returned)
+														? "not-allowed"
+														: "pointer",
 											}}
 											className="btn btn-secondary"
 											onClick={() => handleSelectUserOrder(order)}
