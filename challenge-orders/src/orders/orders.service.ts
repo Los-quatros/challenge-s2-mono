@@ -41,8 +41,7 @@ export class OrdersService {
 
     // TODO : to test (to be used after creating an return and we must do it from the gateway)
     async UpdateNbItemReturnedForOrderProduct(nbItemReturned : number, idOrderProduct : string){
-      console.log(nbItemReturned)
-      console.log(idOrderProduct)
+      
       return await this.orderProductRepository.update({id : idOrderProduct['id']}, {nbProductReturned : nbItemReturned['quantity'], is_returned : true});
     }
 
@@ -78,7 +77,6 @@ export class OrdersService {
         return createdOrder;
 
     } catch (error) {
-      console.log(error, "error");
 
         throw new HttpException({
             status: HttpStatus.INTERNAL_SERVER_ERROR,

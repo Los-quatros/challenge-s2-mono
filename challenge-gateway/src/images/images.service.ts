@@ -41,6 +41,6 @@ export class ImagesService {
   }
 
   async getImageByIdRessource(imagesAssociatedOn: ImagesAssociatedOn) {
-    console.log(imagesAssociatedOn);
+    return;
   }
 }
