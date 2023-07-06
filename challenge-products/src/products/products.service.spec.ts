@@ -10,6 +10,7 @@ describe('ProductsService', () => {
   let productsService: ProductsService;
   let productRepository: Repository<Product>;
   let categoryRepository: Repository<Category>;
+  let productCreated : Product;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -68,9 +69,9 @@ describe('ProductsService', () => {
         .mockResolvedValue(category);
       jest.spyOn(productRepository, 'save').mockResolvedValue(expectedResult);
 
-      const result = await productsService.createProduct(productDto);
+      productCreated = await productsService.createProduct(productDto);
 
-      expect(result).toEqual(expectedResult);
+      expect(productCreated).toEqual(expectedResult);
     });
 
     it('should throw an error if an exception occurs', async () => {
@@ -108,15 +109,13 @@ describe('ProductsService', () => {
 
   describe('getProductById', () => {
     it('should return the product with the specified ID', async () => {
-      const productId = 'product1';
       const expectedProduct = new Product();
-      expectedProduct.id = productId;
 
       jest
         .spyOn(productRepository, 'findOneBy')
         .mockResolvedValue(expectedProduct);
 
-      const result = await productsService.getProductById(productId);
+      const result = await productsService.getProductById(productCreated.id);
 
       expect(result).toEqual(expectedProduct);
     });
