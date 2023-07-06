@@ -119,7 +119,7 @@ const Header = ({ quantity }) => {
               <div className="col">
                 <div className="header_content d-flex flex-row align-items-center justify-content-start">
                   <div className="logo">
-                    <Link to="/">ElecShop. Joris €</Link>
+                    <Link to="/">ElecShop.</Link>
                   </div>
                   <nav className="main_nav">
                     <ul className="mb-0">
