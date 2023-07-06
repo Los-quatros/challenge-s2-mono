@@ -15,7 +15,7 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     services:
-      postgres:
+      carrier-db-test:
         image: postgres:14.8-alpine3.17
         env:
           POSTGRES_USER: postgres
@@ -28,7 +28,7 @@ jobs:
         ports:
           - 5432:5432
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db_test
+      DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5432/carrier-db-test
      
     defaults:
       run:
