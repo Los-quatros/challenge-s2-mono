@@ -34,6 +34,10 @@ export class ProductsController {
   async GetAllProducts() {
     return this.productsService.GetAllProducts();
   }
+  @Get('/admin/all')
+  async GetAllProductsAdmin() {
+    return this.productsService.GetAllProductsAdmin();
+  }
 
   @Get('/:id')
   async GetProductById(@Param() productId: string) {
