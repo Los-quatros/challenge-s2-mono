@@ -75,7 +75,9 @@ const ReturnPreviewAll = () => {
             >
               <div className="card-item">
                 <div className="d-flex align-items-center justify-content-between">
-                  <b style={{ color: "black" }}>John Doe</b>
+                  <b style={{ color: "black" }}>
+                    {ret.user.firstName} {ret.user.lastName}
+                  </b>
                   <div style={{ color: "black" }}>
                     {moment(ret.createdAt).format("DD/MM/YYYY")}
                   </div>

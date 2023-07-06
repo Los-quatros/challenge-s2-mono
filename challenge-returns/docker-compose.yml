@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: returns-db
     ports:
-      - 5440:5432
+      - 5451:5432
     volumes:
       - ./database:/var/lib/postgresql/data
     networks:
@@ -35,6 +35,20 @@ services:
     image: adminer
     ports:
       - 8084:8080
+    networks:
+      - challenge-network
+
+  returns-db-test:
+    image: postgres:12.1-alpine
+    container_name: returns-db-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: returns-db-test
+    ports:
+      - 5504:5432
+    volumes:
+      - ./database-test:/var/lib/postgresql/data
     networks:
       - challenge-network
 networks:

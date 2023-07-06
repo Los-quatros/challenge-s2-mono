@@ -19,6 +19,7 @@ services:
     ports:
       - 3013:3000
     environment:
+      NODE_ENV: test
       POSTGRES_HOST: carrier-db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
@@ -37,6 +38,20 @@ services:
       - 8090:8080
     networks:
       - challenge-network
+
+  carrier-db-test:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: carrier-db-test
+    ports:
+      - 5459:5432
+    volumes:
+      - ./database-test:/var/lib/postgresql/data
+    networks:
+      - challenge-network
+
 networks:
   challenge-network:
     external: true

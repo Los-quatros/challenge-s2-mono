@@ -6,11 +6,11 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
-
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
-
+import Loader from "./components/Loader";
+import Forbidden from "./pages/Forbidden";
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
 const NewPassword = lazy(() => import("./components/NewPassword"));
@@ -21,10 +21,12 @@ const Categories = lazy(() => import("./pages/CategoriesPage"));
 const ProductDetails = lazy(() =>
   import("./pages/products/ProductDetailsPage")
 );
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 
 // const { user, isA}
 const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
+
 const $ = window.$;
 
 window.$(function () {
@@ -79,6 +81,8 @@ const clearLinks = () => {
 
 const AppContent = () => {
   const hasToken = localStorage.getItem("token") ? true : false;
+  const isAdmin = localStorage.getItem("role") === "admin" ? true : false;
+
   const location = useLocation();
   const displayHeader =
     location.pathname !== "/login" &&
@@ -86,14 +90,16 @@ const AppContent = () => {
     location.pathname !== "/reset-password" &&
     location.pathname !== "/new-password" &&
     !location.pathname.startsWith("/account") &&
-    !location.pathname.startsWith("/admin");
+    !location.pathname.startsWith("/admin") &&
+    location.pathname !== "/forbidden";
   const displayFooter =
     location.pathname !== "/login" &&
     !location.pathname.startsWith("/register") &&
     location.pathname !== "/reset-password" &&
     location.pathname !== "/new-password" &&
     !location.pathname.startsWith("/account") &&
-    !location.pathname.startsWith("/admin");
+    !location.pathname.startsWith("/admin") &&
+    location.pathname !== "/forbidden";
   const [cartQuantity, setCartQuantity] = useState(0);
 
   useEffect(() => {
@@ -163,29 +169,42 @@ const AppContent = () => {
   };
 
   return (
-    <Suspense fallback={<span>...</span>}>
+    <Suspense fallback={<Loader />}>
       <ToastContainer />
       {displayHeader && <Header quantity={cartQuantity} />}
       <Routes>
-        <Route path="/" element={<Home />} />
-        {!hasToken && <Route path="/login" element={<Login />} />}
-        {<Route path="/new-password" element={<NewPassword />} />}
-        {<Route path="/reset-password" element={<ResetPassword />} />}
-        {!hasToken && <Route path="/register/:name" element={<Register />} />}
-        <Route path="/categories/:category" element={<Categories />} />
-        {hasToken && <Route path="/account/:name" element={<Account />} />}
-        <Route path="/contact" element={<Contact />} />
-        <Route
-          path="/cart"
-          element={<Cart handleClearCart={handleClearCart} />}
-        />
-        <Route
-          path="/products/:category/:productId"
-          element={<ProductDetails handleCartChange={handleCartChange} />}
-        />
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/forbidden" element={<Forbidden />} />
+
+        {isAdmin ? (
+          <>
+            <Route path="/*" element={<Navigate to="/admin" />} />
+            <Route path="/admin" element={<Dashboard />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Home />} />
+            {!hasToken && <Route path="/login" element={<Login />} />}
+            {<Route path="/new-password" element={<NewPassword />} />}
+            {<Route path="/reset-password" element={<ResetPassword />} />}
+            {!hasToken && (
+              <Route path="/register/:name" element={<Register />} />
+            )}
+            <Route path="/categories/:category" element={<Categories />} />
+            {hasToken && <Route path="/account/:name" element={<Account />} />}
+            <Route path="/contact" element={<Contact />} />
+            <Route
+              path="/cart"
+              element={<Cart handleClearCart={handleClearCart} />}
+            />
+            <Route
+              path="/products/:category/:productId"
+              element={<ProductDetails handleCartChange={handleCartChange} />}
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
+        )}
       </Routes>
+
       {displayFooter && <Footer />}
     </Suspense>
   );

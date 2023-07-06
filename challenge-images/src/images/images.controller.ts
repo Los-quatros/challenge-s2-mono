@@ -9,7 +9,7 @@ import {
 import { MessagePattern,Payload } from '@nestjs/microservices';
 import { ImagesService } from './images.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Image } from 'src/entity/images.entity';
+import { Image } from '../entity/images.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AssociationType, ImagesAssociatedOn } from './models/imageAssociatedOn';
