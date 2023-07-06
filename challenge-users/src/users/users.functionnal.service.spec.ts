@@ -23,10 +23,10 @@ describe('UsersService (functional)', () => {
         UsersModule,
         TypeOrmModule.forRoot({
           type: 'postgres',
-          host: 'users-db-test',
+          host:  process.env.DB_HOST,
           port: 5432,
-          username: 'postgres',
-          password: 'postgres',
+          username:  process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
           database: 'users-db-test', 
           autoLoadEntities: true,
           synchronize: true,

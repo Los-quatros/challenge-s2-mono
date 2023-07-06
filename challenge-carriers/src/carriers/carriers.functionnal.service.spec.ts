@@ -19,10 +19,10 @@ describe('CarriersService (functional)', () => {
         CarriersModule,
         TypeOrmModule.forRoot({
           type: 'postgres',
-          host: 'carrier-db-test',
+          host: process.env.DB_HOST,
           port: 5432,
-          username: 'postgres',
-          password: 'postgres',
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
           database: 'carrier-db-test', 
           autoLoadEntities: true,
           synchronize: true,
