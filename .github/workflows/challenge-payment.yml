@@ -12,7 +12,7 @@ env:
   GKE_ZONE: europe-west1
 
 jobs:
-  test: 
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -29,7 +29,7 @@ jobs:
           - 5432:5432
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db_test
-     
+
     defaults:
       run:
         working-directory: ./challenge-payment
@@ -41,7 +41,7 @@ jobs:
       #   run: npm run test
       - name: build
         run: npm run build
-    
+
   publish-image:
     runs-on: ubuntu-latest
     needs: test
@@ -65,9 +65,8 @@ jobs:
         with:
           context: ./challenge-payment
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/challenge-payment:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine-payment:latest
 
-    
   deploy:
     runs-on: ubuntu-latest
     needs: publish-image
@@ -75,9 +74,9 @@ jobs:
       - name: Set up Kubernetes
         uses: actions/checkout@v3
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           credentials_json: ${{ secrets.GKE_SA_KEY }}
 
@@ -86,8 +85,7 @@ jobs:
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
-      
+
       - name: Update deployment
         run: |
           kubectl patch deployment challenge-payment -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-  

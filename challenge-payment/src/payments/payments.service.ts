@@ -27,6 +27,7 @@ export class PaymentsService {
   ) {}
 
   async createCheckoutSession(data: any) {
+   
     const result = data;
     const orderCarrier = result.carrier;
     const items = result.products;
