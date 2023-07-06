@@ -91,7 +91,6 @@ const AppContent = () => {
     "process.env.REACT_APP_BASE_API_URL"
   );
   console.log(process.env.REACT_APP_HOST, "process.env.REACT_APP_HOST");
-
   const location = useLocation();
 
   const displayHeader =
