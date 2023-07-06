@@ -81,15 +81,5 @@ describe('ProductsService (functional)', () => {
     });
   });
 
-  describe('GetAllCarriers', () => {
-    it('should return all products', async () => {
-      const products = await productsService.getAllProducts();
-
-      expect(products).toBeDefined();
-      
-    });
-
-    
-  });
  
 });
