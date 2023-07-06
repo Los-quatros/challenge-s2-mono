@@ -15,7 +15,8 @@ export class ProductsService {
   }
 
   async GetAllProducts() {
-    return this.productsProxy.send('getAllProducts', {});
+    const result = await lastValueFrom(this.productsProxy.send('getAllProducts', {}));
+    return result;
   }
 
   async GetAllProductsAdmin(): Promise<any> {

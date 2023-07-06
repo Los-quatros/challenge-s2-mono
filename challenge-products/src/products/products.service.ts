@@ -3,6 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from './Entity/category.entity';
 import { Product } from './Entity/product.entity';
+import { ImagesService } from './images/images.service';
+import {
+  AssociationType,
+  ImagesAssociatedOn,
+} from './images/models/imageAssociatedOn';
 import { CreateProductDto } from './models/CreateProductDto';
 import { UpdateProductDto } from './models/UpdateProductDto';
 
@@ -13,6 +18,7 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
+    private imagesService: ImagesService,
   ) {}
 
   // si c'est un seller il faudra contacter alors penser a envoyer un event pour que le service seller ajoute l'id du produit au tabeau de produits du seller, si c'est un admin plus rien a faire
@@ -82,10 +88,22 @@ export class ProductsService {
 
   async getAllProducts(): Promise<Product[]> {
     try {
-      return await this.productsRepository.find({
+      const result: Product[] = await this.productsRepository.find({
         where: { isActivated: true },
         relations: ['category'],
       });
+      const resultWithImages: Promise<Array<Product>> = Promise.all(
+        result.map(async (elm: Product) => {
+          const payload: ImagesAssociatedOn = new ImagesAssociatedOn(
+            elm.id,
+            AssociationType.Product,
+          );
+          const image = await this.imagesService.imageFromIdRessource(payload);
+          elm.image = image;
+          return elm;
+        }),
+      );
+      return resultWithImages;
     } catch (error) {
       throw new HttpException(
         {
@@ -97,12 +115,24 @@ export class ProductsService {
     }
   }
 
-  async getAllProductsAdmin(): Promise<Product[] | any> {
+  async getAllProductsAdmin(): Promise<Product[]> {
     try {
-      return await this.productsRepository.find({
+      const result: Product[] = await this.productsRepository.find({
         where: { isActivated: true },
         relations: ['category'],
       });
+      const resultWithImages: Promise<Array<Product>> = Promise.all(
+        result.map(async (elm: Product) => {
+          const payload: ImagesAssociatedOn = new ImagesAssociatedOn(
+            elm.id,
+            AssociationType.Product,
+          );
+          const image = await this.imagesService.imageFromIdRessource(payload);
+          elm.image = image;
+          return elm;
+        }),
+      );
+      return resultWithImages;
     } catch (error) {
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -117,6 +147,12 @@ export class ProductsService {
         where: { id: value, isActivated: true },
         relations: ['category'],
       });
+      const payload: ImagesAssociatedOn = new ImagesAssociatedOn(
+        product.id,
+        AssociationType.Product,
+      );
+      const image = await this.imagesService.imageFromIdRessource(payload);
+      product.image = image;
       return product;
     } catch (error) {
       throw new HttpException(
@@ -204,10 +240,22 @@ export class ProductsService {
 
   async getSellerProducts(sellerId: string): Promise<Array<Product>> {
     try {
-      return await this.productsRepository.find({
-        where: { sellerId: sellerId, isActivated: true },
+      const result: Product[] = await this.productsRepository.find({
+        where: { sellerId: sellerId },
         relations: ['category'],
       });
+      const resultWithImages: Promise<Array<Product>> = Promise.all(
+        result.map(async (elm: Product) => {
+          const payload: ImagesAssociatedOn = new ImagesAssociatedOn(
+            elm.id,
+            AssociationType.Product,
+          );
+          const image = await this.imagesService.imageFromIdRessource(payload);
+          elm.image = image;
+          return elm;
+        }),
+      );
+      return resultWithImages;
     } catch (error) {
       throw new HttpException(
         {
