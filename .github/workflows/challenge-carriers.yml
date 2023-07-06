@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       carrier-db-test:
-        image: postgres:14.8-alpine3.17
+        image: postgres:12.1-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -28,11 +28,8 @@ jobs:
           --health-retries 5
         ports:
           - 5459:5432
-      # env:
-      #   POSTGRES_USER: postgres
-      #   POSTGRES_PASSWORD: postgres
-      #   POSTGRES_DB: carrier-db-test
-      #   DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5459/carrier-db-test
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5459/carrier-db-test
      
     defaults:
       run:
