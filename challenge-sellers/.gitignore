@@ -3,6 +3,8 @@
 /node_modules
 /database
 /sellers-database
+/database-test
+
 
 # Logs
 logs

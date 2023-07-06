@@ -4,6 +4,9 @@
 /database
 /returns-database
 /sellers-database
+/database
+/database-test
+
 
 # Logs
 logs
