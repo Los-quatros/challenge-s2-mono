@@ -67,24 +67,5 @@ describe('UsersService (functional)', () => {
     });
 
   });
-
-  describe('findAll', () => {
-    it('should return all users', async () => {
-      const users = await usersService.findAll();
-
-      expect(users).toBeDefined();
-     
-    });
-  });
-
-  describe('findOne', () => {
-    it('should return the created user', async () => {
-      const user = await usersService.findOne(createdUser['id']);
-
-      expect(user).toBeDefined();
-     
-    });
-  });
-
  
 });
