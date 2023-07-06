@@ -11,10 +11,16 @@ import CategoryPreviewAll from "../../components/Admin/Categories/CategoryPrevie
 import useClient from "../../hooks/Admin/useClient";
 import useSeller from "../../hooks/Admin/useSeller";
 import useCarrier from "../../hooks/Admin/useCarrier";
+import useProduct from "../../hooks/Admin/useProduct";
+import useOrder from "../../hooks/Admin/useOrder";
+import useReturn from "../../hooks/Admin/useReturn";
 const Dashboard = () => {
   const { users } = useClient();
   const { sellers } = useSeller();
   const { carriers } = useCarrier();
+  const { products } = useProduct();
+  const { orders } = useOrder();
+  const { returns } = useReturn();
 
   return (
     <>
@@ -51,7 +57,9 @@ const Dashboard = () => {
                         <div className={styles["stat-text"]}>
                           Total Produits
                         </div>
-                        <div className={styles["stat-digit"]}>1,012</div>
+                        <div className={styles["stat-digit"]}>
+                          {products ? products.length : 0}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -98,7 +106,9 @@ const Dashboard = () => {
                         <div className={styles["stat-text"]}>
                           Total commandes
                         </div>
-                        <div className={styles["stat-digit"]}>961</div>
+                        <div className={styles["stat-digit"]}>
+                          {orders ? orders.length : 0}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -128,7 +138,9 @@ const Dashboard = () => {
                       </div>
                       <div className={styles["stat-content dib"]}>
                         <div className={styles["stat-text"]}>Total retours</div>
-                        <div className={styles["stat-digit"]}>961</div>
+                        <div className={styles["stat-digit"]}>
+                          {returns ? returns.length : 0}
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -6,10 +6,12 @@ COPY . .
 
 RUN npm install
 
+ARG REACT_APP_TOTO
+
 ENV REACT_APP_BASE_API_URL=https://api-marketplace.moon-factory.fr
 ENV REACT_APP_CAPTCHA_SECRET_KEY=6Lfz6MomAAAAAG8HpQKYPS15kO5piJgeNMguDcw7
 ENV REACT_APP_STRIPE_PUBLIC_KEY=pk_test_51IUL0ZLnExjIVJco3CPRbrYaiENzxKGsbEUeA5S5nVxzQHca4fcQ2V7qVbwSqdxFmuAdVBfwDCI0nAMdSLAQsm1X00enddSEAf
-
+ENV REACT_APP_TOTO = $REACT_APP_TOTO
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
@@ -23,6 +25,7 @@ FROM nginx:alpine AS app_prod
 COPY --from=app_build /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY .env /usr/share/nginx/html/.env
 
 EXPOSE 80
 
