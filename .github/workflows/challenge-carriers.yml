@@ -20,15 +20,16 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: carrier-db-test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:5432
+          - 5459:5432
     env:
-      DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5432/carrier-db-test
+      DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5459/carrier-db-test
      
     defaults:
       run:
