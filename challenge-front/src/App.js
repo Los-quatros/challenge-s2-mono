@@ -26,6 +26,7 @@ const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 // const { user, isA}
 const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
+
 const $ = window.$;
 
 window.$(function () {
