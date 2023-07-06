@@ -83,9 +83,7 @@ const AppContent = () => {
   const hasToken = localStorage.getItem("token") ? true : false;
 
   const isAdmin = localStorage.getItem("role") === "admin" ? true : false;
-
   console.log(process.env.REACT_APP_API_URL, "process.env.REACT_APP_API_URL");
-
   console.log(
     process.env.REACT_APP_BASE_API_URL,
     "process.env.REACT_APP_BASE_API_URL"
@@ -93,7 +91,6 @@ const AppContent = () => {
   console.log(process.env.REACT_APP_HOST, "process.env.REACT_APP_HOST");
 
   const location = useLocation();
-
 
   const displayHeader =
     location.pathname !== "/login" &&
