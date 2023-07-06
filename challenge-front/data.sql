@@ -1,3 +1,44 @@
+-- USERS --
+
+INSERT INTO "user" ("id", "email", "firstName", "lastName", "password", "roles", "activation_token", "resetPasswordToken", "avatar", "sellerId")
+VALUES
+  (
+    '51b3e54e-1b93-11ea-be56-0242ac120001',
+    'admin@admin.fr',
+    'Admin',
+    'Admin',
+    '$2a$10$gzZE/DeoZ36ZamVP6oJEsOmRAl6vOCoQhR99cZuRzobtcfIFPuLPW',
+    'admin',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  ),
+  (
+    '51b3e54e-1b93-11ef-be56-0242ac120002',
+    'user@user.fr',
+    'User',
+    'User',
+    '$2a$10$gzZE/DeoZ36ZamVP6oJEsOmRAl6vOCoQhR99cZuRzobtcfIFPuLPW',
+    'user',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  ),
+  (
+    '51b3e54e-1b93-11ee-be56-0241ac120003',
+    'seller@seller.fr',
+    'Seller',
+    'Seller',
+    '$2a$10$gzZE/DeoZ36ZamVP6oJEsOmRAl6vOCoQhR99cZuRzobtcfIFPuLPW',
+    'seller',
+    NULL,
+    NULL,
+    NULL,
+    '2a2bb63f-f53a-4f78-ab7d-00f643a72e3f' -- Need to be created before in sellers db
+  );
+
 -- HEADPHONES PRODUCTS --
 
 INSERT INTO "product" ("id", "label", "price", "quantity", "sellerId", "isActivated", "image", "categoryId", "description")
@@ -5,7 +46,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120002',
     'Casque sans fil Sony WH-1000XM4',
-    349.99,
+    350,
     5,
     NULL,
     TRUE,
@@ -16,7 +57,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120003',
     'Casque audio Bose QuietComfort 35 II',
-    299.99,
+    300,
     5,
     NULL,
     TRUE,
@@ -27,7 +68,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120004',
     'Casque sans fil Apple AirPods Pro',
-    249.99,
+    250,
     5,
     NULL,
     TRUE,
@@ -38,7 +79,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120005',
     'Casque gaming SteelSeries Arctis 7',
-    149.99,
+    150,
     5,
     NULL,
     TRUE,
@@ -49,7 +90,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120006',
     'Casque audio Sennheiser HD 660 S',
-    499.99,
+    500,
     5,
     NULL,
     TRUE,
@@ -65,7 +106,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120014',
     'Téléphone intelligent Samsung Galaxy S20',
-    999.99,
+    1000,
     5,
     NULL,
     TRUE,
@@ -76,7 +117,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120015',
     'Téléphone intelligent Apple iPhone 11 Pro',
-    1379.99,
+    1380,
     5,
     NULL,
     TRUE,
@@ -87,7 +128,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120016',
     'Téléphone intelligent Google Pixel 4',
-    999.99,
+    1000,
     5,
     NULL,
     TRUE,
@@ -98,7 +139,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120017',
     'Téléphone intelligent Samsung Galaxy Note10+',
-    1319.99,
+    1320,
     5,
     NULL,
     TRUE,
@@ -109,7 +150,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120018',
     'Téléphone intelligent Apple iPhone 11',
-    979.99,
+    980,
     5,
     NULL,
     TRUE,
@@ -125,7 +166,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120024',
     'Tablette Apple iPad Pro 11 po 64 Go',
-    999.99,
+    1000,
     5,
     NULL,
     TRUE,
@@ -136,7 +177,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120025',
     'Tablette Samsung Galaxy Tab S6 10,5 po 128 Go',
-    999.99,
+    1000,
     5,
     NULL,
     TRUE,
@@ -147,7 +188,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120026',
     'Tablette Apple iPad 10,2 po 32 Go',
-    429.99,
+    430,
     5,
     NULL,
     TRUE,
@@ -158,7 +199,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120027',
     'Tablette Samsung Galaxy Tab A 10,1 po 32 Go',
-    299.99,
+    300,
     5,
     NULL,
     TRUE,
@@ -169,7 +210,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120028',
     'Tablette Samsung Galaxy Tab A 8 po 32 Go',
-    199.99,
+    200,
     5,
     NULL,
     TRUE,
@@ -185,7 +226,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120034',
     'Appareil photo sans miroir Sony Alpha a7 III avec objectif 28-70 mm',
-    2999.99,
+    2100,
     5,
     NULL,
     TRUE,
@@ -196,7 +237,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120035',
     'Appareil photo sans miroir Sony Alpha a7R IV avec objectif 24-105 mm',
-    5999.99,
+    5100,
     5,
     NULL,
     TRUE,
@@ -207,7 +248,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120036',
     'Appareil photo sans miroir Sony Alpha a7R III avec objectif 24-70 mm',
-    4499.99,
+    4500,
     5,
     NULL,
     TRUE,
@@ -218,7 +259,7 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120037',
     'Appareil photo sans miroir Sony Alpha a7 II avec objectif 28-70 mm',
-    1999.99,
+    1100,
     5,
     NULL,
     TRUE,
@@ -229,11 +270,57 @@ VALUES
   (
     '51b3e54e-1b93-11ee-be56-0242ac120038',
     'Appareil photo sans miroir Sony Alpha a7S II avec objectif 28-70 mm',
-    2999.99,
+    2100,
     5,
     NULL,
     TRUE,
     NULL,
     '90543b10-d3f6-4801-afd6-ea9a49b58e64',
     'L"appareil photo sans miroir Sony Alpha a7S II avec objectif 28-70 mm offre une expérience mobile exceptionnelle avec un écran LCD de 3 po et un appareil photo de 12,2 Mpx. Profitez d"une performance fluide et d"une autonomie prolongée grâce à la puce BIONZ X et à la batterie longue durée. De plus, il est doté d"un design élégant et durable qui résiste à l"eau et à la poussière.'
+  );
+
+-- CARRIERS --
+
+INSERT INTO "carriers" ("id", "name", "fees", "isActive")
+VALUES
+  (
+    '51b3e54e-1b93-11ee-be56-0242ac120029',
+    'standard',
+    2,
+    TRUE
+  ),
+  (
+    '51b3e54e-1b93-11ee-be56-0242ac120030',
+    'free',
+    0,
+    TRUE
+  ),
+  (
+    '51b3e54e-1b93-11ee-be56-0242ac120031',
+    'express',
+    5,
+    TRUE
+  );
+
+-- ADDRESSES --
+
+INSERT INTO "address" ("id", "state", "zip", "country", "user_id", "city", "street")
+VALUES
+  (
+    '51b3e54e-1b93-11ee-be56-0242ac120032',
+    TRUE,
+    '92100',
+    'France',
+    '51b3e54e-1b93-11ef-be56-0242ac120002',
+    'Boulogne-Billancourt',
+    '6 rue de billancourt'
+  ),
+  (
+    '51b3e54e-1b93-11ee-be56-0242ac120033',
+    TRUE,
+    '77000',
+    'France',
+    '51b3e54e-1b93-11ef-be56-0242ac120002',
+    'Montréal',
+    '1234 rue de la rue'
   );

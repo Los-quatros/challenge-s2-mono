@@ -112,7 +112,7 @@ function TabletPage() {
 		} else if (value === "name") {
 			setProducts(
 				products.sort((a, b) => {
-					return a.name.localeCompare(b.name);
+					return a.label.localeCompare(b.label);
 				})
 			);
 		} else {

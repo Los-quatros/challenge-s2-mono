@@ -24,7 +24,7 @@ function HomePage() {
 		setProducts([
 			{
 				id: 1,
-				name: "Iphone X 64 Go",
+				label: "Iphone X 64 Go",
 				price: 1399.99,
 				image: image1,
 				category: "phones",
@@ -35,7 +35,7 @@ function HomePage() {
 			},
 			{
 				id: 2,
-				name: "Caméra Dg HSM",
+				label: "Caméra Dg HSM",
 				price: 799.99,
 				image: image2,
 				category: "cameras",
@@ -45,7 +45,7 @@ function HomePage() {
 			},
 			{
 				id: 3,
-				name: "Casque Sony",
+				label: "Casque Sony",
 				price: 299.99,
 				image: image3,
 				category: "headphones",
@@ -55,7 +55,7 @@ function HomePage() {
 			},
 			{
 				id: 4,
-				name: "Tablette Apple",
+				label: "Tablette Apple",
 				price: 499.99,
 				image: image4,
 				category: "tablets",

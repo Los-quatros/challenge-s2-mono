@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import cartPageBackground from "../assets/images/cart/cart.png";
+import jwt_decode from "jwt-decode";
+import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
-// import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -26,32 +27,33 @@ const setToast = (message, type) => {
 
 function CartPage({ handleClearCart }) {
 	const [products, setProducts] = useState([]);
-	const [deliveryMode, setDeliveryMode] = useState("free");
+	const [deliveryMode, setDeliveryMode] = useState("");
 	const [subtotal, setSubtotal] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [isLogged, setIsLogged] = useState(false);
+	const [carriers, setCarriers] = useState([]);
+	const [addresses, setAddresses] = useState("");
+	const [selectedAddress, setSelectedAddress] = useState("");
 	const navigate = useNavigate();
 
-	/**
-	 * Compute the total price of the cart
-	 */
-	const computeCardTotalPrice = useCallback(() => {
-		setSubtotal(0);
-		setTotal(0);
+	useEffect(() => {
+		let newSubtotal = 0;
+		let newTotal = 0;
+
 		products.forEach((p) => {
-			setSubtotal((prevSubtotal) => prevSubtotal + p.price * p.quantity);
-			setTotal(
-				(prevTotal) =>
-					prevTotal +
-					p.price * p.quantity +
-					(deliveryMode === "free"
-						? 0
-						: deliveryMode === "express"
-						? 4.99
-						: 1.99)
-			);
+			newSubtotal += Number(p.price) * Number(p.quantity);
+			newTotal += p.price * p.quantity;
 		});
-	}, [products, deliveryMode]);
+
+		const carrier = carriers.find((a) => a.name === deliveryMode);
+
+		if (carrier) {
+			newTotal += carrier.fees;
+		}
+
+		setSubtotal(newSubtotal);
+		setTotal(newTotal);
+	}, [products, deliveryMode, carriers]);
 
 	useEffect(() => {
 		const cart = JSON.parse(localStorage.getItem("cart"));
@@ -61,22 +63,65 @@ function CartPage({ handleClearCart }) {
 	}, []);
 
 	useEffect(() => {
-		if (products.length > 0) {
-			computeCardTotalPrice();
-		}
-	}, [products, computeCardTotalPrice]);
-
-	useEffect(() => {
-		if (products.length > 0) {
-			computeCardTotalPrice();
-		}
-	}, [deliveryMode, computeCardTotalPrice, products.length]);
-
-	useEffect(() => {
 		const token = localStorage.getItem("token");
 		if (token) {
 			setIsLogged(true);
 		}
+	}, []);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		fetch("http://localhost:4000/carriers", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					setCarriers(data);
+					setDeliveryMode(data[0].name);
+				} else {
+					setToast("Erreur lors du chargement des transporteurs", "error");
+				}
+			})
+			.catch(() => {
+				setToast("Erreur lors du chargement des transporteurs", "error");
+			});
+	}, []);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/addresses/users/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					setAddresses(data);
+					setSelectedAddress(data[0].id);
+				} else {
+					setToast("Erreur lors du chargement des transporteurs", "error");
+				}
+			})
+			.catch(() => {
+				setToast("Erreur lors du chargement des transporteurs", "error");
+			});
 	}, []);
 
 	/**
@@ -85,30 +130,43 @@ function CartPage({ handleClearCart }) {
 	 */
 	const handlePayment = async (event) => {
 		event.preventDefault();
-
 		if (isLogged) {
-			// const stripe = await loadStripe(
-			// 	process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-			// );
-			// try {
-			// 	const response = await fetch("/api/create-checkout-session", {
-			// 		method: "POST",
-			// 		headers: {
-			// 			"Content-Type": "application/json",
-			// 		},
-			// 		body: JSON.stringify({
-			// 			amount: 1000,
-			// 			currency: "eur",
-			// 		}),
-			// 	});
-			// 	const { sessionId } = await response.json();
-			// 	const { error } = await stripe.redirectToCheckout({ sessionId: sessionId });
-			// 	if (error) {
-			// 		setToast("Erreur lors du paiement", "error");
-			// 	}
-			// } catch {
-			// 	setToast("Erreur lors du paiement", "error");
-			// }
+			const token = localStorage.getItem("token");
+			const decodedToken = jwt_decode(token);
+			const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+			const data = {
+				orderProducts: products.map((p) => ({
+					id_product: p.id,
+					quantity: p.quantity,
+				})),
+				total: total,
+				carrier: carriers.find((c) => c.name === deliveryMode).id,
+				userId: decodedToken.id,
+				address: selectedAddress,
+			};
+			fetch("http://localhost:4000/orders", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify({ ...data }),
+			})
+				.then((response) => {
+					if (response.status === 201) {
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						return stripe.redirectToCheckout({
+							sessionId: data["data"].sessionId,
+						});
+					}
+				})
+				.catch(() => {
+					setToast("Erreur lors de la redirection vers Stripe", "error");
+				});
 		} else {
 			navigate("/login");
 		}
@@ -178,7 +236,7 @@ function CartPage({ handleClearCart }) {
 		setProducts([]);
 		setSubtotal(0);
 		setTotal(0);
-		setDeliveryMode("free");
+		setDeliveryMode(carriers[0].name);
 		setToast("Le panier a été vidé", "success");
 		handleClearCart();
 	};
@@ -200,13 +258,19 @@ function CartPage({ handleClearCart }) {
 	const onDeliveryModeChange = (mode) => setDeliveryMode(mode);
 
 	/**
+	 * Trigger on address change
+	 * @param { string } id Address id of the user
+	 */
+	const onAddressChange = (id) => setSelectedAddress(id);
+
+	/**
 	 * Redirect to product details page
 	 * @param { Event } event Click event
 	 * @param { string } id Product id
 	 */
 	const redirectToProductDetails = (event, product) => {
 		event.preventDefault();
-		navigate(`/products/${product.category}/${product.id}`, {
+		navigate(`/products/${product.category.name}/${product.id}`, {
 			state: { product },
 		});
 	};
@@ -260,7 +324,7 @@ function CartPage({ handleClearCart }) {
 				}
 			>
 				<div className="container">
-					{products.length > 0 && (
+					{products.length > 0 && carriers.length > 0 && addresses.length && (
 						<>
 							<div className="row">
 								<div className="col">
@@ -283,11 +347,11 @@ function CartPage({ handleClearCart }) {
 							<div className="row cart_items_row">
 								<div className="col">
 									{products.map((product) => (
-										<div className="col" key={product.name + "_" + product.id}>
+										<div className="col" key={product.label + "_" + product.id}>
 											<div className="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
 												<div className="cart_item_product d-flex flex-row align-items-center justify-content-start">
 													<div className="cart_item_image">
-														<img src={product.image} alt={product.name} />
+														<img src={product.image} alt={product.label} />
 													</div>
 													<div className="cart_item_name_container">
 														<div className="cart_item_name">
@@ -296,13 +360,13 @@ function CartPage({ handleClearCart }) {
 																	redirectToProductDetails(event, product)
 																}
 															>
-																{product.name}
+																{product.label}
 															</Link>
 														</div>
 													</div>
 												</div>
 												<div className="cart_item_price">
-													{product.price.toFixed(2)}€
+													{Number(product.price).toFixed(2)}€
 												</div>
 												<div className="cart_item_quantity">
 													<div className="product_quantity_container">
@@ -341,7 +405,7 @@ function CartPage({ handleClearCart }) {
 													</div>
 												</div>
 												<div className="cart_item_total">
-													{(product.price * product.quantity).toFixed(2)}€
+													{Number(product.price * product.quantity).toFixed(2)}€
 												</div>
 											</div>
 										</div>
@@ -368,7 +432,7 @@ function CartPage({ handleClearCart }) {
 									</div>
 								</div>
 							</div>
-							<div className="row row_extra">
+							<div className="row row_extra d-flex justify-content-between">
 								<div className="col-lg-4">
 									<div className="delivery">
 										<div className="section_title">Mode de livraison</div>
@@ -376,44 +440,54 @@ function CartPage({ handleClearCart }) {
 											Livraison et frais supplémentaires
 										</div>
 										<div className="delivery_options">
-											<label className="delivery_option clearfix">
-												Rapide (1 jour ouvré)
-												<input
-													type="radio"
-													name="radio"
-													checked={deliveryMode === "express"}
-													onChange={() => onDeliveryModeChange("express")}
-												/>
-												<span className="checkmark"></span>
-												<span className="delivery_price">4.99€</span>
-											</label>
-											<label className="delivery_option clearfix">
-												Standard (2 jours ouvrés)
-												<input
-													type="radio"
-													name="radio"
-													checked={deliveryMode === "standard"}
-													onChange={() => onDeliveryModeChange("standard")}
-												/>
-												<span className="checkmark"></span>
-												<span className="delivery_price">1.99€</span>
-											</label>
-											<label className="delivery_option clearfix">
-												Gratuit (5 jours ouvrés)
-												<input
-													type="radio"
-													name="radio"
-													checked={deliveryMode === "free"}
-													onChange={() => onDeliveryModeChange("free")}
-												/>
-												<span className="checkmark"></span>
-												<span className="delivery_price">Gratuit</span>
-											</label>
+											{carriers.map((carrier) => (
+												<label
+													className="delivery_option clearfix"
+													key={carrier.name}
+												>
+													{carrier.name}
+													<input
+														type="radio"
+														name="radio-delivery"
+														checked={deliveryMode === carrier.name}
+														onChange={() => onDeliveryModeChange(carrier.name)}
+													/>
+													<span className="checkmark"></span>
+													<span className="delivery_price">
+														{carrier.fees + "€"}
+													</span>
+												</label>
+											))}
 										</div>
 									</div>
 								</div>
-								<div className="col-lg-6 offset-lg-2">
-									<div className="cart_total">
+								<div className="col-lg-6" style={{ marginTop: "53px" }}>
+									<div className="carrier">
+										<div className="section_title">Mes adresses</div>
+										<div className="section_subtitle">Adresse de livraison</div>
+										<div className="carrier_options">
+											{addresses.map((address) => (
+												<label
+													className="carrier_option clearfix"
+													key={address.id}
+												>
+													{`${address.street} ${address.city} ${address.zip}`}
+													<input
+														type="radio"
+														name="radio-carrier"
+														checked={selectedAddress === address.id}
+														onChange={() => onAddressChange(address.id)}
+													/>
+													<span className="checkmark"></span>
+												</label>
+											))}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="row row_extra mt-0">
+								<div className="col-lg-6">
+									<div className="cart_total mt-0">
 										<div className="section_title">Panier totale</div>
 										<div className="section_subtitle">
 											Résumé de la commande
@@ -429,11 +503,7 @@ function CartPage({ handleClearCart }) {
 												<li className="d-flex flex-row align-items-center justify-content-start">
 													<div className="cart_total_title">Livraison</div>
 													<div className="cart_total_value ml-auto">
-														{deliveryMode === "express"
-															? "Rapide"
-															: deliveryMode === "standard"
-															? "Standard"
-															: "Gratuit"}
+														{deliveryMode}
 													</div>
 												</li>
 												<li className="d-flex flex-row align-items-center justify-content-start">
