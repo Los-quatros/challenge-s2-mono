@@ -51,8 +51,8 @@ jobs:
           context: ./challenge-front
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
-          args: |
-            --build-arg REACT_APP_TOTO=1
+          build-args: |
+            REACT_APP_TOTO=1
 
   deploy:
     runs-on: ubuntu-latest
