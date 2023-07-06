@@ -79,6 +79,7 @@ function PaymentSuccess() {
 								setDisplay(false);
 								if (data) {
 									setDisplay(true);
+									localStorage.removeItem("cart");
 									return;
 								} else {
 									setToast(

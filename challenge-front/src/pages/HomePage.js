@@ -10,11 +10,18 @@ import image2 from "../assets/images/home/products/product_2.png";
 import image3 from "../assets/images/home/products/product_3.png";
 import image4 from "../assets/images/home/products/product_4.png";
 
-function HomePage() {
+function HomePage({ handleCartChange }) {
 	const [products, setProducts] = useState([]);
 
 	useEffect(() => {
 		initProducts();
+	}, []);
+
+	useEffect(() => {
+		const cart = JSON.parse(localStorage.getItem("cart"));
+		if (!cart) {
+			handleCartChange();
+		}
 	}, []);
 
 	/**
