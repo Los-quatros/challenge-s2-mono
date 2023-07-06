@@ -89,5 +89,5 @@ jobs:
 
       - name: Update deployment
         run: |
-          kubectl patch deployment challenge-payment -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+          kubectl patch deployment challenge-images -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
       
