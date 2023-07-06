@@ -4,7 +4,7 @@ import HomeContainer from "../HomeContainerPage";
 import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import cameraBackground from "../../assets/images/categories/cameras/camera_1.png";
-import defaultImage from "../../assets/images/categories/default.png";
+import defaultImage from "../../assets/images/categories/default-large.png";
 import { toast } from "react-toastify";
 
 const title = "Nos caméras";

@@ -22,9 +22,11 @@ const setToast = (message, type) => {
 	});
 };
 
-function ProfilePage() {
+function ProfilePage({ role }) {
 	const { name } = useParams();
 	const [lastName, setLastName] = useState("");
+	const [shop, setShop] = useState("");
+	const [description, setDescription] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -93,6 +95,19 @@ function ProfilePage() {
 	}, [password, confirmPassword]);
 
 	useEffect(() => {
+		document
+			.querySelector(`#account-menu`)
+			.querySelectorAll("li")
+			.forEach((li) => {
+				if (li.id === `account-${name}`) {
+					li.classList.add("active");
+				} else {
+					li.classList.remove("active");
+				}
+			});
+	}, [name]);
+
+	useEffect(() => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
 		fetch(`${process.env.REACT_APP_BASE_API_URL}/users/${decodedToken.id}`, {
@@ -112,6 +127,40 @@ function ProfilePage() {
 					setLastName(data.lastName);
 					setFirstName(data.firstName);
 					setEmail(data.email);
+					if (role === "seller") {
+						fetch(
+							`${process.env.REACT_APP_BASE_API_URL}/sellers/${data.sellerId}`,
+							{
+								method: "GET",
+								headers: {
+									"Content-Type": "application/json",
+									Authorization: `Bearer ${token}`,
+								},
+							}
+						)
+							.then((response) => {
+								if (response.status === 200) {
+									return response.json();
+								}
+							})
+							.then((data) => {
+								if (data) {
+									setShop(data.name);
+									setDescription(data.description);
+								} else {
+									setToast(
+										"Une erreur est survenue lors de la récupération de vos données",
+										"error"
+									);
+								}
+							})
+							.catch(() => {
+								setToast(
+									"Une erreur est survenue lors de la récupération de vos données",
+									"error"
+								);
+							});
+					}
 				} else {
 					setToast(
 						"Une erreur est survenue lors de la récupération de vos données",
@@ -125,20 +174,7 @@ function ProfilePage() {
 					"error"
 				);
 			});
-	}, []);
-
-	useEffect(() => {
-		document
-			.querySelector(`#account-menu`)
-			.querySelectorAll("li")
-			.forEach((li) => {
-				if (li.id === `account-${name}`) {
-					li.classList.add("active");
-				} else {
-					li.classList.remove("active");
-				}
-			});
-	}, [name]);
+	}, [role]);
 
 	/**
 	 * Update the user profile
@@ -205,6 +241,45 @@ function ProfilePage() {
 					<div className="row gx-5">
 						<div className="col-12 mb-3 mb-xxl-0">
 							<div className="bg-secondary-soft rounded">
+								{role === "seller" && (
+									<>
+										<div className="row g-3">
+											<div className="col-12">
+												<label htmlFor="shop" className="form-label">
+													Boutique<span className="red">*</span>
+												</label>
+												<input
+													disabled
+													type="text"
+													className="form-control"
+													placeholder="La boutique de John"
+													id="shop"
+													value={shop}
+													onInput={(event) => setShop(event.target.value)}
+												/>
+											</div>
+										</div>
+										<div className="row g-3 mt-2 mb-2">
+											<div className="col-12">
+												<label htmlFor="description" className="form-label">
+													Description<span className="red">*</span>
+												</label>
+												<input
+													required
+													disabled
+													type="text"
+													className="form-control"
+													placeholder="Description de la boutique"
+													id="description"
+													value={description}
+													onInput={(event) =>
+														setDescription(event.target.value)
+													}
+												/>
+											</div>
+										</div>
+									</>
+								)}
 								<div className="row g-3">
 									<div className="col-12">
 										<label htmlFor="lastName" className="form-label">

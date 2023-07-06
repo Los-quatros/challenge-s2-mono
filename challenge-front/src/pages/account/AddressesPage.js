@@ -240,8 +240,8 @@ function AddressesPage() {
 
 	/**
 	 * Remove an address from the list
-	 * @param {*} event
-	 * @param {*} index
+	 * @param { Event } event Event button on click
+	 * @param { number } index Index of the address to remove
 	 */
 	const removeAddress = (event, index) => {
 		event.preventDefault();

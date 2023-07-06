@@ -81,7 +81,7 @@ function ProductsPage() {
 							hasChanged: false,
 						},
 						category: {
-							value: product.category ? product.category : "",
+							value: product.category.name ? product.category.name : "",
 							error: "",
 							hasChanged: false,
 						},
@@ -194,6 +194,7 @@ function ProductsPage() {
 					hasChanged: false,
 				},
 				category: {
+					id: "",
 					value: "",
 					error: "",
 					hasChanged: false,
@@ -282,6 +283,9 @@ function ProductsPage() {
 				updatedProducts[index][field].error = "La catégorie est obligatoire";
 			} else {
 				updatedProducts[index][field].error = "";
+				updatedProducts[index][field].id = categories.find(
+					(category) => category.name === value
+				).id;
 			}
 		}
 		setProducts(updatedProducts);
@@ -350,8 +354,8 @@ function ProductsPage() {
 
 	/**
 	 * Remove an product from the list
-	 * @param {*} event
-	 * @param {*} index
+	 * @param { Event } event Button event on click
+	 * @param { number } index Index of the product to remove
 	 */
 	const removeProduct = (event, index) => {
 		event.preventDefault();
@@ -376,6 +380,7 @@ function ProductsPage() {
 		const quantity = products[index].quantity;
 		const description = products[index].description;
 		const category = products[index].category;
+		const image = products[index].image.value;
 
 		if (
 			label.value === "" ||
@@ -386,82 +391,80 @@ function ProductsPage() {
 		) {
 			setToast("Veuillez remplir tous les champs", "info");
 		} else {
-			const image = products[index].image.value;
-			if (image) {
-				const formData = new FormData();
-				formData.append("file", image);
-				fetch(`${process.env.REACT_APP_BASE_API_URL}/images/upload`, {
-					method: "POST",
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-					body: formData,
-				})
-					.then((response) => {
-						if (response.status === 200) {
-							return response.json();
-						}
-					})
-					.then((data) => {
-						if (data) {
-							// TODO manage image creation
-						} else {
-							setToast(
-								"Une erreur est survenue lors du chargement de l'image",
-								"error"
-							);
-						}
-					})
-					.catch(() => {
-						setToast(
-							"Une erreur est survenue lors du chargement de l'image",
-							"error"
-						);
-					});
-			} else {
-				fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-					},
-					body: JSON.stringify({
-						label: label.value,
-						description: description.value,
-						price: Number(price.value),
-						quantity: Number(quantity.value),
-						category: "72753dd4-956d-42c8-9d51-06a6c89f532b",
-						idSeller: decodedToken.id,
-					}),
-				})
-					.then((response) => {
-						if (response.status === 201) {
-							return response.json();
-						}
-					})
-					.then((data) => {
-						if (data) {
-							setToast("Produit ajouté avec succès", "success");
-							setHasChanged("label", false);
-							setHasChanged("description", false);
-							setHasChanged("price", false);
-							setHasChanged("quantity", false);
-							setHasChanged("category", false);
-							setHasChanged("image", false);
-						} else {
-							setToast(
-								"Une erreur est survenue lors de l'ajout du produit",
-								"error"
-							);
-						}
-					})
-					.catch(() => {
-						setToast(
-							"Une erreur est survenue lors de l'ajout du produit",
-							"error"
-						);
-					});
-			}
+			// fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 		Authorization: `Bearer ${token}`,
+			// 	},
+			// 	body: JSON.stringify({
+			// 		label: label.value,
+			// 		description: description.value,
+			// 		price: Number(price.value),
+			// 		quantity: Number(quantity.value),
+			// 		category: category.id,
+			// 		idSeller: decodedToken.id,
+			// 	}),
+			// })
+			// 	.then((response) => {
+			// 		if (response.status === 201) {
+			// 			return response.json();
+			// 		}
+			// 	})
+			// 	.then((data) => {
+			// 		if (data) {
+			// 			const formData = new FormData();
+			// 			formData.append("file", image);
+			// 			fetch(
+			// 				`${process.env.REACT_APP_BASE_API_URL}/images/upload/product/${data.id}`,
+			// 				{
+			// 					method: "POST",
+			// 					headers: {
+			// 						Authorization: `Bearer ${token}`,
+			// 					},
+			// 					body: formData,
+			// 				}
+			// 			)
+			// 				.then((response) => {
+			// 					if (response.status === 201) {
+			// 						return response.json();
+			// 					}
+			// 				})
+			// 				.then((data) => {
+			// 					if (data) {
+			// 						setToast("Produit ajouté avec succès", "success");
+			// 						setHasChanged("label", false);
+			// 						setHasChanged("description", false);
+			// 						setHasChanged("price", false);
+			// 						setHasChanged("quantity", false);
+			// 						setHasChanged("category", false);
+			// 						setHasChanged("image", false);
+			// 					} else {
+			// 						setToast(
+			// 							"Une erreur est survenue lors du chargement de l'image",
+			// 							"error"
+			// 						);
+			// 					}
+			// 				})
+			// 				.catch(() => {
+			// 					setToast(
+			// 						"Une erreur est survenue lors du chargement de l'image",
+			// 						"error"
+			// 					);
+			// 				});
+			// 		} else {
+			// 			setToast(
+			// 				"Une erreur est survenue lors de l'ajout du produit",
+			// 				"error"
+			// 			);
+			// 		}
+			// 	})
+			// 	.catch(() => {
+			// 		setToast(
+			// 			"Une erreur est survenue lors de l'ajout du produit",
+			// 			"error"
+			// 		);
+			// 	});
 		}
 	};
 
@@ -628,6 +631,9 @@ function ProductsPage() {
 												handleChange(index, "category", event.target.value)
 											}
 										>
+											{/* TODO */}
+											{/* TODO */}
+											{/* TODO */}
 											<option value="">Sélectionner une catégorie</option>
 											<>
 												{categories.map((category, optionIndex) => (

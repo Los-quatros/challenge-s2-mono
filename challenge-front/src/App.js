@@ -110,14 +110,15 @@ const AppContent = () => {
 
 	useEffect(() => {
 		clearLinks();
-		loadCSS("./assets/styles/global.css");
 		if (location.pathname === "/") {
+			loadCSS("./assets/styles/global.css");
 			loadCSS("./assets/styles/home/home.css");
 			loadCSS("./assets/styles/home/responsive.css");
 			loadCSS("./assets/styles/home/animate.css");
 			loadCSS("./assets/styles/home/owl.carousel.css");
 			loadCSS("./assets/styles/home/owl.theme.default.css");
 		} else if (location.pathname.startsWith("/categories")) {
+			loadCSS("../assets/styles/global.css");
 			loadCSS("../assets/styles/categories/categories.css");
 			loadCSS("../assets/styles/categories/responsive.css");
 		} else if (
@@ -126,18 +127,23 @@ const AppContent = () => {
 			location.pathname === "/reset-password" ||
 			location.pathname === "/new-password"
 		) {
+			loadCSS("../assets/styles/global.css");
 			loadCSS("../assets/styles/auth/auth.css");
 			loadCSS("../assets/styles/auth/util.css");
 		} else if (location.pathname.startsWith("/products")) {
+			loadCSS("../../assets/styles/global.css");
 			loadCSS("../../assets/styles/products/product.css");
 			loadCSS("../../assets/styles/products/responsive.css");
 		} else if (location.pathname === "/contact") {
+			loadCSS("./assets/styles/global.css");
 			loadCSS("./assets/styles/contact/contact.css");
 			loadCSS("./assets/styles/contact/responsive.css");
 		} else if (location.pathname === "/cart") {
+			loadCSS("./assets/styles/global.css");
 			loadCSS("./assets/styles/cart/cart.css");
 			loadCSS("./assets/styles/cart/responsive.css");
 		} else if (location.pathname.startsWith("/account")) {
+			loadCSS("../assets/styles/global.css");
 			loadCSS("../assets/styles/account/profile.css");
 		}
 	}, [location.pathname]);
@@ -184,8 +190,12 @@ const AppContent = () => {
 					<>
 						<Route path="/" element={<Home />} />
 						{!hasToken && <Route path="/login" element={<Login />} />}
-						{<Route path="/new-password" element={<NewPassword />} />}
-						{<Route path="/reset-password" element={<ResetPassword />} />}
+						{!hasToken && (
+							<Route path="/new-password" element={<NewPassword />} />
+						)}
+						{!hasToken && (
+							<Route path="/reset-password" element={<ResetPassword />} />
+						)}
 						{!hasToken && (
 							<Route path="/register/:name" element={<Register />} />
 						)}
@@ -200,8 +210,12 @@ const AppContent = () => {
 							path="/products/:category/:productId"
 							element={<ProductDetails handleCartChange={handleCartChange} />}
 						/>
-						<Route path="/payment/cancel" element={<PaymentCancel />} />
-						<Route path="/payment/success/:id" element={<PaymentSuccess />} />
+						{!hasToken && (
+							<Route path="/payment/cancel" element={<PaymentCancel />} />
+						)}
+						{!hasToken && (
+							<Route path="/payment/success/:id" element={<PaymentSuccess />} />
+						)}
 						<Route path="*" element={<Navigate to="/" />} />
 					</>
 				)}

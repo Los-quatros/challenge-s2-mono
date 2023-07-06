@@ -9,6 +9,7 @@ function ContactPage() {
 	const [lastName, setLastName] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [subject, setSubject] = useState("");
+	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
 	const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 	const [isToastActive, setIsToastActive] = useState(false);
@@ -37,6 +38,12 @@ function ContactPage() {
 	 * @param { Event } event Input message event
 	 */
 	const onMessageChange = (event) => setMessage(event.target.value);
+
+	/**
+	 * Trigger on email input change
+	 * @param { Event } event Input email event
+	 */
+	const onEmailChange = (event) => setEmail(event.target.value);
 
 	/**
 	 * Trigger on captcha change
@@ -76,9 +83,6 @@ function ContactPage() {
 	/**
 	 * Trigger on form submit to send message
 	 * @param { Event } event Form submit event
-	 * TODO : Send message from API
-	 * TODO : Display toaster success message
-	 * TODO : Display toaster error message
 	 */
 	const sendMessage = (event) => {
 		event.preventDefault();
@@ -87,6 +91,7 @@ function ContactPage() {
 			firstName === "" ||
 			subject === "" ||
 			message === "" ||
+			email === "" ||
 			!isCaptchaVerified
 		) {
 			if (!isToastActive) {
@@ -94,13 +99,45 @@ function ContactPage() {
 				setToast("Veuillez remplir tous les champs", "info");
 			}
 		} else {
-			setToast("Votre message a bien été envoyé", "success");
-			setLastName("");
-			setFirstName("");
-			setSubject("");
-			setMessage("");
-			setIsCaptchaVerified(false);
-			recaptchaRef.current.reset();
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/users/contact`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					subject,
+					message,
+					email,
+				}),
+			})
+				.then((response) => {
+					if (response.status === 200) {
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						setToast("Votre message a bien été envoyé", "success");
+						setLastName("");
+						setFirstName("");
+						setEmail("");
+						setSubject("");
+						setMessage("");
+						setIsCaptchaVerified(false);
+						recaptchaRef.current.reset();
+					} else {
+						setToast(
+							"Une erreur est survenue lors de l'envoi du message",
+							"error"
+						);
+					}
+				})
+				.catch(() => {
+					setToast(
+						"Une erreur est survenue lors de l'envoi du message",
+						"error"
+					);
+				});
 		}
 	};
 
@@ -172,6 +209,19 @@ function ContactPage() {
 													required
 													onChange={onFirstNameChange}
 													value={firstName}
+												/>
+											</div>
+											<div className="col-xl-6 last_name_col">
+												<label htmlFor="contact_email">
+													Mail<span>*</span>
+												</label>
+												<input
+													type="text"
+													id="contact_email"
+													className="contact_input"
+													required
+													onChange={onEmailChange}
+													value={email}
 												/>
 											</div>
 										</div>
