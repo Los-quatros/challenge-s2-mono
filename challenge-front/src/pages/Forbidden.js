@@ -6,6 +6,7 @@ function Forbidden() {
       <div className={forbidden.container}>
         <h1>Sorry folks, page is forbidden.</h1>
         <p>The moose out front shoulda told ya.</p>
+        <a href="/">Go back to home</a>
       </div>
     </div>
   );
