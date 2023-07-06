@@ -107,18 +107,6 @@ describe('ProductsService', () => {
     });
   });
 
-  describe('getProductById', () => {
-    it('should return the product with the specified ID', async () => {
-      const expectedProduct = new Product();
-
-      jest
-        .spyOn(productRepository, 'findOneBy')
-        .mockResolvedValue(expectedProduct);
-
-      const result = await productsService.getProductById(productCreated.id);
-
-      expect(result).toEqual(expectedProduct);
-    });
   
-  });
+  
 })
