@@ -3,9 +3,9 @@ name: CI/CD challenge addresses microservice
 on:
   push:
     branches:
-      - feature/test-deploy
-    # paths:
-    #   - "challenge-addresses/**"
+      - main
+    paths:
+      - "challenge-addresses/**"
 
 env:
   GKE_CLUSTER: marketplace

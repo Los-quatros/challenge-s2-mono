@@ -3,9 +3,9 @@ name: CI/CD challenge users microservice
 on:
   push:
     branches:
-      - feature/test-deploy
-    # paths:
-    #   - "challenge-users/**"
+      - main
+    paths:
+      - "challenge-users/**"
 
 env:
   GKE_CLUSTER: marketplace

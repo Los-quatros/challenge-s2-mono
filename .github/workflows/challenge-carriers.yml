@@ -3,9 +3,9 @@ name: CI/CD challenge carriers microservice
 on:
   push:
     branches:
-      - feature/test-deploy
-    # paths:
-    #   - "challenge-carriers/**"
+      - main
+    paths:
+      - "challenge-carriers/**"
 
 env:
   GKE_CLUSTER: marketplace
