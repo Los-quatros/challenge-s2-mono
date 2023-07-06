@@ -193,8 +193,8 @@ const AppContent = () => {
 				<Route path="/forbidden" element={<Forbidden />} />
 				{isAdmin ? (
 					<>
-						<Route path="/*" element={<Navigate to="/admin" />} />
 						<Route path="/admin" element={<Dashboard />} />
+						<Route path="*" element={<Navigate to="/admin" />} />
 					</>
 				) : (
 					<>
