@@ -146,7 +146,7 @@ function CartPage({ handleClearCart }) {
 	 */
 	const handlePayment = async (event) => {
 		event.preventDefault();
-		if (isLogged) {
+		if (isLogged && addresses.length > 0) {
 			const token = localStorage.getItem("token");
 			const decodedToken = jwt_decode(token);
 			const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -508,8 +508,13 @@ function CartPage({ handleClearCart }) {
 														<span className="checkmark"></span>
 													</label>
 												))
-											) : (
+											) : !isLogged ? (
 												<p>Aucune adresse, veuillez vous connecter.</p>
+											) : (
+												<p>
+													Veuillez ajouter une adresse de livraison dans votre
+													profil.
+												</p>
 											)}
 										</div>
 									</div>

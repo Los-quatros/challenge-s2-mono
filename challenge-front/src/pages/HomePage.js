@@ -22,7 +22,7 @@ function HomePage({ handleCartChange }) {
 		if (!cart) {
 			handleCartChange();
 		}
-	}, []);
+	});
 
 	/**
 	 * Init products
