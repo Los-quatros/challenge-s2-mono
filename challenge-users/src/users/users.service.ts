@@ -12,8 +12,8 @@ import * as bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 import { SellersService } from "../sellers/sellers.service";
 import { AccountSellerDto } from "./dto/account.seller.dto";
-import { ImagesService } from "src/images/images.service";
-import { AssociationType, ImagesAssociatedOn } from "src/images/models/imageAssociatedOn";
+import { ImagesService } from "../images/images.service";
+import { AssociationType, ImagesAssociatedOn } from "../images/models/imageAssociatedOn";
 
 @Injectable()
 export class UsersService {
