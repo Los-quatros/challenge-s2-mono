@@ -6,6 +6,7 @@ import { ProductsModule } from './products.module';
 import { Product } from './Entity/product.entity';
 import { Repository } from 'typeorm';
 import { Category } from './Entity/category.entity';
+import { ImagesModule } from './images/images.module';
 
 describe('ProductsService (functional)', () => {
   let app: INestApplication;
@@ -18,6 +19,7 @@ describe('ProductsService (functional)', () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
         ProductsModule,
+        ImagesModule,
         TypeOrmModule.forRoot({
           type: 'postgres',
           host:  process.env.DB_HOST,

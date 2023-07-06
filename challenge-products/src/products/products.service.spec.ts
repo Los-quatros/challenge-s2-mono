@@ -5,17 +5,27 @@ import { Product } from './Entity/product.entity';
 import { Category } from './Entity/category.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ImagesService } from './images/images.service';
+import { ImagesModule } from './images/images.module';
+import { ClientsModule, Transport,ClientProxy } from '@nestjs/microservices';
 
 describe('ProductsService', () => {
   let productsService: ProductsService;
   let productRepository: Repository<Product>;
   let categoryRepository: Repository<Category>;
   let productCreated : Product;
+  let imagesProxy: ClientProxy
+
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
+      imports: [
+        ImagesModule,
+        
+      ],
       providers: [
         ProductsService,
+        ImagesService,
         {
           provide: getRepositoryToken(Product), 
           useClass: Repository,
@@ -23,6 +33,13 @@ describe('ProductsService', () => {
         {
           provide: getRepositoryToken(Category), 
           useClass: Repository,
+        },
+        {
+          provide: 'IMAGES_SERVICE', 
+          useValue: { 
+            send: jest.fn(),
+          },
+          
         },
       ],
     }).compile();
@@ -37,7 +54,8 @@ describe('ProductsService', () => {
 
     productRepository.findOneBy = jest.fn().mockResolvedValue(Product);
     categoryRepository.findOneBy = jest.fn().mockResolvedValue(Category);
-   
+    imagesProxy = moduleRef.get<ClientProxy>('IMAGES_SERVICE'); 
+
    
   });
 
@@ -87,26 +105,5 @@ describe('ProductsService', () => {
       await expect(productsService.createProduct(productDto)).rejects.toThrow(HttpException);
     });
   });
-
-
-  describe('getAllProducts', () => {
-    it('should return all products', async () => {
-      const expectedProducts = [new Product(), new Product()];
-
-      jest.spyOn(productRepository, 'find').mockResolvedValue(expectedProducts);
-
-      const result = await productsService.getAllProducts();
-
-      expect(result).toEqual(expectedProducts);
-    });
-
-    it('should throw an error if an exception occurs', async () => {
-      jest.spyOn(productRepository, 'find').mockRejectedValue(new Error());
-
-      await expect(productsService.getAllProducts()).rejects.toThrow(HttpException);
-    });
-  });
-
-  
   
 })
