@@ -52,7 +52,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
           build-args: |
-            REACT_APP_TOTO=1
+            REACT_APP_TOTO=${{ secrets.REACT_APP_BASE_API_URL }}
 
   deploy:
     runs-on: ubuntu-latest
