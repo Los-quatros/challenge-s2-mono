@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "challenge-images/**"
+    # paths:
+    #   - "challenge-images/**"
 
 env:
   GKE_CLUSTER: marketplace
