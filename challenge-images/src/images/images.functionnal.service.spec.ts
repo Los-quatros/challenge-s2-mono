@@ -4,12 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ImagesService } from './images.service';
 import { ImagesModule } from './images.module';
 import { Image } from '../entity/images.entity';
-import { Repository } from 'typeorm';
 
 describe('ImagesService (functional)', () => {
   let app: INestApplication;
   let imagesService: ImagesService;
-  let imagesRepository: Repository<Image>;
+  let upload : Image;
 
 
   beforeAll(async () => {
@@ -32,7 +31,8 @@ describe('ImagesService (functional)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
-   //DECLARE 
+    imagesService = moduleFixture.get<ImagesService>(ImagesService);
+
   });
 
   afterAll(async () => {
@@ -40,8 +40,17 @@ describe('ImagesService (functional)', () => {
   });
 
   beforeEach(async () => {
-    await imagesRepository.clear(); 
   });
 
+  describe('uploadImage', () => {
+    it('should upload a picture', async () => {
+      const imageDto = {name:'img.png',emplacementFile:'/uploads/file' };
+
+      upload = await imagesService.uploadImage(imageDto);
+
+      expect(upload).toBeDefined();
+    });
+
+  });
  
 });
