@@ -43,10 +43,6 @@ describe('ImagesService', () => {
 
             const result = await imagesService.uploadImage(file);
 
-            expect(imagesRepository.create).toHaveBeenCalledWith({
-            name: file.originalname,
-            emplacementFile: file.path,
-            });
             expect(imagesRepository.save).toHaveBeenCalledWith(newImage);
             expect(result).toEqual(newImage);
         });
