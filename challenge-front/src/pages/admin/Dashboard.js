@@ -20,7 +20,22 @@ const Dashboard = () => {
 
   return (
     <>
-      <Sidebar />
+      {/* header for logout */}
+      <header
+        className="d-flex p-2 justify-content-end"
+        style={{ backgroundColor: "#fff" }}
+      >
+        <button
+          className="btn btn-dark"
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            window.location = "/";
+          }}
+        >
+          <i className="fa fa-sign-out"></i> Deconnexion
+        </button>
+      </header>
 
       <div className={sidebar["content-wrap"]}>
         <div className={styles.main}>

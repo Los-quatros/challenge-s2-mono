@@ -12,6 +12,9 @@ const useOrder = () => {
         },
       }
     );
+    if (response.status === 403) {
+      window.location.replace("/forbidden");
+    }
     return response.json();
   };
 

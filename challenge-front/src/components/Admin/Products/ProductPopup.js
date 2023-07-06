@@ -93,7 +93,6 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
       category,
       isActivated,
     };
-    console.log(updatedProduct);
     onSave(updatedProduct);
   };
 
