@@ -147,6 +147,10 @@ const AppContent = () => {
 		} else if (location.pathname.startsWith("/account")) {
 			loadCSS("../assets/styles/global.css");
 			loadCSS("../assets/styles/account/profile.css");
+		} else if (location.pathname.startsWith("/admin")) {
+			loadCSS("../assets/styles/admin/popup.css");
+			loadCSS("../assets/styles/admin/sidebar.module.css");
+			loadCSS("../assets/styles/admin/style.module.css");
 		}
 	}, [location.pathname]);
 
@@ -155,6 +159,8 @@ const AppContent = () => {
 		if (cart) {
 			const cartItems = JSON.parse(cart);
 			setCartQuantity(cartItems.length);
+		} else {
+			setCartQuantity(0);
 		}
 	}, []);
 
@@ -166,6 +172,8 @@ const AppContent = () => {
 		if (cart) {
 			const cartItems = JSON.parse(cart);
 			setCartQuantity(cartItems.length);
+		} else {
+			setCartQuantity(0);
 		}
 	};
 
@@ -185,12 +193,15 @@ const AppContent = () => {
 				<Route path="/forbidden" element={<Forbidden />} />
 				{isAdmin ? (
 					<>
-						<Route path="/*" element={<Navigate to="/admin" />} />
 						<Route path="/admin" element={<Dashboard />} />
+						<Route path="*" element={<Navigate to="/admin" />} />
 					</>
 				) : (
 					<>
-						<Route path="/" element={<Home />} />
+						<Route
+							path="/"
+							element={<Home handleCartChange={handleCartChange} />}
+						/>
 						{!hasToken && <Route path="/login" element={<Login />} />}
 						{!hasToken && (
 							<Route path="/new-password" element={<NewPassword />} />

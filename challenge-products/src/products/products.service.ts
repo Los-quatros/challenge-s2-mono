@@ -229,7 +229,6 @@ export class ProductsService {
 
       return await this.categoryRepository.save(categoryToPersist);
     } catch (error) {
-      console.log(error);
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: 'Error while creating category',
