@@ -1,0 +1,7 @@
+a:hover {
+  text-decoration: none !important;
+}
+
+div.logo a:hover {
+  color: inherit !important;
+}

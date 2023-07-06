@@ -37,23 +37,25 @@ function CartPage({ handleClearCart }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		let newSubtotal = 0;
-		let newTotal = 0;
+		if (isLogged) {
+			let newSubtotal = 0;
+			let newTotal = 0;
 
-		products.forEach((p) => {
-			newSubtotal += Number(p.price) * Number(p.quantity);
-			newTotal += p.price * p.quantity;
-		});
+			products.forEach((p) => {
+				newSubtotal += Number(p.price) * Number(p.quantity);
+				newTotal += p.price * p.quantity;
+			});
 
-		const carrier = carriers.find((a) => a.name === deliveryMode);
+			const carrier = carriers.find((a) => a.name === deliveryMode);
 
-		if (carrier) {
-			newTotal += carrier.fees;
+			if (carrier) {
+				newTotal += carrier.fees;
+			}
+
+			setSubtotal(newSubtotal);
+			setTotal(newTotal);
 		}
-
-		setSubtotal(newSubtotal);
-		setTotal(newTotal);
-	}, [products, deliveryMode, carriers]);
+	}, [products, deliveryMode, carriers, isLogged]);
 
 	useEffect(() => {
 		const cart = JSON.parse(localStorage.getItem("cart"));
@@ -70,62 +72,66 @@ function CartPage({ handleClearCart }) {
 	}, []);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		fetch(`${process.env.REACT_APP_BASE_API_URL}/carriers`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-			})
-			.then((data) => {
-				if (data) {
-					setCarriers(data);
-					setDeliveryMode(data[0].name);
-				} else {
-					setToast("Erreur lors du chargement des transporteurs", "error");
-				}
-			})
-			.catch(() => {
-				setToast("Erreur lors du chargement des transporteurs", "error");
-			});
-	}, []);
-
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
-		fetch(
-			`${process.env.REACT_APP_BASE_API_URL}/addresses/users/${decodedToken.id}`,
-			{
+		if (isLogged) {
+			const token = localStorage.getItem("token");
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/carriers`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
 				},
-			}
-		)
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
 			})
-			.then((data) => {
-				if (data) {
-					setAddresses(data);
-					setSelectedAddress(data[0].id);
-				} else {
+				.then((response) => {
+					if (response.status === 200) {
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						setCarriers(data);
+						setDeliveryMode(data[0].name);
+					} else {
+						setToast("Erreur lors du chargement des transporteurs", "error");
+					}
+				})
+				.catch(() => {
 					setToast("Erreur lors du chargement des transporteurs", "error");
+				});
+		}
+	}, [isLogged]);
+
+	useEffect(() => {
+		if (isLogged) {
+			const token = localStorage.getItem("token");
+			const decodedToken = jwt_decode(token);
+			fetch(
+				`${process.env.REACT_APP_BASE_API_URL}/addresses/users/${decodedToken.id}`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
 				}
-			})
-			.catch(() => {
-				setToast("Erreur lors du chargement des transporteurs", "error");
-			});
-	}, []);
+			)
+				.then((response) => {
+					if (response.status === 200) {
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						setAddresses(data);
+						setSelectedAddress(data[0].id);
+					} else {
+						setToast("Erreur lors du chargement des transporteurs", "error");
+					}
+				})
+				.catch(() => {
+					setToast("Erreur lors du chargement des transporteurs", "error");
+				});
+		}
+	}, [isLogged]);
 
 	/**
 	 * Handle checkout button click for payment

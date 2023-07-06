@@ -387,7 +387,6 @@ function ProductsPage() {
 			setToast("Veuillez remplir tous les champs", "info");
 		} else {
 			const image = products[index].image.value;
-			console.log(image);
 			if (image) {
 				const formData = new FormData();
 				formData.append("file", image);
