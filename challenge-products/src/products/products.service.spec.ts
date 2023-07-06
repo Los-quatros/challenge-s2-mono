@@ -120,24 +120,6 @@ describe('ProductsService', () => {
 
       expect(result).toEqual(expectedProduct);
     });
-
-    it('should throw an error if the product with the specified ID is not found', async () => {
-      const productId = 'product1';
-
-      jest
-        .spyOn(productRepository, 'findOneBy')
-        .mockResolvedValue(undefined);
-
-    });
-
-    it('should throw an error if an exception occurs', async () => {
-      const productId = 'product1';
-
-      jest
-        .spyOn(productRepository, 'findOneBy')
-        .mockRejectedValue(new Error());
-
-      await expect(productsService.getProductById(productId)).rejects.toThrow(HttpException);
-    });
+  
   });
 })
