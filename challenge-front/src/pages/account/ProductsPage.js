@@ -627,7 +627,10 @@ function ProductsPage() {
 											<>
 												{categories.map((category, optionIndex) => (
 													<option key={optionIndex} value={category.name}>
-														{category.name}
+														{category.name === "headphones" && "Casque"}
+														{category.name === "tablets" && "Tablette"}
+														{category.name === "phones" && "Téléphone"}
+														{category.name === "cameras" && "Caméra"}
 													</option>
 												))}
 											</>

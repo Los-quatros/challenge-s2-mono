@@ -198,7 +198,6 @@ function AddressesPage() {
 	const deleteAddress = (event, index) => {
 		event.preventDefault();
 		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
 		if (addresses[index].id === null) {
 			removeAddress(event, index);
 		} else {
@@ -206,7 +205,7 @@ function AddressesPage() {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${decodedToken.id}`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 				.then((response) => {

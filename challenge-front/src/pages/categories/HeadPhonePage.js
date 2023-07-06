@@ -5,7 +5,6 @@ import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import defaultImage from "../../assets/images/categories/default.png";
 import headphoneBackground from "../../assets/images/categories/headphones/headphone_1.png";
-import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 
 const title = "Nos casques";
@@ -49,13 +48,12 @@ function HeadPhonePage() {
 	 */
 	function initProducts() {
 		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
 		const products = [];
 		fetch("http://localhost:4000/products", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${decodedToken}`,
+				Authorization: `Bearer ${token}`,
 			},
 		})
 			.then((response) => {

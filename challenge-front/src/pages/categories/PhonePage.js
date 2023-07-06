@@ -4,7 +4,6 @@ import HomeContainer from "../HomeContainerPage";
 import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import defaultImage from "../../assets/images/categories/default.png";
-import jwt_decode from "jwt-decode";
 import phoneBackground from "../../assets/images/categories/phones/phone_1.png";
 import { toast } from "react-toastify";
 
@@ -49,13 +48,12 @@ function PhonePage() {
 	 */
 	function initProducts() {
 		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
 		const products = [];
 		fetch("http://localhost:4000/products", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${decodedToken}`,
+				Authorization: `Bearer ${token}`,
 			},
 		})
 			.then((response) => {

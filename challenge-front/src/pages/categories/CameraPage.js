@@ -5,7 +5,6 @@ import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
 import cameraBackground from "../../assets/images/categories/cameras/camera_1.png";
 import defaultImage from "../../assets/images/categories/default.png";
-import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 
 const title = "Nos caméras";
@@ -49,13 +48,12 @@ function CameraPage() {
 	 */
 	function initProducts() {
 		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
 		const products = [];
 		fetch("http://localhost:4000/products", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${decodedToken}`,
+				Authorization: `Bearer ${token}`,
 			},
 		})
 			.then((response) => {
