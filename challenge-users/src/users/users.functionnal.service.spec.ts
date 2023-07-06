@@ -2,10 +2,11 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
-import { UsersModule } from './users.module';
+import { SellersModule } from '../sellers/sellers.module';
 import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcryptjs";
+import { UsersModule } from './users.module';
 
 
 describe('UsersService (functional)', () => {
@@ -18,6 +19,7 @@ describe('UsersService (functional)', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
+        SellersModule,
         UsersModule,
         TypeOrmModule.forRoot({
           type: 'postgres',
