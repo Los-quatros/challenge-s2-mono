@@ -174,29 +174,36 @@ const AppContent = () => {
       <ToastContainer />
       {displayHeader && <Header quantity={cartQuantity} />}
       <Routes>
-        {isAdmin && <Route path="/" element={<Navigate to="/admin" />} />}
-        <Route path="/" element={<Home />} />
-        {!hasToken && <Route path="/login" element={<Login />} />}
-        {<Route path="/new-password" element={<NewPassword />} />}
-        {<Route path="/reset-password" element={<ResetPassword />} />}
-        {!hasToken && <Route path="/register/:name" element={<Register />} />}
-        <Route path="/categories/:category" element={<Categories />} />
-        {hasToken && <Route path="/account/:name" element={<Account />} />}
-        <Route path="/contact" element={<Contact />} />
-        <Route
-          path="/cart"
-          element={<Cart handleClearCart={handleClearCart} />}
-        />
-        <Route
-          path="/products/:category/:productId"
-          element={<ProductDetails handleCartChange={handleCartChange} />}
-        />
         {isAdmin ? (
-          <Route path="/admin" element={<Dashboard />} />
+          <>
+            <Route path="/*" element={<Navigate to="/admin" />} />
+            <Route path="/admin" element={<Dashboard />} />
+          </>
         ) : (
-          <Route path="*" element={<Navigate to="/" />} />
+          <>
+            <Route path="/" element={<Home />} />
+            {!hasToken && <Route path="/login" element={<Login />} />}
+            {<Route path="/new-password" element={<NewPassword />} />}
+            {<Route path="/reset-password" element={<ResetPassword />} />}
+            {!hasToken && (
+              <Route path="/register/:name" element={<Register />} />
+            )}
+            <Route path="/categories/:category" element={<Categories />} />
+            {hasToken && <Route path="/account/:name" element={<Account />} />}
+            <Route path="/contact" element={<Contact />} />
+            <Route
+              path="/cart"
+              element={<Cart handleClearCart={handleClearCart} />}
+            />
+            <Route
+              path="/products/:category/:productId"
+              element={<ProductDetails handleCartChange={handleCartChange} />}
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
         )}
       </Routes>
+
       {displayFooter && <Footer />}
     </Suspense>
   );
