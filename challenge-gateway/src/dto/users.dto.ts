@@ -21,6 +21,10 @@ export class CreateUserDto {
         @IsNotEmpty()
         @Length(3, 20)
         lastName: string;
+
+        image: any;
+
+
 }
 
 export class UpdateUserDto implements Partial<CreateUserDto>{}

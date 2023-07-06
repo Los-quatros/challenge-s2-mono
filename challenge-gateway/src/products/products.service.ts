@@ -15,7 +15,10 @@ export class ProductsService {
   }
 
   async GetAllProducts() {
-    return this.productsProxy.send('getAllProducts', {});
+    const result = await lastValueFrom(
+      this.productsProxy.send('getAllProducts', {}),
+    );
+    return result;
   }
 
   async GetAllProductsAdmin(): Promise<any> {
@@ -29,7 +32,7 @@ export class ProductsService {
   }
 
   async GetProductById(value: string): Promise<any> {
-    return this.productsProxy.send('getProduct',  value );
+    return this.productsProxy.send('getProduct', value);
   }
 
   async UpdateProduct(productId: string, data: UpdateProductDto) {

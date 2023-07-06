@@ -31,5 +31,5 @@ export class User {
 
   @Column({nullable: true})
   sellerId: string;
-
+  image? : any
 }

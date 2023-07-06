@@ -40,6 +40,8 @@ function ProductDetailsPage({ handleCartChange }) {
 	const [image, setImage] = useState("");
 	const [quantity, setQuantity] = useState(1);
 	const categories = ["headphones", "tablets", "phones", "cameras"];
+	const [role, setRole] = useState("user");
+	const [quantityError, setQuantityError] = useState("");
 
 	useEffect(() => {
 		if (product.category.name === "headphones") {
@@ -52,6 +54,11 @@ function ProductDetailsPage({ handleCartChange }) {
 			setTitle("Nos caméras");
 		}
 	}, [product.category.name]);
+
+	useEffect(() => {
+		const role = localStorage.getItem("role");
+		setRole(role);
+	}, []);
 
 	useEffect(() => {
 		if (product.category.name === "headphones") {
@@ -92,26 +99,37 @@ function ProductDetailsPage({ handleCartChange }) {
 	/**
 	 * Triggered when the quantity input value changes
 	 * @param { Event } event Input event
+	 * @param { Object } product Product to add to the cart
 	 */
-	const onQuantityChange = (event) => {
+	const onQuantityChange = (event, product) => {
 		const value = event.target.value;
 		if (value < 1) {
 			setQuantity(1);
-		} else if (value > 100000000) {
-			setQuantity(100000000);
+			setQuantityError("");
+		} else if (value >= product.quantity) {
+			setQuantity(product.quantity);
+			setQuantityError(
+				`La quantité maximale de ce produit est de ${product.quantity}`
+			);
 		} else {
 			setQuantity(Number(value));
+			setQuantityError("");
 		}
 	};
 
 	/**
 	 * Increase the quantity by 1
+	 * @param { Object } product Product to add to the cart
 	 */
-	const increaseQuantity = () => {
-		if (quantity < 100000000) {
-			setQuantity(quantity + 1);
+	const increaseQuantity = (product) => {
+		if (quantity >= product.quantity) {
+			setQuantity(product.quantity);
+			setQuantityError(
+				`La quantité maximale de ce produit est de ${product.quantity}`
+			);
 		} else {
-			setQuantity(100000000);
+			setQuantity(quantity + 1);
+			setQuantityError("");
 		}
 	};
 
@@ -121,8 +139,10 @@ function ProductDetailsPage({ handleCartChange }) {
 	const decreaseQuantity = () => {
 		if (quantity > 1) {
 			setQuantity(quantity - 1);
+			setQuantityError("");
 		} else {
 			setQuantity(1);
+			setQuantityError("");
 		}
 	};
 
@@ -178,20 +198,6 @@ function ProductDetailsPage({ handleCartChange }) {
 								<div className="details_image_large">
 									<img src={product.image} alt={product.label} />
 								</div>
-								<div className="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
-									<div className="details_image_thumbnail active">
-										<img src={product.image} alt={product.label} />
-									</div>
-									<div className="details_image_thumbnail">
-										<img src={product.image} alt={product.label} />
-									</div>
-									<div className="details_image_thumbnail">
-										<img src={product.image} alt={product.label} />
-									</div>
-									<div className="details_image_thumbnail">
-										<img src={product.image} alt={product.label} />
-									</div>
-								</div>
 							</div>
 						</div>
 						<div className="col-lg-6">
@@ -201,41 +207,66 @@ function ProductDetailsPage({ handleCartChange }) {
 								<div className="details_text">
 									<p>{product.description}</p>
 								</div>
-								<div className="product_quantity_container">
-									<div className="product_quantity clearfix">
-										<input
-											id="quantity_input"
-											type="text"
-											onInput={(event) => onQuantityChange(event)}
-											value={quantity}
-										/>
-										<div className="quantity_buttons">
-											<div
-												id="quantity_inc_button"
-												className="quantity_inc quantity_control"
-												onClick={increaseQuantity}
-											>
-												<i className="fa fa-chevron-up" aria-hidden="true"></i>
+								{(!role || (role && role !== "seller")) && (
+									<>
+										<div className="product_quantity_container">
+											<div className="product_quantity clearfix">
+												<input
+													id="quantity_input"
+													type="text"
+													onInput={(event) => onQuantityChange(event, product)}
+													value={quantity}
+												/>
+												<div className="quantity_buttons">
+													<div
+														id="quantity_inc_button"
+														className="quantity_inc quantity_control"
+														onClick={() => increaseQuantity(product)}
+													>
+														<i
+															className="fa fa-chevron-up"
+															aria-hidden="true"
+														></i>
+													</div>
+													<div
+														id="quantity_dec_button"
+														className="quantity_dec quantity_control"
+														onClick={decreaseQuantity}
+													>
+														<i
+															className="fa fa-chevron-down"
+															aria-hidden="true"
+														></i>
+													</div>
+												</div>
 											</div>
-											<div
-												id="quantity_dec_button"
-												className="quantity_dec quantity_control"
-												onClick={decreaseQuantity}
-											>
-												<i
-													className="fa fa-chevron-down"
-													aria-hidden="true"
-												></i>
+											<div className="button cart_button">
+												{product.quantity > 0 ? (
+													<Link
+														onClick={(event) =>
+															addProductToCart(event, product)
+														}
+													>
+														Ajouter
+													</Link>
+												) : (
+													<Link onClick={(event) => event.preventDefault()}>
+														Épuisé
+													</Link>
+												)}
 											</div>
 										</div>
-									</div>
-									<div className="button cart_button">
-										<Link onClick={(event) => addProductToCart(event, product)}>
-											Ajouter
-										</Link>
-									</div>
-								</div>
-								<div className="details_share">
+										{quantityError !== "" && (
+											<p className="text-danger" style={{ marginTop: "10px" }}>
+												{quantityError}
+											</p>
+										)}
+									</>
+								)}
+								<div
+									className="details_share"
+									style={quantityError !== "" ? { marginTop: "41px" } : {}}
+								>
 									<ul>
 										<li>
 											<Link onClick={handleLinkClick}>

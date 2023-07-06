@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import HomeContainer from "../HomeContainerPage";
 import Products from "../../pages/ProductsPage";
 import ProductsFilter from "../../components/ProductsFilter";
-import defaultImage from "../../assets/images/categories/default.png";
+import defaultImage from "../../assets/images/categories/default-large.png";
 import phoneBackground from "../../assets/images/categories/phones/phone_1.png";
 import { toast } from "react-toastify";
 

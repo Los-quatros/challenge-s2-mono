@@ -27,7 +27,7 @@ const setToast = (message, type) => {
 
 function CartPage({ handleClearCart }) {
 	const [products, setProducts] = useState([]);
-	const [deliveryMode, setDeliveryMode] = useState("");
+	const [deliveryMode, setDeliveryMode] = useState("-");
 	const [subtotal, setSubtotal] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [isLogged, setIsLogged] = useState(false);
@@ -37,24 +37,29 @@ function CartPage({ handleClearCart }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (isLogged) {
-			let newSubtotal = 0;
-			let newTotal = 0;
-
-			products.forEach((p) => {
-				newSubtotal += Number(p.price) * Number(p.quantity);
-				newTotal += p.price * p.quantity;
-			});
-
-			const carrier = carriers.find((a) => a.name === deliveryMode);
-
-			if (carrier) {
-				newTotal += carrier.fees;
-			}
-
-			setSubtotal(newSubtotal);
-			setTotal(newTotal);
+		const role = localStorage.getItem("role");
+		if (role && role !== "user") {
+			navigate("/");
 		}
+	}, [navigate]);
+
+	useEffect(() => {
+		let newSubtotal = 0;
+		let newTotal = 0;
+
+		products.forEach((p) => {
+			newSubtotal += Number(p.price) * Number(p.quantity);
+			newTotal += p.price * p.quantity;
+		});
+
+		const carrier = carriers.find((a) => a.name === deliveryMode);
+
+		if (carrier) {
+			newTotal += carrier.fees;
+		}
+
+		setSubtotal(newSubtotal);
+		setTotal(newTotal);
 	}, [products, deliveryMode, carriers, isLogged]);
 
 	useEffect(() => {
@@ -185,6 +190,8 @@ function CartPage({ handleClearCart }) {
 	 * Trigger on each quantity change
 	 * - Update the quantity in the state of the product
 	 * - Update the localStorage
+	 * @param { Event } event Event on quantity change
+	 * @param { Object } product Product to update
 	 */
 	const onQuantityChange = (event, product) => {
 		const newQuantity = event.target.value;
@@ -333,7 +340,7 @@ function CartPage({ handleClearCart }) {
 				}
 			>
 				<div className="container">
-					{products.length > 0 && carriers.length > 0 && addresses.length && (
+					{products.length > 0 && (
 						<>
 							<div className="row">
 								<div className="col">
@@ -449,47 +456,59 @@ function CartPage({ handleClearCart }) {
 											Livraison et frais supplémentaires
 										</div>
 										<div className="delivery_options">
-											{carriers.map((carrier) => (
-												<label
-													className="delivery_option clearfix"
-													key={carrier.name}
-												>
-													{carrier.name}
-													<input
-														type="radio"
-														name="radio-delivery"
-														checked={deliveryMode === carrier.name}
-														onChange={() => onDeliveryModeChange(carrier.name)}
-													/>
-													<span className="checkmark"></span>
-													<span className="delivery_price">
-														{carrier.fees + "€"}
-													</span>
-												</label>
-											))}
+											{carriers.length ? (
+												carriers.map((carrier) => (
+													<label
+														className="delivery_option clearfix"
+														key={carrier.name}
+													>
+														{carrier.name}
+														<input
+															type="radio"
+															name="radio-delivery"
+															checked={deliveryMode === carrier.name}
+															onChange={() =>
+																onDeliveryModeChange(carrier.name)
+															}
+														/>
+														<span className="checkmark"></span>
+														<span className="delivery_price">
+															{carrier.fees + "€"}
+														</span>
+													</label>
+												))
+											) : (
+												<p>
+													Aucun moyen de livraison, veuillez vous connecter.
+												</p>
+											)}
 										</div>
 									</div>
 								</div>
-								<div className="col-lg-6" style={{ marginTop: "53px" }}>
+								<div className="col-lg-6">
 									<div className="carrier">
 										<div className="section_title">Mes adresses</div>
 										<div className="section_subtitle">Adresse de livraison</div>
 										<div className="carrier_options">
-											{addresses.map((address) => (
-												<label
-													className="carrier_option clearfix"
-													key={address.id}
-												>
-													{`${address.street} ${address.city} ${address.zip}`}
-													<input
-														type="radio"
-														name="radio-carrier"
-														checked={selectedAddress === address.id}
-														onChange={() => onAddressChange(address.id)}
-													/>
-													<span className="checkmark"></span>
-												</label>
-											))}
+											{addresses.length ? (
+												addresses.map((address) => (
+													<label
+														className="carrier_option clearfix"
+														key={address.id}
+													>
+														{`${address.street} ${address.city} ${address.zip}`}
+														<input
+															type="radio"
+															name="radio-carrier"
+															checked={selectedAddress === address.id}
+															onChange={() => onAddressChange(address.id)}
+														/>
+														<span className="checkmark"></span>
+													</label>
+												))
+											) : (
+												<p>Aucune adresse, veuillez vous connecter.</p>
+											)}
 										</div>
 									</div>
 								</div>
