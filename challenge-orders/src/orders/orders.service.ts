@@ -41,7 +41,9 @@ export class OrdersService {
 
     // TODO : to test (to be used after creating an return and we must do it from the gateway)
     async UpdateNbItemReturnedForOrderProduct(nbItemReturned : number, idOrderProduct : string){
-      return this.orderProductRepository.update({id : idOrderProduct['id']}, {nbProductReturned : nbItemReturned['quantity'], is_returned : true});
+      console.log(nbItemReturned)
+      console.log(idOrderProduct)
+      return await this.orderProductRepository.update({id : idOrderProduct['id']}, {nbProductReturned : nbItemReturned['quantity'], is_returned : true});
     }
 
     async CreateOrder( data : CreateOrderDto) : Promise<Order> {
