@@ -3,7 +3,7 @@ name: CI/CD challenge payment microservice
 on:
   push:
     branches:
-      - "main"
+      - feature/deploy-test
     paths:
       - "challenge-payment/**"
 
