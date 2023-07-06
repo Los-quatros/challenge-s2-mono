@@ -28,8 +28,8 @@ jobs:
           --health-retries 5
         ports:
           - 5459:5432
-      env:
-        DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5459/carrier-db-test
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5459/carrier-db-test
      
     defaults:
       run:
