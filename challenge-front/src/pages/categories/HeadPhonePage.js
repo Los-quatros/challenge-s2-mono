@@ -127,7 +127,7 @@ function HeadPhonePage() {
 					content={content}
 				/>
 			</div>
-			{products.length && (
+			{products.length > 0 && (
 				<ProductsFilter
 					pageSize={products.length}
 					handleSortByFilter={handleSortByFilter}
