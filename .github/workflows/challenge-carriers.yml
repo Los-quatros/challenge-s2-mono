@@ -15,7 +15,7 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     services:
-      carrier-db-test:
+      postgres:
         image: postgres:12.1-alpine
         env:
           POSTGRES_USER: postgres
@@ -27,9 +27,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5459:5432
-    # env:
-    #   DATABASE_URL: postgresql://postgres:postgres@carrier-db-test:5459/carrier-db-test
+          - 5432:5432
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/carrier-db-test
      
     defaults:
       run:
