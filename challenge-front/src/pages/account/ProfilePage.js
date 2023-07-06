@@ -93,6 +93,41 @@ function ProfilePage() {
 	}, [password, confirmPassword]);
 
 	useEffect(() => {
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					setLastName(data.lastName);
+					setFirstName(data.firstName);
+					setEmail(data.email);
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération de vos données",
+						"error"
+					);
+				}
+			})
+			.catch(() => {
+				setToast(
+					"Une erreur est survenue lors de la récupération de vos données",
+					"error"
+				);
+			});
+	}, []);
+
+	useEffect(() => {
 		document
 			.querySelector(`#account-menu`)
 			.querySelectorAll("li")
