@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import Loader from "./components/Loader";
+import Forbidden from "./pages/Forbidden";
 const Login = lazy(() => import("./components/Login"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
 const NewPassword = lazy(() => import("./components/NewPassword"));
@@ -93,14 +94,16 @@ const AppContent = () => {
     location.pathname !== "/reset-password" &&
     location.pathname !== "/new-password" &&
     !location.pathname.startsWith("/account") &&
-    !location.pathname.startsWith("/admin");
+    !location.pathname.startsWith("/admin") &&
+    location.pathname !== "/forbidden";
   const displayFooter =
     location.pathname !== "/login" &&
     !location.pathname.startsWith("/register") &&
     location.pathname !== "/reset-password" &&
     location.pathname !== "/new-password" &&
     !location.pathname.startsWith("/account") &&
-    !location.pathname.startsWith("/admin");
+    !location.pathname.startsWith("/admin") &&
+    location.pathname !== "/forbidden";
   const [cartQuantity, setCartQuantity] = useState(0);
 
   useEffect(() => {
@@ -174,6 +177,8 @@ const AppContent = () => {
       <ToastContainer />
       {displayHeader && <Header quantity={cartQuantity} />}
       <Routes>
+        <Route path="/forbidden" element={<Forbidden />} />
+
         {isAdmin ? (
           <>
             <Route path="/*" element={<Navigate to="/admin" />} />
