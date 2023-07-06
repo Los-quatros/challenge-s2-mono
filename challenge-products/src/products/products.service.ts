@@ -118,7 +118,6 @@ export class ProductsService {
   async getAllProductsAdmin(): Promise<Product[] | any> {
     try {
       const result: Product[] = await this.productsRepository.find({
-        where: { isActivated: true },
         relations: ['category'],
       });
       const resultWithImages: Promise<Array<Product>> = Promise.all(
