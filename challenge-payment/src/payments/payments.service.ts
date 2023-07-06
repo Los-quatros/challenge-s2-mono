@@ -27,8 +27,6 @@ export class PaymentsService {
   ) {}
 
   async createCheckoutSession(data: any) {
-    console.log('key',process.env.STRIPE_SECRET_KEY);
-    console.log('url',process.env.STRIPE_URL_FRONT);
     const result = data;
     const orderCarrier = result.carrier;
     const items = result.products;
