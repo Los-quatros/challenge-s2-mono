@@ -22,7 +22,6 @@ const setToast = (message, type) => {
 
 function PaymentCancel() {
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		navigate("/cart");
 		setTimeout(() => {

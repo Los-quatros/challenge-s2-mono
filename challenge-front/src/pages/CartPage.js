@@ -44,23 +44,25 @@ function CartPage({ handleClearCart }) {
 	}, [navigate]);
 
 	useEffect(() => {
-		let newSubtotal = 0;
-		let newTotal = 0;
+		if (products.length > 0) {
+			let newSubtotal = 0;
+			let newTotal = 0;
 
-		products.forEach((p) => {
-			newSubtotal += Number(p.price) * Number(p.quantity);
-			newTotal += p.price * p.quantity;
-		});
+			products.forEach((p) => {
+				newSubtotal += Number(p.price) * Number(p.quantity);
+				newTotal += p.price * p.quantity;
+			});
 
-		const carrier = carriers.find((a) => a.name === deliveryMode);
+			const carrier = carriers.find((a) => a.name === deliveryMode);
 
-		if (carrier) {
-			newTotal += carrier.fees;
+			if (carrier) {
+				newTotal += carrier.fees;
+			}
+
+			setSubtotal(newSubtotal);
+			setTotal(newTotal);
 		}
-
-		setSubtotal(newSubtotal);
-		setTotal(newTotal);
-	}, [products, deliveryMode, carriers, isLogged]);
+	}, [products, deliveryMode, carriers, isLogged, products.length]);
 
 	useEffect(() => {
 		const cart = JSON.parse(localStorage.getItem("cart"));
@@ -77,7 +79,7 @@ function CartPage({ handleClearCart }) {
 	}, []);
 
 	useEffect(() => {
-		if (isLogged) {
+		if (isLogged && products.length > 0) {
 			const token = localStorage.getItem("token");
 			fetch(`${process.env.REACT_APP_BASE_API_URL}/carriers`, {
 				method: "GET",
@@ -103,10 +105,10 @@ function CartPage({ handleClearCart }) {
 					setToast("Erreur lors du chargement des transporteurs", "error");
 				});
 		}
-	}, [isLogged]);
+	}, [isLogged, products]);
 
 	useEffect(() => {
-		if (isLogged) {
+		if (isLogged && products.length > 0) {
 			const token = localStorage.getItem("token");
 			const decodedToken = jwt_decode(token);
 			fetch(
@@ -136,7 +138,7 @@ function CartPage({ handleClearCart }) {
 					setToast("Erreur lors du chargement des transporteurs", "error");
 				});
 		}
-	}, [isLogged]);
+	}, [isLogged, products]);
 
 	/**
 	 * Handle checkout button click for payment

@@ -25,7 +25,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: payments-db
       STRIPE_SECRET_KEY: sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yLX8R75ZOPVt08535LQFRTzW9hsNZDg9reWLhESeicdcTu00ak7gVZyY
-      STRIPE_URL_FRONT: https://marketplace.moon-factory.fr
+      STRIPE_URL_FRONT: http://localhost:3000
     working_dir: /home/node
     volumes:
       - .:/home/node
