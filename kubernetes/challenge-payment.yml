@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-payment
+  labels:
+    app: challenge-payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-payment
+  template:
+    metadata:
+      labels:
+        app: challenge-payment
+    spec:
+      containers:
+        - name: challenge-payment
+          image: yacinesoussi/challenges2-yacine-payment:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: STRIPE_PK_KEY
+              value: pk_test_51IUL0ZLnExjIVJco3CPRbrYaiENzxKGsbEUeA5S5nVxzQHca4fcQ2V7qVbwSqdxFmuAdVBfwDCI0nAMdSLAQsm1X00enddSEAf
+            - name: STRIPE_SK_KEY
+              value: sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yLX8R75ZOPVt08535LQFRTzW9hsNZDg9reWLhESeicdcTu00ak7gVZyY
+  
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-payment-internal
+  labels:
+    app: challenge-payment
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3002
+      targetPort: 3000
+  selector:
+    app: challenge-payment
+
+
+             
