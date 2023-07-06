@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - feature/test-env
-    paths:
-      - "challenge-front/**"
+    # paths:
+    #   - "challenge-front/**"
 
 env:
   GKE_CLUSTER: marketplace
