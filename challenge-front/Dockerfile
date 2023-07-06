@@ -7,7 +7,7 @@ COPY . .
 RUN npm install
 
 
-ENV REACT_APP_BASE_API_URL=http://146.148.122.41:4000
+ENV REACT_APP_BASE_API_URL=https://api-marketplace.moon-factory.fr
 
 EXPOSE 3000
 
