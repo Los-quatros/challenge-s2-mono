@@ -52,7 +52,9 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
           build-args: |
-            REACT_APP_TOTO=${{ secrets.REACT_APP_BASE_API_URL }}
+            REACT_APP_BASE_API_URL=${{ secrets.REACT_APP_BASE_API_URL }}
+            REACT_APP_STRIPE_PUBLIC_KEY=${{ secrets.REACT_APP_STRIPE_PUBLIC_KEY }}
+            REACT_APP_CAPTCHA_SECRET_KEY=${{ secrets.REACT_APP_CAPTCHA_SECRET_KEY }}
 
   deploy:
     runs-on: ubuntu-latest
