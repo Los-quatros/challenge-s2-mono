@@ -46,7 +46,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: carrier-db-test
     ports:
-      - 5456:5432
+      - 5459:5432
     volumes:
       - ./database-test:/var/lib/postgresql/data
     networks:
