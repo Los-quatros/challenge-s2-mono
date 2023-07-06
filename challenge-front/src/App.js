@@ -93,6 +93,8 @@ const AppContent = () => {
   console.log(process.env.REACT_APP_HOST, "process.env.REACT_APP_HOST");
 
   const location = useLocation();
+
+
   const displayHeader =
     location.pathname !== "/login" &&
     !location.pathname.startsWith("/register") &&
