@@ -13,7 +13,8 @@ export class ProductsController {
 
     @EventPattern("createProduct")
     async createProduct(@Payload() product : CreateProductDto) : Promise<Product> {
-        return this.productService.createProduct(product['product']);
+        const result : Product = await this.productService.createProduct(product['product']);
+        return result;
     }
 
     @EventPattern("updateProductsQuantity")

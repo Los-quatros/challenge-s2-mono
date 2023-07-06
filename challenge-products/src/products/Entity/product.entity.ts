@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Image } from '../models/Image';
 import { Category } from './category.entity';
 
 @Entity()
@@ -21,6 +22,5 @@ export class Product {
     sellerId?: string;
     @Column({ default : true})
     isActivated : boolean;
-    @Column({nullable : true})
-    image : string;
+    image? : any;
 }

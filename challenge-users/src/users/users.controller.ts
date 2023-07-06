@@ -34,7 +34,8 @@ export class UsersController {
 
   @EventPattern("createUser")
   async createUser(@Payload() user: CreateUserDto) {
-    return this.usersService.createUser(user);
+    const result = await this.usersService.createUser(user);
+    return result;
   }
 
   @EventPattern("updateUser")

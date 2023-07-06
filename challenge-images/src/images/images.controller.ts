@@ -12,6 +12,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Image } from 'src/entity/images.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AssociationType, ImagesAssociatedOn } from './models/imageAssociatedOn';
 
   
 @Controller('/images')
@@ -22,10 +23,17 @@ export class ImagesController {
   private readonly imagesService: ImagesService) {}
 
   @MessagePattern('saveImage')
-  async saveImage(@Body() image: Image): Promise<Image> {
-    const savedImage = await this.imagesRepository.save(image);
+  async saveImage(image: Image): Promise<Image> {
+    const savedImage = await this.imagesService.uploadImage(image);
     return savedImage;
   }
+
+  // can be a user ressource or product ressource only
+  @MessagePattern('GetImageByRessource')
+  async getImageByIdRessource(data: ImagesAssociatedOn) : Promise<Image>{
+    return await this.imagesService.getImageByIdRessource(data);
+  }
+
   @MessagePattern('getImage')
   async getImage(@Payload('id') id: string): Promise<Image> {
     

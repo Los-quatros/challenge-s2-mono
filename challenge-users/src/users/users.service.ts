@@ -12,21 +12,46 @@ import * as bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 import { SellersService } from "src/sellers/sellers.service";
 import { AccountSellerDto } from "./dto/account.seller.dto";
+import { ImagesService } from "src/images/images.service";
+import { AssociationType, ImagesAssociatedOn } from "src/images/models/imageAssociatedOn";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private sellersService: SellersService
+    private sellersService: SellersService,
+    private imagesService : ImagesService
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<User[]> {
+    const result : User[] = await this.usersRepository.find();
+    const usersWithImages : Promise<Array<User>> = Promise.all(result.map(async (elm : User) => {
+      const payload : ImagesAssociatedOn = new ImagesAssociatedOn(elm.id, AssociationType.User);
+      const image = await this.imagesService.imageFromIdRessource(payload); 
+      elm.image = image;
+      return elm;
+  }));
+    return usersWithImages;
   }
 
-  findOne(id: string): any {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id: string): Promise<User> {
+    const result : User | null = await this.usersRepository.findOneBy({ id });
+    let payload : ImagesAssociatedOn;
+    if(!result){
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: "Error user does not exists",
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }else {
+      payload = new ImagesAssociatedOn(result.id, AssociationType.User);
+    }
+    const image = await this.imagesService.imageFromIdRessource(payload); 
+    result.image = image;
+    return result;
   }
 
   async remove(id: string): Promise<any> {
@@ -97,13 +122,39 @@ export class UsersService {
   async getUserByEmail(email: string): Promise<any> {
     email = email.toLowerCase();
     const user = await this.usersRepository.findOneBy({ email });
-
+    let payload : ImagesAssociatedOn;
+    if(!user){
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: "Error user does not exists",
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }else {
+      payload = new ImagesAssociatedOn(user.id, AssociationType.User);
+    }
+    const image = await this.imagesService.imageFromIdRessource(payload); 
+    user.image = image;
     return user;
   }
 
   async getUserById(id: string): Promise<any> {
     const user = await this.usersRepository.findOneBy({ id });
-
+    let payload : ImagesAssociatedOn;
+    if(!user){
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: "Error user does not exists",
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }else {
+      payload = new ImagesAssociatedOn(user.id, AssociationType.User);
+    }
+    const image = await this.imagesService.imageFromIdRessource(payload); 
+    user.image = image;
     return user;
   }
 
@@ -259,19 +310,21 @@ export class UsersService {
 
   async getUserBySellerId(sellerId: string): Promise<any> {
     const user = await this.usersRepository.findOneBy({ sellerId });
-
+    let payload : ImagesAssociatedOn;
     if (!user) {
       return {
         status: HttpStatus.NOT_FOUND,
         error: "Utilisateur non trouvé",
       };
     }
+    payload = new ImagesAssociatedOn(user.id, AssociationType.User);
+    const image = await this.imagesService.imageFromIdRessource(payload); 
+    user.image = image;
     return user;
   }
 
   async getAdminEmail(): Promise<any> {
     const user = await this.usersRepository.findOneBy({ roles: "admin" });
-
     if (!user) {
       return {
         status: HttpStatus.NOT_FOUND,
