@@ -115,7 +115,7 @@ export class ProductsService {
     }
   }
 
-  async getAllProductsAdmin(): Promise<Product[]> {
+  async getAllProductsAdmin(): Promise<Product[] | any> {
     try {
       const result: Product[] = await this.productsRepository.find({
         where: { isActivated: true },
