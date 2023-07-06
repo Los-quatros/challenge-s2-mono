@@ -170,7 +170,7 @@ function OrdersPage({ role }) {
 										return {
 											id: product["product"].id,
 											name: product["product"].label,
-											quantity: product["product"].quantity,
+											quantity: product.quantity,
 											price: product["product"].price,
 											image: product["product"].image
 												? product["product"].image
