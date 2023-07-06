@@ -11,4 +11,5 @@ export class UpdateProductDto {
     category?: string;
 
     isActivated?: boolean;
+    
 }

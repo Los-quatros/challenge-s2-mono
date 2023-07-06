@@ -9,6 +9,7 @@ const handleLinkClick = (event) => event.preventDefault();
 
 function Footer() {
 	return (
+		
 		<>
 			<div className="footer_overlay"></div>
 			<footer className="footer">
