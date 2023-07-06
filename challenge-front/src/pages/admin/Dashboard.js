@@ -1,5 +1,4 @@
 import React from "react";
-import Sidebar from "../../components/Admin/Sidebar";
 import styles from "../../assets/styles/admin/style.module.css";
 import sidebar from "../../assets/styles/admin/sidebar.module.css";
 import ProductPreviewAll from "../../components/Admin/Products/ProductPreviewAll";
@@ -12,7 +11,6 @@ import CategoryPreviewAll from "../../components/Admin/Categories/CategoryPrevie
 import useClient from "../../hooks/Admin/useClient";
 import useSeller from "../../hooks/Admin/useSeller";
 import useCarrier from "../../hooks/Admin/useCarrier";
-import useCategory from "../../hooks/Admin/useCategory";
 const Dashboard = () => {
   const { users } = useClient();
   const { sellers } = useSeller();
@@ -20,7 +18,22 @@ const Dashboard = () => {
 
   return (
     <>
-      <Sidebar />
+      {/* header for logout */}
+      <header
+        className="d-flex p-2 justify-content-end"
+        style={{ backgroundColor: "#fff" }}
+      >
+        <button
+          className="btn btn-dark"
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            window.location = "/";
+          }}
+        >
+          <i className="fa fa-sign-out"></i> Deconnexion
+        </button>
+      </header>
 
       <div className={sidebar["content-wrap"]}>
         <div className={styles.main}>

@@ -19,7 +19,6 @@ const useCarrier = () => {
     data: carriers,
     isLoading,
     error,
-    refetch,
   } = useQuery("carriers", fetchCarriers);
 
   const saveCarrierMutation = useMutation((carrier) => {

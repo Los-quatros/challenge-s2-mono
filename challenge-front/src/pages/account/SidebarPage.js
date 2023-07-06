@@ -31,6 +31,7 @@ function SidebarPage({ role }) {
 	const logout = (event) => {
 		event.preventDefault();
 		localStorage.removeItem("token");
+		localStorage.removeItem("role");
 		navigate("/");
 		setTimeout(() => {
 			setToast("Vous avez été déconnecté", "success");

@@ -4,11 +4,11 @@ import {
   UpdateProductsQuantityDto,
 } from 'src/products/models/UpdateProductsQuantity';
 
-import { MailsService } from 'src/emails/email.service';
+import { MailsService } from '../emails/email.service';
 import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
 import Stripe from 'stripe';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 
 const stripe = new Stripe(
   'sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yLX8R75ZOPVt08535LQFRTzW9hsNZDg9reWLhESeicdcTu00ak7gVZyY',
@@ -32,7 +32,7 @@ export class PaymentsService {
     const items = result.products;
     const productsForStripe = [];
 
-    for (let item of items) {
+    for (const item of items) {
       productsForStripe.push({
         label: item.product.label,
         price: item.product.price,
@@ -101,7 +101,7 @@ export class PaymentsService {
       userIdAndTotal['userId'],
     );
     const orderTotal: number = userIdAndTotal['total'];
-    const products: Array<Object> = await Promise.all(
+    const products: Array<object> = await Promise.all(
       orderProducts.map(async (orderProduct) => {
         const product = await this.productsService.getProductById(
           orderProduct['product_id'],

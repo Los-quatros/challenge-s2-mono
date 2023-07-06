@@ -38,6 +38,19 @@ services:
       - 8088:8080
     networks:
       - challenge-network
+  address-db-test:
+    image: postgres:12.1-alpine
+    container_name: address-db-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: address-db-test
+    ports:
+      - 5507:5432
+    volumes:
+      - ./database-test:/var/lib/postgresql/data
+    networks:
+      - challenge-network
 networks:
   challenge-network:
     external: true

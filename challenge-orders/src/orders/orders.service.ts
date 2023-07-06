@@ -78,6 +78,8 @@ export class OrdersService {
         return createdOrder;
 
     } catch (error) {
+      console.log(error, "error");
+
         throw new HttpException({
             status: HttpStatus.INTERNAL_SERVER_ERROR,
             error: 'Error while creating order',
@@ -156,7 +158,6 @@ export class OrdersService {
         }
         return result;
       }catch(error) {
-        console.log(error, "error");
 
         throw new HttpException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,

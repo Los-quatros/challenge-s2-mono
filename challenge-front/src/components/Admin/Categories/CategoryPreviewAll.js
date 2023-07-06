@@ -31,7 +31,7 @@ const CategoryPreviewAll = () => {
     });
   };
 
-  const { categories, isLoading, saveCategory, deleteCategory } = useCategory();
+  const { categories, isLoading, saveCategory } = useCategory();
 
   const handleSave = async (category) => {
     try {
@@ -40,16 +40,6 @@ const CategoryPreviewAll = () => {
       setToast("Catégorie enregistrée avec succès", "success");
     } catch (error) {
       setToast("Erreur lors de l'enregistrement de la catégorie", "error");
-    }
-  };
-
-  const handleDelete = async (categoryId) => {
-    try {
-      await deleteCategory(categoryId);
-      closePopup();
-      setToast("Catégorie supprimée avec succès", "success");
-    } catch (error) {
-      setToast("Erreur lors de la suppression de la catégorie", "error");
     }
   };
 

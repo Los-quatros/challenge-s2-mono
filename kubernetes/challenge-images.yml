@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-images
+  labels:
+    app: challenge-images
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-images
+  template:
+    metadata:
+      labels:
+        app: challenge-images
+    spec:
+      containers:
+        - name: challenge-images
+          image: yacinesoussi/challenges2-yacine-images:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_HOST
+              value: challenge-images-db
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: images-db
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-images-internal
+  labels:
+    app: challenge-images
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: 3000
+  selector:
+    app: challenge-images

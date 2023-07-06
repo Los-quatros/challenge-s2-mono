@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
-
+import { toast } from "react-toastify";
 const useProduct = () => {
   const queryClient = useQueryClient();
 
@@ -12,6 +12,16 @@ const useProduct = () => {
         },
       }
     );
+    if (response.ok === false && response.status !== 403) {
+      toast.error("Erreur lors de la récupération des produits", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        draggable: true,
+      });
+      return;
+    }
     return response.json();
   };
 

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import auth from "../assets/images/auth/auth.png";
+import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 
 /**
@@ -92,10 +93,16 @@ function Login() {
 						}
 					}
 				})
-				.then((data) => {
+				.then(async (data) => {
 					if (data) {
+						const decodedToken = jwt_decode(data);
+						localStorage.setItem("role", decodedToken.role);
 						localStorage.setItem("token", data);
-						navigate("/");
+						if (decodedToken.role === "admin") {
+							navigate("/admin");
+						} else {
+							navigate("/");
+						}
 						setTimeout(() => {
 							setToast("Vous êtes connecté", "success");
 						}, 500);
