@@ -110,13 +110,10 @@ export class UsersService {
     email = email.toLowerCase();
     const user = await this.usersRepository.findOneBy({ email });
     if (!user) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: "Error user does not exists",
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: "Error user does not exists",
+      };
     }
 
     return user;
