@@ -8,7 +8,6 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
   const [quantity, setQuantity] = useState(product.quantity);
   const [image, setImage] = useState(product.image);
   const [category, setCategory] = useState(product.category);
-  const [isActivated, setActivated] = useState(product.isAvailable);
 
   const [errors, setErrors] = useState({
     label: "",
@@ -91,7 +90,6 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
       quantity: parseInt(quantity),
       image,
       category,
-      isActivated,
     };
     onSave(updatedProduct);
   };

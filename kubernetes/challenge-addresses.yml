@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-addresses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-addresses
+  template:
+    metadata:
+      labels:
+        app: challenge-addresses
+    spec:
+      containers:
+        - name: challenge-addresses
+          image: yacinesoussi/challenges2-yacine-addresses:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_DB
+              value: challenge-addresses-db
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_HOST
+              value: challenge-addresses-db
+            - name: POSTGRES_PORT
+              value: "5432"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: challenge-addresses
+  labels:
+    app: challenge-addresses
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3012
+    targetPort: 3000
+  selector:
+    app: challenge-addresses

@@ -60,10 +60,6 @@ const App = () => {
   );
 };
 
-const AdminRouter = function () {
-  return <h1>Rest</h1>;
-};
-
 /**
  * Load CSS file and remove it if it already exists
  * @param { string } path Css file path

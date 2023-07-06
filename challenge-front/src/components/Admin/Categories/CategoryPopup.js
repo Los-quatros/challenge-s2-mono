@@ -8,18 +8,6 @@ const CategoryPopup = ({ category, onClose, onSave }) => {
     name: "",
   });
 
-  const validateForm = () => {
-    let newErrors = {};
-
-    if (name === "" || !name) {
-      newErrors.name = "Veuillez saisir un name.";
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleLabelChange = (e) => {
     setLabel(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
