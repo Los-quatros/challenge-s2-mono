@@ -33,6 +33,8 @@ export class ProductsController {
   async GetAllProducts() {
     return this.productsService.GetAllProducts();
   }
+
+  @HasRole(Role.ADMINISTRATOR)
   @Get('/admin/all')
   async GetAllProductsAdmin() {
     return this.productsService.GetAllProductsAdmin();

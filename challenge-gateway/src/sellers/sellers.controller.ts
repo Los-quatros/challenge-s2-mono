@@ -68,7 +68,8 @@ export class SellersController {
   async createProduct(@Body() createProductDto: any) {
     return await this.sellersService.createProduct(createProductDto);
   }
-
+  @AuthenticationRequired()
+  @HasRole(Role.SELLER)
   @Get(':idseller/sales')
   async GetMySales(@Param() idSeller: string) {
     return await this.sellersService.getMySales(idSeller['idseller']);
