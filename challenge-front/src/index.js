@@ -11,17 +11,19 @@ import ReactDOM from "react-dom/client";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-	<QueryClientProvider
-		client={
-			new QueryClient({
-				defaultOptions: {
-					queries: {
-						refetchOnWindowFocus: false,
+	<React.StrictMode>
+		<QueryClientProvider
+			client={
+				new QueryClient({
+					defaultOptions: {
+						queries: {
+							refetchOnWindowFocus: false,
+						},
 					},
-				},
-			})
-		}
-	>
-		<App />
-	</QueryClientProvider>
+				})
+			}
+		>
+			<App />
+		</QueryClientProvider>
+	</React.StrictMode>
 );
