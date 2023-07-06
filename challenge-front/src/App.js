@@ -25,6 +25,7 @@ const Contact = lazy(() => import("./pages/ContactPage"));
 const Cart = lazy(() => import("./pages/CartPage"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const $ = window.$;
 
 window.$(function () {
@@ -86,14 +87,16 @@ const AppContent = () => {
 		location.pathname !== "/reset-password" &&
 		location.pathname !== "/new-password" &&
 		!location.pathname.startsWith("/account") &&
-		!location.pathname.startsWith("/admin");
+		!location.pathname.startsWith("/admin") &&
+		!location.pathname.startsWith("/payments");
 	const displayFooter =
 		location.pathname !== "/login" &&
 		!location.pathname.startsWith("/register") &&
 		location.pathname !== "/reset-password" &&
 		location.pathname !== "/new-password" &&
 		!location.pathname.startsWith("/account") &&
-		!location.pathname.startsWith("/admin");
+		!location.pathname.startsWith("/admin") &&
+		!location.pathname.startsWith("/payments");
 	const [cartQuantity, setCartQuantity] = useState(0);
 
 	useEffect(() => {
@@ -132,6 +135,8 @@ const AppContent = () => {
 			loadCSS("./assets/styles/cart/responsive.css");
 		} else if (location.pathname.startsWith("/account")) {
 			loadCSS("../assets/styles/account/profile.css");
+		} else if (location.pathname.startsWith("/payments/success")) {
+			loadCSS("../assets/styles/admin/dashboard.css");
 		}
 	}, [location.pathname]);
 
@@ -186,6 +191,9 @@ const AppContent = () => {
 				<Route path="/admin" element={<Dashboard />} />
 				{hasToken && (
 					<Route path="/payments/cancel" element={<PaymentCancel />} />
+				)}
+				{hasToken && (
+					<Route path="/payments/success/:id" element={<PaymentSuccess />} />
 				)}
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
