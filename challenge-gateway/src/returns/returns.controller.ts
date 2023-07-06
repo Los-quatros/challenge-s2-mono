@@ -40,7 +40,7 @@ export class ReturnsController {
     );
   }
 
-  // TODO : PRODUCT
+  
   @AuthenticationRequired()
   @HasRole(Role.ADMINISTRATOR)
   @Get()
@@ -48,7 +48,7 @@ export class ReturnsController {
     return await this.returnsService.GetAll();
   }
 
-  // TODO : PRODUCT
+  
   @AuthenticationRequired()
   @HasRole(Role.USER)
   @Get('/users/:id')
@@ -58,7 +58,7 @@ export class ReturnsController {
     return await this.returnsService.GetAllByUser(id['id']);
   }
 
-  // TODO : PRODUCT
+  
   @AuthenticationRequired()
   @HasRole(Role.SELLER)
   @Get('sellers/:id')

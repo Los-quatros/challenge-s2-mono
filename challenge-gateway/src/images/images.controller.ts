@@ -15,6 +15,7 @@ import { Response } from 'express';
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
+  @AuthenticationRequired()
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file', {
     dest: '/uploads/'
