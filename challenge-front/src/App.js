@@ -176,8 +176,14 @@ const AppContent = () => {
   };
 
   console.log(process.env.REACT_APP_BASE_API_URL, "REACT_APP_BASE_API_URL");
-  console.log(process.env.REACT_APP_TATA, "tata");
-  console.log(process.env.REACT_APP_TOTO, "toto");
+  console.log(
+    process.env.REACT_APP_CAPTCHA_SECRET_KEY,
+    "REACT_APP_CAPTCHA_SECRET_KEY"
+  );
+  console.log(
+    process.env.REACT_APP_STRIPE_PUBLIC_KEY,
+    "REACT_APP_STRIPE_PUBLIC_KEY"
+  );
   return (
     <Suspense>
       <ToastContainer />
