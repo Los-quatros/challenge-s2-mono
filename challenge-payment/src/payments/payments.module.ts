@@ -4,8 +4,8 @@ import { PaymentsService } from './payments.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { OrdersModule } from '../orders/orders.module';
 import { ProductsModule } from '../products/products.module';
-import { UsersModule } from 'src/users/users.module';
-import { MailsModule } from 'src/emails/email.module';
+import { UsersModule } from '../users/users.module';
+import { MailsModule } from '../emails/email.module';
 
 
 

@@ -2,9 +2,9 @@ import Stripe from 'stripe';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
-import { ProductUpdate, UpdateProductsQuantityDto } from 'src/products/models/UpdateProductsQuantity';
-import { UsersService } from 'src/users/users.service';
-import { MailsService } from 'src/emails/email.service';
+import { ProductUpdate, UpdateProductsQuantityDto } from '../products/models/UpdateProductsQuantity';
+import { UsersService } from '../users/users.service';
+import { MailsService } from '../emails/email.service';
 
 
 
