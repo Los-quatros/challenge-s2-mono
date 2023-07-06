@@ -29,77 +29,46 @@ function ProductsPage() {
 	const { name } = useParams();
 
 	/**
-	 * Get all products of the seller
+	 * Add product to new products
+	 * @param { object } product Product object
+	 * @param { Blob } url Image url
+	 * @returns The product object
 	 */
-	const getProducts = () => {
-		const token = localStorage.getItem("token");
-		const decodedToken = jwt_decode(token);
-		fetch(
-			`${process.env.REACT_APP_BASE_API_URL}/products/sellers/${decodedToken.id}`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		)
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-			})
-			.then((data) => {
-				if (data) {
-					const newProducts = data.map((product) => ({
-						id: product.id ? product.id : null,
-						image: {
-							value: product.image ? product.image : "",
-							error: "",
-							hasChanged: false,
-							src: "",
-							info: "",
-						},
-						label: {
-							value: product.label ? product.label : "",
-							error: "",
-							hasChanged: false,
-						},
-						price: {
-							value: product.price ? product.price : 1,
-							error: "",
-							hasChanged: false,
-						},
-						quantity: {
-							value: product.quantity ? product.quantity : 1,
-							error: "",
-							hasChanged: false,
-						},
-						description: {
-							value: product.description ? product.description : "",
-							error: "",
-							hasChanged: false,
-						},
-						category: {
-							value: product.category.name ? product.category.name : "",
-							error: "",
-							hasChanged: false,
-						},
-					}));
-					setProducts(newProducts);
-				} else {
-					setToast(
-						"Une erreur est survenue lors de la récupération des produits",
-						"error"
-					);
-				}
-			})
-			.catch(() => {
-				setToast(
-					"Une erreur est survenue lors de la récupération des produits",
-					"error"
-				);
-			});
+	const addToNewProducts = (product, url) => {
+		return {
+			id: product.id ? product.id : null,
+			image: {
+				value: url ? url : defaultImage,
+				error: "",
+				name: product.image ? product.image.name : "",
+				hasChanged: false,
+			},
+			label: {
+				value: product.label ? product.label : "",
+				error: "",
+				hasChanged: false,
+			},
+			price: {
+				value: product.price ? product.price : 1,
+				error: "",
+				hasChanged: false,
+			},
+			quantity: {
+				value: product.quantity ? product.quantity : 1,
+				error: "",
+				hasChanged: false,
+			},
+			description: {
+				value: product.description ? product.description : "",
+				error: "",
+				hasChanged: false,
+			},
+			category: {
+				value: product.category.name ? product.category.name : "",
+				error: "",
+				hasChanged: false,
+			},
+		};
 	};
 
 	/**
@@ -151,7 +120,80 @@ function ProductsPage() {
 	}, [name]);
 
 	useEffect(() => {
-		getProducts();
+		const token = localStorage.getItem("token");
+		const decodedToken = jwt_decode(token);
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/products/sellers/${decodedToken.id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				if (data) {
+					const token = localStorage.getItem("token");
+					const newProducts = [];
+					for (let i = 0; i < data.length; i++) {
+						if (data[i].isActivated) {
+							fetch(
+								`${process.env.REACT_APP_BASE_API_URL}/images/${data[i].image.id}`,
+								{
+									method: "GET",
+									headers: {
+										"Content-Type": "application/json",
+										Authorization: `Bearer ${token}`,
+									},
+								}
+							)
+								.then((response) => {
+									if (response.status === 200) {
+										return response.blob();
+									}
+								})
+								.then((d) => {
+									if (d) {
+										const blob = d;
+										const url = URL.createObjectURL(blob);
+										data[i].image.value = url;
+										newProducts.push({ ...addToNewProducts(data[i], url) });
+									} else {
+										setToast(
+											"Une erreur est survenue lors de la récupération de l'image",
+											"info"
+										);
+										newProducts.push({ ...addToNewProducts(data[i], null) });
+									}
+									setProducts([...newProducts]);
+								})
+								.catch(() => {
+									setToast(
+										"Une erreur est survenue lors de la récupération de l'image",
+										"info"
+									);
+								});
+						}
+					}
+				} else {
+					setToast(
+						"Une erreur est survenue lors de la récupération des produits",
+						"error"
+					);
+				}
+			})
+			.catch(() => {
+				setToast(
+					"Une erreur est survenue lors de la récupération des produits",
+					"error"
+				);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -167,11 +209,10 @@ function ProductsPage() {
 			{
 				id: null,
 				image: {
-					value: "",
+					value: defaultImage,
 					error: "",
+					name: "",
 					hasChanged: false,
-					src: "",
-					info: "",
 				},
 				label: {
 					value: "",
@@ -205,12 +246,12 @@ function ProductsPage() {
 
 	/**
 	 * Handle the upload of an image
-	 * @param { Event } event Event of upload input
+	 * @param { Event } image Image to upload
 	 * @param { number } index Index of the product in the list
 	 */
-	const handleImageUpload = (event, index) => {
+	const handleImageUpload = (image, index) => {
 		const reader = new FileReader();
-		const file = event.target.files[0];
+		const file = image;
 		products[index].image.value = file;
 		products[index].image.hasChanged = true;
 		setProducts([...products]);
@@ -343,7 +384,7 @@ function ProductsPage() {
 						);
 					}
 				})
-				.catch((err) => {
+				.catch(() => {
 					setToast(
 						"Une erreur est survenue lors de la suppression de le produit",
 						"error"
@@ -359,11 +400,28 @@ function ProductsPage() {
 	 */
 	const removeProduct = (event, index) => {
 		event.preventDefault();
-		const updatedProducts = [...products];
-		updatedProducts.splice(index, 1);
+		const updatedProducts = products.filter((_, i) => i !== index);
 		setProducts(updatedProducts);
 		setToast("Produit supprimée", "success");
 	};
+
+	/**
+	 * Convert a data url to a file
+	 * @param { string } dataUrl Data url
+	 * @param { string } filename File name
+	 * @returns { File } File converted
+	 */
+	function dataURLtoFile(dataUrl, filename) {
+		const arr = dataUrl.split(",");
+		const mime = arr[0].match(/:(.*?);/)[1];
+		const bstr = atob(arr[1]);
+		let n = bstr.length;
+		const u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new File([u8arr], filename, { type: mime });
+	}
 
 	/**
 	 * Save the product in the database
@@ -391,80 +449,87 @@ function ProductsPage() {
 		) {
 			setToast("Veuillez remplir tous les champs", "info");
 		} else {
-			// fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
-			// 	method: "POST",
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 		Authorization: `Bearer ${token}`,
-			// 	},
-			// 	body: JSON.stringify({
-			// 		label: label.value,
-			// 		description: description.value,
-			// 		price: Number(price.value),
-			// 		quantity: Number(quantity.value),
-			// 		category: category.id,
-			// 		idSeller: decodedToken.id,
-			// 	}),
-			// })
-			// 	.then((response) => {
-			// 		if (response.status === 201) {
-			// 			return response.json();
-			// 		}
-			// 	})
-			// 	.then((data) => {
-			// 		if (data) {
-			// 			const formData = new FormData();
-			// 			formData.append("file", image);
-			// 			fetch(
-			// 				`${process.env.REACT_APP_BASE_API_URL}/images/upload/product/${data.id}`,
-			// 				{
-			// 					method: "POST",
-			// 					headers: {
-			// 						Authorization: `Bearer ${token}`,
-			// 					},
-			// 					body: formData,
-			// 				}
-			// 			)
-			// 				.then((response) => {
-			// 					if (response.status === 201) {
-			// 						return response.json();
-			// 					}
-			// 				})
-			// 				.then((data) => {
-			// 					if (data) {
-			// 						setToast("Produit ajouté avec succès", "success");
-			// 						setHasChanged("label", false);
-			// 						setHasChanged("description", false);
-			// 						setHasChanged("price", false);
-			// 						setHasChanged("quantity", false);
-			// 						setHasChanged("category", false);
-			// 						setHasChanged("image", false);
-			// 					} else {
-			// 						setToast(
-			// 							"Une erreur est survenue lors du chargement de l'image",
-			// 							"error"
-			// 						);
-			// 					}
-			// 				})
-			// 				.catch(() => {
-			// 					setToast(
-			// 						"Une erreur est survenue lors du chargement de l'image",
-			// 						"error"
-			// 					);
-			// 				});
-			// 		} else {
-			// 			setToast(
-			// 				"Une erreur est survenue lors de l'ajout du produit",
-			// 				"error"
-			// 			);
-			// 		}
-			// 	})
-			// 	.catch(() => {
-			// 		setToast(
-			// 			"Une erreur est survenue lors de l'ajout du produit",
-			// 			"error"
-			// 		);
-			// 	});
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify({
+					label: label.value,
+					description: description.value,
+					price: Number(price.value),
+					quantity: Number(quantity.value),
+					category: category.id,
+					idSeller: decodedToken.id,
+				}),
+			})
+				.then((response) => {
+					if (response.status === 201) {
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if (data) {
+						const formData = new FormData();
+						// If the image is a dataURL, convert it to a file
+						if (typeof image === "string") {
+							const file = dataURLtoFile(image, "image.png");
+							formData.append("file", file);
+						} else {
+							// Else, it's already a file
+							formData.append("file", image);
+						}
+						fetch(
+							`${process.env.REACT_APP_BASE_API_URL}/images/upload/product/${data.id}`,
+							{
+								method: "POST",
+								headers: {
+									Authorization: `Bearer ${token}`,
+								},
+								body: formData,
+							}
+						)
+							.then((response) => {
+								if (response.status === 201) {
+									return response.json();
+								}
+							})
+							.then((data) => {
+								if (data) {
+									setToast("Produit ajouté avec succès", "success");
+									setHasChanged("label", false);
+									setHasChanged("description", false);
+									setHasChanged("price", false);
+									setHasChanged("quantity", false);
+									setHasChanged("category", false);
+									setHasChanged("image", false);
+								} else {
+									setToast(
+										"Une erreur est survenue lors du chargement de l'image",
+										"error"
+									);
+								}
+							})
+							.catch(() => {
+								setToast(
+									"Une erreur est survenue lors du chargement de l'image",
+									"error"
+								);
+							});
+					} else {
+						setToast(
+							"Une erreur est survenue lors de l'ajout du produit",
+							"error"
+						);
+					}
+				})
+				.catch(() => {
+					setToast(
+						"Une erreur est survenue lors de l'ajout du produit",
+						"error"
+					);
+				});
 		}
 	};
 
@@ -494,7 +559,7 @@ function ProductsPage() {
 										</label>
 										<div className="col-sm-6 pl-0">
 											<img
-												src={defaultImage}
+												src={product.image.value}
 												id={`preview-${index}`}
 												height="100px"
 												width="100px"
@@ -509,13 +574,16 @@ function ProductsPage() {
 											className="file"
 											style={{ visibility: "hidden" }}
 											accept="image/*"
-											onChange={(event) => handleImageUpload(event, index)}
+											onChange={(event) =>
+												handleImageUpload(event.target.files[0], index)
+											}
 										/>
 										<div className="input-group" style={{ marginTop: "-20px" }}>
 											<input
 												type="text"
 												className="form-control"
 												disabled
+												value={product.image.name}
 												placeholder="Télécharger une image"
 												id={`file-info-${index}`}
 											/>
@@ -631,9 +699,6 @@ function ProductsPage() {
 												handleChange(index, "category", event.target.value)
 											}
 										>
-											{/* TODO */}
-											{/* TODO */}
-											{/* TODO */}
 											<option value="">Sélectionner une catégorie</option>
 											<>
 												{categories.map((category, optionIndex) => (
