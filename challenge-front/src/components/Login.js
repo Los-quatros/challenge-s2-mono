@@ -68,7 +68,7 @@ function Login() {
 	const login = (event) => {
 		event.preventDefault();
 		if (emailError === "" && passwordError === "") {
-			fetch("http://localhost:4000/users/login", {
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/users/login`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

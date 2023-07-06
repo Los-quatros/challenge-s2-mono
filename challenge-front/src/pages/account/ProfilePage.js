@@ -95,7 +95,7 @@ function ProfilePage() {
 	useEffect(() => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/users/${decodedToken.id}`, {
+		fetch(`${process.env.REACT_APP_BASE_API_URL}/users/${decodedToken.id}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -167,7 +167,7 @@ function ProfilePage() {
 				body.password = password;
 			}
 
-			fetch(`http://localhost:4000/users/${decodedToken.id}`, {
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/users/${decodedToken.id}`, {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",

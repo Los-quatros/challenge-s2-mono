@@ -55,26 +55,29 @@ function OrdersPage({ role }) {
 		} else {
 			const token = localStorage.getItem("token");
 			const decodedToken = jwt_decode(token);
-			fetch(`http://localhost:4000/returns/users/${decodedToken.id}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-				body: JSON.stringify({
-					orderProducts: selectedProducts.map((product) => {
-						return {
-							id_product: product.id,
-							nbItemReturned: product.quantity,
-						};
+			fetch(
+				`${process.env.REACT_APP_BASE_API_URL}/returns/users/${decodedToken.id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						orderProducts: selectedProducts.map((product) => {
+							return {
+								id_product: product.id,
+								nbItemReturned: product.quantity,
+							};
+						}),
+						reason: returnReason,
+						total: selectedProducts.reduce(
+							(acc, product) => acc + product.price * product.quantity,
+							0
+						),
 					}),
-					reason: returnReason,
-					total: selectedProducts.reduce(
-						(acc, product) => acc + product.price * product.quantity,
-						0
-					),
-				}),
-			})
+				}
+			)
 				.then((res) => {
 					if (res.status === 201) {
 						return res.json();
@@ -165,13 +168,16 @@ function OrdersPage({ role }) {
 	const initOrdersUser = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/orders/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/orders/users/${decodedToken.id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
 			.then((res) => {
 				if (res.status === 200) {
 					return res.json();
@@ -232,13 +238,16 @@ function OrdersPage({ role }) {
 	const initSalesSeller = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/sellers/${decodedToken.id}/sales`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/sellers/${decodedToken.id}/sales`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
 			.then((response) => {
 				if (response.status === 200) {
 					return response.json();

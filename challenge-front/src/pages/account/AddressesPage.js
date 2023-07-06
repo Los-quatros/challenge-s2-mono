@@ -32,13 +32,16 @@ function AddressesPage() {
 	const getAddresses = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/addresses/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/addresses/users/${decodedToken.id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
 			.then((response) => {
 				if (response.status === 200) {
 					return response.json();
@@ -201,13 +204,16 @@ function AddressesPage() {
 		if (addresses[index].id === null) {
 			removeAddress(event, index);
 		} else {
-			fetch(`http://localhost:4000/addresses/${addresses[index].id}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			})
+			fetch(
+				`${process.env.REACT_APP_BASE_API_URL}/addresses/${addresses[index].id}`,
+				{
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 				.then((response) => {
 					if (response.status === 200) {
 						return response.json();
@@ -268,7 +274,7 @@ function AddressesPage() {
 		) {
 			setToast("Veuillez remplir tous les champs", "info");
 		} else {
-			fetch("http://localhost:4000/addresses", {
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/addresses`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

@@ -75,15 +75,18 @@ function ResetPassword() {
 	const updatePassword = (event) => {
 		event.preventDefault();
 		if (passwordError === "" && confirmPasswordError === "") {
-			fetch(`http://localhost:4000/users/reset-password/${token}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					password: password,
-				}),
-			})
+			fetch(
+				`${process.env.REACT_APP_BASE_API_URL}/users/reset-password/${token}`,
+				{
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						password: password,
+					}),
+				}
+			)
 				.then((response) => {
 					if (response.status === 200) {
 						navigate("/login");

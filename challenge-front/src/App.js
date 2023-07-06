@@ -10,7 +10,6 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import Forbidden from "./pages/Forbidden";
 import Header from "./components/Header";
-import Loader from "./components/Loader";
 import { ToastContainer } from "react-toastify";
 
 const Login = lazy(() => import("./components/Login"));
@@ -174,7 +173,7 @@ const AppContent = () => {
 	};
 
 	return (
-		<Suspense fallback={<Loader />}>
+		<Suspense>
 			<ToastContainer />
 			{displayHeader && <Header quantity={cartQuantity} />}
 			<Routes>

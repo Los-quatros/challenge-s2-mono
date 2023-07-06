@@ -49,7 +49,7 @@ function HeadPhonePage() {
 	function initProducts() {
 		const token = localStorage.getItem("token");
 		const products = [];
-		fetch("http://localhost:4000/products", {
+		fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

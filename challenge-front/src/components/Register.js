@@ -135,7 +135,7 @@ function Register() {
 					shopError === "" &&
 					shopDescriptionError === "")
 			) {
-				fetch("http://localhost:4000/users/sellers", {
+				fetch(`${process.env.REACT_APP_BASE_API_URL}/users/sellers`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -173,7 +173,7 @@ function Register() {
 				emailError === "" &&
 				passwordError === ""
 			) {
-				fetch("http://localhost:4000/users", {
+				fetch(`${process.env.REACT_APP_BASE_API_URL}/users`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",

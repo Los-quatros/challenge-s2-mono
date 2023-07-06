@@ -1,7 +1,3 @@
-import "font-awesome/css/font-awesome.min.css";
-import "react-toastify/dist/ReactToastify.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import App from "./App";

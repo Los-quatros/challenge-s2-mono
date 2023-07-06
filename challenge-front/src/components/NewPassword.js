@@ -47,12 +47,15 @@ function NewPassword() {
 	const sendResetPasswordEmail = (event) => {
 		event.preventDefault();
 		if (emailError === "") {
-			fetch(`http://localhost:4000/users/${email}/reset-password`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
+			fetch(
+				`${process.env.REACT_APP_BASE_API_URL}/users/${email}/reset-password`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			)
 				.then((response) => {
 					if (response.status === 200) {
 						navigate("/login");

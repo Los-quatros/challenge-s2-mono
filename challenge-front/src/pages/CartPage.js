@@ -71,7 +71,7 @@ function CartPage({ handleClearCart }) {
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
-		fetch("http://localhost:4000/carriers", {
+		fetch(`${process.env.REACT_APP_BASE_API_URL}/carriers`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -99,13 +99,16 @@ function CartPage({ handleClearCart }) {
 	useEffect(() => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/addresses/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/addresses/users/${decodedToken.id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
 			.then((response) => {
 				if (response.status === 200) {
 					return response.json();
@@ -144,7 +147,7 @@ function CartPage({ handleClearCart }) {
 				userId: decodedToken.id,
 				address: selectedAddress,
 			};
-			fetch("http://localhost:4000/orders", {
+			fetch(`${process.env.REACT_APP_BASE_API_URL}/orders`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

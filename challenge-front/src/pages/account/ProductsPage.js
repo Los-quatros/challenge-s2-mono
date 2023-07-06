@@ -34,13 +34,16 @@ function ProductsPage() {
 	const getProducts = () => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/products/sellers/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/products/sellers/${decodedToken.id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
 			.then((response) => {
 				if (response.status === 200) {
 					return response.json();
@@ -104,7 +107,7 @@ function ProductsPage() {
 	 */
 	const getCategories = () => {
 		const token = localStorage.getItem("token");
-		fetch(`http://localhost:4000/products/categories/all`, {
+		fetch(`${process.env.REACT_APP_BASE_API_URL}/products/categories/all`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -308,16 +311,19 @@ function ProductsPage() {
 		if (products[index].id === null) {
 			removeProduct(event, index);
 		} else {
-			fetch(`http://localhost:4000/products/${products[index].id}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-				body: JSON.stringify({
-					isActivated: false,
-				}),
-			})
+			fetch(
+				`${process.env.REACT_APP_BASE_API_URL}/products/${products[index].id}`,
+				{
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						isActivated: false,
+					}),
+				}
+			)
 				.then((response) => {
 					if (response.status === 200) {
 						return response.json();
@@ -385,7 +391,7 @@ function ProductsPage() {
 			if (image) {
 				const formData = new FormData();
 				formData.append("file", image);
-				fetch("http://localhost:4000/images/upload", {
+				fetch(`${process.env.REACT_APP_BASE_API_URL}/images/upload`, {
 					method: "POST",
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -414,7 +420,7 @@ function ProductsPage() {
 						);
 					});
 			} else {
-				fetch("http://localhost:4000/products", {
+				fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",

@@ -38,13 +38,16 @@ function PaymentSuccess() {
 	useEffect(() => {
 		const token = localStorage.getItem("token");
 		const decodedToken = jwt_decode(token);
-		fetch(`http://localhost:4000/orders/users/${decodedToken.id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		fetch(
+			`${process.env.REACT_APP_BASE_API_URL}/orders/users/${decodedToken.id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
 			.then((response) => {
 				if (response.status === 200) {
 					return response.json();
@@ -54,16 +57,19 @@ function PaymentSuccess() {
 				if (data) {
 					const order = data.find((order) => order.orderId === id);
 					if (order) {
-						fetch(`http://localhost:4000/payment/success/${order.orderId}`, {
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
-								Authorization: `Bearer ${token}`,
-							},
-							body: JSON.stringify({
-								paymentId: id,
-							}),
-						})
+						fetch(
+							`${process.env.REACT_APP_BASE_API_URL}/payment/success/${order.orderId}`,
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+									Authorization: `Bearer ${token}`,
+								},
+								body: JSON.stringify({
+									paymentId: id,
+								}),
+							}
+						)
 							.then((response) => {
 								if (response.status === 201) {
 									return response.text();
