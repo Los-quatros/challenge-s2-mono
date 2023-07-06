@@ -1,24 +1,29 @@
+import { UsersService } from 'src/users/users.service';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ImagesController } from './images.controller';
 import { ImagesService } from './images.service';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
-    imports: [ClientsModule.register([
-        {
-            name: 'IMAGES_SERVICE',
-            transport: Transport.RMQ,
-            options: {
-                urls: [`amqp://rmq-service:5672`],
-                queue: 'images_queue',
-                queueOptions: {
-                    durable: false
-                }
-            }
-        }
-    ])],
-    controllers: [ImagesController],
-    providers: [ImagesService],
-    exports: [ImagesService]
+  imports: [
+    UsersModule,
+    ClientsModule.register([
+      {
+        name: 'IMAGES_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [`amqp://rmq-service:5672`],
+          queue: 'images_queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
+    ]),
+  ],
+  controllers: [ImagesController],
+  providers: [ImagesService],
+  exports: [ImagesService],
 })
 export class ImagesModule {}
