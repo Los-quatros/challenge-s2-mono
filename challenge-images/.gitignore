@@ -3,6 +3,10 @@
 /node_modules
 /database
 /database-test
+<<<<<<< HEAD
+=======
+
+>>>>>>> feat/tests
 
 # Logs
 logs
