@@ -7,6 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: app_dev
+        
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     tty: true

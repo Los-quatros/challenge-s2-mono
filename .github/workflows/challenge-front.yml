@@ -6,6 +6,7 @@ on:
       - feature/test-env
     paths:
       - "challenge-front/**"
+      - ".github/workflows/challenge-front.yml"
 
 env:
   GKE_CLUSTER: marketplace
@@ -50,6 +51,8 @@ jobs:
           context: ./challenge-front
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/challenges2-yacine:latest
+        env:
+          REACT_APP_BASE_API_URL: ${{ secrets.REACT_APP_BASE_API_URL }}
 
   deploy:
     runs-on: ubuntu-latest
