@@ -11,7 +11,7 @@ import Stripe from 'stripe';
 import { UsersService } from '../users/users.service';
 
 const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY,
+  'sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yLX8R75ZOPVt08535LQFRTzW9hsNZDg9reWLhESeicdcTu00ak7gVZyY',
   {
     apiVersion: '2022-11-15',
   },
@@ -66,8 +66,8 @@ export class PaymentsService {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.STRIPE_URL_FRONT}/payments/success/${result.orderId}`,
-      cancel_url: `${process.env.STRIPE_URL_FRONT}/payments/cancel`,
+      success_url: `https://marketplace.moon-factory.fr/payments/success/${result.orderId}`,
+      cancel_url: `https://marketplace.moon-factory.fr/payments/cancel`,
     });
 
     return { sessionId: session.id, result };
