@@ -37,13 +37,13 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 80
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
   selector:
     app: challenge-front
-  
+
 ---
 apiVersion: v1
 kind: Service
@@ -54,10 +54,10 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 80
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
   selector:
     app: challenge-front
 

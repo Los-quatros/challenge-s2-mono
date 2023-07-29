@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Docker folders
-
 server/node_modules
 .env
 postgres

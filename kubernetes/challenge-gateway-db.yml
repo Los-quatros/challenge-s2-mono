@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: challenge-gateway-db
   replicas: 1
-  template: 
+  template:
     metadata:
       labels:
         app: challenge-gateway-db
@@ -31,8 +31,7 @@ spec:
         - name: postgres-persistent-storage
           emptyDir: {}
 
---- 
-
+---
 apiVersion: v1
 kind: Service
 metadata:

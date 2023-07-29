@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   carrier-db:
@@ -10,9 +10,10 @@ services:
     ports:
       - 5455:5432
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - ./carriers-database:/var/lib/postgresql/data
     networks:
       - challenge-network
+
   carrier-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
@@ -32,23 +33,11 @@ services:
       - carrier-db
     networks:
       - challenge-network
+
   adminer:
     image: adminer
     ports:
       - 8090:8080
-    networks:
-      - challenge-network
-
-  carrier-db-test:
-    image: postgres:12.1-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: carrier-db-test
-    ports:
-      - 5459:5432
-    volumes:
-      - ./database-test:/var/lib/postgresql/data
     networks:
       - challenge-network
 

@@ -1,8 +1,7 @@
 # compiled output
 /dist
 /node_modules
-/database
-/database-test
+/users-database
 
 # Logs
 logs
@@ -35,7 +34,3 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# docker
-
-database

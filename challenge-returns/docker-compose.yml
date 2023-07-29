@@ -10,9 +10,10 @@ services:
     ports:
       - 5451:5432
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - ./returns-database:/var/lib/postgresql/data
     networks:
       - challenge-network
+
   returns-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
@@ -31,6 +32,7 @@ services:
       - returns-db
     networks:
       - challenge-network
+
   adminer:
     image: adminer
     ports:
@@ -38,19 +40,6 @@ services:
     networks:
       - challenge-network
 
-  returns-db-test:
-    image: postgres:12.1-alpine
-    container_name: returns-db-test
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: returns-db-test
-    ports:
-      - 5504:5432
-    volumes:
-      - ./database-test:/var/lib/postgresql/data
-    networks:
-      - challenge-network
 networks:
   challenge-network:
     external: true

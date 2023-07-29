@@ -1,12 +1,7 @@
 # compiled output
 /dist
 /node_modules
-/database
-/database-test
-<<<<<<< HEAD
-=======
-
->>>>>>> feat/tests
+/images-database
 
 # Logs
 logs

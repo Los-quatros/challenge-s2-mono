@@ -1,9 +1,7 @@
 # compiled output
 /dist
 /node_modules
-/database
-/database-test
-
+/payment-database
 
 # Logs
 logs

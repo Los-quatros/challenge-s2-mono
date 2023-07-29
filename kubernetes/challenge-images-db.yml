@@ -9,7 +9,7 @@ spec:
     matchLabels:
       app: challenge-images-db
   replicas: 1
-  template: 
+  template:
     metadata:
       labels:
         app: challenge-images-db
@@ -34,7 +34,6 @@ spec:
           emptyDir: {}
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

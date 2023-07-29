@@ -39,7 +39,6 @@ spec:
             - name: POSTGRES_DB
               value: images-db
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

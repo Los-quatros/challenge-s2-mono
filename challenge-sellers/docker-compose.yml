@@ -6,9 +6,10 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./db:/data/db
+      - ./sellers-database:/data/db
     networks:
       - challenge-network
+
   sellers-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
@@ -26,20 +27,6 @@ services:
       - .:/home/node
     depends_on:
       - sellers-db
-    networks:
-      - challenge-network
-  
-  sellers-db-test:
-    image: postgres:12.1-alpine
-    container_name: sellers-db-test
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: sellers-db-test
-    ports:
-      - 5505:5432
-    volumes:
-      - ./database-test:/var/lib/postgresql/data
     networks:
       - challenge-network
 

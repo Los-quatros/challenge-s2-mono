@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: challenge-products-db
-spec: 
+spec:
   selector:
     matchLabels:
       app: challenge-products-db

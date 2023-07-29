@@ -26,7 +26,6 @@ spec:
               value: "http://challenge-front-external"
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -36,9 +35,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: http
-    port: 3009
-    targetPort: 3000
+    - name: http
+      port: 3009
+      targetPort: 3000
   selector:
     app: challenge-mailer
-

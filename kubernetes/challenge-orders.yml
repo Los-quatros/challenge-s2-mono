@@ -36,7 +36,6 @@ spec:
             - name: POSTGRES_PORT
               value: "5432"
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -46,8 +45,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: http
-    port: 3001
-    targetPort: 3000
+    - name: http
+      port: 3001
+      targetPort: 3000
   selector:
     app: challenge-orders

@@ -10,9 +10,10 @@ services:
     ports:
       - 5412:5432
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - ./addresses-database:/var/lib/postgresql/data
     networks:
       - challenge-network
+
   address-server:
     build: .
     command: sh -c "npm install && npm run start:dev"
@@ -32,25 +33,14 @@ services:
       - challenge-network
     depends_on:
       - address-db
+
   adminer:
     image: adminer
     ports:
       - 8088:8080
     networks:
       - challenge-network
-  address-db-test:
-    image: postgres:12.1-alpine
-    container_name: address-db-test
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: address-db-test
-    ports:
-      - 5507:5432
-    volumes:
-      - ./database-test:/var/lib/postgresql/data
-    networks:
-      - challenge-network
+
 networks:
   challenge-network:
     external: true

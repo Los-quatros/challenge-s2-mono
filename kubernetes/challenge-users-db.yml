@@ -32,7 +32,6 @@ spec:
           emptyDir: {}
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -45,4 +44,3 @@ spec:
     - name: postgres
       port: 5432
       targetPort: 5432
-  

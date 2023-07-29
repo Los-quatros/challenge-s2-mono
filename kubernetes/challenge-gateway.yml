@@ -35,7 +35,7 @@ spec:
               value: postgres
             - name: POSTGRES_DB
               value: gateway-db
-          
+
 ---
 apiVersion: v1
 kind: Service
@@ -52,7 +52,6 @@ spec:
     app: challenge-gateway
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -86,4 +85,3 @@ spec:
         target:
           type: "Utilization"
           averageUtilization: 80
-
