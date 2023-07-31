@@ -26,11 +26,35 @@ Go to the project directory
 
 ## Installation
 
-- .............
+Run all services
+
+```bash
+  ./start_all.sh
+```
+
+Run each service by one
+
+```bash
+  cd <folder-name>
+  docker compose up -d
+```
+
+Stop all services
+
+```bash
+  ./stop_all.sh
+```
+
+Stop each service by one
+
+```bash
+  cd <folder-name>
+  docker compose down --remove-orphans --volumes --timeout 0
+```
 
 ## Project access
 
-- .............
+- http://localhost:3000/
 
 ## Authors
 
