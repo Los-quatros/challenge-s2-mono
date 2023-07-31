@@ -110,10 +110,7 @@ export class UsersService {
     email = email.toLowerCase();
     const user = await this.usersRepository.findOneBy({ email });
     if (!user) {
-      return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        error: "Error user does not exists",
-      };
+      return null;
     }
 
     return user;
