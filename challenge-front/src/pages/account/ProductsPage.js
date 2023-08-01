@@ -153,9 +153,8 @@ function ProductsPage() {
                     return response.blob();
                   }
                 })
-                .then((d) => {
-                  if (d) {
-                    const blob = d;
+                .then((blob) => {
+                  if (blob) {
                     const url = URL.createObjectURL(blob);
                     data[i].image.value = url;
                     newProducts.push({ ...addToNewProducts(data[i], url) });

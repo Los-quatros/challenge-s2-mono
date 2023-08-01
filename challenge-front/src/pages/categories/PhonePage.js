@@ -86,9 +86,8 @@ function PhonePage() {
                       return response.blob();
                     }
                   })
-                  .then((d) => {
-                    if (d) {
-                      const blob = d;
+                  .then((blob) => {
+                    if (blob) {
                       const url = URL.createObjectURL(blob);
                       product.image = url;
                       newProducts.push({ ...product });
