@@ -61,6 +61,12 @@ function ProductDetailsPage({ handleCartChange }) {
   }, []);
 
   useEffect(() => {
+    if (product.quantity === 0) {
+      setQuantity(0);
+    }
+  }, [product.quantity]);
+
+  useEffect(() => {
     if (product.category.name === 'headphones') {
       setContent(`Plongez au cœur d'une expérience sonore immersive et
       exceptionnelle avec nos casques de musique haut de gamme. Que vous soyez un audiophile
@@ -102,6 +108,10 @@ function ProductDetailsPage({ handleCartChange }) {
    * @param { Object } product Product to add to the cart
    */
   const onQuantityChange = (event, product) => {
+    if (product.quantity === 0) {
+      return;
+    }
+
     const value = event.target.value;
     if (value < 1) {
       setQuantity(1);
@@ -122,6 +132,11 @@ function ProductDetailsPage({ handleCartChange }) {
    * @param { Object } product Product to add to the cart
    */
   const increaseQuantity = (product) => {
+    if (product.quantity === 0) {
+      setQuantityError('Ce produit est en rupture de stock');
+      return;
+    }
+
     if (quantity >= product.quantity) {
       setQuantity(product.quantity);
       setQuantityError(
@@ -137,6 +152,11 @@ function ProductDetailsPage({ handleCartChange }) {
    * Decrease the quantity by 1
    */
   const decreaseQuantity = () => {
+    if (product.quantity === 0) {
+      setQuantityError('Ce produit est en rupture de stock');
+      return;
+    }
+
     if (quantity > 1) {
       setQuantity(quantity - 1);
       setQuantityError('');
@@ -218,26 +238,30 @@ function ProductDetailsPage({ handleCartChange }) {
                           value={quantity}
                         />
                         <div className="quantity_buttons">
-                          <div
-                            id="quantity_inc_button"
-                            className="quantity_inc quantity_control"
-                            onClick={() => increaseQuantity(product)}
-                          >
-                            <i
-                              className="fa fa-chevron-up"
-                              aria-hidden="true"
-                            ></i>
-                          </div>
-                          <div
-                            id="quantity_dec_button"
-                            className="quantity_dec quantity_control"
-                            onClick={decreaseQuantity}
-                          >
-                            <i
-                              className="fa fa-chevron-down"
-                              aria-hidden="true"
-                            ></i>
-                          </div>
+                          {product.quantity !== 0 && (
+                            <div
+                              id="quantity_inc_button"
+                              className="quantity_inc quantity_control"
+                              onClick={() => increaseQuantity(product)}
+                            >
+                              <i
+                                className="fa fa-chevron-up"
+                                aria-hidden="true"
+                              ></i>
+                            </div>
+                          )}
+                          {product.quantity !== 0 && (
+                            <div
+                              id="quantity_dec_button"
+                              className="quantity_dec quantity_control"
+                              onClick={decreaseQuantity}
+                            >
+                              <i
+                                className="fa fa-chevron-down"
+                                aria-hidden="true"
+                              ></i>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="button cart_button">

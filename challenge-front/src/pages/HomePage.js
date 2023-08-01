@@ -34,6 +34,7 @@ function HomePage({ handleCartChange }) {
         label: 'Iphone X 64 Go',
         price: 1399.99,
         image: image1,
+        quantity: 0,
         category: {
           name: 'phones',
         },
@@ -47,6 +48,7 @@ function HomePage({ handleCartChange }) {
         label: 'Caméra Dg HSM',
         price: 799.99,
         image: image2,
+        quantity: 0,
         category: {
           name: 'cameras',
         },
@@ -59,6 +61,7 @@ function HomePage({ handleCartChange }) {
         label: 'Casque Sony',
         price: 299.99,
         image: image3,
+        quantity: 0,
         category: {
           name: 'headphones',
         },
@@ -71,6 +74,7 @@ function HomePage({ handleCartChange }) {
         label: 'Tablette Apple',
         price: 499.99,
         image: image4,
+        quantity: 0,
         category: {
           name: 'tablets',
         },
