@@ -175,11 +175,6 @@ function ProductsPage() {
                 });
             }
           }
-        } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération des produits',
-            'error',
-          );
         }
       })
       .catch(() => {
