@@ -166,7 +166,11 @@ function ReturnsPage({ role }) {
             <h3>Aucun retour de commande.</h3>
             <p>
               Effectuez un retour de commande depuis la page{' '}
-              <Link style={{ fontStyle: 'italic' }} to="/account/orders">
+              <Link
+                style={{ fontStyle: 'italic' }}
+                className="important"
+                to="/account/orders"
+              >
                 Mes commandes.
               </Link>
             </p>
