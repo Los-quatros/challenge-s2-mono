@@ -185,36 +185,35 @@ const AppContent = () => {
     setCartQuantity(0);
   };
 
-  function AdminRedirect({ children }) {
-    if (hasToken && isAdmin) {
-      return <Navigate to="/admin" />;
-    }
-    return children;
-  }
-
   return (
     <Suspense>
       <ToastContainer />
       {displayHeader && <Header quantity={cartQuantity} />}
       <Routes>
-        {isAdmin && hasToken ? (
+        <Route path="/forbidden" element={<Forbidden />} />
+        {isAdmin ? (
           <>
             <Route path="/admin" element={<Dashboard />} />
-            <Route path="*" element={<AdminRedirect />} />
+            <Route path="*" element={<Navigate to="/admin" />} />
           </>
         ) : (
           <>
-            <Route path="/forbidden" element={<Forbidden />} />
             <Route
               path="/"
               element={<Home handleCartChange={handleCartChange} />}
             />
-            <Route path="/login" element={<Login />} />
-            <Route path="/new-password" element={<NewPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/register/:name" element={<Register />} />
+            {!hasToken && <Route path="/login" element={<Login />} />}
+            {!hasToken && (
+              <Route path="/new-password" element={<NewPassword />} />
+            )}
+            {!hasToken && (
+              <Route path="/reset-password" element={<ResetPassword />} />
+            )}
+            {!hasToken && (
+              <Route path="/register/:name" element={<Register />} />
+            )}
             <Route path="/categories/:category" element={<Categories />} />
-            <Route path="/account/:name" element={<Account />} />
+            {hasToken && <Route path="/account/:name" element={<Account />} />}
             <Route path="/contact" element={<Contact />} />
             <Route
               path="/cart"
@@ -224,8 +223,15 @@ const AppContent = () => {
               path="/products/:category/:productId"
               element={<ProductDetails handleCartChange={handleCartChange} />}
             />
-            <Route path="/payments/cancel" element={<PaymentCancel />} />
-            <Route path="/payments/success/:id" element={<PaymentSuccess />} />
+            {hasToken && (
+              <Route path="/payments/cancel" element={<PaymentCancel />} />
+            )}
+            {hasToken && (
+              <Route
+                path="/payments/success/:id"
+                element={<PaymentSuccess />}
+              />
+            )}
             <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
