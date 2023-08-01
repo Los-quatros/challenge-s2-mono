@@ -265,8 +265,9 @@ function ProductsPage() {
    * Handle the browse of an image
    * @param { number } index Index of the product in the list
    */
-  const handleBrowse = (index) =>
-    document.querySelector(`#file-${index}`).click();
+  const handleBrowse = (index) => {
+    return document.querySelector(`#file-${index}`).click();
+  };
 
   /**
    * Handle the change of an input in the form
@@ -546,38 +547,45 @@ function ProductsPage() {
                         alt="Aperçu"
                       />
                     </div>
-                    <input
-                      type="file"
-                      name={`file-${index}`}
-                      id={`file-${index}`}
-                      className="file"
-                      style={{ visibility: 'hidden' }}
-                      accept="image/*"
-                      onChange={(event) =>
-                        handleImageUpload(event.target.files[0], index)
-                      }
-                    />
-                    <div className="input-group" style={{ marginTop: '-20px' }}>
+                    {!product.image.name && (
                       <input
-                        type="text"
-                        className="form-control"
-                        disabled
-                        value={product.image.name}
-                        placeholder="Télécharger une image"
-                        id={`file-info-${index}`}
+                        type="file"
+                        name={`file-${index}`}
+                        id={`file-${index}`}
+                        className="file"
+                        style={{ visibility: 'hidden' }}
+                        accept="image/*"
+                        onChange={(event) =>
+                          handleImageUpload(event.target.files[0], index)
+                        }
                       />
+                    )}
+                    {!product.image.name && (
                       <div
-                        className="input-group-append"
-                        onClick={() => handleBrowse(index)}
+                        className="input-group"
+                        style={{ marginTop: '-20px' }}
                       >
-                        <button
-                          type="button"
-                          className="browse btn btn-secondary"
+                        <input
+                          type="text"
+                          className="form-control"
+                          disabled
+                          value={product.image.name}
+                          placeholder="Télécharger une image"
+                          id={`file-info-${index}`}
+                        />
+                        <div
+                          className="input-group-append"
+                          onClick={() => handleBrowse(index)}
                         >
-                          Parcourir
-                        </button>
+                          <button
+                            type="button"
+                            className="browse btn btn-secondary"
+                          >
+                            Parcourir
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   <div className="col-12 mt-2" id="label">
                     <label htmlFor={`label-${index}`} className="form-label">
