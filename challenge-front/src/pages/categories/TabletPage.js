@@ -7,7 +7,7 @@ import defaultImage from '../../assets/images/categories/default-large.png';
 import tabletBackground from '../../assets/images/categories/tablets/tablet_1.png';
 import { toast } from 'react-toastify';
 
-const title = 'Nos caméras';
+const title = 'Nos tablettes';
 const content = `Découvrez notre sélection de tablettes haut de gamme qui
 	vous offriront une expérience technologique exceptionnelle. Que vous soyez un amateur de
 	divertissement, un étudiant ou un professionnel en déplacement, nos tablettes sont conçues pour répondre à
