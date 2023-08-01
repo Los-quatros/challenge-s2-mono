@@ -189,7 +189,7 @@ function ReturnsPage({ role }) {
               <p>Date : {ret.date}</p>
             </div>
             <div className="card-body">
-              <h5>Produits :</h5>
+              <h5>Produit(s) :</h5>
               <table className="table mb-0">
                 <thead>
                   <tr>
