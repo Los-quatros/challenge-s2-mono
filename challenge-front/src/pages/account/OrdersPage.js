@@ -181,26 +181,56 @@ function OrdersPage({ role }) {
       .then((data) => {
         if (data && data.length) {
           const orders = [];
+          const fetchImagePromises = [];
+
           data.forEach((order) => {
             if (order.is_paid) {
-              const products = order.products
-                .map((product) => {
-                  if (product?.['product']) {
-                    return {
-                      id: product.id,
-                      name: product['product'].label,
-                      quantity: product.quantity,
-                      price: product['product'].price,
-                      image: product['product'].image
-                        ? product['product'].image
-                        : defaultProduct,
-                      is_returned: product.is_returned,
-                    };
-                  } else {
-                    return null;
-                  }
-                })
-                .filter(Boolean);
+              const products = [];
+              order.products.forEach((product) => {
+                if (product?.['product']?.image) {
+                  const fetchImagePromise = fetch(
+                    `${process.env.REACT_APP_BASE_API_URL}/images/${product['product'].image.id}`,
+                    {
+                      method: 'GET',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                      },
+                    },
+                  )
+                    .then((response) => {
+                      if (response.status === 200) {
+                        return response.blob();
+                      }
+                    })
+                    .then((blob) => {
+                      let url = defaultProduct;
+                      if (blob) {
+                        url = URL.createObjectURL(blob);
+                      }
+                      products.push({
+                        id: product.id,
+                        name: product['product'].label,
+                        quantity: product.quantity,
+                        price: product['product'].price,
+                        image: url,
+                        is_returned: product.is_returned,
+                      });
+                    });
+
+                  fetchImagePromises.push(fetchImagePromise);
+                } else {
+                  products.push({
+                    id: product.id,
+                    name: product['product'].label,
+                    quantity: product.quantity,
+                    price: product['product'].price,
+                    image: defaultProduct,
+                    is_returned: product.is_returned,
+                  });
+                }
+              });
+
               orders.push({
                 id: order.orderId,
                 date: order.date ? order.date : new Date().toLocaleDateString(),
@@ -211,15 +241,19 @@ function OrdersPage({ role }) {
               });
             }
           });
-          setOrders(orders);
+
+          Promise.all(fetchImagePromises)
+            .then(() => {
+              setOrders(orders);
+            })
+            .catch(() => {
+              setToast(
+                "Une erreur est survenue lors de la récupération de l'image",
+                'info',
+              );
+            });
         }
-      })
-      .catch(() =>
-        setToast(
-          'Une erreur est survenue lors de la récupération des commandes',
-          'error',
-        ),
-      );
+      });
   };
 
   /**
@@ -246,18 +280,53 @@ function OrdersPage({ role }) {
       .then((data) => {
         if (data && data.length) {
           const sales = [];
+          const fetchImagePromises = [];
+
           data.forEach((sale) => {
-            const products = sale.products.map((product) => {
-              return {
-                id: product['product'].id,
-                name: product['product'].label,
-                quantity: product['product'].quantity,
-                price: product['product'].price,
-                image: product['product'].image
-                  ? product['product'].image
-                  : defaultProduct,
-              };
+            const products = [];
+            sale.products.forEach((product) => {
+              if (product['product']?.image) {
+                const fetchImagePromise = fetch(
+                  `${process.env.REACT_APP_BASE_API_URL}/images/${product['product'].image.id}`,
+                  {
+                    method: 'GET',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token}`,
+                    },
+                  },
+                )
+                  .then((response) => {
+                    if (response.status === 200) {
+                      return response.blob();
+                    }
+                  })
+                  .then((blob) => {
+                    let url = defaultProduct;
+                    if (blob) {
+                      url = URL.createObjectURL(blob);
+                    }
+                    products.push({
+                      id: product['product'].id,
+                      name: product['product'].label,
+                      quantity: product['product'].quantity,
+                      price: product['product'].price,
+                      image: url,
+                    });
+                  });
+
+                fetchImagePromises.push(fetchImagePromise);
+              } else {
+                products.push({
+                  id: product['product'].id,
+                  name: product['product'].label,
+                  quantity: product['product'].quantity,
+                  price: product['product'].price,
+                  image: defaultProduct,
+                });
+              }
             });
+
             sales.push({
               id: sale.orderId,
               date: sale.date ? sale.date : new Date().toLocaleDateString(),
@@ -266,15 +335,19 @@ function OrdersPage({ role }) {
               carrier: sale.carrier.name,
             });
           });
-          setSales(sales);
+
+          Promise.all(fetchImagePromises)
+            .then(() => {
+              setSales(sales);
+            })
+            .catch(() => {
+              setToast(
+                "Une erreur est survenue lors de la récupération de l'image",
+                'info',
+              );
+            });
         }
-      })
-      .catch(() =>
-        setToast(
-          'Une erreur est survenue lors de la récupération des ventes',
-          'error',
-        ),
-      );
+      });
   };
 
   useEffect(() => {
@@ -308,7 +381,7 @@ function OrdersPage({ role }) {
                   </thead>
                   <tbody>
                     {order.products.map((product, index) => (
-                      <tr key={`${product.label}-${index}`}>
+                      <tr key={`${product.name}-${index}`}>
                         <td>
                           <img
                             src={product.image}
@@ -412,8 +485,8 @@ function OrdersPage({ role }) {
                 <p>Date : {sale.date}</p>
               </div>
               <div className="card-body">
-                <h5>Produits :</h5>
-                <table className="mb-0">
+                <h5>Produit(s) :</h5>
+                <table className="table mb-0">
                   <thead>
                     <tr>
                       <th>Image</th>
@@ -424,7 +497,7 @@ function OrdersPage({ role }) {
                   </thead>
                   <tbody>
                     {sale.products.map((product, index) => (
-                      <tr key={`${product.label}-${index}`}>
+                      <tr key={`${product.name}-${index}`}>
                         <td>
                           <img
                             src={product.image}
