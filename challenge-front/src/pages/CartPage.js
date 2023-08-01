@@ -142,43 +142,49 @@ function CartPage({ handleClearCart }) {
    */
   const handlePayment = async (event) => {
     event.preventDefault();
-    if (isLogged && addresses.length > 0) {
-      const token = localStorage.getItem('token');
-      const decodedToken = jwt_decode(token);
-      const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-      const data = {
-        orderProducts: products.map((p) => ({
-          id_product: p.id,
-          quantity: p.quantity,
-        })),
-        total: total,
-        carrier: carriers.find((c) => c.name === deliveryMode).id,
-        userId: decodedToken.id,
-        address: selectedAddress,
-      };
-      fetch(`${process.env.REACT_APP_BASE_API_URL}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...data }),
-      })
-        .then((response) => {
-          if (response.status === 201) {
-            return response.json();
-          }
+    if (isLogged) {
+      if (addresses.length > 0 && carriers.length > 0) {
+        const token = localStorage.getItem('token');
+        const decodedToken = jwt_decode(token);
+        const stripe = await loadStripe(
+          process.env.REACT_APP_STRIPE_PUBLIC_KEY,
+        );
+        const data = {
+          orderProducts: products.map((p) => ({
+            id_product: p.id,
+            quantity: p.quantity,
+          })),
+          total: total,
+          carrier: carriers.find((c) => c.name === deliveryMode).id,
+          userId: decodedToken.id,
+          address: selectedAddress,
+        };
+        fetch(`${process.env.REACT_APP_BASE_API_URL}/orders`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ ...data }),
         })
-        .then((data) => {
-          if (data) {
-            return stripe.redirectToCheckout({
-              sessionId: data['data'].sessionId,
-            });
-          }
-        })
-        .catch(() => {
-          setToast('Erreur lors de la redirection vers Stripe', 'error');
-        });
+          .then((response) => {
+            if (response.status === 201) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            if (data) {
+              return stripe.redirectToCheckout({
+                sessionId: data['data'].sessionId,
+              });
+            }
+          })
+          .catch(() => {
+            setToast('Erreur lors de la redirection vers Stripe', 'error');
+          });
+      } else {
+        setToast('Veuillez vérifier vos adresses et transporteurs', 'info');
+      }
     } else {
       navigate('/login');
     }
@@ -250,7 +256,9 @@ function CartPage({ handleClearCart }) {
     setProducts([]);
     setSubtotal(0);
     setTotal(0);
-    setDeliveryMode(carriers[0].name);
+    if (carriers.length > 0) {
+      setDeliveryMode(carriers[0].name);
+    }
     setToast('Le panier a été vidé', 'success');
     handleClearCart();
   };
