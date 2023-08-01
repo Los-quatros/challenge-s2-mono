@@ -48,7 +48,7 @@ function AddressesPage() {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const newAddresses = data.map((address) => ({
             id: address.id,
             zip: {

@@ -70,7 +70,7 @@ function ReturnsPage({ role }) {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const returns = data.map((ret) => {
             const products = ret.orderProducts
               .map((orderProduct) => {
@@ -128,7 +128,7 @@ function ReturnsPage({ role }) {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const returns = data.map((ret) => {
             const products = ret.orderProducts.map((orderProduct) => {
               return {

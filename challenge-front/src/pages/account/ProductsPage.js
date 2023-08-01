@@ -89,7 +89,7 @@ function ProductsPage() {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           setCategories(data);
         }
       })
@@ -133,7 +133,7 @@ function ProductsPage() {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const token = localStorage.getItem('token');
           const newProducts = [];
           for (let i = 0; i < data.length; i++) {
@@ -427,7 +427,7 @@ function ProductsPage() {
     const price = products[index].price;
     const quantity = products[index].quantity;
     const description = products[index].description;
-    const category = products[index].category.name;
+    const category = products[index].category;
     const image = products[index].image.value;
 
     if (

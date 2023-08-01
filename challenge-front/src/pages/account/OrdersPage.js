@@ -84,7 +84,7 @@ function OrdersPage({ role }) {
           }
         })
         .then((data) => {
-          if (data) {
+          if (data && data.length) {
             updateOrders(data);
             setToast(
               'Votre demande de retour a bien été prise en compte',
@@ -179,7 +179,7 @@ function OrdersPage({ role }) {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const orders = [];
           data.forEach((order) => {
             if (order.is_paid) {
@@ -244,7 +244,7 @@ function OrdersPage({ role }) {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const sales = [];
           data.forEach((sale) => {
             const products = sale.products.map((product) => {
