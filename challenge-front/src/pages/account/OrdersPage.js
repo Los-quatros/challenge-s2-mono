@@ -336,13 +336,13 @@ function OrdersPage({ role }) {
                     ))}
                   </tbody>
                 </table>
-                <div className="transporter-info">
+                <div className="transporter-info d-flex">
                   <h5>Transporteur :</h5>
-                  <div className="transporter">
-                    <div className="transporter-details">
-                      <h6>{order.carrier}</h6>
-                    </div>
-                  </div>
+                  <span className="ml-2">
+                    {(order.carrier === 'standard' && 'Standard') ||
+                      (order.carrier === 'express' && 'Rapide') ||
+                      (order.carrier === 'free' && 'Gratuit')}
+                  </span>
                 </div>
                 <h5>Adresse de livraison :</h5>
                 <p>{order.address}</p>
@@ -439,13 +439,13 @@ function OrdersPage({ role }) {
                     ))}
                   </tbody>
                 </table>
-                <div className="transporter-info">
+                <div className="transporter-info d-flex">
                   <h5>Transporteur :</h5>
-                  <div className="transporter">
-                    <div className="transporter-details">
-                      <h6>{sale.carrier}</h6>
-                    </div>
-                  </div>
+                  <span className="ml-2">
+                    {(sale.carrier === 'standard' && 'Standard') ||
+                      (sale.carrier === 'express' && 'Rapide') ||
+                      (sale.carrier === 'free' && 'Gratuit')}
+                  </span>
                 </div>
                 <h5>Adresse de livraison :</h5>
                 <p>{sale.address}</p>
