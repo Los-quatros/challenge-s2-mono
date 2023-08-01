@@ -296,7 +296,7 @@ function OrdersPage({ role }) {
               </div>
               <div className="card-body">
                 <h5>Produits :</h5>
-                <table className="table">
+                <table className="table mb-0">
                   <thead>
                     <tr>
                       <th>Image</th>
@@ -413,7 +413,7 @@ function OrdersPage({ role }) {
               </div>
               <div className="card-body">
                 <h5>Produits :</h5>
-                <table className="table">
+                <table className="mb-0">
                   <thead>
                     <tr>
                       <th>Image</th>

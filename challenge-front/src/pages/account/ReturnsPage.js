@@ -190,7 +190,7 @@ function ReturnsPage({ role }) {
             </div>
             <div className="card-body">
               <h5>Produits :</h5>
-              <table className="table">
+              <table className="table mb-0">
                 <thead>
                   <tr>
                     <th>Image</th>
