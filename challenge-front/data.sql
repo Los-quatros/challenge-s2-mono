@@ -60,7 +60,7 @@ VALUES
     'cameras'
   );
 
--- HEADPHONES PRODUCTS --
+-- HEADPHONE PRODUCTS --
 
 INSERT INTO "product" ("id", "label", "price", "quantity", "sellerId", "isActivated", "categoryId", "description")
 VALUES
@@ -105,7 +105,7 @@ VALUES
     'Le casque gaming SteelSeries Arctis 7 est spécialement conçu pour offrir une expérience de jeu immersive. Avec sa technologie audio de qualité supérieure, il vous plonge au cœur de l"action avec un son clair et détaillé. Son microphone rétractable vous permet de communiquer avec vos coéquipiers sans avoir à retirer le casque. De plus, il est doté d"un design léger et confortable, idéal pour une utilisation prolongée.'
   );
 
--- PHONES PRODUCTS --
+-- PHONE PRODUCTS --
 
 INSERT INTO "product" ("id", "label", "price", "quantity", "sellerId", "isActivated", "categoryId", "description")
 VALUES
@@ -150,7 +150,7 @@ VALUES
     'Le téléphone intelligent Samsung Galaxy Note10+ vous offre une expérience mobile exceptionnelle avec un écran Infinity-O de 6,8 po et un appareil photo à quadruple objectif de 16 Mpx. Profitez d"une performance fluide et d"une autonomie prolongée grâce à la puce Snapdragon 855 et à la batterie longue durée. De plus, il est doté d"un design élégant et durable qui résiste à l"eau et à la poussière.'
   );
 
--- TABLETS PRODUCTS --
+-- TABLET PRODUCTS --
 
 INSERT INTO "product" ("id", "label", "price", "quantity", "sellerId", "isActivated", "categoryId", "description")
 VALUES
