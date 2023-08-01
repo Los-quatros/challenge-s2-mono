@@ -468,7 +468,9 @@ function CartPage({ handleClearCart }) {
                             className="delivery_option clearfix"
                             key={carrier.name}
                           >
-                            {carrier.name}
+                            {carrier.name === 'standard' && 'Standard'}
+                            {carrier.name === 'free' && 'Gratuit'}
+                            {carrier.name === 'express' && 'Rapide'}
                             <input
                               type="radio"
                               name="radio-delivery"
@@ -541,7 +543,9 @@ function CartPage({ handleClearCart }) {
                         <li className="d-flex flex-row align-items-center justify-content-start">
                           <div className="cart_total_title">Livraison</div>
                           <div className="cart_total_value ml-auto">
-                            {deliveryMode}
+                            {deliveryMode === 'standard' && 'Standard'}
+                            {deliveryMode === 'free' && 'Gratuit'}
+                            {deliveryMode === 'express' && 'Rapide'}
                           </div>
                         </li>
                         <li className="d-flex flex-row align-items-center justify-content-start">
