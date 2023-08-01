@@ -488,7 +488,7 @@ function CartPage({ handleClearCart }) {
                       ) : !isLogged ? (
                         <p>Aucun mode de livraison, connectez-vous.</p>
                       ) : (
-                        <p>Ajouter un mode de livraison dans votre profil.</p>
+                        <p>Aucun mode de livraison, contactez-nous.</p>
                       )}
                     </div>
                   </div>
