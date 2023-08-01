@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   payments-db:
@@ -38,6 +38,8 @@ services:
     image: adminer
     ports:
       - 8083:8080
+    networks:
+      - challenge-network
 
 networks:
   challenge-network:
