@@ -84,7 +84,7 @@ function OrdersPage({ role }) {
           }
         })
         .then((data) => {
-          if (data && data.length) {
+          if (data) {
             updateOrders(data);
             setToast(
               'Votre demande de retour a bien été prise en compte',
