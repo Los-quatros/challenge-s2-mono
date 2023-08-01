@@ -25,18 +25,6 @@ VALUES
     NULL,
     NULL,
     NULL
-  ),
-  (
-    '51b3e54e-1b93-11ee-be56-0241ac120003',
-    'seller@seller.fr',
-    'Seller',
-    'Seller',
-    '$2a$10$gzZE/DeoZ36ZamVP6oJEsOmRAl6vOCoQhR99cZuRzobtcfIFPuLPW',
-    'seller',
-    NULL,
-    NULL,
-    NULL,
-    '2a2bb63f-f53a-4f78-ab7d-00f643a72e3f' -- Need to be created before in sellers db
   );
 
 -- CATEGORIES --
