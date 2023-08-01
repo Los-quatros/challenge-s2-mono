@@ -61,8 +61,8 @@ function TabletPage() {
           return response.json();
         }
       })
-      .then((data, index) => {
-        if (data) {
+      .then((data) => {
+        if (data && data.length) {
           const newProducts = [];
           data.forEach((product) => {
             if (product.category.name === 'tablets') {
@@ -72,7 +72,7 @@ function TabletPage() {
                 setProducts([...newProducts]);
               } else {
                 fetch(
-                  `${process.env.REACT_APP_BASE_API_URL}/images/${data[index].image.id}`,
+                  `${process.env.REACT_APP_BASE_API_URL}/images/${product.image.id}`,
                   {
                     method: 'GET',
                     headers: {
@@ -90,7 +90,7 @@ function TabletPage() {
                     if (d) {
                       const blob = d;
                       const url = URL.createObjectURL(blob);
-                      data[index].image = url;
+                      product.image = url;
                       newProducts.push({ ...product });
                       setProducts([...newProducts]);
                     }
@@ -110,7 +110,7 @@ function TabletPage() {
       })
       .catch(() => {
         setToast(
-          'Une erreur est survenue lors de la récupération des téléphones',
+          'Une erreur est survenue lors de la récupération des tablettes',
           'error',
         );
       });

@@ -62,9 +62,9 @@ function PhonePage() {
         }
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length) {
           const newProducts = [];
-          data.forEach((product, index) => {
+          data.forEach((product) => {
             if (product.category.name === 'phones') {
               if (!product?.image) {
                 product.image = defaultImage;
@@ -72,7 +72,7 @@ function PhonePage() {
                 setProducts([...newProducts]);
               } else {
                 fetch(
-                  `${process.env.REACT_APP_BASE_API_URL}/images/${data[index].image.id}`,
+                  `${process.env.REACT_APP_BASE_API_URL}/images/${product.image.id}`,
                   {
                     method: 'GET',
                     headers: {
@@ -90,7 +90,7 @@ function PhonePage() {
                     if (d) {
                       const blob = d;
                       const url = URL.createObjectURL(blob);
-                      data[index].image = url;
+                      product.image = url;
                       newProducts.push({ ...product });
                       setProducts([...newProducts]);
                     }
