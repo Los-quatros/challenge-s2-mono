@@ -81,11 +81,6 @@ function PaymentSuccess() {
                   setDisplay(true);
                   localStorage.removeItem('cart');
                   return;
-                } else {
-                  setToast(
-                    'Une erreur est survenue lors de la validation de votre commande',
-                    'error',
-                  );
                 }
               })
               .catch(() => {

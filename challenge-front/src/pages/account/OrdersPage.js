@@ -91,11 +91,6 @@ function OrdersPage({ role }) {
               'success',
             );
             resetFields();
-          } else {
-            setToast(
-              'Une erreur est survenue lors de la demande de retour',
-              'error',
-            );
           }
         })
         .catch(() =>
@@ -217,11 +212,6 @@ function OrdersPage({ role }) {
             }
           });
           setOrders(orders);
-        } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération des commandes',
-            'error',
-          );
         }
       })
       .catch(() =>
@@ -277,11 +267,6 @@ function OrdersPage({ role }) {
             });
           });
           setSales(sales);
-        } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération des ventes',
-            'error',
-          );
         }
       })
       .catch(() =>

@@ -93,11 +93,6 @@ function CameraPage() {
                       data[index].image = url;
                       newProducts.push({ ...product });
                       setProducts([...newProducts]);
-                    } else {
-                      setToast(
-                        "Une erreur est survenue lors de la récupération de l'image",
-                        'info',
-                      );
                     }
                   })
                   .catch(() => {
@@ -111,11 +106,6 @@ function CameraPage() {
             }
           });
           setProducts(products);
-        } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération des caméras',
-            'error',
-          );
         }
       })
       .catch(() => {

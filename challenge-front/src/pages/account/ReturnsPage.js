@@ -96,11 +96,6 @@ function ReturnsPage({ role }) {
             };
           });
           setReturns(returns);
-        } else {
-          setToast(
-            'Une erreur est survenur lors de la récupération des retours',
-            'error',
-          );
         }
       })
       .catch(() => {
@@ -153,11 +148,6 @@ function ReturnsPage({ role }) {
             };
           });
           setReturns(returns);
-        } else {
-          setToast(
-            'Une erreur est survenur lors de la récupération des retours',
-            'error',
-          );
         }
       })
       .catch(() => {

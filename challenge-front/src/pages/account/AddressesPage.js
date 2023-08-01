@@ -73,11 +73,6 @@ function AddressesPage() {
             },
           }));
           setAddresses(newAddresses);
-        } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération des adresses',
-            'error',
-          );
         }
       })
       .catch(() => {
@@ -222,11 +217,6 @@ function AddressesPage() {
         .then((data) => {
           if (data) {
             removeAddress(event, index);
-          } else {
-            setToast(
-              "Une erreur est survenue lors de la suppression de l'adresse",
-              'error',
-            );
           }
         })
         .catch(() => {
@@ -300,11 +290,6 @@ function AddressesPage() {
             setHasChanged('zip', false);
             setHasChanged('country', false);
             setHasChanged('city', false);
-          } else {
-            setToast(
-              "Une erreur est survenue lors de l'ajout de l'adresse",
-              'error',
-            );
           }
         })
         .catch(() => {

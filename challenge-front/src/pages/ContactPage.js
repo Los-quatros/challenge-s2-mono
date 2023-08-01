@@ -125,11 +125,6 @@ function ContactPage() {
             setMessage('');
             setIsCaptchaVerified(false);
             recaptchaRef.current.reset();
-          } else {
-            setToast(
-              "Une erreur est survenue lors de l'envoi du message",
-              'error',
-            );
           }
         })
         .catch(() => {

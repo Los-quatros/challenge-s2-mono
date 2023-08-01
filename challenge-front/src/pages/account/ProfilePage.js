@@ -147,11 +147,6 @@ function ProfilePage({ role }) {
                 if (data) {
                   setShop(data.name);
                   setDescription(data.description);
-                } else {
-                  setToast(
-                    'Une erreur est survenue lors de la récupération de vos données',
-                    'error',
-                  );
                 }
               })
               .catch(() => {
@@ -161,11 +156,6 @@ function ProfilePage({ role }) {
                 );
               });
           }
-        } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération de vos données',
-            'error',
-          );
         }
       })
       .catch(() => {
