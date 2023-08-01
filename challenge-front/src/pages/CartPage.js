@@ -94,7 +94,7 @@ function CartPage({ handleClearCart }) {
           }
         })
         .then((data) => {
-          if (data) {
+          if (data && data.length) {
             setCarriers(data);
             setDeliveryMode(data[0].name);
           }
@@ -125,7 +125,7 @@ function CartPage({ handleClearCart }) {
           }
         })
         .then((data) => {
-          if (data) {
+          if (data && data.length) {
             setAddresses(data);
             setSelectedAddress(data[0].id);
           }
@@ -210,7 +210,7 @@ function CartPage({ handleClearCart }) {
    */
   const increaseQuantity = (product) => {
     const newProducts = products.map((p) => {
-      if (p.id === product.id && p.category === product.category) {
+      if (p.id === product.id && p.category.name === product.category.name) {
         if (p.quantity < 100000000) {
           p.quantity = p.quantity + 1;
         } else {
@@ -228,7 +228,7 @@ function CartPage({ handleClearCart }) {
    */
   const decreaseQuantity = (product) => {
     const newProducts = products.map((p) => {
-      if (p.id === product.id && p.category === product.category) {
+      if (p.id === product.id && p.category.name === product.category.name) {
         if (p.quantity > 1) {
           p.quantity = p.quantity - 1;
         } else {

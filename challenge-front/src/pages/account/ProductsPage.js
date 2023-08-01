@@ -437,7 +437,7 @@ function ProductsPage() {
 		const price = products[index].price;
 		const quantity = products[index].quantity;
 		const description = products[index].description;
-		const category = products[index].category;
+		const category = products[index].category.name;
 		const image = products[index].image.value;
 
 		if (

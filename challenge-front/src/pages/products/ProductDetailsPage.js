@@ -185,7 +185,8 @@ function ProductDetailsPage({ handleCartChange }) {
     if (cart) {
       const existingProduct = cart.find(
         (item) =>
-          item.id === product.id && item.category === product.category.name,
+          item.id === product.id &&
+          item.category.name === product.category.name,
       );
       if (existingProduct) {
         existingProduct.quantity += quantity;
