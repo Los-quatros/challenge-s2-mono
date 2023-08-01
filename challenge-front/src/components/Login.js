@@ -83,14 +83,7 @@ function Login() {
             return response.text();
           }
           if (response.status === 400) {
-            if (response.message === 'Email ou mot de passe incorrect') {
-              setToast('Vérifier vos identifiants', 'error');
-            } else {
-              setToast(
-                'Votre compte doit être validé par un administrateur',
-                'error',
-              );
-            }
+            setToast('Vérifier vos identifiants', 'error');
           }
         })
         .then(async (data) => {
