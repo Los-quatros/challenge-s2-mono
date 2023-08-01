@@ -39,6 +39,27 @@ VALUES
     '2a2bb63f-f53a-4f78-ab7d-00f643a72e3f' -- Need to be created before in sellers db
   );
 
+-- CATEGORIES --
+
+INSERT INTO "category" ("id", "name")
+VALUES
+  (
+    '51b3e54e-1b91-11ee-be56-0242ac120034',
+    'headphones'
+  ),
+  (
+    '51b3e54e-1b92-11ee-be56-0242ac120034',
+    'phones'
+  ),
+  (
+    '51b3e54e-1b90-11ee-be56-0242ac120034',
+    'tablets'
+  ),
+  (
+    '51b3e54e-1b94-11ee-be56-0242ac120034',
+    'cameras'
+  );
+
 -- HEADPHONES PRODUCTS --
 
 INSERT INTO "product" ("id", "label", "price", "quantity", "sellerId", "isActivated", "categoryId", "description")
@@ -263,25 +284,4 @@ VALUES
     '51b3e54e-1b93-11ef-be56-0242ac120002',
     'Montréal',
     '1234 rue de la rue'
-  );
-
--- CATEGORIES --
-
-INSERT INTO "category" ("id", "name")
-VALUES
-  (
-    '51b3e54e-1b91-11ee-be56-0242ac120034',
-    'headphones'
-  ),
-  (
-    '51b3e54e-1b92-11ee-be56-0242ac120034',
-    'phones'
-  ),
-  (
-    '51b3e54e-1b90-11ee-be56-0242ac120034',
-    'tablets'
-  ),
-  (
-    '51b3e54e-1b94-11ee-be56-0242ac120034',
-    'cameras'
   );
