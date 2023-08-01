@@ -51,7 +51,7 @@ function ProductsFilter(props) {
           <div className="col">
             <div className="sorting_bar d-flex flex-md-row flex-column align-items-md-center justify-content-md-start">
               <div className="results">
-                Affichage de <span>{pageSize}</span> produits
+                Affichage de <span>{pageSize}</span> produit(s)
               </div>
               <div className="sorting_container ml-md-auto">
                 <div className="sorting">
