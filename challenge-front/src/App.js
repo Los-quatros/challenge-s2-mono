@@ -191,50 +191,39 @@ const AppContent = () => {
       {displayHeader && <Header quantity={cartQuantity} />}
       <Routes>
         <Route path="/forbidden" element={<Forbidden />} />
-        {isAdmin ? (
-          <>
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="*" element={<Navigate to="/admin" />} />
-          </>
-        ) : (
-          <>
-            <Route
-              path="/"
-              element={<Home handleCartChange={handleCartChange} />}
-            />
-            {!hasToken && <Route path="/login" element={<Login />} />}
-            {!hasToken && (
-              <Route path="/new-password" element={<NewPassword />} />
-            )}
-            {!hasToken && (
-              <Route path="/reset-password" element={<ResetPassword />} />
-            )}
-            {!hasToken && (
-              <Route path="/register/:name" element={<Register />} />
-            )}
-            <Route path="/categories/:category" element={<Categories />} />
-            {hasToken && <Route path="/account/:name" element={<Account />} />}
-            <Route path="/contact" element={<Contact />} />
-            <Route
-              path="/cart"
-              element={<Cart handleClearCart={handleClearCart} />}
-            />
-            <Route
-              path="/products/:category/:productId"
-              element={<ProductDetails handleCartChange={handleCartChange} />}
-            />
-            {hasToken && (
-              <Route path="/payments/cancel" element={<PaymentCancel />} />
-            )}
-            {hasToken && (
-              <Route
-                path="/payments/success/:id"
-                element={<PaymentSuccess />}
-              />
-            )}
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        )}
+        {isAdmin && <Route path="/admin" element={<Dashboard />} />}
+        <>
+          <Route
+            path="/"
+            element={<Home handleCartChange={handleCartChange} />}
+          />
+          {!hasToken && <Route path="/login" element={<Login />} />}
+          {!hasToken && (
+            <Route path="/new-password" element={<NewPassword />} />
+          )}
+          {!hasToken && (
+            <Route path="/reset-password" element={<ResetPassword />} />
+          )}
+          {!hasToken && <Route path="/register/:name" element={<Register />} />}
+          <Route path="/categories/:category" element={<Categories />} />
+          {hasToken && <Route path="/account/:name" element={<Account />} />}
+          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/cart"
+            element={<Cart handleClearCart={handleClearCart} />}
+          />
+          <Route
+            path="/products/:category/:productId"
+            element={<ProductDetails handleCartChange={handleCartChange} />}
+          />
+          {hasToken && (
+            <Route path="/payments/cancel" element={<PaymentCancel />} />
+          )}
+          {hasToken && (
+            <Route path="/payments/success/:id" element={<PaymentSuccess />} />
+          )}
+          <Route path="*" element={<Navigate to="/" />} />
+        </>
       </Routes>
 
       {displayFooter && <Footer />}
