@@ -2,10 +2,10 @@ name: CI/CD challenge gateway microservice
 
 on:
   push:
-    # branches:
-    #   - main
-    paths:
-      - "challenge-gateway/**"
+    # # branches:
+    # #   - main
+    # paths:
+    #   - "challenge-gateway/**"
 
 env:
   GKE_CLUSTER: marketplace
