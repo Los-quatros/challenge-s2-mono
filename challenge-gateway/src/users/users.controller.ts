@@ -36,6 +36,7 @@ export class UsersController {
   @Get()
   @HttpCode(200)
   getUsers() {
+    console.log(process.env.JWT_SECRET, 'process.env.JWT_SECRET');
     return this.usersService.getUsers();
   }
 
