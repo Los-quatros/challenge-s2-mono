@@ -31,12 +31,11 @@ import { ContactDto } from 'src/dto/contact.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @AuthenticationRequired()
-  // @HasRole(Role.ADMINISTRATOR)
+  @AuthenticationRequired()
+  @HasRole(Role.ADMINISTRATOR)
   @Get()
   @HttpCode(200)
   getUsers() {
-    console.log(process.env.JWT_SECRET, 'process.env.JWT_SECRET');
     return this.usersService.getUsers();
   }
 
