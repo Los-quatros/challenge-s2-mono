@@ -19,6 +19,13 @@ spec:
           image: yacinesoussi/challenges2-yacine-users:latest
           ports:
             - containerPort: 3001
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           env:
             - name: POSTGRES_DB
               value: challenge-users-db
@@ -30,6 +37,8 @@ spec:
               value: challenge-users-db
             - name: POSTGRES_PORT
               value: "5432"
+            - name: JWT_SECRET
+              value: "my_big_secret"
 
 ---
 

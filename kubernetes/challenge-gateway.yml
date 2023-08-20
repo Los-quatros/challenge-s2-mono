@@ -35,21 +35,23 @@ spec:
               value: postgres
             - name: POSTGRES_DB
               value: gateway-db
+            - name: JWT_SECRET
+              value: "my_big_secret"
           
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: challenge-gateway-internal
-  labels:
-    app: challenge-gateway
-spec:
-  type: ClusterIP
-  ports:
-    - port: 4000
-      targetPort: 4000
-  selector:
-    app: challenge-gateway
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: challenge-gateway-internal
+#   labels:
+#     app: challenge-gateway
+# spec:
+#   type: ClusterIP
+#   ports:
+#     - port: 4000
+#       targetPort: 4000
+#   selector:
+#     app: challenge-gateway
 
 ---
 
