@@ -9,7 +9,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'MAIL_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: [`amqp://34.76.248.98:5672`],
+          urls: ['amqp://34.76.248.98:5672'],
           queue: 'mailer_queue',
           queueOptions: {
             durable: false,
