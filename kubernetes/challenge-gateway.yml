@@ -37,6 +37,8 @@ spec:
               value: gateway-db
             - name: JWT_SECRET
               value: "my_big_secret"
+            - name: RMQ_SERVICE_HOST
+              value: 34.76.248.98
           
 # ---
 # apiVersion: v1

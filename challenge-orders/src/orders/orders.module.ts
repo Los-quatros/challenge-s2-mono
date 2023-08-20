@@ -7,22 +7,23 @@ import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, OrderProduct]), 
-  ClientsModule.register([
-    {
-      name : "ORDERS_SERVICE",
-      transport: Transport.RMQ,
-      options: {
-        urls: ['amqp://rmq-service:5672'],
-        queue: 'products_queue',
-        queueOptions: {
-          durable: false,
+  imports: [
+    TypeOrmModule.forFeature([Order, OrderProduct]),
+    ClientsModule.register([
+      {
+        name: 'ORDERS_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [`amqp://${process.env.RMQ_SERVICE_HOST}:5672`],
+          queue: 'products_queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
-  }
-  ])
-],
+    ]),
+  ],
   controllers: [OrdersController],
-  providers: [OrdersService]
+  providers: [OrdersService],
 })
 export class OrdersModule {}

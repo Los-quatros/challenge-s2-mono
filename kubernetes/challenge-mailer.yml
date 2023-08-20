@@ -24,6 +24,8 @@ spec:
               value: "MoonFactory123$"
             - name: FRONT_URL
               value: "http://challenge-front-external"
+            - name: RMQ_SERVICE_HOST
+              value: 34.76.248.98
 
 ---
 

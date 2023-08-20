@@ -12,7 +12,7 @@ import { UsersModule } from 'src/users/users.module';
         name: 'PRODUCTS_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://rmq-service:5672'],
+          urls: [`amqp://${process.env.RMQ_SERVICE_HOST}:5672`],
           queue: 'products_queue',
           queueOptions: {
             durable: false,

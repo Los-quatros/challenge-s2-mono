@@ -38,6 +38,8 @@ spec:
               value: postgres
             - name: POSTGRES_DB
               value: images-db
+            - name: RMQ_SERVICE_HOST
+              value: 34.76.248.98
 ---
 
 apiVersion: v1
