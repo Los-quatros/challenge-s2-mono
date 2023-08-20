@@ -8,7 +8,7 @@ import { MailsService } from './email.service';
             name: 'MAILS_SERVICE',
             transport: Transport.RMQ,
             options: {
-                urls: [`amqp://rmq-service:5672`],
+                urls: [`amqp://${process.env.RMQ_SERVICE_HOST}:5672`],
                 queue: 'mailer_queue',
                 queueOptions: {
                     durable: false
