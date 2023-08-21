@@ -3,9 +3,10 @@ name: CI/CD challenge images microservice
 on:
   push:
     branches:
-      - main
-    # paths:
-    #   - "challenge-images/**"
+      - feature/test-deploy-kubernetes
+    paths:
+      - "challenge-images/**"
+      - ".github/workflows/**"
 
 env:
   GKE_CLUSTER: marketplace
