@@ -6,6 +6,7 @@ on:
       - feature/test-deploy-kubernetes
     paths:
       - "challenge-mailer/**"
+      - ".github/workflows/**"
 
 env:
   GKE_CLUSTER: marketplace

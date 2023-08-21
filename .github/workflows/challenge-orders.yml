@@ -3,9 +3,10 @@ name: CI/CD challenge orders microservice
 on:
   push:
     branches:
-      - main
+      - feature/test-deploy-kubernetes
     paths:
       - "challenge-orders/**"
+      - ".github/workflows/**"
 
 env:
   GKE_CLUSTER: marketplace
@@ -29,7 +30,7 @@ jobs:
           - 5432:5432
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db_test
-     
+
     defaults:
       run:
         working-directory: ./challenge-orders
@@ -41,7 +42,7 @@ jobs:
       #   run: npm run test
       - name: build
         run: npm run build
-  
+
   publish-image:
     runs-on: ubuntu-latest
     needs: build-test
@@ -59,7 +60,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-        
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -74,13 +75,13 @@ jobs:
       - name: Set up Kubernetes
         uses: actions/checkout@v3
 
-      - id: 'auth'
-        name: 'Authenticating to Google Cloud'
+      - id: "auth"
+        name: "Authenticating to Google Cloud"
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GKE_SA_KEY }}
 
-      - id: 'get-credentials'
+      - id: "get-credentials"
         name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v0
         with:
@@ -90,4 +91,3 @@ jobs:
       - name: Update deployment
         run: |
           kubectl patch deployment challenge-orders -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-      
