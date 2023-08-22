@@ -133,11 +133,13 @@ export class OrdersService {
         const result : OrderResponseDto[] = []
         for(const order of orders) {
           const orderProductIds = order?.getOrderProductIds();
+          console.log(orderProductIds, 'orderProductIds')
           const products: OrderProductDto[] = await Promise.all(orderProductIds.map(async (item) => {
             const orderProduct: OrderProduct = await this.orderProductRepository.findOneBy({ id: item });
             const product = new Product(orderProduct.product_id);
             return new OrderProductDto(orderProduct.id, product, orderProduct.quantity, orderProduct.is_returned, orderProduct.orderId);
           }));
+          console.log(products, 'products')
 
           const carrier : Carrier = new Carrier(order.carrier);
           const address : Address = new Address(order.address);
