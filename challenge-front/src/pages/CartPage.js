@@ -546,6 +546,10 @@ function CartPage({ handleClearCart }) {
                             {deliveryMode === 'standard' && 'Standard'}
                             {deliveryMode === 'free' && 'Gratuit'}
                             {deliveryMode === 'express' && 'Rapide'}
+                            {deliveryMode !== 'standard' &&
+                              deliveryMode !== 'free' &&
+                              deliveryMode !== 'express' &&
+                              '-'}
                           </div>
                         </li>
                         <li className="d-flex flex-row align-items-center justify-content-start">
