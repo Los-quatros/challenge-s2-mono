@@ -249,7 +249,6 @@ function ContactPage() {
                       onChange={onCaptchaChange}
                       ref={recaptchaRef}
                     />
-                    ,
                     <button className="button contact_button">
                       <span>Envoyer</span>
                     </button>
