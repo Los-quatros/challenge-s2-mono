@@ -2,10 +2,11 @@ name: CI/CD challenge gateway microservice
 
 on:
   push:
-    # # branches:
-    # #   - main
-    # paths:
-    #   - "challenge-gateway/**"
+    branches:
+      - feature/test-deploy-kubernetes
+    paths:
+      - "challenge-gateway/**"
+      - ".github/workflows/**"
 
 env:
   GKE_CLUSTER: marketplace
