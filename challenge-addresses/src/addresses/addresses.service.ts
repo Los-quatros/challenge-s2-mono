@@ -26,6 +26,7 @@ export class AddressesService {
       state: true,
     });
     console.log(addres, 'addres');
+    console.log(id, 'user_id');
     return await this.addressesRepository.findBy({
       user_id: id['id'],
       state: true,
