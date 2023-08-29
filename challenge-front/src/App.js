@@ -83,7 +83,7 @@ const clearLinks = () => {
 
 const AppContent = () => {
   const hasToken = localStorage.getItem('token') ? true : false;
-  const isAdmin = localStorage.getItem('role') === 'admin' ? true : false;
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const displayHeader =
     location.pathname !== '/login' &&
@@ -105,13 +105,6 @@ const AppContent = () => {
     location.pathname !== '/forbidden';
   const [cartQuantity, setCartQuantity] = useState(0);
 
-  const token = localStorage.getItem('token');
-  if (token) {
-    const decodedToken = jwt_decode(token);
-    const role = decodedToken.role;
-    localStorage.setItem('role', role);
-  }
-
   useEffect(() => {
     if (!hasToken) {
       handleClearCart();
@@ -120,6 +113,15 @@ const AppContent = () => {
 
   useEffect(() => {
     clearLinks();
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      const role = decodedToken.role;
+      localStorage.setItem('role', role);
+      setIsAdmin(role === 'admin' ? true : false);
+    }
+
     if (location.pathname === '/') {
       loadCSS('./assets/styles/global.css');
       loadCSS('./assets/styles/home/home.css');
