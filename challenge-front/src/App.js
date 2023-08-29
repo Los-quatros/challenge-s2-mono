@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Forbidden from './pages/Forbidden';
 import Header from './components/Header';
 import { ToastContainer } from 'react-toastify';
+import jwt_decode from 'jwt-decode';
 
 const Login = lazy(() => import('./components/Login'));
 const ResetPassword = lazy(() => import('./components/ResetPassword'));
@@ -103,6 +104,13 @@ const AppContent = () => {
     !location.pathname.startsWith('/payments') &&
     location.pathname !== '/forbidden';
   const [cartQuantity, setCartQuantity] = useState(0);
+
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decodedToken = jwt_decode(token);
+    const role = decodedToken.role;
+    localStorage.setItem('role', role);
+  }
 
   useEffect(() => {
     if (!hasToken) {
