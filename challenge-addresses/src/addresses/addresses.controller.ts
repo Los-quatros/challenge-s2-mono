@@ -21,7 +21,6 @@ export class AddressesController {
 
   @EventPattern('GetUserAddresses')
   async GetUserAddresses(@Payload() idUser: string): Promise<Array<Address>> {
-    console.log('ControllerAdresse');
     return this.addressesService.GetUserAddresses(idUser['id']);
   }
   @EventPattern('DeleteAddress')
