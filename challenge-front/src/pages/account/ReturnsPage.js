@@ -138,7 +138,15 @@ function ReturnsPage({ role }) {
                 'info',
               );
             });
+        } else {
+          return data.json();
         }
+      })
+      .catch(() => {
+        setToast(
+          'Une erreur est survenue lors de la récupération des retours',
+          'error',
+        );
       });
   };
 
@@ -231,6 +239,8 @@ function ReturnsPage({ role }) {
                 'info',
               );
             });
+        } else {
+          return data.json();
         }
       })
       .catch(() => {

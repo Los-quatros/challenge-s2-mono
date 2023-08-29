@@ -105,6 +105,8 @@ function HeadPhonePage() {
             }
           });
           setProducts(products);
+        } else {
+          return data.json();
         }
       })
       .catch(() => {

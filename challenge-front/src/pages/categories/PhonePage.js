@@ -105,6 +105,8 @@ function PhonePage() {
             }
           });
           setProducts(products);
+        } else {
+          return data.json();
         }
       })
       .catch(() => {

@@ -105,6 +105,8 @@ function TabletPage() {
             }
           });
           setProducts(products);
+        } else {
+          return data.json();
         }
       })
       .catch(() => {

@@ -91,6 +91,8 @@ function ProductsPage() {
       .then((data) => {
         if (data && data.length) {
           setCategories(data);
+        } else {
+          return data.json();
         }
       })
       .catch(() => {
@@ -175,6 +177,8 @@ function ProductsPage() {
                 });
             }
           }
+        } else {
+          return data.json();
         }
       })
       .catch(() => {
@@ -367,6 +371,8 @@ function ProductsPage() {
         .then((data) => {
           if (data) {
             removeProduct(event, index);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {
@@ -489,6 +495,8 @@ function ProductsPage() {
                   setHasChanged('quantity', false);
                   setHasChanged('category', false);
                   setHasChanged('image', false);
+                } else {
+                  return data.json();
                 }
               })
               .catch(() => {
@@ -497,6 +505,8 @@ function ProductsPage() {
                   'error',
                 );
               });
+          } else {
+            return data.json();
           }
         })
         .catch(() => {

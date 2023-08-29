@@ -105,6 +105,8 @@ function CameraPage() {
             }
           });
           setProducts(products);
+        } else {
+          return data.json();
         }
       })
       .catch(() => {

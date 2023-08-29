@@ -125,6 +125,8 @@ function ContactPage() {
             setMessage('');
             setIsCaptchaVerified(false);
             recaptchaRef.current.reset();
+          } else {
+            return data.json();
           }
         })
         .catch(() => {

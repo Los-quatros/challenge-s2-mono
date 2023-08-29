@@ -73,6 +73,8 @@ function AddressesPage() {
             },
           }));
           setAddresses(newAddresses);
+        } else {
+          return data.json();
         }
       })
       .catch(() => {
@@ -217,6 +219,8 @@ function AddressesPage() {
         .then((data) => {
           if (data) {
             removeAddress(event, index);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {
@@ -290,6 +294,8 @@ function AddressesPage() {
             setHasChanged('zip', false);
             setHasChanged('country', false);
             setHasChanged('city', false);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {

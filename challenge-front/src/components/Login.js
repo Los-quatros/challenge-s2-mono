@@ -111,6 +111,8 @@ function Login() {
                 setToast('Vous êtes connecté', 'success');
               }, 500);
             }
+          } else {
+            return data.json();
           }
         })
         .catch(() =>

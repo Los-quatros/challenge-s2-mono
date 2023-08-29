@@ -97,6 +97,8 @@ function CartPage({ handleClearCart }) {
           if (data && data.length) {
             setCarriers(data);
             setDeliveryMode(data[0].name);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {
@@ -128,6 +130,8 @@ function CartPage({ handleClearCart }) {
           if (data && data.length) {
             setAddresses(data);
             setSelectedAddress(data[0].id);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {
@@ -177,6 +181,8 @@ function CartPage({ handleClearCart }) {
               return stripe.redirectToCheckout({
                 sessionId: data['data'].sessionId,
               });
+            } else {
+              return data.json();
             }
           })
           .catch(() => {

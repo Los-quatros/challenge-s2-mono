@@ -91,6 +91,8 @@ function OrdersPage({ role }) {
               'success',
             );
             resetFields();
+          } else {
+            return data.json();
           }
         })
         .catch(() =>
@@ -252,7 +254,15 @@ function OrdersPage({ role }) {
                 'info',
               );
             });
+        } else {
+          return data.json();
         }
+      })
+      .catch(() => {
+        setToast(
+          'Une erreur est survenue lors de la récupération de vos commandes',
+          'error',
+        );
       });
   };
 
@@ -346,7 +356,15 @@ function OrdersPage({ role }) {
                 'info',
               );
             });
+        } else {
+          return data.json();
         }
+      })
+      .catch(() => {
+        setToast(
+          'Une erreur est survenue lors de la récupération de vos ventes',
+          'error',
+        );
       });
   };
 
