@@ -20,6 +20,7 @@ export class AddressesService {
     const test = await this.addressesRepository.findOneBy({ id: id['id'] });
     console.log(test, 'TEST');
     console.log(id, 'ID');
+    console.log(id['id'], 'ID[ID]');
     return await this.addressesRepository.findOneBy({ id: id['id'] });
   }
 
