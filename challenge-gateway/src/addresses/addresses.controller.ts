@@ -33,6 +33,7 @@ export class AddressesController {
   @HasRole(Role.USER)
   @Get('/users/:id')
   async GetUserAddresses(@Param() id: string) {
+    console.log(id, 'ID CONTROLLER GATEWAY');
     return this.addressesService.GetUserAddresses(id);
   }
 
