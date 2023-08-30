@@ -49,6 +49,9 @@ function CartPage({ handleClearCart }) {
       let newTotal = 0;
 
       products.forEach((p) => {
+        if (p.quantity > p.stock) {
+          p.quantity = p.stock;
+        }
         newSubtotal += Number(p.price) * Number(p.quantity);
         newTotal += p.price * p.quantity;
       });
@@ -94,9 +97,11 @@ function CartPage({ handleClearCart }) {
           }
         })
         .then((data) => {
-          if (data && data.length) {
-            setCarriers(data);
-            setDeliveryMode(data[0].name);
+          if (data) {
+            if (data.length) {
+              setCarriers(data);
+              setDeliveryMode(data[0].name);
+            }
           } else {
             return data.json();
           }
@@ -127,9 +132,11 @@ function CartPage({ handleClearCart }) {
           }
         })
         .then((data) => {
-          if (data && data.length) {
-            setAddresses(data);
-            setSelectedAddress(data[0].id);
+          if (data) {
+            if (data.length) {
+              setAddresses(data);
+              setSelectedAddress(data[0].id);
+            }
           } else {
             return data.json();
           }
@@ -205,15 +212,19 @@ function CartPage({ handleClearCart }) {
    */
   const onQuantityChange = (event, product) => {
     const newQuantity = event.target.value;
-    if (newQuantity > 0 && newQuantity <= 100000000) {
-      const newProducts = products.map((p) => {
-        if (p.id === product.id) {
+    const newProducts = products.map((p) => {
+      if (p.id === product.id) {
+        if (newQuantity < 1) {
+          p.quantity = 1;
+        } else if (newQuantity > p.stock) {
+          p.quantity = p.stock;
+        } else {
           p.quantity = newQuantity;
         }
-        return p;
-      });
-      setProducts(newProducts);
-    }
+      }
+      return p;
+    });
+    setProducts(newProducts);
   };
 
   /**
@@ -223,10 +234,8 @@ function CartPage({ handleClearCart }) {
   const increaseQuantity = (product) => {
     const newProducts = products.map((p) => {
       if (p.id === product.id && p.category.name === product.category.name) {
-        if (p.quantity < 100000000) {
+        if (p.quantity + 1 <= p.stock) {
           p.quantity = p.quantity + 1;
-        } else {
-          p.quantity = 100000000;
         }
       }
       return p;
