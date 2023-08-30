@@ -89,8 +89,10 @@ function ProductsPage() {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          setCategories(data);
+        if (data) {
+          if (data?.length) {
+            setCategories(data);
+          }
         } else {
           return data.json();
         }
@@ -135,46 +137,48 @@ function ProductsPage() {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          const token = localStorage.getItem('token');
-          const newProducts = [];
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].isActivated) {
-              fetch(
-                `${process.env.REACT_APP_BASE_API_URL}/images/${data[i].image.id}`,
-                {
-                  method: 'GET',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
+        if (data) {
+          if (data?.length) {
+            const token = localStorage.getItem('token');
+            const newProducts = [];
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].isActivated) {
+                fetch(
+                  `${process.env.REACT_APP_BASE_API_URL}/images/${data[i].image.id}`,
+                  {
+                    method: 'GET',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token}`,
+                    },
                   },
-                },
-              )
-                .then((response) => {
-                  if (response.status === 200) {
-                    return response.blob();
-                  }
-                })
-                .then((blob) => {
-                  if (blob) {
-                    const url = URL.createObjectURL(blob);
-                    data[i].image.value = url;
-                    newProducts.push({ ...addToNewProducts(data[i], url) });
-                  } else {
+                )
+                  .then((response) => {
+                    if (response.status === 200) {
+                      return response.blob();
+                    }
+                  })
+                  .then((blob) => {
+                    if (blob) {
+                      const url = URL.createObjectURL(blob);
+                      data[i].image.value = url;
+                      newProducts.push({ ...addToNewProducts(data[i], url) });
+                    } else {
+                      setToast(
+                        "Une erreur est survenue lors de la récupération de l'image",
+                        'info',
+                      );
+                      newProducts.push({ ...addToNewProducts(data[i], null) });
+                    }
+                    setProducts([...newProducts]);
+                  })
+                  .catch(() => {
                     setToast(
                       "Une erreur est survenue lors de la récupération de l'image",
                       'info',
                     );
-                    newProducts.push({ ...addToNewProducts(data[i], null) });
-                  }
-                  setProducts([...newProducts]);
-                })
-                .catch(() => {
-                  setToast(
-                    "Une erreur est survenue lors de la récupération de l'image",
-                    'info',
-                  );
-                });
+                  });
+              }
             }
           }
         } else {

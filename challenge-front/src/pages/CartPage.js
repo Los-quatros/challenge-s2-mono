@@ -98,7 +98,7 @@ function CartPage({ handleClearCart }) {
         })
         .then((data) => {
           if (data) {
-            if (data.length) {
+            if (data?.length) {
               setCarriers(data);
               setDeliveryMode(data[0].name);
             }
@@ -133,7 +133,7 @@ function CartPage({ handleClearCart }) {
         })
         .then((data) => {
           if (data) {
-            if (data.length) {
+            if (data?.length) {
               setAddresses(data);
               setSelectedAddress(data[0].id);
             }

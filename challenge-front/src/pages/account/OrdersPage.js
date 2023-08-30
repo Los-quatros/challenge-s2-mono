@@ -181,79 +181,81 @@ function OrdersPage({ role }) {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          const orders = [];
-          const fetchImagePromises = [];
-
-          data.forEach((order) => {
-            if (order.is_paid) {
-              const products = [];
-              order.products.forEach((product) => {
-                if (product?.['product']?.image) {
-                  const fetchImagePromise = fetch(
-                    `${process.env.REACT_APP_BASE_API_URL}/images/${product['product'].image.id}`,
-                    {
-                      method: 'GET',
-                      headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
+        if (data) {
+          if (data?.length) {
+            const orders = [];
+            const fetchImagePromises = [];
+            data.forEach((order) => {
+              if (order.is_paid) {
+                const products = [];
+                order.products.forEach((product) => {
+                  if (product?.['product']?.image) {
+                    const fetchImagePromise = fetch(
+                      `${process.env.REACT_APP_BASE_API_URL}/images/${product['product'].image.id}`,
+                      {
+                        method: 'GET',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          Authorization: `Bearer ${token}`,
+                        },
                       },
-                    },
-                  )
-                    .then((response) => {
-                      if (response.status === 200) {
-                        return response.blob();
-                      }
-                    })
-                    .then((blob) => {
-                      let url = defaultProduct;
-                      if (blob) {
-                        url = URL.createObjectURL(blob);
-                      }
-                      products.push({
-                        id: product.id,
-                        name: product['product'].label,
-                        quantity: product.quantity,
-                        price: product['product'].price,
-                        image: url,
-                        is_returned: product.is_returned,
+                    )
+                      .then((response) => {
+                        if (response.status === 200) {
+                          return response.blob();
+                        }
+                      })
+                      .then((blob) => {
+                        let url = defaultProduct;
+                        if (blob) {
+                          url = URL.createObjectURL(blob);
+                        }
+                        products.push({
+                          id: product.id,
+                          name: product['product'].label,
+                          quantity: product.quantity,
+                          price: product['product'].price,
+                          image: url,
+                          is_returned: product.is_returned,
+                        });
                       });
+                    fetchImagePromises.push(fetchImagePromise);
+                  } else {
+                    products.push({
+                      id: product.id,
+                      name: product['product'].label,
+                      quantity: product.quantity,
+                      price: product['product'].price,
+                      image: defaultProduct,
+                      is_returned: product.is_returned,
                     });
+                  }
+                });
 
-                  fetchImagePromises.push(fetchImagePromise);
-                } else {
-                  products.push({
-                    id: product.id,
-                    name: product['product'].label,
-                    quantity: product.quantity,
-                    price: product['product'].price,
-                    image: defaultProduct,
-                    is_returned: product.is_returned,
-                  });
-                }
-              });
-
-              orders.push({
-                id: order.orderId,
-                date: order.date ? order.date : new Date().toLocaleDateString(),
-                products: products,
-                address: `${order.address.street} ${order.address.zip} ${order.address.city}`,
-                carrier: order.carrier.name,
-                is_delivered: order.is_delivered,
-              });
-            }
-          });
-
-          Promise.all(fetchImagePromises)
-            .then(() => {
-              setOrders(orders);
-            })
-            .catch(() => {
-              setToast(
-                "Une erreur est survenue lors de la récupération de l'image",
-                'info',
-              );
+                orders.push({
+                  id: order.orderId,
+                  date: order.date
+                    ? order.date
+                    : new Date().toLocaleDateString(),
+                  products: products,
+                  address: `${order.address.street} ${order.address.zip} ${order.address.city}`,
+                  carrier: order.carrier.name,
+                  is_delivered: order.is_delivered,
+                });
+              }
             });
+
+            Promise.all(fetchImagePromises)
+              .then(() => {
+                setOrders(orders);
+              })
+              .catch(() => {
+                setToast(
+                  "Une erreur est survenue lors de la récupération de l'image",
+                  'info',
+                );
+              });
+          }
         } else {
           return data.json();
         }
@@ -288,74 +290,72 @@ function OrdersPage({ role }) {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          const sales = [];
-          const fetchImagePromises = [];
-
-          data.forEach((sale) => {
-            const products = [];
-            sale.products.forEach((product) => {
-              if (product['product']?.image) {
-                const fetchImagePromise = fetch(
-                  `${process.env.REACT_APP_BASE_API_URL}/images/${product['product'].image.id}`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: `Bearer ${token}`,
+        if (data) {
+          if (data?.length) {
+            const sales = [];
+            const fetchImagePromises = [];
+            data.forEach((sale) => {
+              const products = [];
+              sale.products.forEach((product) => {
+                if (product['product']?.image) {
+                  const fetchImagePromise = fetch(
+                    `${process.env.REACT_APP_BASE_API_URL}/images/${product['product'].image.id}`,
+                    {
+                      method: 'GET',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                      },
                     },
-                  },
-                )
-                  .then((response) => {
-                    if (response.status === 200) {
-                      return response.blob();
-                    }
-                  })
-                  .then((blob) => {
-                    let url = defaultProduct;
-                    if (blob) {
-                      url = URL.createObjectURL(blob);
-                    }
-                    products.push({
-                      id: product['product'].id,
-                      name: product['product'].label,
-                      quantity: product['product'].quantity,
-                      price: product['product'].price,
-                      image: url,
+                  )
+                    .then((response) => {
+                      if (response.status === 200) {
+                        return response.blob();
+                      }
+                    })
+                    .then((blob) => {
+                      let url = defaultProduct;
+                      if (blob) {
+                        url = URL.createObjectURL(blob);
+                      }
+                      products.push({
+                        id: product['product'].id,
+                        name: product['product'].label,
+                        quantity: product['product'].quantity,
+                        price: product['product'].price,
+                        image: url,
+                      });
                     });
+                  fetchImagePromises.push(fetchImagePromise);
+                } else {
+                  products.push({
+                    id: product['product'].id,
+                    name: product['product'].label,
+                    quantity: product['product'].quantity,
+                    price: product['product'].price,
+                    image: defaultProduct,
                   });
-
-                fetchImagePromises.push(fetchImagePromise);
-              } else {
-                products.push({
-                  id: product['product'].id,
-                  name: product['product'].label,
-                  quantity: product['product'].quantity,
-                  price: product['product'].price,
-                  image: defaultProduct,
-                });
-              }
+                }
+              });
+              sales.push({
+                id: sale.orderId,
+                date: sale.date ? sale.date : new Date().toLocaleDateString(),
+                products: products,
+                address: `${sale.address.street} ${sale.address.zip} ${sale.address.city}`,
+                carrier: sale.carrier.name,
+              });
             });
-
-            sales.push({
-              id: sale.orderId,
-              date: sale.date ? sale.date : new Date().toLocaleDateString(),
-              products: products,
-              address: `${sale.address.street} ${sale.address.zip} ${sale.address.city}`,
-              carrier: sale.carrier.name,
-            });
-          });
-
-          Promise.all(fetchImagePromises)
-            .then(() => {
-              setSales(sales);
-            })
-            .catch(() => {
-              setToast(
-                "Une erreur est survenue lors de la récupération de l'image",
-                'info',
-              );
-            });
+            Promise.all(fetchImagePromises)
+              .then(() => {
+                setSales(sales);
+              })
+              .catch(() => {
+                setToast(
+                  "Une erreur est survenue lors de la récupération de l'image",
+                  'info',
+                );
+              });
+          }
         } else {
           return data.json();
         }

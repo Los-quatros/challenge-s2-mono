@@ -62,49 +62,51 @@ function TabletPage() {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          const newProducts = [];
-          data.forEach((product) => {
-            if (product.category.name === 'tablets') {
-              if (!product?.image) {
-                product.image = defaultImage;
-                newProducts.push({ ...product });
-                setProducts([...newProducts]);
-              } else {
-                fetch(
-                  `${process.env.REACT_APP_BASE_API_URL}/images/${product.image.id}`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: `Bearer ${token}`,
+        if (data) {
+          if (data?.length) {
+            const newProducts = [];
+            data.forEach((product) => {
+              if (product.category.name === 'tablets') {
+                if (!product?.image) {
+                  product.image = defaultImage;
+                  newProducts.push({ ...product });
+                  setProducts([...newProducts]);
+                } else {
+                  fetch(
+                    `${process.env.REACT_APP_BASE_API_URL}/images/${product.image.id}`,
+                    {
+                      method: 'GET',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                      },
                     },
-                  },
-                )
-                  .then((response) => {
-                    if (response.status === 200) {
-                      return response.blob();
-                    }
-                  })
-                  .then((blob) => {
-                    if (blob) {
-                      const url = URL.createObjectURL(blob);
-                      product.image = url;
-                      newProducts.push({ ...product });
-                      setProducts([...newProducts]);
-                    }
-                  })
-                  .catch(() => {
-                    setToast(
-                      "Une erreur est survenue lors de la récupération de l'image",
-                      'info',
-                    );
-                  });
+                  )
+                    .then((response) => {
+                      if (response.status === 200) {
+                        return response.blob();
+                      }
+                    })
+                    .then((blob) => {
+                      if (blob) {
+                        const url = URL.createObjectURL(blob);
+                        product.image = url;
+                        newProducts.push({ ...product });
+                        setProducts([...newProducts]);
+                      }
+                    })
+                    .catch(() => {
+                      setToast(
+                        "Une erreur est survenue lors de la récupération de l'image",
+                        'info',
+                      );
+                    });
+                }
+                products.push(product);
               }
-              products.push(product);
-            }
-          });
-          setProducts(products);
+            });
+            setProducts(products);
+          }
         } else {
           return data.json();
         }
