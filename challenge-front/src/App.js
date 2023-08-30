@@ -82,7 +82,6 @@ const clearLinks = () => {
 };
 
 const AppContent = () => {
-  console.log(process.env.REACT_APP_BASE_API_URL, 'API URL');
   const hasToken = localStorage.getItem('token') ? true : false;
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
