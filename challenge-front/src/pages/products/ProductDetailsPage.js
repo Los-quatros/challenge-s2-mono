@@ -180,6 +180,7 @@ function ProductDetailsPage({ handleCartChange }) {
   const addProductToCart = (event, product) => {
     event.preventDefault();
     const cart = JSON.parse(localStorage.getItem('cart'));
+    product['stock'] = product.quantity;
     const cartProduct = { ...product };
     delete cartProduct.description;
     if (cart) {
