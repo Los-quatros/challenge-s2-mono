@@ -282,6 +282,12 @@ function ProductsPage() {
     const updatedProducts = [...products];
     updatedProducts[index][field].value = value;
     updatedProducts[index][field].hasChanged = true;
+
+    // don't set hasChanged to true if the product is already created
+    if (field === 'category' && updatedProducts[index].id !== null) {
+      updatedProducts[index][field].hasChanged = false;
+    }
+
     if (field === 'label') {
       if (value === '') {
         updatedProducts[index][field].error = 'Le nom est obligatoire';
@@ -318,13 +324,15 @@ function ProductsPage() {
         }
       }
     } else if (field === 'category') {
-      if (value === '') {
-        updatedProducts[index][field].error = 'La catégorie est obligatoire';
-      } else {
-        updatedProducts[index][field].error = '';
-        updatedProducts[index][field].id = categories.find(
-          (category) => category.name === value,
-        ).id;
+      if (updatedProducts[index].id === null) {
+        if (value === '') {
+          updatedProducts[index][field].error = 'La catégorie est obligatoire';
+        } else {
+          updatedProducts[index][field].error = '';
+          updatedProducts[index][field].id = categories.find(
+            (category) => category.name === value,
+          ).id;
+        }
       }
     }
     setProducts(updatedProducts);
@@ -406,7 +414,7 @@ function ProductsPage() {
    * @param { string } filename File name
    * @returns { File } File converted
    */
-  function dataURLtoFile(dataUrl, filename) {
+  const dataURLtoFile = (dataUrl, filename) => {
     const arr = dataUrl.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
@@ -416,16 +424,34 @@ function ProductsPage() {
       u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], filename, { type: mime });
-  }
+  };
 
   /**
-   * Save the product in the database
-   * @param { Event } event Event div on click
-   * @param { number } index Index of the product in the list
+   * Check if the product modified is new or already exists
+   * @param { object } product Selected product
    */
-  const saveProduct = (event, index) => {
-    event.preventDefault();
+  const checkIfProductIsNew = (product) => product.id === null;
 
+  /**
+   * Fetch the product
+   * @param { number } index Index of the product to fetch
+   * @param { string } state State of the product (creation or update)
+   */
+  const fetchProduct = (index, state) => {
+    if (state === 'create') {
+      createProduct(index);
+    }
+    if (state === 'update') {
+      updateProduct(index);
+    }
+  };
+
+  /**
+   * Create the product
+   * @param { number } index Index of the product to fetch
+   *
+   */
+  const createProduct = (index) => {
     const token = localStorage.getItem('token');
     const decodedToken = jwt_decode(token);
     const label = products[index].label;
@@ -434,91 +460,165 @@ function ProductsPage() {
     const description = products[index].description;
     const category = products[index].category;
     const image = products[index].image.value;
+    fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        label: label.value,
+        description: description.value,
+        price: Number(price.value),
+        quantity: Number(quantity.value),
+        category: category.id,
+        idSeller: decodedToken.id,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        if (data) {
+          const formData = new FormData();
+          // If the image is a dataURL, convert it to a file
+          if (typeof image === 'string') {
+            const file = dataURLtoFile(image, 'image.png');
+            formData.append('file', file);
+          } else {
+            // Else, it's already a file
+            formData.append('file', image);
+          }
+          fetch(
+            `${process.env.REACT_APP_BASE_API_URL}/images/upload/product/${data.id}`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            },
+          )
+            .then((response) => {
+              if (response.status === 201) {
+                return response.json();
+              }
+            })
+            .then((data) => {
+              if (data) {
+                setToast('Produit ajouté avec succès', 'success');
+                setHasChanged('label', false);
+                setHasChanged('description', false);
+                setHasChanged('price', false);
+                setHasChanged('quantity', false);
+                setHasChanged('category', false);
+                setHasChanged('image', false);
+              } else {
+                return data.json();
+              }
+            })
+            .catch(() => {
+              setToast(
+                "Une erreur est survenue lors du chargement de l'image",
+                'error',
+              );
+            });
+        } else {
+          return data.json();
+        }
+      })
+      .catch(() => {
+        setToast("Une erreur est survenue lors de l'ajout du produit", 'error');
+      });
+  };
 
-    if (
-      label.value === '' ||
-      price.value === '' ||
-      quantity.value === '' ||
-      description.value === '' ||
-      category.value === ''
-    ) {
-      setToast('Veuillez remplir tous les champs', 'info');
-    } else {
-      fetch(`${process.env.REACT_APP_BASE_API_URL}/products`, {
-        method: 'POST',
+  /**
+   * Update the product
+   * @param { number } index Index of the product to fetch
+   */
+  const updateProduct = (index) => {
+    const token = localStorage.getItem('token');
+    const label = products[index].label;
+    const price = products[index].price;
+    const quantity = products[index].quantity;
+    const description = products[index].description;
+    fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/products/${products[index].id}`,
+      {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           label: label.value,
-          description: description.value,
           price: Number(price.value),
           quantity: Number(quantity.value),
-          category: category.id,
-          idSeller: decodedToken.id,
+          description: description.value,
         }),
+      },
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          products[index].label.hasChanged = false;
+          products[index].price.hasChanged = false;
+          products[index].quantity.hasChanged = false;
+          products[index].description.hasChanged = false;
+          setProducts([...products]);
+          setToast('Produit modifié avec succès', 'success');
+          return response.json();
+        } else {
+          return response.json();
+        }
       })
-        .then((response) => {
-          if (response.status === 201) {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          if (data) {
-            const formData = new FormData();
-            // If the image is a dataURL, convert it to a file
-            if (typeof image === 'string') {
-              const file = dataURLtoFile(image, 'image.png');
-              formData.append('file', file);
-            } else {
-              // Else, it's already a file
-              formData.append('file', image);
-            }
-            fetch(
-              `${process.env.REACT_APP_BASE_API_URL}/images/upload/product/${data.id}`,
-              {
-                method: 'POST',
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-                body: formData,
-              },
-            )
-              .then((response) => {
-                if (response.status === 201) {
-                  return response.json();
-                }
-              })
-              .then((data) => {
-                if (data) {
-                  setToast('Produit ajouté avec succès', 'success');
-                  setHasChanged('label', false);
-                  setHasChanged('description', false);
-                  setHasChanged('price', false);
-                  setHasChanged('quantity', false);
-                  setHasChanged('category', false);
-                  setHasChanged('image', false);
-                } else {
-                  return data.json();
-                }
-              })
-              .catch(() => {
-                setToast(
-                  "Une erreur est survenue lors du chargement de l'image",
-                  'error',
-                );
-              });
-          } else {
-            return data.json();
-          }
-        })
-        .catch(() => {
-          setToast(
-            "Une erreur est survenue lors de l'ajout du produit",
-            'error',
-          );
-        });
+      .catch(() => {
+        setToast(
+          'Une erreur est survenue lors de la mise à jour du produit',
+          'error',
+        );
+      });
+  };
+
+  /**
+   * Create or update a product
+   * @param { Event } event Event div on click
+   * @param { number } index Index of the product to create or update
+   */
+  const createOrUpdateProduct = (event, index) => {
+    event.preventDefault();
+
+    const label = products[index].label;
+    const price = products[index].price;
+    const quantity = products[index].quantity;
+    const description = products[index].description;
+    const category = products[index].category;
+    const productIsNew = checkIfProductIsNew(products[index]);
+
+    if (productIsNew) {
+      if (
+        label.value === '' ||
+        price.value === '' ||
+        quantity.value === '' ||
+        description.value === '' ||
+        category.value === ''
+      ) {
+        setToast('Veuillez remplir tous les champs', 'info');
+      } else {
+        fetchProduct(index, 'create');
+      }
+    } else {
+      if (
+        label.value === '' ||
+        price.value === '' ||
+        quantity.value === '' ||
+        description.value === ''
+      ) {
+        setToast('Veuillez remplir tous les champs', 'info');
+      } else {
+        fetchProduct(index, 'update');
+      }
     }
   };
 
@@ -690,6 +790,7 @@ function ProductsPage() {
                     <select
                       className="form-control"
                       id={`category-${index}`}
+                      disabled={product.id !== null}
                       value={product.category.value}
                       onChange={(event) =>
                         handleChange(index, 'category', event.target.value)
@@ -732,7 +833,9 @@ function ProductsPage() {
                       <div className="gap-3 d-md-flex text-center">
                         <button
                           className="button products_button"
-                          onClick={(event) => saveProduct(event, index)}
+                          onClick={(event) =>
+                            createOrUpdateProduct(event, index)
+                          }
                           style={{ height: '50px' }}
                         >
                           <span>Enregistrer le produit</span>
