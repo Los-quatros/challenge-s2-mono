@@ -125,6 +125,7 @@ function ReturnsPage({ role }) {
               date: ret.date ? ret.date : new Date().toLocaleDateString(),
               products: products,
               reason: ret.reason,
+              status: ret.status,
             });
           });
 
@@ -226,6 +227,7 @@ function ReturnsPage({ role }) {
               date: ret.date ? ret.date : new Date().toLocaleDateString(),
               products: products,
               reason: ret.reason,
+              status: ret.status,
             });
           });
 
@@ -279,7 +281,22 @@ function ReturnsPage({ role }) {
           <div key={ret.id} className="card mb-3">
             <div className="card-header">
               <h4>Numéro de retour : {ret.id}</h4>
-              <p>Date : {ret.date}</p>
+              <p className="mb-0">Date : {ret.date}</p>
+              <span
+                className={`badge text-white ${
+                  ret.status === 'validated'
+                    ? 'badge-success'
+                    : ret.status === 'refused'
+                    ? 'badge-danger'
+                    : 'badge-warning'
+                }`}
+              >
+                {ret.status === 'validated'
+                  ? 'Validé'
+                  : ret.status === 'refused'
+                  ? 'Refusé'
+                  : 'En attente'}
+              </span>
             </div>
             <div className="card-body">
               <h5>Produit(s) :</h5>
