@@ -70,22 +70,120 @@ function ReturnsPage({ role }) {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          const fetchImagePromises = [];
-          const returns = [];
+        if (data) {
+          if (data?.length) {
+            const fetchImagePromises = [];
+            const returns = [];
+            data.forEach((ret) => {
+              const products = [];
+              ret.orderProducts.forEach((orderProduct) => {
+                if (orderProduct?.['product']) {
+                  let product = {
+                    name: orderProduct.product.label,
+                    quantity: orderProduct.quantity,
+                    price: orderProduct.product.price,
+                    image: defaultProduct,
+                  };
+                  if (orderProduct.product?.image) {
+                    const fetchImagePromise = fetch(
+                      `${process.env.REACT_APP_BASE_API_URL}/images/${orderProduct.product.image.id}`,
+                      {
+                        method: 'GET',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          Authorization: `Bearer ${token}`,
+                        },
+                      },
+                    )
+                      .then((response) => {
+                        if (response.status === 200) {
+                          return response.blob();
+                        }
+                      })
+                      .then((blob) => {
+                        if (blob) {
+                          product.image = URL.createObjectURL(blob);
+                        }
+                      })
+                      .catch(() => {
+                        setToast(
+                          "Une erreur est survenue lors de la récupération de l'image",
+                          'info',
+                        );
+                      });
 
-          data.forEach((ret) => {
-            const products = [];
-            ret.orderProducts.forEach((orderProduct) => {
-              if (orderProduct?.['product']) {
+                    fetchImagePromises.push(fetchImagePromise);
+                  }
+                  products.push(product);
+                }
+              });
+              returns.push({
+                id: ret.id,
+                date: ret.date ? ret.date : new Date().toLocaleDateString(),
+                products: products,
+                reason: ret.reason,
+                status: ret.status,
+              });
+            });
+            Promise.all(fetchImagePromises)
+              .then(() => {
+                setReturns(returns);
+              })
+              .catch(() => {
+                setToast(
+                  'Une erreur est survenue lors de la récupération des images',
+                  'info',
+                );
+              });
+          }
+        } else {
+          return data.json();
+        }
+      })
+      .catch(() => {
+        setToast(
+          'Une erreur est survenue lors de la récupération des retours',
+          'error',
+        );
+      });
+  };
+
+  /**
+   * Initialize seller returns data
+   */
+  const initSellerReturns = () => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwt_decode(token);
+    fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/returns/sellers/${decodedToken.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        if (data) {
+          if (data?.length) {
+            const fetchImagePromises = [];
+            const returns = [];
+            data.forEach((ret) => {
+              const products = [];
+              ret.orderProducts.forEach((orderProduct) => {
                 let product = {
                   name: orderProduct.product.label,
-                  quantity: orderProduct.quantity,
+                  quantity: orderProduct.product.quantity,
                   price: orderProduct.product.price,
                   image: defaultProduct,
                 };
-
-                if (orderProduct.product?.image) {
+                if (orderProduct.product.image) {
                   const fetchImagePromise = fetch(
                     `${process.env.REACT_APP_BASE_API_URL}/images/${orderProduct.product.image.id}`,
                     {
@@ -112,125 +210,31 @@ function ReturnsPage({ role }) {
                         'info',
                       );
                     });
-
                   fetchImagePromises.push(fetchImagePromise);
                 }
-
                 products.push(product);
-              }
+              });
+              returns.push({
+                id: ret.id,
+                date: ret.date ? ret.date : new Date().toLocaleDateString(),
+                products: products,
+                reason: ret.reason,
+                status: ret.status,
+              });
             });
-
-            returns.push({
-              id: ret.id,
-              date: ret.date ? ret.date : new Date().toLocaleDateString(),
-              products: products,
-              reason: ret.reason,
-            });
-          });
-
-          Promise.all(fetchImagePromises)
-            .then(() => {
-              setReturns(returns);
-            })
-            .catch(() => {
-              setToast(
-                'Une erreur est survenue lors de la récupération des images',
-                'info',
-              );
-            });
-        }
-      });
-  };
-
-  /**
-   * Initialize seller returns data
-   */
-  const initSellerReturns = () => {
-    const token = localStorage.getItem('token');
-    const decodedToken = jwt_decode(token);
-    fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/returns/sellers/${decodedToken.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    )
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        if (data && data.length) {
-          const fetchImagePromises = [];
-          const returns = [];
-
-          data.forEach((ret) => {
-            const products = [];
-
-            ret.orderProducts.forEach((orderProduct) => {
-              let product = {
-                name: orderProduct.product.label,
-                quantity: orderProduct.product.quantity,
-                price: orderProduct.product.price,
-                image: defaultProduct,
-              };
-
-              if (orderProduct.product.image) {
-                const fetchImagePromise = fetch(
-                  `${process.env.REACT_APP_BASE_API_URL}/images/${orderProduct.product.image.id}`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: `Bearer ${token}`,
-                    },
-                  },
-                )
-                  .then((response) => {
-                    if (response.status === 200) {
-                      return response.blob();
-                    }
-                  })
-                  .then((blob) => {
-                    if (blob) {
-                      product.image = URL.createObjectURL(blob);
-                    }
-                  })
-                  .catch(() => {
-                    setToast(
-                      "Une erreur est survenue lors de la récupération de l'image",
-                      'info',
-                    );
-                  });
-
-                fetchImagePromises.push(fetchImagePromise);
-              }
-
-              products.push(product);
-            });
-
-            returns.push({
-              id: ret.id,
-              date: ret.date ? ret.date : new Date().toLocaleDateString(),
-              products: products,
-              reason: ret.reason,
-            });
-          });
-
-          Promise.all(fetchImagePromises)
-            .then(() => {
-              setReturns(returns);
-            })
-            .catch(() => {
-              setToast(
-                'Une erreur est survenue lors de la récupération des images',
-                'info',
-              );
-            });
+            Promise.all(fetchImagePromises)
+              .then(() => {
+                setReturns(returns);
+              })
+              .catch(() => {
+                setToast(
+                  'Une erreur est survenue lors de la récupération des images',
+                  'info',
+                );
+              });
+          }
+        } else {
+          return data.json();
         }
       })
       .catch(() => {
@@ -269,7 +273,22 @@ function ReturnsPage({ role }) {
           <div key={ret.id} className="card mb-3">
             <div className="card-header">
               <h4>Numéro de retour : {ret.id}</h4>
-              <p>Date : {ret.date}</p>
+              <p className="mb-0">Date : {ret.date}</p>
+              <span
+                className={`badge text-white ${
+                  ret.status === 'validated'
+                    ? 'badge-success'
+                    : ret.status === 'refused'
+                    ? 'badge-danger'
+                    : 'badge-warning'
+                }`}
+              >
+                {ret.status === 'validated'
+                  ? 'Validé'
+                  : ret.status === 'refused'
+                  ? 'Refusé'
+                  : 'En attente'}
+              </span>
             </div>
             <div className="card-body">
               <h5>Produit(s) :</h5>

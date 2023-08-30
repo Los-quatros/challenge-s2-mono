@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Forbidden from './pages/Forbidden';
 import Header from './components/Header';
 import { ToastContainer } from 'react-toastify';
+import jwt_decode from 'jwt-decode';
 
 const Login = lazy(() => import('./components/Login'));
 const ResetPassword = lazy(() => import('./components/ResetPassword'));
@@ -82,7 +83,7 @@ const clearLinks = () => {
 
 const AppContent = () => {
   const hasToken = localStorage.getItem('token') ? true : false;
-  const isAdmin = localStorage.getItem('role') === 'admin' ? true : false;
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const displayHeader =
     location.pathname !== '/login' &&
@@ -112,6 +113,15 @@ const AppContent = () => {
 
   useEffect(() => {
     clearLinks();
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      const role = decodedToken.role;
+      localStorage.setItem('role', role);
+      setIsAdmin(role === 'admin' ? true : false);
+    }
+
     if (location.pathname === '/') {
       loadCSS('./assets/styles/global.css');
       loadCSS('./assets/styles/home/home.css');
@@ -193,36 +203,49 @@ const AppContent = () => {
         <Route path="/forbidden" element={<Forbidden />} />
         {isAdmin && <Route path="/admin" element={<Dashboard />} />}
         <>
-          <Route
-            path="/"
-            element={<Home handleCartChange={handleCartChange} />}
-          />
+          {!isAdmin && (
+            <Route
+              path="/"
+              element={<Home handleCartChange={handleCartChange} />}
+            />
+          )}
           {!hasToken && <Route path="/login" element={<Login />} />}
-          {!hasToken && (
+          {!hasToken && !isAdmin && (
             <Route path="/new-password" element={<NewPassword />} />
           )}
-          {!hasToken && (
+          {!hasToken && !isAdmin && (
             <Route path="/reset-password" element={<ResetPassword />} />
           )}
-          {!hasToken && <Route path="/register/:name" element={<Register />} />}
-          <Route path="/categories/:category" element={<Categories />} />
-          {hasToken && <Route path="/account/:name" element={<Account />} />}
-          <Route path="/contact" element={<Contact />} />
-          <Route
-            path="/cart"
-            element={<Cart handleClearCart={handleClearCart} />}
-          />
-          <Route
-            path="/products/:category/:productId"
-            element={<ProductDetails handleCartChange={handleCartChange} />}
-          />
-          {hasToken && (
+          {!hasToken && !isAdmin && (
+            <Route path="/register/:name" element={<Register />} />
+          )}
+          {!isAdmin && (
+            <Route path="/categories/:category" element={<Categories />} />
+          )}
+          {hasToken && !isAdmin && (
+            <Route path="/account/:name" element={<Account />} />
+          )}
+          {!isAdmin && <Route path="/contact" element={<Contact />} />}
+          {!isAdmin && (
+            <Route
+              path="/cart"
+              element={<Cart handleClearCart={handleClearCart} />}
+            />
+          )}
+          {!isAdmin && (
+            <Route
+              path="/products/:category/:productId"
+              element={<ProductDetails handleCartChange={handleCartChange} />}
+            />
+          )}
+          {hasToken && !isAdmin && (
             <Route path="/payments/cancel" element={<PaymentCancel />} />
           )}
-          {hasToken && (
+          {hasToken && !isAdmin && (
             <Route path="/payments/success/:id" element={<PaymentSuccess />} />
           )}
-          <Route path="*" element={<Navigate to="/" />} />
+          {isAdmin && <Route path="*" element={<Navigate to="/admin" />} />}
+          {!isAdmin && <Route path="*" element={<Navigate to="/" />} />}
         </>
       </Routes>
 

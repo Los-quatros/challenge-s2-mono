@@ -147,6 +147,8 @@ function ProfilePage({ role }) {
                 if (data) {
                   setShop(data.name);
                   setDescription(data.description);
+                } else {
+                  return data.json();
                 }
               })
               .catch(() => {
@@ -156,6 +158,8 @@ function ProfilePage({ role }) {
                 );
               });
           }
+        } else {
+          return data.json();
         }
       })
       .catch(() => {

@@ -48,31 +48,35 @@ function AddressesPage() {
         }
       })
       .then((data) => {
-        if (data && data.length) {
-          const newAddresses = data.map((address) => ({
-            id: address.id,
-            zip: {
-              value: address.zip ? address.zip : '',
-              error: '',
-              hasChanged: false,
-            },
-            country: {
-              value: address.country ? address.country : '',
-              error: '',
-              hasChanged: false,
-            },
-            street: {
-              value: address.street ? address.street : '',
-              error: '',
-              hasChanged: false,
-            },
-            city: {
-              value: address.city ? address.city : '',
-              error: '',
-              hasChanged: false,
-            },
-          }));
-          setAddresses(newAddresses);
+        if (data) {
+          if (data?.length) {
+            const newAddresses = data.map((address) => ({
+              id: address.id,
+              zip: {
+                value: address.zip ? address.zip : '',
+                error: '',
+                hasChanged: false,
+              },
+              country: {
+                value: address.country ? address.country : '',
+                error: '',
+                hasChanged: false,
+              },
+              street: {
+                value: address.street ? address.street : '',
+                error: '',
+                hasChanged: false,
+              },
+              city: {
+                value: address.city ? address.city : '',
+                error: '',
+                hasChanged: false,
+              },
+            }));
+            setAddresses(newAddresses);
+          }
+        } else {
+          return data.json();
         }
       })
       .catch(() => {
@@ -217,6 +221,8 @@ function AddressesPage() {
         .then((data) => {
           if (data) {
             removeAddress(event, index);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {
@@ -290,6 +296,8 @@ function AddressesPage() {
             setHasChanged('zip', false);
             setHasChanged('country', false);
             setHasChanged('city', false);
+          } else {
+            return data.json();
           }
         })
         .catch(() => {

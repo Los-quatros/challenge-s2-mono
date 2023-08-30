@@ -83,22 +83,36 @@ function Login() {
             return response.text();
           }
           if (response.status === 400) {
-            setToast('Vérifier vos identifiants', 'error');
+            return response.json();
           }
         })
-        .then(async (data) => {
+        .then((data) => {
           if (data) {
-            const decodedToken = jwt_decode(data);
-            localStorage.setItem('role', decodedToken.role);
-            localStorage.setItem('token', data);
-            if (decodedToken.role === 'admin') {
-              navigate('/admin');
+            if (data?.statusCode === 400) {
+              const message = data?.message;
+              if (message === "Votre compte vendeur n'est pas encore activé") {
+                setToast(
+                  "Votre compte vendeur n'est pas encore activé",
+                  'error',
+                );
+              } else {
+                setToast('Vérifier vos identifiants', 'error');
+              }
             } else {
-              navigate('/');
+              const decodedToken = jwt_decode(data);
+              localStorage.setItem('role', decodedToken.role);
+              localStorage.setItem('token', data);
+              if (decodedToken.role === 'admin') {
+                navigate('/admin');
+              } else {
+                navigate('/');
+              }
+              setTimeout(() => {
+                setToast('Vous êtes connecté', 'success');
+              }, 500);
             }
-            setTimeout(() => {
-              setToast('Vous êtes connecté', 'success');
-            }, 500);
+          } else {
+            return data.json();
           }
         })
         .catch(() =>

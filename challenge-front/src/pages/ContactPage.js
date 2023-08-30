@@ -125,6 +125,8 @@ function ContactPage() {
             setMessage('');
             setIsCaptchaVerified(false);
             recaptchaRef.current.reset();
+          } else {
+            return data.json();
           }
         })
         .catch(() => {
@@ -249,7 +251,6 @@ function ContactPage() {
                       onChange={onCaptchaChange}
                       ref={recaptchaRef}
                     />
-                    ,
                     <button className="button contact_button">
                       <span>Envoyer</span>
                     </button>

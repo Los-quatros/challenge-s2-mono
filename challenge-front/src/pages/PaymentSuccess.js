@@ -81,6 +81,8 @@ function PaymentSuccess() {
                   setDisplay(true);
                   localStorage.removeItem('cart');
                   return;
+                } else {
+                  return data.json();
                 }
               })
               .catch(() => {
@@ -96,10 +98,7 @@ function PaymentSuccess() {
             }, 500);
           }
         } else {
-          setToast(
-            'Une erreur est survenue lors de la récupération de votre commande',
-            'error',
-          );
+          return data.json();
         }
       })
       .catch(() => {
