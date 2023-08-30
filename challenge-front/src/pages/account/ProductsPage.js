@@ -508,13 +508,14 @@ function ProductsPage() {
             })
             .then((data) => {
               if (data) {
-                setToast('Produit ajouté avec succès', 'success');
+                products[index].id = data.productId;
                 setHasChanged('label', false);
                 setHasChanged('description', false);
                 setHasChanged('price', false);
                 setHasChanged('quantity', false);
                 setHasChanged('category', false);
                 setHasChanged('image', false);
+                setToast('Produit ajouté avec succès', 'success');
               } else {
                 return data.json();
               }
