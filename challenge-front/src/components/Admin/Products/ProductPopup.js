@@ -7,7 +7,7 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
   const [description, setDescription] = useState(product.description);
   const [price, setPrice] = useState(product.price);
   const [quantity, setQuantity] = useState(product.quantity);
-  const [image, setImage] = useState(product.image);
+  // const [image, setImage] = useState(product.image);
   const [category, setCategory] = useState(product.category);
 
   const [errors, setErrors] = useState({
@@ -67,10 +67,10 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
     setErrors((prevErrors) => ({ ...prevErrors, quantity: '' }));
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
-  };
+  // const handleImageChange = (e) => {
+  //   setImage(e.target.value);
+  //   setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
+  // };
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
