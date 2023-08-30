@@ -562,11 +562,10 @@ function ProductsPage() {
     )
       .then((response) => {
         if (response.status === 200) {
-          products[index].label.hasChanged = false;
-          products[index].price.hasChanged = false;
-          products[index].quantity.hasChanged = false;
-          products[index].description.hasChanged = false;
-          setProducts([...products]);
+          setHasChanged('label', false);
+          setHasChanged('price', false);
+          setHasChanged('quantity', false);
+          setHasChanged('description', false);
           setToast('Produit modifié avec succès', 'success');
           return response.json();
         } else {
