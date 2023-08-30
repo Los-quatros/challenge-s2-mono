@@ -79,7 +79,7 @@ jobs:
         name: "Authenticating to Google Cloud"
         uses: google-github-actions/auth@v0
         with:
-          credentials_json: ${{ secrets.GKE_SA_KEY }}
+          credentials_json: ${{ secrets.GKE_SA_KEY_1 }}
 
       - id: "get-credentials"
         name: Set up GKE credentials
