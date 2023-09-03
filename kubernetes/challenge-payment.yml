@@ -33,7 +33,7 @@ spec:
             - name: STRIPE_SECRET_KEY
               value: sk_test_51IUL0ZLnExjIVJcojZq1EQ82kFJ7i5TN13Sh98VaK9yLX8R75ZOPVt08535LQFRTzW9hsNZDg9reWLhESeicdcTu00ak7gVZyY
             - name: STRIPE_URL_FRONT
-              value: http://front.ammanaa.com/
+              value: http://front.ammanaa.com
             - name: RMQ_SERVICE_HOST
               value: 34.76.248.98
   
