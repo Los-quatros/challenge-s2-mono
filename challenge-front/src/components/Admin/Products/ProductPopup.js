@@ -8,7 +8,7 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
   const [price, setPrice] = useState(product.price);
   const [quantity, setQuantity] = useState(product.quantity);
   // const [image, setImage] = useState(product.image);
-  const [category, setCategory] = useState(product.category);
+  // const [category, setCategory] = useState(product.category);
 
   const [errors, setErrors] = useState({
     label: '',
@@ -16,7 +16,7 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
     price: '',
     quantity: '',
     image: '',
-    category: '',
+    // category: '',
   });
 
   const validateForm = () => {
@@ -72,10 +72,10 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
   //   setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
   // };
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, category: '' }));
-  };
+  // const handleCategoryChange = (e) => {
+  //   setCategory(e.target.value);
+  //   setErrors((prevErrors) => ({ ...prevErrors, category: '' }));
+  // };
 
   const handleSave = () => {
     const isValid = validateForm();
@@ -91,7 +91,7 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
       price,
       quantity: parseInt(quantity),
       // image,
-      category,
+      // category,
     };
     onSave(updatedProduct);
   };
@@ -155,7 +155,7 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
               onChange={handleImageChange}
             /> */}
             {/* {errors.image && <p className="error-message">{errors.image}</p>} */}
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Catégorie</label>
               <select
                 className="form-control"
@@ -169,7 +169,7 @@ const ProductPopup = ({ product, onClose, onSave, categories }) => {
                     </option>
                   ))}
               </select>
-            </div>
+            </div> */}
           </form>
           <div className="popup-buttons">
             <button
