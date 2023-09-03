@@ -71,6 +71,8 @@ export class PaymentsService {
       cancel_url: `${process.env.STRIPE_URL_FRONT}/payments/cancel`,
     });
 
+    console.log(session, "session");
+    console.log(`${process.env.STRIPE_URL_FRONT}/payments/success/${result.orderId}`);
     return { sessionId: session.id, result };
   }
 
